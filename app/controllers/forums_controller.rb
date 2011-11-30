@@ -34,9 +34,9 @@ class ForumsController < ApplicationController
     if (pageNumber)
       @page = pageNumber.to_i
       offset = getOffset(@page)
-      @new_posts = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page, :offset=>offset)
+      @threads = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page, :offset=>offset)
     else
-      @new_posts = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page)
+      @threads = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page)
       @page = 1
     end
 

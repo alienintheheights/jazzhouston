@@ -1,92 +1,11 @@
 <div id="StageNarrow">
   <div class="inside">
     ><a href="/home">Home</a>><a href="/forums">Forums</a>><%=@board.title%>
-    <div class="hspacer"></div>
-    Note: The views expressed here do not reflect the views of Jazzhouston.com. This is user submitted content only.
-  <div class="ForumHeaderTitle">
-      Forum:: <%=@board.title%>
-    </div>
-    <div class="boardList">
-      <% counter=0
-         for board in @boards %>
-          <% if counter>0 %> | <% end %>  <%= link_to board.title, {:action => "threads", :controller=>"forums", :id=>board.board_id} %>
 
-      <% counter=counter+1
-         end %>
-    </div>
-
-    <div class="hspacer"></div>
-    <div class="board-pager">
-      <div  style="float:left;">
-        <% if logged_in? %>
-            <%= link_to "New Topic", {:action => "new", :controller=>"forums", :board_id=>@board.board_id}, :class=>"newTopic" %>
-        <% else %>
-            Sign on or <a href="/members/new">sign up</a> to participate.
-        <% end %>
-        <div class="hspacer"></div>
-      </div>
-      <div style="float:right;">
-        <% if @page > 1 %>
-            <%= link_to "previous", {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>(@page-1)} %> |
-        <% end %>
-        <%= link_to "next", {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>(@page+1)} %>
-      </div>
-    </div>
-
-    <table width="100%"  class="topic-list">
-      <tbody>
-      <tr>
-        <th colspan="2" width="90%" class="tableHeader">Title</th>
-        <th width="10%" class="tableHeader">Posts</th>
-      </tr>
-
-
-      <%
-         has_bans=(@ban_list && @ban_list.length>0) || false
-         for item in @threads
-             page_num = item.post_count>@pp? 1+((item.post_count-1)/@pp).floor : 1
-             next if (has_bans && item.monologue_flag==1 && @ban_list.has_key?(item.user_id))
-             if (item.user && item.user.image_url !~/\.(jpeg|png|bmp|gif|jpg)$/i)
-                 item.user.image_url=""
-             end
-      %>
-
-          <tr class="<%= cycle('alt','noalt')%>">
-            <td width="30%" class="num">
-              <%= render :partial => "renderpic", :locals => { :item => item} %>
-              <span class="smallForumLink">
-                <a class="smallForumLink" href="/members/profile/<%=item.author%>"><%= item.author %></a>
-                <br/><br/><br/>
-                <%= item.modified_date.strftime("%I:%M %p %b %d %Y") %>
-              </span>
-            </td>
-            <td width="60%" class="num">
-              <a class="bigForumLink"
-                 href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=@page%>#<%= item.post_count %>"><%= item.title %></a>
-            </td>
-            <td width="10% "class="num">
-              <a class="smallForumLink" href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>#<%= item.post_count %>"><%= item.post_count %></a>
-            </td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <div class="board-pager">
-      <div  style="float:left;">
-        <% if logged_in? %>
-            <%= link_to "New Topic", {:action => "new", :controller=>"forums", :board_id=>@board.board_id}, :class=>"newTopic" %>
-        <% end %>
-      </div>
-      <div  style="float:left;padding: 0 25px;">
-        Page <%= @page %>
-      </div>
-      <div style="float:right;">
-        <% if @page > 1 %>
-            <%= link_to "previous", {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>(@page-1)} %> |
-        <% end %>
-        <%= link_to "next", {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>(@page+1)} %>
-      </div>
-    </div>
-
+    <%= render :partial => "forum", :locals => { :ban_list => @ban_list,
+                                                 :threads => @threads,
+                                                 :boards => @boards,
+                                                 :board => @board}
+    %>
   </div>
 </div>

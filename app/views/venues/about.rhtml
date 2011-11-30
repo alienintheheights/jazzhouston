@@ -121,7 +121,7 @@
             <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></b>
             <%= item.show_time %>
             <br/>
-            <%= item.about %>
+            <%= item.about.html_safe %>
             <div class="hspacer"></div>
         <% end %>
 

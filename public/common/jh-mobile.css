@@ -1552,7 +1552,7 @@ a.smallText:hover {
     letter-spacing: 0.1em;
     font-weight: normal;
     font-size: 0.9em;
-    background-color:white;
+    background-color:#eee;
     color: #1a1a1a;
     text-align: center;
     padding: 3px 0;
@@ -1567,7 +1567,7 @@ a.smallText:hover {
     margin-bottom:2em;
     width:100%;
     font-weight:bold;
-    font-family:Georgia,"Times New Roman",Times,serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
     font-size:1.3em;
     float:left;
     clear:both;
@@ -1581,15 +1581,15 @@ a.smallText:hover {
     font-weight:normal;
     padding:5px 10px;
     text-transform:uppercase;
-    font-family:Tahoma, sans-serif;
-    text-align:center;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    text-align:left;
 }
 
 .topic-list th a a:visited {
     font-size:1.1em;
     color:white;
     text-decoration:none;
-    font-family:Georgia,"Times New Roman",Times,serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
 
 .topic-list th a:hover  {
@@ -1600,23 +1600,18 @@ a.smallText:hover {
 
 .topic-list td {
     padding:5px 10px;
-    font-family:Georgia,"Times New Roman",Times,serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
     text-decoration:none;
     font-size:1em;
+    text-align: left;
 }
-
-a.blueLink, a.blueLink:visited, a.blueLink:hover {
-    color: #2A89C5 /**#90bade**/;
-    font: bold 1.2em arial;
-}
-
 
 .bigForumLink   {
     text-align: left;
     font-size:1.1em;
-    color:#003366;
+    color:#3B5998;
     text-decoration:none;
-    font-family:Tahoma, Verdana, sans-serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
 
 
@@ -1624,10 +1619,10 @@ a.bigForumLink, a.bigForumLink:visited {
     text-align: left;
     font-size:1.0em;
     font-weight: normal;
-    color:#003366;
+    color:#3B5998;
     text-decoration:none;
     border:none;
-    font-family:Tahoma, Verdana, sans-serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
 
 
@@ -1636,38 +1631,39 @@ a.bigForumLink:hover {
     text-align: left;
     font-size:1.0em;
     font-weight: normal;
-    color:red.inside h;
+    color:#3B5998;
     text-decoration:none;
     border:none;
-    font-family:Tahoma, Verdana, sans-serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
 
 
 .smallForumLink   {
     text-align: left;
-    font-size:0.8em;
-    color:#003366;
+    font-size:0.7em;
+    color:#3B5998;
     text-decoration:none;
-    font-family:Georgia,"Times New Roman",Times,serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    margin-left: 5px;
 }
 
 a.smallForumLink {
     text-align: left;
     font-weight: normal;
-    color:#003366;
+    color:#3B5998;
     text-decoration:none;
     border:none;
-    font-family:Georgia,"Times New Roman",Times,serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
     font-size:0.9em;
 }
 
-a.smallForumLink:visited {
+a.smallForumLink:visited, a.smallForumLink:hover  {
     text-align: left;
     font-weight: normal;
-    color:#003366;
+    color:#3B5998;
     text-decoration:none;
     border:none;
-    font-family:Georgia,"Times New Roman",Times,serif;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
     font-size:0.9em;
 }
 
@@ -1846,7 +1842,7 @@ div.messageDate {
 
 
 .noalt {
-    background:#FFF091  none repeat scroll 0%;
+    background:#EEE  none repeat scroll 0%;
     color: #474A51;
     font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
 }

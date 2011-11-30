@@ -1,0 +1,13 @@
+
+<% if page > 1 %>
+    <% if board.nil? %>
+        <%= link_to "previous", {:action => "index", :controller=>"forums", :page=>(page-1)} %> |
+    <% else %>
+        <%= link_to "previous", {:action => "threads", :controller=>"forums", :id=>board.board_id, :page=>(page-1)} %> |
+    <% end %>
+<% end %>
+<% if board.nil? %>
+    <%= link_to "next", {:action => "index", :controller=>"forums", :page=>(page+1)} %>
+<% else %>
+    <%= link_to "next", {:action => "threads", :controller=>"forums", :id=>board.board_id, :page=>(page+1)} %>
+<% end %>
