@@ -9,6 +9,7 @@ class ForumsController < ApplicationController
 
   include ExtjsRails
 
+
   # H-TOWN Timezone
   @@TZ='Central Time (US & Canada)'
 
