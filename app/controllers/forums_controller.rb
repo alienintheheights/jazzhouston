@@ -2,6 +2,7 @@
 # Forum class
 #
 # Andrew, 1/2009
+# UPDATED: for Rails 3 app, 11/2011
 ################################
 
 class ForumsController < ApplicationController
