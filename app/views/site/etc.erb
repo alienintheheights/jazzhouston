@@ -1,0 +1,109 @@
+<div id="StageNarrow">
+    <div class="inside">
+          ><a href="/">Home</a>>Social
+
+
+        <div class="hspacer"></div>
+
+        <div class="Header">
+	Social Media and Communities
+        </div>
+        <div class="hspacer"></div>
+	<table width="50%" align="center" class="topic-list" style="font-weight:normal;font-family:tahoma;">
+	<tr>
+		<td valign="top" width="33%">
+		<a href="/forums"><img border="0" src="/images/forum-icon-blue.png" height="100" width="100" hspace="2" align="none"></a> 
+		<br/>We have a community <a class="blueLink" href="/forums/">FORUM</a>, now on its 13th year! If you haven't joined our community, it's free. <a class="blueLink" href="/members/new">Start here</a>. 
+		</td>
+		<td  valign="top" width="33%">
+<a href="http://www.facebook.com/pages/JazzHouston/193080346744"><img border="0" src="http://creative.ak.fbcdn.net/ads3/creative/pressroom/jpg/n_1234209334_facebook_logo.jpg" width="100" align="none" hspace="2">
+	<br/><a class="blueLink" href="http://www.facebook.com/pages/JazzHouston/193080346744">JazzHouston on Facebook</a>. It's booming: see you there!
+		</td>
+		<td valign="top" width="33%">
+		<a href="http://twitter.com/jazzhouston"><img src="/images/twitter.png" width="100" align="none" hspace="2" border="0"></a>
+	<br/>We also "tweet" concert info and news daily: <a class="blueLink" href="http://twitter.com/jazzhouston">twitter.com/jazzhouston</a>, managed by Pin Lim.
+		</td>
+	</tr>
+	</table>
+                        <div class="hspacer"></div>
+	<table width="50%" align="center" class="topic-list" style="font-weight:normal;font-family:tahoma;">
+	<tr>
+		<td  valign="top" width="50%">
+ <h2>Newest Members</h2> (not a member? <a class="blueLink" href="/members/new">Join Now!</a>)
+
+        <div class="hspacer"></div>
+        <% for item in @users
+            new_user=(item.modified_date==item.created_date || item.modified_date=nil)
+            mod_date=item.modified_date||item.created_date
+            if (mod_date)
+                mod_date=mod_date.strftime("%Y/%m/%d")
+            end
+	    if (item.first_name || item.last_name) 
+		if (item.image_url !~/\.(jpeg|png|bmp|gif|jpg)$/i)
+			item.image_url=""
+		end
+			fullname = item.first_name.gsub( %r{</?[^>]+?>}, '' ) + " " + item.last_name.gsub( %r{</?[^>]+?>}, '' )	
+	%>
+		<div class="xvertical-listing">
+                <% if item.image && item.image!="" %>
+                      <a href="/members/profile/<%=item.username%>"><img width="50" height="50"
+                                                                            src="<%= url_for_image_column  item, 'image', :name=>
+'avatar'%>"
+                                                                            alt="<%=item.username.downcase%>" border="0" hspace="
+0" vspace="0"></a>
+               <% elsif item.image_url && item.image_url!="" %>
+                     <a href="/members/profile/<%=item.username%>"><img width="50" height="50"
+                                                                                  src="<%=item.image_url%>" alt="<%=item.username.
+downcase%>" border="0" hspace="0" vspace="0"></a>
+               <% else %>
+                     <a href="/members/profile/<%=item.username%>"><img width="50" height="50" src="/images/forum-icon-blue.png" alt="<%=item.
+username.downcase%>" border="0" hspace="0" vspace="0"></a>
+               <% end %>
+                     <a href="/members/profile/<%=item.username%>"><%= fullname.titleize %></a>
+                <span class="smallTextItalics">(joined: <%= mod_date %>)</span>
+            </div>
+        <% end %>
+        <% end %>
+		</td>
+		<td valign="top" width="50%">
+ <h2>Twitter</h2>
+
+                        <div class="hspacer"></div>
+<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+<script>
+new TWTR.Widget({
+  version: 2,
+  type: 'profile',
+  rpp: 10,
+  interval: 6000,
+  width: 290,
+  height: 350,
+  theme: {
+    shell: {
+      background: '#2276ba',
+      color: '#ffffff'
+    },
+    tweets: {
+      background: '#1A1A1A',
+      color: '#ffffff',
+      links: '#ffffff'
+    }
+  },
+  features: {
+    scrollbar: false,
+    loop: false,
+    live: true,
+    hashtags: true,
+    timestamp: true,
+    avatars: true,
+    behavior: 'all'
+  }
+}).render().setUser('jazzhouston').start();
+</script>
+		</td>
+	</tr>
+	</table>
+
+
+    </div>
+</div>

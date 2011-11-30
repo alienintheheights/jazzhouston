@@ -1,0 +1,36 @@
+<table class="index-three-column">
+    <% counter=0
+       for item in @articles
+           current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
+    %>
+        <% if counter%3==0 %><tr><% end %>
+        <td>
+            <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@type, :sectionId=>@id, :page=>@page}, :class=>"blueLink"%>
+            <% if item.author.downcase!="press release" %>
+                <br/>
+                <span class="smallText">
+                 by <a href="/members/profile/<%=item.author_id%>"><%= item.author %></a>, posted: <%= item.display_date.strftime("%b %d, %Y") %>
+                </span> 
+            <% end %>
+            <br/>
+            <% if item.image_url && !item.image_url.blank?  %>
+                <%= link_to image_tag(item.image_url,:width=>'150', :height=>'150',:align=>'left',:hspace=>'2', :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@type, :sectionId=>@id, :page=>@page} %>
+            <% end %>
+            <%=item.teaser %>
+        </td>
+        <% counter=counter+1
+           if counter%3==0 %>
+            </tr>
+        <% end %>
+    <% end %>
+</table>
+  <div class="hspacer"></div>
+        <div class="board-pager board-linker" >
+                <% if @page > 1 %>
+                    <%= link_to "Previous", {  :action => "index", :controller=>"articles", :id=>@id, :type=>@type, :page=>(@page-1)} %> |
+                <% end %>
+                <%= link_to "Next", { :action => "index", :controller=>"articles", :id=>@id, :type=>@type,  :page=>(@page+1)} %>
+		<br/>
+        </div>
+
+     

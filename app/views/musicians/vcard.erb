@@ -1,0 +1,10 @@
+BEGIN:VCARD
+VERSION:3.0
+N:<%=@musician.last_name.gsub( %r{</?[^>]+?>}, '' )%>;<%=@musician.first_name.gsub( %r{</?[^>]+?>}, '' )%>
+FN:<%=@fullname%>
+TEL;CELL;VOICE:<%=@musician.cell_phone%>
+TEL;HOME;VOICE:<%=@musician.home_phone%>
+EMAIL;PREF:<%=@musician.email%>
+URL:<%=@musician.url%>
+REV:20080424T195243Z
+END:VCARD

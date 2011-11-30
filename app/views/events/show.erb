@@ -1,0 +1,9 @@
+    <div id="panel-inside">
+          <div id="jh_events_rotator_item">
+            <b><%= link_to @item.performer, {:action => "details", :controller=>"events", :id=>@item.event_id}, {:remote => true} %></b>
+            at <%= link_to @item.venue.title, {:action => "about", :controller=>"venues", :id=>@item.venue.venue_id}, {:remote => true} %>,
+            <%= @item.show_time %>
+            <br/>
+            <%= @item.about %>
+	  </div>
+    </div>

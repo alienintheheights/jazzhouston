@@ -1,0 +1,13 @@
+<div id="jh_news_featured_content">
+    <div class="panel-inside">
+            <% if @words.image_url != ""  %>
+            <%= link_to image_tag(@words.image_url,:width=>'125', :height=>'125',:align=>'left',:hspace=>'2'), {:action => "words", :controller=>"articles", :id=>@words.content_id} %>
+            <% end %>
+           <a href="/articles/words/<%=@words.content_id%>"><%= @words.title%></a>
+        <br/>
+        <%= @words.teaser %>
+		<br/><br/>
+            <b>Posted:</b> <%= @words.display_date.strftime("%A, %m/%d/%Y") %>
+        
+    </div>
+</div>

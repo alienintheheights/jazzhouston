@@ -1,0 +1,8 @@
+<%= render  :template => 'common/top-of-page.html.erb' %>
+<title>JazzHouston | <%= @page_title %></title>
+<%= render :template => 'common/header.html.erb' %>
+        <!-- BEGIN content block -->
+        <%= yield %>
+        <!-- END content block -->
+<%= render :template=> 'common/footer.html.erb' %>
+

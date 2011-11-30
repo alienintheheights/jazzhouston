@@ -1,0 +1,56 @@
+
+<div id="StageNarrow">
+    <div class="inside">
+
+        ><a href="/">Home</a>> <a href="/musicians">Musicians</a> > <%= @instrument %>
+
+        <div class="hspacer"></div>
+        <div class="Header"><%= @instrument %></div>
+        <table class="phone-list" width="100%">
+               <tr>
+                    <th width="40%" class="tableHeader">Name</th>
+                    <th width="25%" class="tableHeader">Cell Phone</th>
+                    <th width="25%" class="tableHeader">Home Phone</th>
+                    <th width="10%" class="tableHeader">Export Contact vCard</th>
+                </tr>
+                <% for item in @players %>
+			<% if (item.first_name || item.last_name) 
+				if (item.image_url !~/\.(jpeg|png|bmp|gif|jpg)$/i)
+					item.image_url=""
+				end
+				fullname = item.first_name.gsub( %r{</?[^>]+?>}, '' ) + " " + item.last_name.gsub( %r{</?[^>]+?>}, '' )	
+			%>
+                    <tr class="<%=cycle('alt','noalt')%>" style="padding: 5px 0;">
+                        <td width="40%" style="font-size:1.3em;" valign="bottom">
+                            <% if item.image && item.image!="" %>
+                                <a href="/members/profile/<%=item.username%>"><img width="50" height="50"
+                                                                                                           src="<%= url_for_image_column  item, 'image', :name=>
+'avatar'%>"
+                                                                                                           alt="<%=item.username.downcase%>" border="0" hspace="
+0" vspace="0"></a>
+                            <% elsif item.image_url && item.image_url!="" %>
+                                <a href="/members/profile/<%=item.username%>"><img width="50" height="50"
+                                                                                                           src="<%=item.image_url%>" alt="<%=item.username.
+downcase%>" border="0" hspace="0" vspace="0"></a>
+                            <% else %>
+                                <a href="/members/profile/<%=item.username%>"><img width="50" height="50" src="/images/forum-icon-blue.png" alt="<%=item.
+username.downcase%>" border="0" hspace="0" vspace="0"></a>
+                            <% end %>
+                            <a href="/members/profile/<%=item.username%>"><%= fullname.titleize %></a>
+                        </td>
+                        <td width="25%" valign="bottom" >
+                            <%= item.cell_phone %>
+                        </td>
+                        <td width="25%"  valign="bottom">
+                            <%= item.home_phone %>
+                        </td>
+                        <td width="10%"  valign="bottom">
+                            <a href="/members/vcard/<%=item.id%>"><img src='/images/icons/vcard.png' border='0' width='50'></a>
+                        </td>
+                    </tr>
+                   <% end %>
+                <% end %>
+        </table>
+          <div class="hspacer"></div>
+    </div>
+</div>

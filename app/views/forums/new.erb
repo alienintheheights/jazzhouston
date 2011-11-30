@@ -1,0 +1,40 @@
+<%
+ if (!@board)
+	title="New Topic"
+ else
+	title=@board.title
+ end
+%>
+<script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
+<div id="StageNarrow">
+    <div class="inside">
+        <div class="hspacer"></div>
+        ><a href="/home">Home</a> ><a href="/forums">Forums</a> ><%=title%>
+        <div class="hspacer"></div>
+        <div class="Header">
+            <%=title%>
+        </div>
+
+        <div class="hspacer"></div>
+        <% form_for :message, :url => { :action => "new"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
+	    Thread Title:<br/>
+	    <input type="text" name="title" id="title" />
+            <br/>
+	    Message :<br/>
+            <%= f.text_area :message_text %>
+	<% if !@board %>
+	   <br/><br/>
+		<b>Pick a forum topic</b>
+            <select name="board_id">
+            <%  for board in @boards %>
+		<option value="<%=board.id%>"><%=board.title%>
+            <% end %>
+	    </select>
+	<% else %>
+            <input type='hidden' name="board_id" id="board_id" value="<%=@board_id%>">
+	<% end %>
+            <br/>
+            <%= f.submit "Post new Topic" %>
+        <% end %>
+    </div>
+</div>

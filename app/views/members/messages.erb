@@ -1,0 +1,127 @@
+<div id="StageNarrow">
+<div class="inside">
+
+    ><a href="/home">Home</a>><a href="/forums">Forums</a>> <%= link_to @board.title, {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>@fpage} %> > Topic
+    <div class="hspacer"></div>
+
+    <div class="HeaderTitle">
+        <%=@thread.title%>
+    </div>
+    <table width="100%" cellspacing="0">
+        <tbody>
+        <th width="15%" class="tableHeader">Author</th>
+        <th width="85%" class="tableHeader">Message</th>
+
+        <% for item in @messages %>
+            <tr  border="1">
+                <td width="15%" valign="top">
+                    <div class="messageAuthor">
+                      <% if item.user %>
+                        <% if item.user.image_url && item.user.image_url!="" %>
+                            <a href="/members/profile/<%=item.user.username%>"><img width="125" src="<%=item.user.image_url%>" alt="<%=item.username.downcase%>" border="0" hspace="3" vspace="2"></a>
+                            <br/>
+                        <% else %>
+                                <a href="/members/profile/<%=item.user.username%>"><img width="125"  src="/images/forum-icon-blue.png" alt="<%=item.user.username.downcase%>" border="0" hspace="3" vspace="2"></a>
+                            <br/>
+                        <% end %>
+                            <a href="/members/profile/<%=item.user.username%>"><%=item.user.username%></a>
+                            <br/>
+                       <% else %>
+                        <b><%= item.author%></b>
+                       <% end %>
+                    </div>
+                     <div class="hspacer"></div>
+
+                </td>
+
+                <td width="85%" valign="top">
+                    <div class="messageBody">
+                        <%= simple_format (sanitize item.message_text, :tags => %w(a embed img b font br)) %>
+                    </div>
+
+                </td>
+            </tr>
+            <tr class="post-info-row" >
+                <td width="15%" valign="top">
+
+                </td>
+                <td width="85%">
+                    <div class="messageDate">
+                        Posted: <%= item.pdate.strftime("%Y/%m/%d %H:%M") %> (<%= item.ip_address %>)
+                    </div>
+                </td>
+
+            </tr>
+        <% end %>
+    </table>
+    <div  class="board-pager">
+        <% if @page > 1 %>
+            <%= link_to "Previous", {:action => "messages", :controller=>"forums", :id=>@thread.thread_id, :page=>(@page-1)} %> |
+        <% end %>
+        <% if @page < @last_page %>
+            <%= link_to "Next", {:action => "messages", :controller=>"forums", :id=>@thread.thread_id, :page=>(@page+1)} %>   |
+        <% end %>
+    </div>
+
+    <div class="hspacer"></div>
+    <% if logged_in? -%>
+
+    <script type="text/javascript">
+        // Panels for the home page
+        Ext.onReady(function(){
+
+            var textArea = new  Ext.form.HtmlEditor({
+                applyTo:"message_message_text",
+                width:600,
+                height:300
+            });
+
+
+        });
+
+    </script>
+        <b>Reply</b><br>
+        <% form_for :message, :url => { :action => "reply"} do |f| %>
+            <%= f.text_area :message_text %>
+            <input type='hidden' name="message[thread_id]" id="message_thread_id" value="<%=@thread.thread_id%>">
+            <input type='hidden' name="board_id" id="board_id" value="<%=@board.board_id%>">
+            <br/>
+            <%= f.submit "Reply" %>
+        <% end %>
+
+    <% else%>
+    <div id="forum-login">
+        <b>Login to reply to this and other topics.</b>
+        <% form_tag "/members/login" do -%>
+            <table cellspacing="2">
+                <tr><td>username</td><td>password</td><td>save<%= check_box_tag 'remember_me' %></td></tr>
+                <tr>
+                    <td>
+                        <input class="textfield" type="text" tabindex="1" maxlength="16" size="10" id="login" name="login"/>
+                    </td>
+                    <td>
+                        <input class="textfield" type="password" name="password" id="password" maxlength="16" size="10"/>
+
+                    </td>
+                    <td>
+                        <%= submit_tag 'Login' %>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="/members/new">sign up</a>
+                    </td>
+                    <td colspan="2">
+                        <a href="/members/sendlostpasswordemail">forgot password</a>
+
+                    </td>
+                </tr>
+            </table>
+        <% end -%>
+     </div>
+    <% end -%>
+</div>
+</div>
+
+
+

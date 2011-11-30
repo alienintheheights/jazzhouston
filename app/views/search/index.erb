@@ -1,0 +1,65 @@
+<script type="text/javascript">
+    Ext.onReady(function(){
+
+        var articleSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/search/search_articles_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'keyword'
+            }, [{name:'content_id'},
+                {name: 'teaser'},
+                {name: 'title'},
+                {name: 'author'},
+                {name: 'display_date'}
+            ])
+        });
+
+        var articleSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_results">',
+                '<a href="/articles/words/{content_id}">{title}</a> (by {author}, posted {display_date})',
+                '</div></tpl>'
+                );
+
+        var articleSearchControl = new Ext.form.ComboBox({
+            store: articleSearchDataStore,
+            displayField:'keyword',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 275,
+            listWidth: 600,
+            hideOnClick:true,
+            emptyText: 'To search stories, just type in words...',
+            hideTrigger:true,
+            minChars: 2,
+            itemSelector: 'div.jh_search_item',
+            tpl: articleSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                window.location = String.format('http://www.jazzhouston.org/articles/words/{0}', record.data.article_id);
+            }
+
+        });
+
+        articleSearchControl.render('jh_search');
+    });
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+
+        <div class="hspacer"></div>
+
+        <div class="flash-alert"><%= flash[:notice] %></div>
+        <div class="Header">Search</div>
+        
+        <div id="jh_search"></div>
+
+        <div class="hspacer"></div>
+
+
+    </div>
+</div>
+
+

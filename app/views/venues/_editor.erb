@@ -1,0 +1,50 @@
+
+<div id="StageNarrow">
+    <div class="inside">
+
+        <h2><%= @mode %> Venue</h2>
+        <%= form_for :venue, @venue , :url => { :action => @target} do |f| %>
+            <% if @mode=="Edit" %>
+                <div class="hspacer"></div>
+                Preview: <%= link_to @venue.title, {:action => "about", :id=>@venue.venue_id} %><br/>
+                <input type="hidden" id="id" name="id" value="<%=@venue.venue_id%>" >
+            <% end %>
+
+            <p>
+                <%= f.label :title %><br />
+                <%= f.text_field :title %>
+            </p>
+            <p>
+                <%= f.label :about %><br />
+                <%= f.text_area :about%>
+            </p>
+            <p>
+                <%= f.label :address %><br />
+                <%= f.text_field :address %>
+            </p>
+
+            <p>
+                <%= f.label :image_url %><br />
+                <%= f.text_field :image_url %>
+            </p>
+            <p>
+                <%= f.label :phone %><br />
+                <%= f.text_field :phone %>
+            </p>
+	    <p>
+                <%= f.label :related_url %><br />
+                <%= f.text_field :related_url %>
+            </p>
+
+            <p>
+                <%
+                   status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]
+                %>
+                <%= select("venue", "status_id", status) %><br />
+
+            <p>
+                <%= f.submit @mode %>
+            </p>
+        <% end %>
+    </div>
+</div>

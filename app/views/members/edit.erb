@@ -1,0 +1,304 @@
+<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
+<script type="text/javascript">
+Ext.onReady(function(){
+
+    var msg = function(title, msg){
+        Ext.Msg.show({
+            title: title,
+            msg: msg,
+            minWidth: 200,
+            modal: true,
+            icon: Ext.Msg.INFO,
+            buttons: Ext.Msg.OK
+        });
+    };
+
+    var regform = new Ext.FormPanel({
+        labelWidth: 75, // label settings here cascade unless overridden
+        frame:true,
+        title: 'Register',
+        labelAlign: 'top',
+        bodyStyle:'padding:5px',
+        width: 700,
+        items: [{
+            layout:'column',
+            border:false,
+            items:[{
+                columnWidth:.5,
+                layout: 'form',
+                border:false,
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel: 'Username',
+                    name: 'user[username]',
+                    anchor:'95%',
+                    value: "<%= @user.username%>",
+                    disabled: true
+
+                } ,{
+                    xtype:'textfield',
+                    fieldLabel: 'First Name',
+                    name: 'user[first_name]',
+                    anchor:'95%',
+                    value: "<%=  escape_javascript(@user.first_name)%>"
+
+
+                }]
+            },{
+                columnWidth:.5,
+                layout: 'form',
+                border:false,
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel: 'Email',
+                    name: 'user[email]',
+                    anchor:'95%',
+                    value: "<%=  escape_javascript(@user.email)%>"
+                },{
+                    xtype:'textfield',
+                    fieldLabel: 'Last Name',
+                    name: 'user[last_name]',
+                    anchor:'95%',
+                    value: "<%= escape_javascript(@user.last_name)%>"
+                },{
+                    xtype: 'hidden',
+                    name: 'authenticity_token',
+                    value: '<%= form_authenticity_token() %>',
+                    height: 0
+                },{
+                    xtype: 'hidden',
+                    name: 'id',
+                    height: 0,
+                    value: "<%= @user.user_id%>"
+
+                }]
+            }]
+        },{
+            xtype:'tabpanel',
+            plain:true,
+            activeTab: 0,
+            height:250,
+            defaults:{bodyStyle:'padding:10px'},
+            items:[ 
+            {
+                cls:'x-plain',
+                title:'About You',
+                layout:'form',
+                defaults: {width: 230},
+                items: {
+                        xtype:'htmleditor',
+                        id:'user[about_me]',
+			width: 600,
+                        fieldLabel:'Biography',
+                        value: "<%= escape_javascript(@user.about_me.html_safe)%>"
+		}
+            }, {
+                cls:'x-plain',
+                title:'Basic Info',
+                layout:'form',
+                defaults: {width: 230},
+                defaultType: 'textfield',
+                items: [{
+                        fieldLabel: 'Web Site',
+                        name: 'user[url]',
+                        value: "<%= escape_javascript(@user.url)%>"
+                    },{
+                        fieldLabel: 'Occupation',
+                        name: 'user[occupation]',
+                        value: "<%= escape_javascript(@user.occupation)%>"
+                    }, {
+                        fieldLabel: 'Location',
+                        name: 'user[location]',
+                        value: "<%= escape_javascript(@user.location)%>"
+                }]
+            },{
+                    title:'Interests',
+                    layout:'form',
+                    defaults: {width: 230},
+                    defaultType: 'textfield',
+
+                    items: [{
+                        xtype:'textarea',
+                        fieldLabel: 'Music that inspires you',
+                        name: 'user[favorite_music]',
+                        anchor:'95%',
+                        value: "<%= escape_javascript(@user.favorite_music)%>"
+                    }, {
+                        xtype:'textarea',
+                        fieldLabel: 'Films that you\'ll watch more than once',
+                        name: 'user[favorite_films]',
+                        anchor:'95%',
+                        value: "<%= escape_javascript(@user.favorite_films)%>"
+                    }]
+             },{
+                title:'Phone Numbers',
+                layout:'form',
+                defaults: {width: 230},
+                defaultType: 'textfield',
+
+                items: [{
+                    fieldLabel: 'Home',
+                    name: 'user[home_phone]',
+                    value: "<%=escape_javascript( @user.home_phone)%>"
+                },{
+                    fieldLabel: 'Mobile',
+                    name: 'user[cell_phone]',
+                    value: "<%= escape_javascript(@user.cell_phone)%>"
+                }]
+	      }],
+              },{
+                cls:'x-plain',
+                title:'Musician Directory Listing (optional)',
+                layout:'fit',
+                items: [{
+                    title: "List Me in the Musician Directory",
+                    xtype:'fieldset',
+                    checkboxToggle:false,
+                    autoHeight:true,
+                    defaults: {width: 500},
+                    defaultType: 'checkbox',
+                    checked:true,
+                    collapsed:false,
+                    items :[{
+                        xtype: 'checkboxgroup',
+                        fieldLabel: 'Select as many as you play!',
+			id: 'checkboxgroup',
+                        columns: 5,
+                        vertical: true,
+                        items: [
+                            <% counter=1
+                                for item in @instruments %>
+                            <% if counter>1 %>,<%end%>
+                            {
+                                boxLabel: '<%=item.instrument_name%>',
+                                name: 'instrument[<%=item.instrument_id%>]'
+                                <% if @myinstruments && @myinstruments[item.instrument_id] %>
+                                ,checked: true
+                                <% end %>
+                            }
+                            <% counter=counter+1
+                            end %>
+                        ]
+                      }]
+		}]
+        }],
+
+        buttons: [{
+            text: 'Update',
+            name: 'commit',
+            handler: function(){
+                regform.form.submit({
+                    url:'/members/update',
+                    method:'POST',
+                    waitMsg:'Updating Your Account...',
+                    success: function(fp, msg){
+                        Ext.Msg.alert('Success' ,msg.result.message);
+                    },
+                    failure: function(fp,msg){
+                        Ext.Msg.alert('Error',msg.result.message)}
+                });
+            }
+
+        },{
+            text: 'Cancel'
+        }]
+
+    });
+
+    regform.render("jh_form");
+
+
+
+
+});
+
+    function delete_confirm() {
+        var answer=confirm("Are you sure you want to DELETE this account?");
+        if (answer) {
+            return true;
+        }
+        return false;
+    }
+
+    function upgrade_confirm() {
+        var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
+        if (answer) {
+            return true;
+        }
+        return false;
+    }
+
+
+function swap_fields(obj) {
+    var url=Ext.get("user_image_url");
+    var file=Ext.get("user_image");
+    if (file.getValue()!="") {
+       document.forms[1].elements['user_image_url'].value ="";
+    } else if (url.getValue()!="") {
+      document.forms[1].elements['user_image_temp'].value ="";
+      document.forms[1].elements['user_image'].value ="";
+    }
+    document.forms[1].submit();
+}
+
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+        ><a href="/">Home</a>><a href="/members">Members</a> > Edit Profile
+        <div class="hspacer"></div>
+        <div class="flash-alert">
+            <%= flash[:notice] %>
+            <%= flash[:error] %>
+        </div>
+        <div class="Header">Edit Your Profile</div>
+        <a name="edit"></a>
+        <div id="jh_form">
+
+        </div>
+        <div class="hspacer"></div>
+        <div class="Header">Upload Photo</div>
+        <div class="hspacer"></div>
+        <a name="photo"></a>
+        <% form_for :user, @user, :url=>{:action=>"upload"}, :html => { :multipart => true } do |f| %>
+            <p>
+                <% if @user.image %><b>Replace current image? Either upload or set a remote URL</b><br/><br/><% end %>
+                Select an image from your computer<%= file_column_field("user", "image") %>
+                <br/>Or the URL of a remote image <%= f.text_field :image_url  %>
+            </p>
+            <input type="hidden" id="id" name="id" value="<%=@user.user_id%>" >
+            <input type="hidden" id="local_player_flag" name="local_player_flag" value="<%=@user.local_player_flag%>" >
+            <p>
+                <%= f.submit "Submit", :onclick=>"swap_fields(this)"%>
+            </p>
+        <% end %>
+        <div class="hspacer"></div>
+        <div class="Header">Delete Account</div>
+        <div class="hspacer"></div>
+        <% form_for :user, @user, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
+            <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
+	    If you'd like to delete your account, click this button. This isn't Facebook, your account will be removed immediately and for good.
+            <%= f.submit "Delete Account" %>
+        	<div class="hspacer"></div>
+        <% end %>
+	    <% if logged_in? && (current_user.id==1) -%>
+        <div class="hspacer"></div>
+        <div class="Header">Super Power</div>
+        <% form_for :user, @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();" }     do |f| %>
+            <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
+	<% if @user.editor_flag==1 %>
+	User is currently an editor
+            <input type="hidden" id="editor_flag" name="editor_flag" value=0 >
+            <%= f.submit "Remove Editor" %>
+	<% else %>
+	User is not currently an editor
+            <input type="hidden" id="editor_flag" name="editor_flag" value=1 >
+            <%= f.submit "Upgrade to Editor" %>
+	<% end %>
+        	<div class="hspacer"></div>
+        <% end %>
+        <div class="hspacer"></div>
+        <div class="hspacer"></div>
+            <% end -%>
+
+    </div>
+</div>

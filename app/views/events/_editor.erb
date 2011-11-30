@@ -1,0 +1,309 @@
+<% @event = Event.new if @event.nil? %>
+<script type="text/javascript">
+
+    Ext.onReady(function(){
+
+        var textArea = new  Ext.form.HtmlEditor({
+                applyTo:"event_about",
+                width:600,
+                height:300
+        });
+
+        var dateItem = new Ext.form.DateField({
+            applyTo:"event_show_date",
+            invalidText:"",
+            <% if @event && @event.event_type_id==2%>
+            value: "",
+            <% end %>
+            handler : function(datepicker, date){
+
+            }
+        });
+
+        // Member search
+        var memberSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/members/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'username'
+            }, [{name:'user_id'},
+                {name: 'first_name'},
+                {name: 'last_name'},
+                {name: 'username'}
+            ])
+        });
+
+
+        var memberSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_item">',
+                '<a href="/members/profile/{username}">{last_name}, {first_name}</a> ({username})',
+                '</div></tpl>'
+                );
+
+        var memberSearchControl = new Ext.form.ComboBox({
+            store: memberSearchDataStore,
+            displayField:'username',
+            applyTo:'event_artist_search',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 275,
+            listWidth: 570,
+            emptyText: 'To search users, just type in a name...',
+            hideTrigger:true,
+            itemSelector: 'div.jh_search_item',
+            tpl: memberSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                var artistField=document.getElementById("event_artist_id");
+                artistField.value =  record.data.user_id;
+                var artistName=document.getElementById("event_artist_search");
+                artistName.value = record.data.first_name + " " +record.data.last_name;
+		this.collapse();
+            }
+
+        });
+
+
+        // Venue search
+        var venueSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/venues/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'venue_id'
+            }, [{name:'venue_id'},
+                {name: 'title'}
+            ])
+        });
+
+
+        var venueSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_venue_search_item">',
+                '<a class="boldLink" href="/venues/about/{venue_id}">{title}</a>',
+                '</div></tpl>'
+                );
+
+        var venueSearchControl = new Ext.form.ComboBox({
+            store: venueSearchDataStore,
+            displayField:'title',
+            applyTo:'event_venue_search',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 275,
+            listWidth: 570,
+            emptyText: 'To search venue, just type in a name...',
+            hideTrigger:true,
+	    hideOnClick:true,
+            itemSelector: 'div.jh_venue_search_item',
+            tpl: venueSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                var venueField=document.getElementById("event_venue_id");
+                venueField.value =  record.data.venue_id;
+                var venueName=document.getElementById("event_venue_search");
+                venueName.value = record.data.title;
+		this.collapse();
+            }
+
+        });
+
+    });
+
+    function validate() {
+
+        if (document.forms[0].event_venue_id.value=="") {
+            alert("You must enter a venue!");
+            return false;
+        }
+
+        if (document.forms[0].event_about.value.length<=5) {
+            alert("Please enter information ABOUT the show!");
+            return false;
+        }
+
+        if (document.forms[0].event_performer.value!="" && document.forms[0].event_performer.value.length>59) {
+            alert("Performer too long! Please shorten performer info or move show details into the about section");
+            return false;
+        }
+
+
+        if (document.forms[0].event_type_id=="1" && document.forms[0].event_show_date=="") {
+            alert("The show needs a date!");
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    function delete_confirm() {
+
+        var answer=confirm("Are you sure you want to DELETE this event?");
+
+        if (answer) {
+            return true;
+        }
+
+
+        return false;
+    }
+
+
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+    <div class="hspacer"></div>
+
+      ><a href="/">Home</a>><%=@mode%> Event
+
+    <div class="hspacer"></div>
+
+
+    <div class="HeaderTitle">JazzHouston Event Editor</div>
+<%= form_for :event, @event, :url => { :action => @target}, :html => { :onsubmit => "return validate();" }  do |f| %>
+        <% if @mode=="Edit" %>
+            <div class="hspacer"></div>
+            Preview: <a class="boldLink" href="/events/details/<%=@event.event_id%>"><%= @event.performer %></a>
+            <input type="hidden" id="id" name="id" value="<%=@event.event_id%>" >
+            <div class="hspacer"></div>
+        <% end %>
+
+        <table width="100%" class="admin-panel">
+        <tr>
+            <td width="20%" valign="top" class="color2">
+                Show Performer(s)
+            </td>
+
+            <td width="80%" valign="top">
+            <%= f.text_field :performer, :size=>50 %>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" valign="top" class="color4">
+            Link show to Jazzhouston Musician.
+            </td>
+
+            <td width="80%" valign="top">
+            Just type in a few letters of the player's name and the search box will start
+            returning results immediately. <br>
+            <b>Search:</b>
+            <%= f.hidden_field :artist_id %>
+            <input type="text" id="event_artist_search" size="30"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="20%" valign="top" class="color2">
+               Show Date
+               <br>(if a show)
+            </td>
+            <td width="80%" valign="top">
+            <%= f.text_field :show_date, :size=>10 %>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="20%" valign="top" class="color4">
+            Show Time
+            </td>
+
+            <td width="80%" valign="top">
+            <%= f.text_field :show_time, :size=>10 %>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" valign="top" class="color2" >
+           JazzHouston Pick?
+            </td>
+            <td width="80%" valign="top">
+             <%= check_box("event","jh_pick_flag") %>
+            </td>
+        </tr>
+         <tr>
+            <td width="20%" valign="top" class="color2" >
+           Jam Session? (<b>NEW!</b>)
+            </td>
+            <td width="80%" valign="top">
+             <%= check_box("event","jam_flag") %>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" valign="top" class="color4">
+             Event Type
+            </td>
+
+            <td width="80%" valign="top">
+            <%= select("event", "event_type_id", [["Show",1],["Steady",2]]) %>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" valign="top" class="color2">
+            Day of Week <br>(ONLY if a steady)
+            </td>
+
+            <td width="80%" valign="top">
+            <%
+               i=-1
+               days=Date::DAYNAMES.collect{ |day| [day, i=i+1]  } %>
+            <%= select("event", "day_of_week", days) %>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" valign="top" class="color4">
+                <p class="mediumText">Venue (<B>REQUIRED!!</B>)</p>
+            </td>
+            <td width="80%" valign="top">
+
+                <% if @event && @event.venue  %>
+                   Currently set to <b><a href="/venues/about/<%= @event.venue_id %>"><%= @event.venue.title %></a> </b>
+                    <br/><br/>
+                <% end %>
+                Search venues (note: results will be appear as you type)
+                <br>
+                <%= f.hidden_field :venue_id %>
+
+                <input type="text" id="event_venue_search" size="30"/>
+                <b>if you can't find a venue <a href="/venues/new" target="_new">create one</a>, then search again.</b>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" align="left" colspan="2" valign="top" class="color2">
+            About the show.
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" colspan="2" align="center" valign="top">
+            <%= f.text_area :about, :cols=>50, :rows=>15%>
+            </td>
+        </tr>
+        <tr>
+            <td width="20%" valign="top" class="color4"><b>Related Url</b></td>
+            <td width="80%" valign="top">
+                <%= f.text_field :related_url, :size=>30 %>
+            </td>
+        </tr>
+        <tr>
+            <td width="100%" valign="top" colspan="2" class="color4">
+            <%= f.submit @mode %>
+            </td>
+        </tr>
+    </table>
+
+    <% end %>
+    <% if @mode=="Edit" %>
+        <% form_for :event, @event, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
+            <input type="hidden" id="id" name="id" value="<%=@event.event_id%>" >
+            <%= f.submit "Delete Event" %>
+        <% end %>
+    <% end %>
+
+</div>
+</div>
+
+

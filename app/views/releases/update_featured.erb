@@ -1,0 +1,14 @@
+<div id="StageNarrow">
+    <div class="inside">
+        <div class="HeaderTitle">
+           Jazzhouston Show Feature
+        </div>
+
+          <div class="flash-alert">
+            <%= flash[:notice] %>
+        </div>
+
+        <b>Featured Show is now:</b> <a href="/events/details/<%=@fshow.event_id%>"><%=@fshow.performer%></a>
+
+    </div>
+</div>

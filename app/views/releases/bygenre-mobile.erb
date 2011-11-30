@@ -1,0 +1,28 @@
+
+<div id="StageNarrow">
+    <div class="inside">
+        ><a href="/">Home</a>><a href="/releases">Local Releases</a> > Browse
+
+        <div class="hspacer"></div>
+
+        <div class="Header">
+             <%=@genre_name%> 
+        </div>
+	<%= render :partial => "genre"%>
+
+        <div class="hspacer"></div>
+               <% for item in @albums %>
+	<div class="cd_listing">
+                    <% if item.image_url != ""  %>
+                        <%= link_to image_tag(item.image_url,:width=>'50',:hspace=>'2', :align=>"left"), {:action => "about", :controller=>"releases", :id=>item.album_id} %>
+                    <% end %>
+                    <%= item.artist_name %><br/>
+                    <%= link_to item.title, {:action => "about", :controller=>"releases", :id=>item.album_id} %>
+	</div>
+                <% end %>
+
+        <div class="hspacer"></div>
+
+
+    </div>
+</div>

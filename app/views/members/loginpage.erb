@@ -1,0 +1,33 @@
+<div id="StageNarrow">
+    <div class="inside">
+        <div id="MemberBox">
+
+            <% if logged_in? -%>
+	      <span id="MemberBoxView">
+              <a href="/members/profile/<%= current_user.username %>"><%= "#{(current_user.username)}" %></a>::<a href="/members/logout/">logoff</a>
+              </span>
+              <span id="MemberBoxEdit">
+              <a href="/members/edit/<%= current_user.user_id %>">edit</a>::
+              <a href="/members/changepassword/<%= current_user.user_id %>">change password</a>
+              </span>
+
+
+            <% else -%>
+                <div id="jh_login_form" class="login">
+                    <% form_tag "/members/login" do -%>
+                        Username: 
+                        <input class="textfield" type="text" maxlength="26" size="10" id="login" name="login"/>
+                           Password:
+                            <input class="textfield" type="password" name="password" id="password" maxlength="26" size="10"/>
+                           <%= submit_tag 'Go' %>
+                           <br/>
+                         remember me? <%= check_box_tag 'remember_me' %>
+                            <a href="/members/new">register</a> | 
+                            <a href="/members/sendlostpasswordemail">lost password?</a>
+                       </span>
+                    <% end -%>
+                </div>
+            <% end -%>
+        </div>
+        </div>
+       </div>

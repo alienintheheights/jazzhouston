@@ -1,0 +1,38 @@
+
+<div id="StageNarrow">
+    <div class="home-inside">
+        ><a href="/">Home</a>><a href="/releases">Local Releases</a> > Browse
+
+        <div class="hspacer"></div>
+
+        <div class="Header">
+             Houston Jazz CDs
+        </div>
+<%= render :partial => "genre"%>
+
+
+        <div class="hspacer"></div>
+ <table class="index-three-column">
+            <% counter=0
+               for item in @albums %>
+                <% if counter%3==0 %><tr><% end %>
+                <td>
+                    <% if item.image_url != ""  %>
+                        <%= link_to image_tag(item.image_url,:width=>'150',:hspace=>'2'), {:action => "about", :controller=>"releases", :id=>item.album_id} %><br/>
+                    <% end %>
+                    <%= item.artist_name %><br/>
+                    <%= link_to item.title, {:action => "about", :controller=>"releases", :id=>item.album_id} %>
+
+                </td>
+                <% counter=counter+1
+                   if counter%3==0 %>
+                    </tr>
+                <% end %>
+            <% end %>
+        </table>
+
+        <div class="hspacer"></div>
+
+
+    </div>
+</div>

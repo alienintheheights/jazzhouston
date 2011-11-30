@@ -1,0 +1,22 @@
+<div id="StageNarrow">
+    <div class="inside">
+        <a href="/news/reviews">Reviews Home</a><br/>
+
+        <div class="hspacer"></div>
+        <div class="HeaderTitle"><%=@article.title%> </div>
+
+        <span class="smallText">
+        by <B><%=@article.author%></b>,
+            <%=@article.display_date%>
+        </span>
+
+        <p class="mediumText">
+            <%=simple_format(@article.body_text)%>
+        </p>
+
+        <div class="hspacer"></div>
+
+
+       
+    </div>
+</div>

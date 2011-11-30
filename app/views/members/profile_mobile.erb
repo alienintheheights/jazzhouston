@@ -1,0 +1,200 @@
+<%
+	if (@member.image_url !~/\.(jpeg|png|bmp|gif|jpg)$/i)
+		@member.image_url=""
+	end
+
+%>
+<script type="text/javascript">
+    var activeRegion='jh_interests';
+    function swap(region) {
+        var pcmp =document.getElementById(activeRegion);
+        pcmp.style.display='none';
+
+        var cmp = document.getElementById(region);
+        cmp.style.display='block';
+
+        activeRegion=region;
+    }
+
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+
+        ><a href="/">Home</a>> <a href="/members">Members</a> > <%=@member.username%>
+
+        <div class="hspacer"></div>
+	<% if (logged_in? && current_user.user_id==@member.user_id && (!@member.image || @member.image=="")) %>
+	<div id="fastLinks">
+	Enhance your profile by uploading a photo. Click <a class="blueLink" href="/members/edit/<%=@member.user_id%>">here</a>
+	</div>
+	<% end %>
+
+        <div class="Header">
+            <%=@member.first_name%> <%=@member.last_name%>
+        </div>
+        <div class="contentTypeList">
+            <a href="#" onclick='swap("jh_interests")'>Interests</a> |
+            <a href="#" onclick='swap("jh_profile")'>About</a> |
+            <a href="#" onclick='swap("jh_contact_info")'>Contact Info</a>
+            <% if @shows && @shows.length>0%>
+             | <a href="#" onclick='swap("jh_gigs")'>Shows</a>
+            <% end %>
+            <% if @member.editor_flag==1 && @articles && @articles.length>0%>
+             | <a href="#" onclick='swap("jh_blogs")'>Articles</a>
+            <% end %>
+	    <% if logged_in? && (current_user.user_id==params[:id].to_i || current_user.admin_flag==1) -%>
+                | <a href="/members/edit/<%=@member.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a>
+            <% end -%>
+        </div>
+
+        <div id="jh_pic_column">
+            <% if @member.image && @member.image!="" %>
+                <img src='<%= url_for_image_column  @member, "image", :name=>"profile"  %>' align="left" width="100" style="margin-right:5px;" />
+            <% elsif @member.image_url && @member.image_url!="" %>
+                <img src="<%=@member.image_url%>" align="left" style="margin-right:5px;" width="100"/>
+            <% else %>
+                <img src="/images/forum-icon-blue.png" align="left" style="margin-right:5px;"width="100"/>
+            <% end %>
+           <div class="hspacer"></div>
+	    <div id="jh_editor">
+           <% if @member.admin_flag==1 %>
+		JazzHouston Admin
+           <% elsif @member.editor_flag==1 %>
+		JazzHouston Editor
+	    <% end %>
+	    </div>
+	   
+        </div>
+        <div id="jh_interests">
+           <% if @isaplaya %>
+	   <h2>Instrument(s)</h2>
+               <% counter=0
+                  for item in @instruments %>
+                      <% if counter>0 && counter%3==0 %><br/><% end %>
+                      <% if counter>0 && counter%3!=0 %> | <% end %><a href="/musicians/byinst/<%=item.instrument_name%>"><%= item.instrument_name.titleize %></a>
+                      <% counter=counter+1
+                               end %>
+           <% end %>
+           <div class="hspacer"></div>
+	   <h2>Location</h2>
+            <% if @member.location %>
+                <%=@member.location%>
+            <% else %>
+                <span class="none_entered">none entered</span>  
+		<% if (logged_in? && current_user.user_id==@member.user_id) %>
+		(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
+		<% end %>
+            <% end %>
+           <div class="hspacer"></div>
+	   <h2>Occupation</h2>
+            <% if @member.occupation && @member.occupation.length>0 %>
+                <%=@member.occupation%>
+            <% else %>
+                <span class="none_entered">none entered</span>  
+		<% if (logged_in? && current_user.user_id==@member.user_id) %>
+		(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
+		<% end %>
+            <% end %>
+           <div class="hspacer"></div>
+	   <h2>Music That Inspires Me</h2>
+            <% if @member.favorite_music %>
+                <%=@member.favorite_music%>
+            <% else %>
+                <span class="none_entered">none entered</span>  
+		<% if (logged_in? && current_user.user_id==@member.user_id) %>
+		(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
+		<% end %>
+            <% end %>
+           <div class="hspacer"></div>
+	   <h2>Films I'll Watch More Than Once</h2>
+            <% if @member.favorite_films %>
+                <%=@member.favorite_films%>
+            <% else %>
+                <span class="none_entered">none entered</span>  
+		<% if (logged_in? && current_user.user_id==@member.user_id) %>
+		(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
+		<% end %>
+            <% end %>
+        </div>
+        <div id="jh_profile"  style="display:none">
+	   <h2>About</h2>
+            <% if @member.about_me && @member.about_me.length>0 %>
+                <%=@member.about_me.html_safe%>
+            <% else %>
+                <span class="none_entered">not entered</span>  
+            <% end %>
+	</div>
+        <div id="jh_contact_info" style="display:none">
+            <table width="400" cellspacing="2" cellpadding="0" align="left">
+                <% if @member.email %>
+                    <tr>
+                        <td align="center"><img src="/images/icons/letter.png" alt="email"  hspace="2"/></td>
+                        <td><%=@member.email%></td>
+                    </tr>
+                <% end %>
+                <% if @member.url %>
+                    <tr>
+                        <td align="center"> <img src="/images/icons/links-16.gif" alt="email"  hspace="2"/></td>
+                        <td><a href="<%=@member.url%>" target="_new"><%=@member.url%></a></td>
+                    </tr>
+                <% end %>
+                <% if @member.cell_phone %>
+                    <tr>
+                        <td align="center"><img src="/images/icons/cell_phone.gif" alt="email"  hspace="2"/></td>
+                        <td><%=@member.cell_phone%></td>
+                    </tr>
+                <% end %>
+                <% if @member.home_phone %>
+                    <tr>
+                        <td align="center"><img src="/images/icons/home_phone.gif" alt="email"  hspace="2"/></td>
+                        <td><%= @member.home_phone %></td>
+                    </tr>
+                <% end %>
+		<tr><td colspan="2">&nbsp;</td></tr>
+		 <tr>
+                    <td align="center"><img valign="top" src="/images/icons/vcard.png" alt="vcard" width="16"  hspace="2"/></td>
+                    <td>
+        download <%= link_to "vCard", {:controller => "musicians", :action => "vcard", :id=>@member.id}%> contact info<br/> (for mobile, Outlook, or Contacts)</td>
+                </tr>
+
+            </table>
+        </div>
+        <% if @articles && @articles.length>0%>
+        <div id="jh_blogs" style="display:none">
+            <h2>Recent Posts by <%= @member.first_name %></h2> <br/> 
+            <% for story in @articles
+                current_id= (story.sub_title && story.sub_title.length>0)? story.sub_title : story.content_id
+            %>
+                <a href="/articles/words/<%=current_id%>"><%= story.title %></a><br/>
+                <br/>
+            <% end %>
+        </div>
+    <% end %>
+    <% if @shows && @shows.length>0 %>
+        <div id="jh_gigs" style="display:none">
+            <strong>Upcoming Gigs for <%= @member.first_name %></strong>  <br/> <br/>
+            <%
+               dow=Date::DAYNAMES
+               for gig in @shows %>
+                <% if gig.show_date %>
+                    <b><%=gig.show_date.to_datetime.strftime('%m %d %Y')%>: </b>
+                    <a href="/events/<%=gig.show_date.to_datetime.strftime("%Y")%>/<%=gig.show_date.to_datetime.strftime("%m")%>/<%=gig.show_date.to_datetime.strftime("%d")%>"><%=gig.performer%></a>
+                <% else %>
+                    <b><%= dow[gig.day_of_week] %>s: </b><a href="/events/details/<%=gig.event_id%>"><%= gig.performer %></a>
+                <% end %>
+                <% if gig.venue %>
+                    <a href="/venues/about/<%=gig.venue.venue_id%>"><%=gig.venue.title%></a>
+                <% end %>
+                <br/>
+                <br/>
+            <% end %>
+        </div>
+    <% end %>
+    <div class="clear"></div>
+
+
+
+
+    </div>
+</div>
+

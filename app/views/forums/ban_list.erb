@@ -1,0 +1,115 @@
+
+<script type="text/javascript">
+
+    Ext.onReady(function(){
+
+        var liveSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/members/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'username'
+            }, [{name:'user_id'},
+                {name: 'first_name'},
+                {name: 'last_name'},
+                {name: 'username'}
+            ])
+        });
+
+        var liveSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_item">',
+                '<a href="/members/profile/{username}">{last_name}, {first_name}</a> ({username})',
+                '</div></tpl>'
+                );
+
+        var liveSearchControl = new Ext.form.ComboBox({
+            store: liveSearchDataStore,
+            displayField:'username',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 275,
+            listWidth: 570,
+            emptyText: 'To search users, just type in a name...',
+            hideTrigger:true,
+            minChars: 2,
+            itemSelector: 'div.jh_search_item',
+            hideOnClick:true,
+            tpl: liveSearchResultTemplate,
+            onSelect: function(record, item){ // override default onSelect to do redirect
+                var pid=document.getElementById("pariah_id");
+                pid.value=record.data.user_id;
+
+                 var pname=document.getElementById("pariah_name");
+                pname.value=record.data.username;
+
+                var formId=document.getElementById("jh_pariah_formdiv");
+                formId.style.display="block";
+                this.collapse();
+            }
+
+        });
+
+
+        liveSearchControl.render('jh_member_search');
+    });
+
+
+    function loadForm(id,name) {
+        var pid=document.getElementById("pariah_id");
+        pid.value=id;
+
+        var pname=document.getElementById("pariah_name");
+        pname.value=name;
+
+        var ban_mode=document.getElementById("mode");
+        ban_mode.value="delete";
+        
+        var submitId=document.getElementById("ban_submit");
+        submitId.value="Remove Ban";
+
+        var formId=document.getElementById("jh_pariah_formdiv");
+        formId.style.display="block";
+
+        //document.jh_ban_form.submit();
+
+    }
+
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+         ><a href="/home">Home</a>><a href="/forums">Forums</a>
+          <div class="hspacer"></div>
+        
+        <div class="Header">
+            Forum Ignore Service
+        </div>
+
+        <div class="flash-alert">
+            <%= flash[:notice] %>
+        </div>
+
+        <div class="hspacer"></div>
+        Find the user you would like to ignore. Search by username, First, or Last name.<br/>
+        <div id="jh_member_search"></div>
+        <div id="jh_pariah_formdiv" style="display:none">
+            <form name="jh_ban_form" action="/forums/ban_list" method="post">
+                <input type="hidden" id="pariah_id" name='pariah_id' />
+                <input type="text" id="pariah_name" name='pariah_name' value=""/>
+                <input type="hidden" name='authenticity_token' value= '<%= form_authenticity_token() %>'/>
+                <input type="hidden" id="mode" name='mode' value="add"/>
+                <p><input id="ban_submit" type="submit" value='Submit Ban' /></p>
+            </form>
+        </div>
+         <div class="hspacer"></div>
+        <% if @bans %>
+            <div class="Header">Your Ban List</div>
+            <% for item in @bans %>
+                <%= item.user.username %> <a href="#"  onclick="javascript:loadForm(<%=item.pariah_id%>, '<%=item.user.username%>')">lift ban</a><br/>
+            <% end %>
+        <% end %>
+
+    </div>
+</div>

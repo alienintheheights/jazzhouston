@@ -1,0 +1,115 @@
+<!-- Stage for home page -->
+<div id="StageHome" >
+    <div class="inside">
+        <div id="homegrid">
+	<div id="fastLinks">
+	<b>Fast Links</b> :: <a href="/forums/">Forum</a> :: <a href="/events/<%=@todayDate%>">Today's Shows</a> :: <a href="/members/new">Join</a> :: <a href="/site/feedback">Submit Content</a> :: <a href="http://www.facebook.com/pages/JazzHouston/193080346744">Facebook</a> 
+	</div>
+	<br/>
+            <table >
+                <tr>
+                    <td  style="padding-left: 12px;">
+		<h2>Playing Today</h2>
+            	<div class="hspacer"></div>
+	        <% for item in @showsToday %>
+       		     <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
+       		     <% if item.venue %>
+       		     at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>,
+       		     <% end %>
+       		     <%= item.show_time %>
+       	         <div class="hspacer"></div>
+        	<% end %>
+
+		 <h2>More Shows This Week</h2>
+                    <div class="hspacer"></div>
+                         <%  currentDOW=""
+                                for item in @showsThisWeek
+                                dow=item.show_date.to_datetime.strftime("%A")
+                                if (dow!=currentDOW)
+                                %>
+                                <div class="breathingRoomSpan"></div>
+                                <b><a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=dow%></a></b><br/>
+
+                                <% end %>
+                                <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a><br/>
+                            <%  currentDOW=item.show_date.to_datetime.strftime("%A")
+                                end %>
+                     <div class="hspacer"></div>
+                     <a href="/events/shows">More upcoming shows...</a>
+                     <div class="hspacer"></div>
+
+                 <h2>New Local CD Releases</h2>
+                     <div class="breathingRoomSpan"></div>
+                    <% for item in @albums %>
+			<% if item.image_url != ""  %>
+          		 <%= link_to  image_tag(item.image_url,:width=>'75', :height=>'75', :hspace=>'2'), {:action => "about", :controller=>"releases",  :id=>item.album_id} %>
+			<br/>
+        		<% end %>
+                        <%=item.artist_name%><br/> <%= link_to item.title, {:action => "about", :controller=>"releases",  :id=>item.album_id} %><br/>
+                        <div class="breathingRoomSpan"></div>
+			<br/>
+			<% end %>
+                    </td>
+
+		    <td id="jh_news_feature">
+                        <h2>News and Reviews </h2>
+                        <div id="newslist">
+                            <ul>
+                        <% counter=0
+                           if @articles.length==0 %>
+                        <% end %>
+                        <% for item in @articles
+                            current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
+                            %>
+                                     <li id="newlist-feature">
+                                    <br/>
+                                    <% if item.image_url && !item.image_url.blank?  %>
+                                        <%= link_to image_tag(item.image_url,:width=>'75', :height=>'75', :valign=>'top', :align=>'left',:hspace=>'2'), {:action => "words", :controller=>"articles", :id=>current_id} %>
+                                    <%
+                                       end %>
+                                    <%= link_to item.title, {:action => "words", :controller=>"articles",  :id=>current_id} %>
+					<br/>
+                                    <%= item.teaser %>
+                                              <div class="hspacer"></div>
+                                     </li>
+                        <% end %>
+                            </ul>
+                                <div class="hspacer"></div>
+                         </div>
+                    </td>
+                </tr>
+           
+                <tr>
+                    <td colspan="2" id="jh_about_wrapper">
+                        <h2>About Jazz(in)Houston</h2>
+                        <div class="hspacer"></div>
+                        <div id="jh_about" >
+                            Houston, Texas is the nation's fourth largest city and home to a renowned jazz community. 
+			    Among the better known names hailing from this Gulf Coast metropolis are
+                            The Crusaders, Hubert & Ronnie Laws, Kirk Whalum, Everette Harp, Jason Moran, Robert Glasper, Eric Harland,
+                            Mike Moreno, Chris Dave, Helen Sung, Kendrick Scott, Shelly Berg, G.T. Hogan, Don Wilkerson, Arnett Cobb, Jimmy Ford, Herman Matthews,
+			    Barrie Lee Hall, Jr. (longtime Duke Ellington member), Frank Lacy,
+			    and Eddie "Cleanhead" Vinson. Resident luminaries include (but are not limited to)
+                            Joe Sample, Bobby Lyle, 
+			    Mark Simmons (Al Jarreau, George Duke), Andre Hayward (Monk Competition winner),
+                            Chris Walker, Marsha Frazier, Paul English, David Caceres, Sebastian Whittaker, Larry Slezak, Kyle Turner, Dennis Dotson, Joe Locascio, Woody Witt, and Pamela York (Great American Piano Competition winner).
+                            <br/><br/>
+                            On JazzHouston you will find <a href="/events">upcoming shows</a>,
+                            <a href="/musicians">local players</a>, <a href="/releases">CDs releases</a>, <a href="/education">Jazz Education</a>
+                            opportunities, and much more. This site is a community effort that has been online since 1995. Be sure to <a href="/members">join</a> to
+                            participate in the forums and to be listed in the musician directories.
+                        </div>
+                    </td>
+                </tr>
+
+
+
+            </table>
+        </div>
+    </div>
+
+</div> <!-- end Stage -->
+
+
+
+	

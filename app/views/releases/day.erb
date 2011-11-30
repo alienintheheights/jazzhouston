@@ -1,0 +1,59 @@
+
+
+<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
+<script type="text/javascript" src="/common/js/jazzhouston.events.js"></script>
+
+<script type="text/javascript">
+
+    Ext.onReady(function(){
+
+        jh.events.dateToolbar("jh_toolbar");
+
+    });
+</script>
+
+<div id="StageMedium">
+    <div class="inside">
+
+
+        ><a href="/home">Home</a>><a href="/events">Events</a>
+        ><b>Shows for <%=  @curTime.strftime("%A %B %d") %></b>
+        <div id="jh_toolbar"></div>
+        
+
+        <div class="hspacer"></div>
+        <div class="HeaderTitle">One-Night Only </div>
+        <div class="hspacer"></div>
+        <% if @onenighters.length==0 %>
+            <p class="smallText">None scheduled:
+                see <a href="/events/shows">upcoming shows</a>
+
+        <% end %>
+        <% for item in @onenighters %>
+            <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></b>
+
+	    <% if item.venue %>
+            at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>,
+	    <% end %>
+            <%= item.show_time %>
+            <br/>
+            <%= item.about %>
+            <div class="hspacer"></div>
+        <% end %>
+
+        <div class="hspacer"></div>
+        <div class="HeaderTitle">Every <%=  @curTime.strftime("%A") %></div>
+        <div class="hspacer"></div>
+        <% for item in @steadies %>
+            <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></b>
+	    <% if item.venue %>
+            at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>,
+	    <% end %>
+            <%= item.show_time %>
+            <br/>
+            <%= item.about %>
+
+            <div class="hspacer"></div>
+        <% end %>
+    </div>
+</div>

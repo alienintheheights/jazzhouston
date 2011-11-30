@@ -1,0 +1,22 @@
+</head>
+<body>
+
+<div id="Masthead">
+    <div id="MastheadCenter">
+        <div id="logoText"><a href="/home">Jazz/Houston</a></div>
+    </div>
+
+    <div id="MastheadRight">
+          <div class="hspacer"></div>
+        <div id="MemberBox">
+
+            <% if logged_in? -%>
+		<a href="/members/logout">Sign Out</a>
+            <% else -%>
+	        <a href="/members/loginpage">Sign In</a>
+            <% end -%>
+        </div>
+    </div>
+</div>
+<div id="Wrapper">
+

@@ -1,0 +1,153 @@
+
+<!-- AJAX Javascript for Rotating Content -->
+<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
+<script type="text/javascript" src="/common/js/jazzhouston.events.js"></script>
+
+
+<script type="text/javascript">
+
+    // Panels for the events page
+    Ext.onReady(function(){
+
+        jh.events.dateToolbar("jh_toolbar");
+
+        // Venue search
+        var venueSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/venues/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'venue_id'
+            }, [{name:'venue_id'},
+                {name: 'title'}
+            ])
+        });
+
+
+        var venueSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_item">',
+                '<a class="bigForumLink" href="/venues/about/{venue_id}">{title}</a>',
+                '</div></tpl>'
+                );
+
+        var venueSearchControl = new Ext.form.ComboBox({
+            store: venueSearchDataStore,
+            displayField:'title',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 400,
+            listWidth: 400,
+            maxHeight: 200,
+            minChars: 3,
+            height: 200,
+            emptyText: 'To search venue, just type in a name...',
+            hideTrigger:true,
+            hideOnClick:true,
+            itemSelector: 'div.jh_search_item',
+            tpl: venueSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                window.location = String.format('http://www.jazzhouston.com/venues/about/{0}', record.data.venue_id);
+            }
+
+        });
+
+        venueSearchControl.render('jh_event_venue_search');
+
+    });
+
+
+</script>
+
+
+<div id="StageMedium">
+    <div class="inside">
+        <div class="Header">
+            JazzHouston Calendar
+        </div>
+    
+          <%if logged_in? && current_user.editor_flag==1 -%>
+             <div class="flash-alert" style="float:left;display:inline;"><%= flash[:notice] %></div>
+            <div style="float:right;">
+                <a href="/events/new"><img src="/images/icons/reply.png" border="0" alt="edit">New Show</a><br/>
+            </div>
+
+        <% end -%>
+        <div id="showgrid">
+        		<div id="jh_toolbar"></div>
+			  <h2>Playing Today</h2>
+             			   <div class="hspacer"></div>
+				 <% for item in @showsToday %>
+			            <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
+        
+			            <% if item.venue %>
+			            at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>,
+			            <% end %>
+			            <%= item.show_time %>
+			            <div class="hspacer"></div>
+			        <% end %>
+                
+                         <h2>More Shows This Week</h2>
+                       		 <div class="hspacer"></div>
+                       		  <%  currentDOW=""
+                                for item in @showsThisWeek
+                                dow=item.show_date.to_datetime.strftime("%A")
+                                if (dow!=currentDOW)
+                                %>
+                                <div class="breathingRoomSpan"></div>
+                                <b><a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=dow%></a></b><br/>
+            
+            
+                                <% end %>
+                                <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a><br/>
+                            <%  currentDOW=item.show_date.to_datetime.strftime("%A")
+                                end %>
+                            <div class="hspacer"></div> 
+                            <a href="/events/shows">More upcoming shows...</a>
+                            <div class="hspacer"></div>
+
+                        <h2>Jam Sessions</h2>
+                        <div class="hspacer"></div>
+                            <% if @jams  %>
+                                <% for item in @jams %>
+                                    <% if item.event_type_id==1 && item.show_date %>
+                                        <a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=item.show_date.to_datetime.strftime('%A')%></a>,
+                                    <% else %>
+                                        <b><%= Date::DAYNAMES[item.day_of_week] %></b>
+                                    <% end %>
+                                    <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>:
+                                    <% if item.venue %>
+                                        <span class="smallText">
+                                        <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>
+                                        </span>
+                                    <% end %>
+                                    <div class="hspacer"></div>
+                                <% end %>
+                            <% else %>
+                                <p class="smallText">None scheduled</p>
+                            <% end %>
+        </div>
+      
+        <div class="Header">
+            Houston Jazz Venues
+        </div>
+        <div id="jh_venue_about">
+            <img src="http://www.addisontexas.net/REPOSITORY/ASSETS/RESTAURANT-PICS/SAMBUCA%20PIC.JPG" alt="Sambuca" hspace="2" align="left">
+            There are a rotating multitude of places to find Jazz in Houston. As of March 2011, the best bets are
+            <a href="/venues/about/7">Cezanne</a>, 
+            <a href="/venues/about/33">Brasil</a>, 
+            <a href="/venues/about/295">Smitty's</a>,
+	    <a href="/venues/about/440">Cafe 4212</a>,
+	    <a href="/venues/about/409">Dharma Cafe</a>,
+	    <a href="/venues/about/470">Eddie V's</a>,	
+	    <a href="/venues/about/181">The Tasting Room</a>,	
+            and various wine bars, restaurants, and clubs. Check the <a href="/events">calendar</a> for specifics.
+        </div>
+        <br/><br/>
+        <b>Venue Finder:</b><br/>
+        <div id="jh_event_venue_search"></div>
+        <div class="hspacer"></div>
+    </div>
+</div>

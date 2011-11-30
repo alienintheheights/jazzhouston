@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <atom:link href="http://www.jazzhouston.org/articles/rss" rel="self" type="application/rss+xml" />
+        <title>JazzHouston | Headlines (RSS Feed)</title>
+        <link>http://www.jazzhouston.com/articles/</link>
+        <description>Houston Jazz Headlines for <%=  @curTime.strftime("%A %B %d %Y") %></description>
+        <language>en-us</language>
+        <ttl>90</ttl>
+        <pubDate><%= @curTime.strftime("%a, %d %b %Y") %> 00:00:02 CST</pubDate>
+        <copyright>Copyright(c) 1996- JazzHouston.com</copyright>
+ 	<lastBuildDate><%= @curTime.strftime("%a, %d %b %Y %H:%M:%S %Z") %></lastBuildDate>
+
+        <% for item in @articles %>
+	<% unless item.image_url.nil? %>
+	<image>
+	  <url><%= item.image_url%></url>
+ 	  <title><%= item.title%></title>
+	  <link>http://www.jazzhouston.com/articles/words/<%=item.content_id%></link>
+	  <width>150</width>
+	  <height>150</height>
+	</image>
+	<% end %>
+        <item>
+          <title><![CDATA[
+               <%= item.title%> 
+                ]]></title>
+               <link>http://www.jazzhouston.com/articles/words/<%=item.content_id%></link>
+               <description><![CDATA[<%=item.teaser%>
+                ]]></description>
+          <pubDate><%= @curTime.strftime("%a, %d %b %Y") %> 00:00:02 CST</pubDate>
+          <guid>http://www.jazzhouston.com/articles/words/<%=item.content_id%></guid>
+        </item>
+        <% end %>
+
+    </channel>
+</rss>

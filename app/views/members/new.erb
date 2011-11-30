@@ -1,0 +1,263 @@
+<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
+<script type="text/javascript">
+
+Ext.onReady(function(){
+
+    var msg = function(title, msg){
+        Ext.Msg.show({
+            title: title,
+            msg: msg,
+            minWidth: 200,
+            modal: true,
+            icon: Ext.Msg.INFO,
+            buttons: Ext.Msg.OK
+        });
+    };
+
+
+Ext.apply(Ext.form.VTypes, {
+   nodots: function(value, field)
+   {
+ 
+      return !value.match(/[\.]/g) 
+ 
+   },
+ 
+   nodotsText: 'Not a valid username. You can not include periods or other symbols.',
+
+   nodotsMaks: /[\.]/
+
+});
+
+
+    var regform = new Ext.FormPanel({
+        labelWidth: 75, // label settings here cascade unless overridden
+        frame:true,
+        title: 'Register',
+        labelAlign: 'top',
+        bodyStyle:'padding:5px',
+        width: 700,
+        items: [{
+            layout:'column',
+            border:false,
+            items:[{
+                columnWidth:.5,
+                layout: 'form',
+                border:false,
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel: 'Username',
+                    name: 'user[username]',
+                    anchor:'95%',
+		    vtype: 'nodots'	
+                }, {
+                    xtype:'textfield',
+                    fieldLabel: 'Password',
+                    inputType:'password',
+                    name: 'user[password]',
+                    anchor:'95%'
+                },{
+                    xtype:'textfield',
+                    fieldLabel: 'First Name',
+                    name: 'user[first_name]',
+                    anchor:'95%'
+
+                },{
+                    xtype:'textfield',
+                    fieldLabel: 'Add the numbers in the challenge image',
+                    name: 'imageChallenge',
+
+                    maxLength:10,
+                    width:50
+                }]
+            },{
+                columnWidth:.5,
+                layout: 'form',
+                border:false,
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel: 'Email',
+                    name: 'user[email]',
+                    anchor:'95%'
+                },{
+                    xtype:'textfield',
+                    fieldLabel: 'Confirm Password',
+                    inputType:'password',
+                    name: 'user[password_confirmation]',
+                    anchor:'95%'
+                },{
+                    xtype:'textfield',
+                    fieldLabel: 'Last Name',
+                    name: 'user[last_name]',
+                    anchor:'95%'
+                },{
+                    xtype:'panel',
+                    name:'challengeImage',
+                    html:'<div id="challengeImageDiv"><img src="/members/challenge_image"></div>',
+                    anchor: '95%'
+                }, {
+                    xtype: 'hidden',
+                    name: 'authenticity_token',
+                    value: '<%= form_authenticity_token() %>',
+                    height: 0
+                }]
+            }]
+        },{
+            xtype:'tabpanel',
+            plain:true,
+            activeTab: 0,
+            height:600,
+            defaults:{bodyStyle:'padding:10px'},
+            items:[{
+                cls:'x-plain',
+                title:'About You',
+                layout:'form',
+                items: [{
+                    xtype:'textfield',
+		    width: 300,
+                    fieldLabel: 'Web Site',
+                    name: 'user[url]'
+                    }, {
+                    xtype:'textfield',
+		    width: 300,
+                    fieldLabel: 'Occupation',
+                    name: 'user[occupation]'
+                }, {
+                    xtype:'textfield',
+		    width: 300,
+                    fieldLabel: 'Location',
+                    name: 'user[location]'
+                },{
+                    xtype:'htmleditor',
+		    width: 600,
+		    height: 300,
+                    id:'user[about_me]',
+                    fieldLabel:'Biography'
+                }]
+            },{
+                title:'Interests',
+                layout:'form',
+                defaults: {width: 230},
+                defaultType: 'textfield',
+
+                items: [{
+                        xtype:'textarea',
+                        fieldLabel: 'Music that inspires you',
+                        name: 'user[favorite_music]',
+                        anchor:'95%'
+                    }, {
+                        xtype:'textarea',
+                        fieldLabel: 'Films that you\'ll watch more than once',
+                        name: 'user[favorite_films]',
+                        anchor:'95%'
+                }]
+            },{
+                title:'Phone Numbers',
+                layout:'form',
+                defaults: {width: 230},
+                defaultType: 'textfield',
+
+                items: [{
+                    fieldLabel: 'Home',
+                    name: 'user[home_phone]'
+                },{
+                    fieldLabel: 'Mobile',
+                    name: 'user[cell_phone]'
+                }]
+            },{
+                cls:'x-plain',
+                title:'Musician Directory Listing (optional)',
+                layout:'fit',
+                items: [{
+                        title: "List Me in the Musician's Directory",
+                        name: 'user[local_player_flag]',
+                        xtype:'fieldset',
+                        checkboxToggle:false,
+                        autoHeight:true,
+                        defaults: {width: 500},
+                        defaultType: 'checkbox',
+                        collapsed: false,
+                        items :[{
+                            xtype: 'checkboxgroup',
+                            fieldLabel: 'Select as many as you play!',
+                            columns: 5,
+                            vertical: true,
+                            items: [
+                            <% counter=1
+                                for item in @instruments %>
+                                 <% if counter>1 %>,<%end%>
+                                {
+                                boxLabel: '<%=item.instrument_name%>',
+                                name: 'instrument[<%=item.instrument_id%>]'
+                                }
+                            <% counter=counter+1
+                            end %>
+                            ]
+                        }]
+                    }]
+                }]
+            }],
+            buttons: [{
+                text: 'Create',
+                name: 'commit',
+                handler: function(){
+                    regform.form.submit({
+                        url:'/members/create',
+                        method:'POST',
+                        waitMsg:'Creating Your Account...',
+                        success: function(fp, msg){
+
+                            window.location=jh.util.HOST_NAME+"/members/newuser";
+                            /**
+                             var urlId = document.getElementById("jh_linkto_profile");
+                             urlId.href="/members/profile/"+msg.result.user;
+
+                             var linkDiv = document.getElementById("jh_linkto_profile_div");
+                             linkDiv.style.display="block";
+                             Ext.Msg.alert('Success!',"Your account has been created." );
+                             **/
+
+                        },
+                        failure: function(fp,msg){
+
+                            Ext.Msg.alert('Error',(msg.result)?msg.result.message:'your username can contain periods', function(btn) {
+
+                                if (btn == 'ok'){
+                                    var cid=document.getElementById("challengeImageDiv");
+                                    cid.innerHTML="";
+                                    var rand=Math.random()*50;
+                                    cid.innerHTML='<img src="/members/image?rand='+rand+'">';
+                                }
+                            });
+                        }
+                    });
+                }
+
+            },{
+                text: 'Cancel'
+            }]
+
+        });
+
+    regform.render("jh_form");
+
+
+});
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+        ><a href="/">Home</a>><a href="/members">Members</a> > Create Account
+
+        <div class="hspacer"></div>
+        <div id="jh_linkto_profile_div" style="display:none">
+            <a id="jh_linkto_profile" href="">Your Profile</a>
+            <br/>
+        </div>
+
+        <div id="jh_form">
+
+        </div>
+        <div class="hspacer"></div>
+        
+    </div>
+</div>

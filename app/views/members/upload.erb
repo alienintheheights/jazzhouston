@@ -1,0 +1,20 @@
+<div id="StageNarrow">
+    <div class="inside">
+        <div class="HeaderTitle">Upload your photo</div>
+        <% if logged_in? %>
+            <div class="flash-alert">
+                <%= flash[:notice] %>
+                 <%= flash[:error] %>
+            </div>
+            <form id="main_form" method="post" enctype="multipart/form-data" action="/members/upload">
+                <label for="picture">Picture:</label>
+                <%= file_field_tag "user[image_file]" %>
+                <%= hidden_field_tag 'id', current_user.user_id %>
+                <input type="hidden" name='authenticity_token' value= '<%= form_authenticity_token() %>'/>
+                <%= submit_tag  "Upload" %>
+            </form>
+
+        <% end %>
+    </div>
+</div>
+

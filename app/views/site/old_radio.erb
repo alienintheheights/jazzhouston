@@ -1,0 +1,68 @@
+<%= render 'common/top-of-page' %>
+<title>JazzHouston | <%= @page_title %></title>
+<script language="javascript" src="/mediaplayers/rave/rave.js"></script>
+
+<style type="text/css">
+
+    /** Override site body tag with its 800px min-width! **/
+            body
+                    {
+                            font-family:Arial,Sans-Serif; /**Palatino Linotype,Book Antiqua,Palatino,serif**/
+                            font-style:normal;
+                            font-size : 14px;
+                            text-align:left;
+                            background-color: #2A2A2A;
+                            min-width:400px;
+                            }
+</style>
+
+</head>
+<body>
+<!-- Stage for home page -->
+<div class="panel">
+    <div class="HeaderTitle">JazzHouston Local Release Sampler</div>
+    <!-- START WIMPY PLAYER CODE -->
+    <table width="80%" class="index-two-column" align="center">
+        <tr>
+            <td align="center" valign="middle">
+                <div id="jh_musicplayer"><a href="http://www.adobe.com/products/flashplayer/">Flash Player upgrade required</a></div>
+			 <script language="javascript">
+                                        // <![CDATA[
+                                        var wimpyConfigs4257 = new Object();
+                                        wimpyConfigs4257.wimpySwf="/mediaplayers/rave/rave.swf";
+                                        wimpyConfigs4257.wimpyApp="/site/playlist";
+                                        wimpyConfigs4257.wimpyWidth="300";
+                                        wimpyConfigs4257.wimpyHeight="350";
+                                        wimpyConfigs4257.wimpySkin="/mediaplayers/rave/skins/catco/skin_catco.xml";
+                                        wimpyConfigs4257.autoAdvance="yes";
+                                        wimpyConfigs4257.clickWindowAction="link";
+					wimpyConfigs4257.startPlayingOnload="yes";
+                                        wimpyConfigs4257.repeatPlaylist="on";
+                                        wimpyConfigs4257.randomPlayback="off";
+                                        wimpyConfigs4257.randomOnLoad="no";
+                                        wimpyConfigs4257.setAspectRatio="maintain";
+                                        wimpyConfigs4257.infoButtonAction="info";
+                                        wimpyConfigs4257.wimpyHTMLpageTitle="JazzHouston Local Releases";
+                                        wimpyConfigs4257.bkgdColor="white";
+                                        wimpyConfigs4257.getMyid3info="yes";
+                                        wimpyConfigs4257.findAllMedia="yes";
+                                        wimpyConfigs4257.wimpyReg="MyUyM1pYcnhsTCUyNyU3RVZ6JTNFUERhNXJlMCUzQSU1Q2JhdyUyOW1UYiU1Q1dnJTNBJTI4";
+
+                                        makeWimpyPlayer(wimpyConfigs4257, "jh_musicplayer");
+                                        // ]]>
+                                    </script>
+            </td>
+        </tr>
+    </table>
+    <div class="hspacer"></div>
+    
+    <div id="panel-inside">
+        Enjoy full-length tracks from select local CD releases. This playlist will
+        generate from a larger pool of music, so check back often for more music! Click the
+        info button for the artist's website.   
+    </div>
+
+</div>
+
+</body>
+</html>

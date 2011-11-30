@@ -1,0 +1,17 @@
+<%
+unless item.user.nil?
+
+  basePath = "/members/profile/" + item.user.username
+  # set user image URL
+  if item.user.image && item.user.image!=""
+       src = url_for_image_column(item.user, 'image', :name=>'avatar')
+  elsif item.user.image_url && item.user.image_url!=""
+       src = item.user.image_url 
+  else
+       src="/images/forum-icon-blue.png"
+  end
+%>
+   <a href="<%=basePath%>"><img src="<%=src%>" align="left" width="50" height="50"
+	   alt="<%=item.user.username.downcase%>" border="0" hspace="0" vspace="0"></a>
+<% end %>
+

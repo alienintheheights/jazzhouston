@@ -1,0 +1,130 @@
+
+<script type="text/javascript">
+    // Panels for the home page
+    Ext.onReady(function(){
+
+        var textArea = new  Ext.form.HtmlEditor({
+            applyTo:"album_about",
+            width:600,
+            height:300
+        });
+
+          var dateItem = new Ext.form.DateField({
+            applyTo:"album_release_date",
+            handler : function(datepicker, date){
+
+            }
+        });
+
+	var memberSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/members/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'username'
+            }, [{name:'user_id'},
+                {name: 'first_name'},
+                {name: 'last_name'},
+                {name: 'username'}
+            ])
+        });
+
+
+        var memberSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_item">',
+                '<a href="/members/profile/{username}">{last_name}, {first_name}</a> ({username})',
+                '</div></tpl>'
+                );
+
+        var memberSearchControl = new Ext.form.ComboBox({
+            store: memberSearchDataStore,
+            displayField:'username',
+            applyTo:'album_artist_search',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 275,
+            listWidth: 570,
+            emptyText: 'To search users, just type in a name...',
+            hideTrigger:true,
+            itemSelector: 'div.jh_search_item',
+            tpl: memberSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                var authorField=document.getElementById("album_musician_id");
+                var searchField=document.getElementById("album_artist_search");
+                searchField.value=record.data.first_name + " " + record.data.last_name;
+                authorField.value=record.data.user_id;
+                this.collapse();
+            }
+
+        });
+
+
+    });
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+
+        <h2><%=@mode%> Album</h2>
+        <%= form_for :album, @album , :url => { :action => @target} do |f| %>
+	    <% if @mode=="Edit" %>
+                <div class="hspacer"></div>
+         	Preview: <%= link_to @album.title, {:action => "about", :id=>@album.album_id} %><br/>
+                <input type="hidden" id="id" name="id" value="<%=@album.album_id%>" >
+            <% end %>
+
+            <p>
+                <%= f.label :title %><br />
+                <%= f.text_field :title %>
+            </p>
+            <p>
+                <%= f.label :artist_name %><br />
+                <%= f.text_field :artist_name %>
+            </p>
+ 	    <% if @mode=="Edit" %>
+                <input type="hidden" id="album_musician_id" name="album[musician_id]" value="<%=@album.musician_id%>"/>
+            <% else %>
+                <input type="hidden" id="album_musician_id" name="album[musician_id]"/>
+            <% end %>
+
+            <%= f.hidden_field :musician_id %>
+            <input type="text" id="album_artist_search" size="30"/>
+            </p>
+
+            <p>
+                <%= f.label :about %><br />
+                <%= f.text_area :about%>
+            </p>
+ 	    <p>
+                 <%
+                    genre=[["Jazz Vocal",1],["Piano Trio",2],["Instrumental Straight-Ahead",3],["Urban Contemporary",4],["Duos",6],["Solo",7],["Latin Jazz",8],
+				["Fusion",9],["Experimental/Avant-Garde",10],["Big Band",11]]
+                  %>
+            <%= select("album", "genre_id", genre) %><br />
+            <p>
+                <%= f.label :release_date %><br />
+                <%= f.text_field :release_date %>
+            </p>
+
+            <p>
+                <%= f.label :image_url %><br />
+                <%= f.text_field :image_url %>
+            </p>
+            <p>
+                <%= f.label :related_url %><br />
+                <%= f.text_field :related_url %>
+            </p>
+             <p>
+                <%= f.label :buy_url %><br />
+                <%= f.text_field :buy_url %>
+            </p>
+            <p>
+                <%= f.submit @mode %>
+            </p>
+        <% end %>
+
+
+    </div>
+</div>

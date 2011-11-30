@@ -1,0 +1,17 @@
+    <%
+       counter=0
+	put @allGigs
+       for item in @allGigs do
+    %>
+        <div id="jh_events_rotator_item_<%=counter%>" style="display:none">
+            <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></b>
+            at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>,
+            <%= item.show_time %>
+            <br/>
+            <%= item.about %>
+        </div>
+    <%
+       counter=counter+1
+       end
+    %>
+

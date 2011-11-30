@@ -1,0 +1,14 @@
+<b>Thank you for signing up on jazzhouston! </b>
+<br/><br/>
+
+Please keep this email for your records:<br/>
+<br/>
+
+Username: <%= @account.username %><br/>
+Real Name: <%= @account.first_name.titleize %>  <%= @account.last_name.titleize %><br/>
+Email: <%= @account.email%> <br/>
+Password: **confidential**
+<br/>
+Your Profile URL: http://www.jazzhouston.com/members/profile/<%=@account.username%>
+<br/><br/>
+<a href="http://www.jazzhouston.com/members/profile/#{@username}">View Profile</a>

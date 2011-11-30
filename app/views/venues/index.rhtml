@@ -1,0 +1,80 @@
+
+<script type="text/javascript">
+
+    Ext.onReady(function(){
+
+
+        // Venue search
+        var venueSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/venues/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'venue_id'
+            }, [{name:'venue_id'},
+                {name: 'title'}
+            ])
+        });
+
+
+        var venueSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_item">',
+                '<a href="/venues/about/{venue_id}">{title}</a>',
+                '</div></tpl>'
+                );
+
+        var venueSearchControl = new Ext.form.ComboBox({
+            store: venueSearchDataStore,
+            displayField:'title',
+            applyTo:'event_venue_search',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 400,
+            listWidth: 400,
+            maxHeight: 200,
+            minChars: 3,
+            hideOnClick:true,
+            emptyText: 'To search venue, just type in a name...',
+            hideTrigger:true,
+            itemSelector: 'div.jh_search_item',
+            tpl: venueSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                window.location = String.format('http://www.jazzhouston.com/venues/about/{0}', record.data.venue_id);
+            }
+
+        });
+
+    });
+</script>
+<div id="StageNarrow">
+    <div class="inside">
+        ><a href="/">Home</a>>Venues
+          <%if logged_in? && current_user.editor_flag==1 -%>
+            <div style="float:right;">
+                <%= link_to '<img src="/images/icons/reply.png" border="0" alt="edit">New Venue', {:action => "new"} %><br/>
+            </div>
+        <% end -%>
+
+        <div class="hspacer"></div>
+
+        <div class="Header">
+            Houston Jazz Venues
+        </div>
+        <div class="hspacer"></div>
+        <div id="jh_venue_about">
+            <img src="http://www.addisontexas.net/REPOSITORY/ASSETS/RESTAURANT-PICS/SAMBUCA%20PIC.JPG" alt="Sambuca" hspace="2" align="left">
+            There are a rotating multitude of places to find Jazz in Houston. As of Jan 2009, the best bets are
+            <a href="/venues/about/7">Cezanne</a>, <a href="/venues/about/214">Tommy's</a>, <a href="/venues/about/148">The Red Cat</a>,
+            <a href="/venues/about/283">Truluck's</a>, <a href="/venues/about/10">Sambuca</a>, <a href="/venues/about/324">Legend's</a>,
+            <a href="/venues/about/12">The Sky Bar</a>, <a href="/venues/about/33">Brasil</a>, <a href="/venues/about/369">Cafe Adagio</a>,
+            and various wine bars, restaurants, and clubs. Check the <a href="/events">calendar</a> for specifics.
+        </div>
+        <br/><br/>
+        <b>Venue Finder:</b><br/>
+        <input type="text" id="event_venue_search" size="30"/>
+
+    </div>
+</div>

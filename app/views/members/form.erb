@@ -1,0 +1,209 @@
+<%= render 'common/top-of-page' %>
+<title>JazzHouston | Members | Sign Up</title>
+<script type="text/javascript">
+Ext.onReady(function(){
+
+    var msg = function(title, msg){
+        Ext.Msg.show({
+            title: title,
+            msg: msg,
+            minWidth: 200,
+            modal: true,
+            icon: Ext.Msg.INFO,
+            buttons: Ext.Msg.OK
+        });
+    };
+
+
+
+    var regform = new Ext.FormPanel({
+        labelWidth: 75, // label settings here cascade unless overridden
+        frame:true,
+        title: 'Register',
+        labelAlign: 'top',
+        bodyStyle:'padding:5px',
+        width: 600,
+        items: [{
+            layout:'column',
+            border:false,
+            items:[{
+                columnWidth:.5,
+                layout: 'form',
+                border:false,
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel: 'Username',
+                    name: 'user[username]',
+                    anchor:'95%'
+                    <% if @user %>
+                    , value: "<%= @user.username%>"
+                    <% end %>
+                }, {
+                    xtype:'textfield',
+                    fieldLabel: 'Password',
+                    inputType:'password',
+                    name: 'user[password]',
+                    anchor:'95%'
+                } ,{
+                    xtype:'textfield',
+                    fieldLabel: 'First Name',
+                    name: 'user[first_name]',
+                    anchor:'95%'
+                    <% if @user %>
+                    , value: "<%= @user.first_name%>"
+                    <% end %>
+
+                }]
+            },{
+                columnWidth:.5,
+                layout: 'form',
+                border:false,
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel: 'Email',
+                    name: 'user[email]',
+                    vtype:'email',
+                    anchor:'95%'
+                    <% if @user %>
+                    , value: "<%= @user.email%>"
+                    <% end %>
+                },{
+                    xtype:'textfield',
+                    fieldLabel: 'Confirm Password',
+                    inputType:'password',
+                    name: 'user[password_confirmation]',
+                    anchor:'95%'
+                },{
+                    xtype:'textfield',
+                    fieldLabel: 'Last Name',
+                    name: 'user[last_name]',
+                    anchor:'95%'
+                    <% if @user %>
+                    , value: "<%= @user.last_name%>"
+                    <% end %>
+                }]
+            }]
+        },{
+            xtype:'tabpanel',
+            plain:true,
+            activeTab: 0,
+            height:235,
+            defaults:{bodyStyle:'padding:10px'},
+            items:[{
+                title:'Personal Details',
+                layout:'form',
+                defaults: {width: 230},
+                defaultType: 'textfield',
+                items: [{
+                    xtype:'textfield',
+                    fieldLabel: 'Occupation',
+                    name: 'user[occupation]',
+                    anchor:'95%'
+                    <% if @user %>
+                    , value: "<%= @user.occupation%>"
+                    <% end %>
+                }, {
+                    xtype:'textfield',
+                    fieldLabel: 'Location',
+                    name: 'user[location]',
+                    anchor:'95%'
+                    <% if @user %>
+                    , value: "<%= @user.location%>"
+                    <% end %>
+                }, {
+                    xtype: 'hidden',
+                    name: 'authenticity_token',
+                    value: '<%= form_authenticity_token() %>',
+                    height: 0
+                }, {
+                    xtype: 'hidden',
+                    name: 'user[user_id]',
+                    height: 0
+                    <% if @user %>
+                    , value: "<%= @user.user_id%>"
+                    <% end %>
+
+                }]
+            },{
+                title:'Phone Numbers',
+                layout:'form',
+                defaults: {width: 230},
+                defaultType: 'textfield',
+
+                items: [{
+                    fieldLabel: 'Home',
+                    name: 'user[home_phone]'
+                    <% if @user %>
+                    , value: "<%= @user.home_phone%>"
+                    <% end %>
+                },{
+                    fieldLabel: 'Mobile',
+                    name: 'user[cell_phone]'
+                    <% if @user %>
+                    , value: "<%= @user.cell_phone%>"
+                    <% end %>
+                }]
+            },{
+                cls:'x-plain',
+                title:'Biography',
+                layout:'fit',
+                items: {
+                    xtype:'htmleditor',
+                    id:'user[about_me]',
+                    fieldLabel:'Biography'
+                    <% if @user %>
+                    , value: "<%= escape_javascript(@user.about_me)%>"
+                    <% end %>
+                }
+            }]
+        }],
+
+        buttons: [{
+            text: 'Save',
+            name: 'commit',
+            handler: function(){
+                regform.form.submit({
+                    url:'/members/register',
+                    method:'POST',
+                    <% if (@user) %>
+                    waitMsg:'Updating Your Account...',
+                    <% else %>
+                    waitMsg:'Creating Your Account...',
+                    <% end %>
+                    success: function(fp, msg){
+                        msg('Success', 'Yay! '+msg.text);
+                    },
+                    failure: function(form, msg){
+                        Ext.Msg.alert('Error',msg.text)}
+                });
+            }
+
+        },{
+            text: 'Cancel'
+        }]
+
+    });
+
+    regform.render("jh_form");
+
+});
+</script>
+<%= render 'common/header' %>
+<div id="StageNarrow">
+    <div class="alt-inside">
+        ><a href="/">Home</a>><a href="/members">Members</a> > Sign Up!
+
+        <div class="hspacer"></div>
+        <%= error_messages_for :user %>
+
+        <div id="jh_form">
+            <% if @user %>
+                <input type="hidden" id="id" name="user[user_id]"value="<%=@user.user_id%>" >
+            <% end %>
+
+        </div>
+        <div class="hspacer"></div>
+    </div>
+</div>
+
+<%= render 'common/footer' %>
