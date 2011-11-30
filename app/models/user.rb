@@ -2,6 +2,7 @@
 
 class User < ActiveRecord::Base
 
+
     # TODO replace file_column to carrierwave
     # http://www.engineyard.com/blog/2011/a-gentle-introduction-to-carrierwave/
     #

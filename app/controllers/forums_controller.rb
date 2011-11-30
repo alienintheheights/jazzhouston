@@ -17,6 +17,7 @@ class ForumsController < ApplicationController
   @@per_page = 25
   @@message_threshold = -6
 
+
   ################################
   # ACTIONS
   ################################
