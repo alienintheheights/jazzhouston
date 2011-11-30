@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+    <loc>http://www.jazzhouston.com/home</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url> 
+<url>
+    <loc>http://www.jazzhouston.com/events</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/events/shows</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/articles</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/articles/index/6?type=1</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/news/reviews</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/forums</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/musicians</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/members</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/education</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/releases</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/venues</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+</url>
+<url>
+    <loc>http://www.jazzhouston.com/venues/about/7</loc>
+    <lastmod>2009-01-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+</url>
+ </urlset>

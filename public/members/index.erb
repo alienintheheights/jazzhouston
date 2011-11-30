@@ -1,0 +1,140 @@
+
+<!-- AJAX Javascript for Rotating Content -->
+<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
+<script type="text/javascript" src="/common/js/jazzhouston.events.js"></script>
+
+<script type="text/javascript">
+
+    // Panels for the events page
+    Ext.onReady(function(){
+
+
+        // Venue search
+        var venueSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/venues/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'venue_id'
+            }, [{name:'venue_id'},
+                {name: 'title'}
+            ])
+        });
+
+
+        var venueSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_item">',
+                '<a class="bigForumLink" href="/venues/about/{venue_id}">{title}</a>',
+                '</div></tpl>'
+                );
+
+        var venueSearchControl = new Ext.form.ComboBox({
+            store: venueSearchDataStore,
+            displayField:'title',
+            applyTo:'event_venue_search',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 400,
+            listWidth: 400,
+            maxHeight: 200,
+            minChars: 3,
+            height: 200,
+            emptyText: 'To search venue, just type in a name...',
+            hideTrigger:true,
+            hideOnClick:true,
+            itemSelector: 'div.jh_search_item',
+            tpl: venueSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                window.location = String.format('http://www.jazzhouston.org/venues/about/{0}', record.data.venue_id);
+            }
+
+        }); 
+
+        // kick-off show rotator
+        jh.events.startEventsCycle("jh_events_rotator", 5);
+
+        jh.events.dateToolbar("jh_toolbar");
+    });
+
+
+</script>
+
+<% cache do %>
+    <div id="StageMedium">
+        <div class="alt-inside">
+            <div style="float:left;">
+                 ><a href="/home">Home</a>>Shows
+            </div>
+            <%if logged_in? && current_user.editor_flag==1 -%>
+                <div style="float:right;">
+                    <%= link_to '<img src="/images/icons/reply.png" border="0" alt="edit">New Show', {:action => "new"} %><br/>
+                </div>
+            <% end -%>
+
+            <div class="hspacer"></div>
+
+            <div id="jh_toolbar"></div>
+            <div id="showgrid">
+                <table >
+                    <tr>
+                        <td colspan="2">
+                            <h2>Shows This Weekend</h2>
+                            <div class="hspacer"></div>
+                            <div class="panel-inside">
+                                <% if @weekendShows.length==0 %>
+                                    <p class="smallText">None scheduled</p>
+                                <% end %>
+                                <% for item in @weekendShows %>
+
+                                    <a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=item.show_date.to_datetime.strftime('%A')%></a>,
+                                    <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>:
+                        <span class="smallText">
+                        <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>
+                        </span>
+                                    <div class="hspacer"></div>
+                                <% end %>
+                                <div class="hspacer"></div>
+                                <a href="/events/shows">See all upcoming shows</a>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <h2>Playing Today</h2>
+                            <!-- shows rotation feature -->
+                            <div id="jh_events_rotator"></div>
+                        </td>
+
+                        <td>
+                            <h2>We Recommend</h2>
+                            <%= render_component :action=>'featured' %>
+
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="hspacer"></div>
+
+
+            <div class="HeaderTitle">
+                Houston Jazz Venues
+            </div>
+            <div id="jh_venue_about">
+                <img src="http://www.addisontexas.net/REPOSITORY/ASSETS/RESTAURANT-PICS/SAMBUCA%20PIC.JPG" alt="Sambuca" hspace="2" align="left">
+                There are a rotating multitude of places to find Jazz in Houston. As of Jan 2009, the best bets are
+                <a href="/venues/about/7">Cezanne</a>, <a href="/venues/about/214">Tommy's</a>, <a href="/venues/about/148">The Red Cat</a>,
+                <a href="/venues/about/283">Truluck's</a>, <a href="/venues/about/10">Sambuca</a>, <a href="/venues/about/324">Legend's</a>,
+                <a href="/venues/about/12">The Sky Bar</a>, <a href="/venues/about/33">Brasil</a>, <a href="/venues/about/369">Cafe Adagio</a>,
+                and various wine bars, restaurants, and clubs. Check the <a href="/events">calendar</a> for specifics.
+            </div>
+            <br/><br/>
+            <b>Venue Finder:</b><br/>
+            <input type="text" id="event_venue_search" size="30"/>
+            <div class="hspacer"></div>
+        </div>
+    </div>
+<% end %>
