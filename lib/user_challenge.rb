@@ -256,7 +256,7 @@ module UserChallenge
 
               self.pointsize = 22
 
-              self.stroke = 'transparent‘
+              self.stroke = 'transparent'
 
               self.fill = '#0000A9'
 

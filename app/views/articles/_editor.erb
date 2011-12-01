@@ -1,19 +1,13 @@
+<%= render :partial => "common/extjs" %>
+<%= render :partial => "common/tinymce" %>
 
 <script type="text/javascript">
     // Panels for the home page
     Ext.onReady(function(){
 
-        var textArea = new  Ext.form.HtmlEditor({
-            applyTo:"content_body_text",
-            width:600,
-            height:300
-        });
-
-          var dateItem = new Ext.form.DateField({
+        var dateItem = new Ext.form.DateField({
             applyTo:"content_display_date",
-            handler : function(datepicker, date){
-
-            }
+            format:'m/d/Y'
         });
 
         // Member search
@@ -38,7 +32,7 @@
                 '<tpl for="."><div class="jh_search_item">',
                 '<a href="/members/profile/{username}">{last_name}, {first_name}</a> ({username})',
                 '</div></tpl>'
-                );
+        );
 
         var memberSearchControl = new Ext.form.ComboBox({
             store: memberSearchDataStore,
@@ -55,9 +49,9 @@
             onSelect: function(record){ // override default onSelect to do redirect
                 var authorField=document.getElementById("content_author_id");
                 var authorName=document.getElementById("content_author");
-		authorName.value=record.data.first_name + " " + record.data.last_name;
-		authorField.value=record.data.user_id;
-		this.collapse();
+                authorName.value=record.data.first_name + " " + record.data.last_name;
+                authorField.value=record.data.user_id;
+                this.collapse();
             }
 
         });
@@ -65,75 +59,74 @@
     });
 </script>
 <div id="StageNarrow">
-    <div class="inside">
+  <div class="inside">
 
-        <h2><%= @mode %> Article</h2>
-	target = <%=@target%><br/>
-        <%= form_for :content, @content, :url => { :action => @target} do |f| %>
-            <% if @mode=="Edit" %>
-                <div class="hspacer"></div>
-                Preview: <a href="/articles/words/<%=@content.content_id%>"><%=@content.title%></a><br/>
-                <input type="hidden" id="id" name="id" value="<%=@content.content_id%>" >
-            <% end %>
-            <p>
-                <%= f.label :title %><br />
-                <%= f.text_field :title, :size=>75 %>
-            </p>
-            <p>
-                <%= f.label :author %><br />
-            <% if @mode=="Edit" %>
-                <input type="hidden" id="content_author" name="content[author]" value="<%=@content.author%>"/>
-            <% else %>
-                <input type="hidden" id="content_author" name="content[author]"/>
-            <% end %>
-
-            <%= f.hidden_field :author_id %>
-            <input type="text" id="content_author_search" size="30"/>
-            </p>
-            <p>
-                The unique URL for the story (e.g., www.jazzhouston.com/words/<b>your_title_here</b>)<br />
-                Do not enter jazzhouston.com, just the part after the final slash<br/>
-                <%= f.text_field :sub_title%>
-            </p>
-            <p>
-                <%= f.label :teaser %><br />
-                <%= f.text_area :teaser, :cols=>50, :rows=>5%>
-            </p>
-            <p>
-                Auto-Format Article? <%= check_box("content","html_break_flag") %>Yes
-            </p>
-            <p>
-                <%= f.label :body_text %><br />
-                <%= f.text_area :body_text %>
-            </p>
-
-            <p>
-                <%= f.label :image_url %><br />
-                <%= f.text_field :image_url, :size=>75 %>
-            </p>
-            <p>
-                <%
-                   types=[["News",1],["Opinion",3],["Jazz Columns",4],["Interviews and Concert Reviews",5],["CD Reviews",6]]
-                %>
-                <%= select("content", "content_type_id", types) %><br />
-
-            </p>
-
-            <p>
-                <%= f.label :display_date %><br />
-                <%= f.text_field :display_date %>
-            </p>
-            <p>
-                 <%
-                    status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]
-                  %>
-            <%= select("content", "status_id", status) %><br />
-
-            </p>
-            <p>
-                <%= f.submit @mode %>
-            </p>
+    <h2><%= @mode %> Article</h2>
+    <%= form_for  @content, :url => { :action => @target} do |f| %>
+        <% if @mode=="Edit" %>
+            <div class="hspacer"></div>
+            Preview: <a href="/articles/words/<%=@content.content_id%>"><%=@content.title%></a><br/>
+            <input type="hidden" id="id" name="id" value="<%=@content.content_id%>" >
         <% end %>
+        <p>
+          <%= f.label :title %><br />
+          <%= f.text_field :title, :size=>75 %>
+        </p>
+        <p>
+          <%= f.label :author %><br />
+          <% if @mode=="Edit" %>
+              <input type="hidden" id="content_author" name="content[author]" value="<%=@content.author%>"/>
+          <% else %>
+              <input type="hidden" id="content_author" name="content[author]"/>
+          <% end %>
 
-    </div>
+          <%= f.hidden_field :author_id %>
+          <input type="text" id="content_author_search" size="30"/>
+        </p>
+        <p>
+          The unique URL for the story (e.g., www.jazzhouston.com/words/<b>your_title_here</b>)<br />
+          Do not enter jazzhouston.com, just the part after the final slash<br/>
+          <%= f.text_field :sub_title%>
+        </p>
+        <p>
+          <%= f.label :teaser %><br />
+          <%= f.text_area :teaser, :cols=>50, :rows=>5, :class =>"mceNoEditor"%>
+        </p>
+        <p>
+          Auto-Format Article? <%= check_box("content","html_break_flag") %>Yes
+        </p>
+        <p>
+          <%= f.label :body_text %><br />
+          <%= f.text_area :body_text %> (drag bottom right corner to expand editor)
+        </p>
+
+        <p>
+          <%= f.label :image_url %><br />
+          <%= f.text_field :image_url, :size=>75 %>
+        </p>
+        <p>
+          <%
+             types=[["News",1],["Opinion",3],["Jazz Columns",4],["Interviews and Concert Reviews",5],["CD Reviews",6]]
+          %>
+          <%= select("content", "content_type_id", types) %><br />
+
+        </p>
+
+        <p>
+          <%= f.label :display_date %><br />
+          <%= f.text_field :display_date %>
+        </p>
+        <p>
+          <%
+             status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]
+          %>
+          <%= select("content", "status_id", status) %><br />
+
+        </p>
+        <p>
+          <%= f.submit @mode %>
+        </p>
+    <% end %>
+
+  </div>
 </div>

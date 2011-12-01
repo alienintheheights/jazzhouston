@@ -16,20 +16,20 @@ jh.forums = function() {
 
     // display template for rotator
     var rotateTemplate = new Ext.Template(
-            '<div class="{cls}">',
-            '<a href="'+FORUM_MAIN_URL+'">See all headlines</a><br/><br/>',
-            '<a href="'+MESSAGE_URL+'{id}">{title}</a> {about:ellipsis(300)}',
-            '</div>'
-            );
+        '<div class="{cls}">',
+        '<a href="'+FORUM_MAIN_URL+'">See all headlines</a><br/><br/>',
+        '<a href="'+MESSAGE_URL+'{id}">{title}</a> {about:ellipsis(300)}',
+        '</div>'
+    );
 
 
     // display template for article preview
     var previewTemplate = new Ext.Template(
-            '<div class="{cls}">',
-            '<b>{title}</b> -- {about:ellipsis(300)}',
-            ': <a href="'+MESSAGE_URL+'{id}">read</a>',
-            '</div>'
-            );
+        '<div class="{cls}">',
+        '<b>{title}</b> -- {about:ellipsis(300)}',
+        ': <a href="'+MESSAGE_URL+'{id}">read</a>',
+        '</div>'
+    );
 
     // simple Ext window for previews
 
@@ -43,37 +43,6 @@ jh.forums = function() {
         /** rotate counter **/
         counter: 0,
 
-        // rotate articles
-        rotate: function (articles, counter, divId) {
-            if (counter===articles.length) {
-                counter=0;
-            }
-            var listing = articles[counter++].content;
-
-            rotateTemplate.overwrite(divId, {cls: 'panel-inside',
-                title:  listing.title, about: listing.teaser, id: listing.content_id});
-
-            var func =jh.util.scope(this, function() {
-                this.rotate(articles, counter, divId);
-            });
-            setTimeout(func, 1000*frequency);
-        },
-
-        /** starts news rotator **/
-        startNewsCycle: function(divId, frequency) {
-
-            this.frequency = frequency || this.frequency;
-
-            // AJAX
-            Ext.Ajax.request({
-                url: ROTATE_URL,
-                success: function(response) {
-                    var articles =jh.util.json_eval(response).articles;
-                    jh.news.rotate(articles, 0, divId);
-                },
-                scope: this
-            });
-        },
 
         validatePost: function() {
 
@@ -108,16 +77,16 @@ jh.forums = function() {
 
 
             return confirm("By clicking OK, you (The User) are agreeing to the Jazzhouston.com posting policy. " +
-                           "This policy strictly prohibits posts that are inflammatory, " +
-                           "rude, hostile, cruel, unlawful, unsuitable for public viewing, and/or deemed offensive in any " +
-                           "manner we, the site editors of Jazzhouston.com, define. Posts in violation of this policy are subject to removal. " +
-			   "Repeat offenders may have their accounts closed. " +
-                           "All decisions on this issue are " +
-                           "final and completely at the discretion of the Jazzhouston.com editors. " +
-                           "Furthermore, The User is solely liable for their " +
-                           "submissions. The User agrees to indemnify and hold harmless Jazzhouston.com, its subsidiaries, affiliates, contractors, " +
-                           "agents and/or employees against any liability, be it civil, criminal, or quasi-criminal, resulting from the use of this website. " +
-                           "If you do not accept these terms, do not post here."  );
+                "This policy strictly prohibits posts that are inflammatory, " +
+                "rude, hostile, cruel, unlawful, unsuitable for public viewing, and/or deemed offensive in any " +
+                "manner we, the site editors of Jazzhouston.com, define. Posts in violation of this policy are subject to removal. " +
+                "Repeat offenders may have their accounts closed. " +
+                "All decisions on this issue are " +
+                "final and completely at the discretion of the Jazzhouston.com editors. " +
+                "Furthermore, The User is solely liable for their " +
+                "submissions. The User agrees to indemnify and hold harmless Jazzhouston.com, its subsidiaries, affiliates, contractors, " +
+                "agents and/or employees against any liability, be it civil, criminal, or quasi-criminal, resulting from the use of this website. " +
+                "If you do not accept these terms, do not post here.");
 
         },
 
@@ -162,7 +131,7 @@ jh.forums = function() {
             if (lflag==false) {
                 Ext.Msg.alert("Alert","You must be logged in to vote.");
             }
-        // AJAX
+            // AJAX
             Ext.Ajax.request({
                 url: jh.forums.SCORE_URL+"/"+mid+"?mode="+mode,
                 success: function(response) {

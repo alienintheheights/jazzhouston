@@ -6,123 +6,126 @@
 class SiteController < ApplicationController
 
 
-    include AuthenticatedSystem
+  include AuthenticatedSystem
 
-    before_filter :login_required, :only =>[:editor]
+  before_filter :login_required, :only =>[:editor]
 
 
-    @@feedback_email="notification@jazzhouston.com"
+  @@feedback_email="notification@jazzhouston.com"
 
-    layout :detect_browser, :except=>[:radio_popup, :playlist]
+  layout :detect_browser, :except=>[:radio_popup, :playlist]
 
-    def errorpage
-        @exception = params[:exception]
-        if (@exception)
-            if (@exception=="404")
-                @error404=true
-            elsif (@exception=="500")
-                @error500=true
-            end
-        end
-
+  def errorpage
+    @exception = params[:exception]
+    if (@exception)
+      if (@exception=="404")
+        @error404=true
+      elsif (@exception=="500")
+        @error500=true
+      end
     end
 
-    def feedback
-        @page_title="Feedback"
-        if request.post?
+  end
 
-            # check image
-            challenge = session["uc"]
-            session["uc"] = nil
-            test=challenge.checkResponse(params[:imageChallenge])
-            if (!test )
-                flash[:notice]="Invalid Image challenge response. Try again"
-                return
-            end
+  def feedback
+    @page_title="Feedback"
+    if request.post?
 
-            name=params[:name]
-            email=params[:email]
+      # check image
+      challenge = session["uc"]
+      session["uc"] = nil
+      test=challenge.checkResponse(params[:imageChallenge])
+      if (!test )
+        flash[:notice]="Invalid Image challenge response. Try again"
+        return
+      end
 
-            if (email)
-                # def feedback(to, name, email, subject, message, sent_at = Time.now)
-                Notifier.deliver_feedback(@@feedback_email, name, email, "Feedback from Jazzhouston", params[:message])
-                flash[:notice]="Your feedback was sent. Thank you."
-            else
-                flash[:notice]="Please include an email address"
-            end
-        end
+      name=params[:name]
+      email=params[:email]
 
+      if (email)
+        # def feedback(to, name, email, subject, message, sent_at = Time.now)
+        Notifier.deliver_feedback(@@feedback_email, name, email, "Feedback from Jazzhouston", params[:message])
+        flash[:notice]="Your feedback was sent. Thank you."
+      else
+        flash[:notice]="Please include an email address"
+      end
     end
 
-    def contact
-        redirect_to :action=>"feedback"
-    end
+  end
 
-    def editor
-        @page_title="Site Editor Notes"
-    end
+  def contact
+    redirect_to :action=>"feedback"
+  end
 
-    def faq
-        @page_title="FAQ"
-    end
+  def editor
+    @page_title="Site Editor Notes"
+  end
 
-    def about
-        @page_title="About"
-    end
+  def faq
+    @page_title="FAQ"
+  end
 
-    def history
-        @page_title="History"
-    end
+  def about
+    @page_title="About"
+  end
 
-    def privacy
-        @page_title="Privacy"
-    end
+  def history
+    @page_title="History"
+  end
 
-    def legal
-        @page_title="Legal"
-    end
+  def privacy
+    @page_title="Privacy"
+  end
 
-    # the pop-up window
-    def radio_popup
+  def legal
+    @page_title="Legal"
+  end
 
-    end
+  # the pop-up window
+  def radio_popup
 
-    def radio
-       @page_title="Radio"
-    end
+  end
 
-    def etc
-       @page_title="Etc"
-        @users = User.find(:all, :conditions=>"status_id=0", :order=>"user_id desc", :limit=>10)
-    end
+  def radio
+    @page_title="Radio"
+  end
 
-    def institute
-       @page_title="Houston Jazz Institute"
-    end
+  def etc
+    @page_title="Etc"
+    @users = User.find(:all, :conditions=>"status_id=0", :order=>"user_id desc", :limit=>10)
+  end
 
-    # track rotator
-    # returns xspf (ie, xml) playlist
-    def playlist
-        headers["Content-Type"] = "text/xml; charset=utf-8"
+  def institute
+    @page_title="Houston Jazz Institute"
+  end
 
-        #@xspf=""
-        #render :xml => @xspf
-    end
+  # track rotator
+  # returns xspf (ie, xml) playlist
+  def playlist
+    headers["Content-Type"] = "text/xml; charset=utf-8"
 
-    # challenge image: TODO put this in a shared lib
-    def challenge_image
-        storePath = "/home/jazzhouston/rails/jazzhouston/public/images"
-        filename = storePath + "/camouflage.png"
+    #@xspf=""
+    #render :xml => @xspf
+  end
 
-        challenge = UserChallenge::SumImageChallenger.new
-        session["uc"] = challenge
-        send_data challenge.render(filename), :filename => "confirm.png",
-                :type => 'image/png', :disposition => 'inline'
-    end
+  # challenge image: TODO put this in a shared lib
+  def challenge_image
+    # production
+    storePath = "/home/jazzhouston/rails/jazzhouston/public/images"
+    # dev
+    #storePath = "/Users/andrew/Development/www/jazzhouston/public/images"
+    filename = storePath + "/camouflage.png"
 
-    def redirect_page
-       redirect_to params[:url].to_s
-       headers['Status'] = '301 Moved Permanently'
-    end
+    challenge = UserChallenge::SumImageChallenger.new
+    session["uc"] = challenge
+    send_data challenge.render(filename), :filename => "confirm.png",
+              :type => 'image/png', :disposition => 'inline'
+  end
+
+  def redirect_page
+    redirect_to params[:url].to_s
+    headers['Status'] = '301 Moved Permanently'
+  end
 
 end

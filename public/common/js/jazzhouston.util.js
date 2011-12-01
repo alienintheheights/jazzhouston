@@ -13,13 +13,13 @@ jh.util = function() {
     function isString(obj) {
         return ( typeof obj == "string" || obj instanceof String);
     }
- 
+
     // public space
     return {
 
         // auto-detect to make AJAX security happy
         HOST_NAME: window.location.protocol + "//" + window.location.host,
-        
+
         // public methods
 
         /** eval wrapper **/

@@ -1,9 +1,10 @@
-
+<%= render :partial => "common/extjs" %>
+<%= render :partial => "common/tinymce" %>
 <div id="StageNarrow">
     <div class="inside">
 
         <h2><%= @mode %> Venue</h2>
-        <%= form_for :venue, @venue , :url => { :action => @target} do |f| %>
+        <%= form_for @venue , :url => { :action => @target} do |f| %>
             <% if @mode=="Edit" %>
                 <div class="hspacer"></div>
                 Preview: <%= link_to @venue.title, {:action => "about", :id=>@venue.venue_id} %><br/>

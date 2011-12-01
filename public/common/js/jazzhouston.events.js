@@ -14,12 +14,12 @@ jh.events = function() {
     // display tempalte
     var loadingTemplate = new Ext.Template('<br/><br/><img src="/images/ajax-loader.gif">');
     var rotateTemplate = new Ext.Template(
-            '<div class="{cls}">',
-            '<a href="/events/{todayStr}">See all shows for today</a><br/><br/>',
-	    '<a href="/events/details/{id}">{title}</a> {about:ellipsis(280)}',
-           /* ' ({time})',  */
-            '</div>'
-            );
+        '<div class="{cls}">',
+        '<a href="/events/{todayStr}">See all shows for today</a><br/><br/>',
+        '<a href="/events/details/{id}">{title}</a> {about:ellipsis(280)}',
+        /* ' ({time})',  */
+        '</div>'
+    );
 
     return {
 
@@ -34,10 +34,10 @@ jh.events = function() {
         /** rotator Url **/
         ROTATE_URL:jh.util.HOST_NAME + '/events/rotate/',
 
-	/** loading template **/
-	loader: function(divId) {
-		loadingTemplate.overwrite(divId, {});
-	},
+        /** loading template **/
+        loader: function(divId) {
+            loadingTemplate.overwrite(divId, {});
+        },
 
         /** rotate shows **/
         rotate: function (shows, counter, divId) {
@@ -73,7 +73,7 @@ jh.events = function() {
 
             this.frequency = frequency || this.frequency;
 
-	    jh.events.loader(divId);
+            jh.events.loader(divId);
 
             // AJAX
             Ext.Ajax.request({

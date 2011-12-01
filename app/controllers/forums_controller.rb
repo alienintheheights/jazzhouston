@@ -30,7 +30,7 @@ class ForumsController < ApplicationController
     Time.zone = @@TZ
     @pp = @@per_page
     pageNumber = params[:page]
-
+    @totalPosts = Message.count(:all)
     if (pageNumber)
       @page = pageNumber.to_i
       offset = getOffset(@page)
@@ -43,10 +43,7 @@ class ForumsController < ApplicationController
     @page_title = "Forums"
     @boards = Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
 
-    respond_to do |format|
-      format.html # index.erb
-      format.mobile {render :template => "forums/index_mobile.erb"}
-    end
+    render :template => "forums/threads.erb"
   end
 
   ################################
@@ -60,7 +57,7 @@ class ForumsController < ApplicationController
     @board = Board.find(params[:id])
     @pp = @@per_page
     pageNumber = params[:page]
-
+    @totalPosts = Message.count(:all)
     if (@board)
       @ban_list = (logged_in? && session[:user_bans])?  session[:user_bans] : {}
 
@@ -78,10 +75,6 @@ class ForumsController < ApplicationController
 
     @boards=Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
 
-    respond_to do |format|
-      format.html # threads.erb
-      format.mobile {render :template => "forums/threads_mobile.erb"}
-    end
   end
 
   ################################

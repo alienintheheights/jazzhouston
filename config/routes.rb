@@ -53,19 +53,19 @@ Jazzhouston::Application.routes.draw do
 root :to => 'home#index'
 
 match 'home/mobile' => 'home#mobile'
-resources :releases
+#resources :releases
 match 'venues/search_ext' => 'venues#search_ext'
 resources :venues
 match 'articles/words/:id' => 'articles#words'
-match 'articles/reviews' => 'articles#reviews' 
-match 'articles/opinion' => 'articles#opinion' 
-match 'articles/articles' => 'articles#articles' 
-match 'articles/rss' => 'articles#rss' 
-match 'news' => 'articles#index' 
-match 'news/reviews' => 'articles#reviews' 
-#resources :articles
+match 'articles/reviews' => 'articles#reviews'
+match 'articles/opinion' => 'articles#opinion'
+match 'articles/articles' => 'articles#articles'
+match 'articles/rss' => 'articles#rss'
+match 'news' => 'articles#index'
+match 'news/reviews' => 'articles#reviews'
+resources :articles
 match 'events/:year/:month/:day' => 'events#day'
-#resources :events
+resources :events
 
 match 'forums' => 'forums#index'
 match 'forum' => 'forums#index'

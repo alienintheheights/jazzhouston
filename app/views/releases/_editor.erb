@@ -1,13 +1,8 @@
-
+<%= render :partial => "common/extjs" %>
+<%= render :partial => "common/tinymce" %>
 <script type="text/javascript">
     // Panels for the home page
     Ext.onReady(function(){
-
-        var textArea = new  Ext.form.HtmlEditor({
-            applyTo:"album_about",
-            width:600,
-            height:300
-        });
 
           var dateItem = new Ext.form.DateField({
             applyTo:"album_release_date",
@@ -68,7 +63,7 @@
     <div class="inside">
 
         <h2><%=@mode%> Album</h2>
-        <%= form_for :album, @album , :url => { :action => @target} do |f| %>
+        <%= form_for  @album , :url => { :action => @target} do |f| %>
 	    <% if @mode=="Edit" %>
                 <div class="hspacer"></div>
          	Preview: <%= link_to @album.title, {:action => "about", :id=>@album.album_id} %><br/>

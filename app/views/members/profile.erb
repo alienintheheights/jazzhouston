@@ -48,13 +48,7 @@
         </div>
 
         <div id="jh_pic_column">
-            <% if @member.image && @member.image!="" %>
-                <img src='<%= url_for_image_column  @member, "image", :name=>"profile"  %>' align="left" width="150" style="margin-right:5px;" />
-            <% elsif @member.image_url && @member.image_url!="" %>
-                <img src="<%=@member.image_url%>" align="left" style="margin-right:5px;" width="150"/>
-            <% else %>
-                <img src="/images/forum-icon-blue.png" align="left" style="margin-right:5px;"width="125"/>
-            <% end %>
+           <%= render :partial => "common/renderpic", :locals => { :user => @member, :size =>"150"} %>
            <div class="hspacer"></div>
 	    <div id="jh_editor">
            <% if @member.admin_flag==1 %>

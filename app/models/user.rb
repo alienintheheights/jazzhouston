@@ -3,16 +3,16 @@
 class User < ActiveRecord::Base
 
 
-    # TODO replace file_column to carrierwave
+    # TODO:DEV replace file_column to carrierwave
     # http://www.engineyard.com/blog/2011/a-gentle-introduction-to-carrierwave/
     #
-    #file_column :image, :magick => {
-    #        :versions => {
-    #                :thumb => {:crop => "1:1", :geometry => "50x50"},
-    #                :profile => {:crop => "1:1", :geometry => "200x200"},
-    #                :avatar => {:crop => "1:1", :geometry => "125x125"}
-    #        }
-    #}
+    file_column :image, :magick => {
+            :versions => {
+                    :thumb => {:crop => "1:1", :geometry => "50x50"},
+                    :profile => {:crop => "1:1", :geometry => "200x200"},
+                    :avatar => {:crop => "1:1", :geometry => "125x125"}
+            }
+    }
 
 
     set_primary_key "user_id"
@@ -24,6 +24,9 @@ class User < ActiveRecord::Base
 
     # Virtual attribute for the unencrypted password
     #attr_accessor :password
+    attr_accessible :username, :email, :crypted_password, :password, :password_confirmation, :first_name, :last_name, :about_me,
+                    :occupation, :location, :url, :favorite_music, :favorite_films, :home_phone,
+                    :cell_phone, :remember_token, :remember_token_expires_at
 
     validates_presence_of     :username, :email
     validates_presence_of     :password,                   :if => :password_required?

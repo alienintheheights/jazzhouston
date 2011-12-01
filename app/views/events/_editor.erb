@@ -1,13 +1,9 @@
-<% @event = Event.new if @event.nil? %>
+<%= render :partial => "common/extjs" %>
 <script type="text/javascript">
 
     Ext.onReady(function(){
 
-        var textArea = new  Ext.form.HtmlEditor({
-                applyTo:"event_about",
-                width:600,
-                height:300
-        });
+
 
         var dateItem = new Ext.form.DateField({
             applyTo:"event_show_date",
@@ -42,7 +38,7 @@
                 '<tpl for="."><div class="jh_search_item">',
                 '<a href="/members/profile/{username}">{last_name}, {first_name}</a> ({username})',
                 '</div></tpl>'
-                );
+        );
 
         var memberSearchControl = new Ext.form.ComboBox({
             store: memberSearchDataStore,
@@ -61,7 +57,7 @@
                 artistField.value =  record.data.user_id;
                 var artistName=document.getElementById("event_artist_search");
                 artistName.value = record.data.first_name + " " +record.data.last_name;
-		this.collapse();
+                this.collapse();
             }
 
         });
@@ -87,7 +83,7 @@
                 '<tpl for="."><div class="jh_venue_search_item">',
                 '<a class="boldLink" href="/venues/about/{venue_id}">{title}</a>',
                 '</div></tpl>'
-                );
+        );
 
         var venueSearchControl = new Ext.form.ComboBox({
             store: venueSearchDataStore,
@@ -99,7 +95,7 @@
             listWidth: 570,
             emptyText: 'To search venue, just type in a name...',
             hideTrigger:true,
-	    hideOnClick:true,
+            hideOnClick:true,
             itemSelector: 'div.jh_venue_search_item',
             tpl: venueSearchResultTemplate,
             onSelect: function(record){ // override default onSelect to do redirect
@@ -107,7 +103,7 @@
                 venueField.value =  record.data.venue_id;
                 var venueName=document.getElementById("event_venue_search");
                 venueName.value = record.data.title;
-		this.collapse();
+                this.collapse();
             }
 
         });
@@ -157,16 +153,16 @@
 
 </script>
 <div id="StageNarrow">
-    <div class="inside">
+  <div class="inside">
     <div class="hspacer"></div>
 
-      ><a href="/">Home</a>><%=@mode%> Event
+    ><a href="/">Home</a>><%=@mode%> Event
 
     <div class="hspacer"></div>
 
 
     <div class="HeaderTitle">JazzHouston Event Editor</div>
-<%= form_for :event, @event, :url => { :action => @target}, :html => { :onsubmit => "return validate();" }  do |f| %>
+    <%= form_for @event, :url =>{:action=>@target}, :html => { :onsubmit => "return validate();" }   do |f| %>
         <% if @mode=="Edit" %>
             <div class="hspacer"></div>
             Preview: <a class="boldLink" href="/events/details/<%=@event.event_id%>"><%= @event.performer %></a>
@@ -175,135 +171,135 @@
         <% end %>
 
         <table width="100%" class="admin-panel">
-        <tr>
+          <tr>
             <td width="20%" valign="top" class="color2">
-                Show Performer(s)
+              Show Performer(s)
             </td>
 
             <td width="80%" valign="top">
-            <%= f.text_field :performer, :size=>50 %>
+              <%= f.text_field :performer, :size=>50 %>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="20%" valign="top" class="color4">
-            Link show to Jazzhouston Musician.
+              Link show to Jazzhouston Musician.
             </td>
 
             <td width="80%" valign="top">
-            Just type in a few letters of the player's name and the search box will start
-            returning results immediately. <br>
-            <b>Search:</b>
-            <%= f.hidden_field :artist_id %>
-            <input type="text" id="event_artist_search" size="30"/>
+              Just type in a few letters of the player's name and the search box will start
+              returning results immediately. <br>
+              <b>Search:</b>
+              <%= f.hidden_field :artist_id %>
+              <input type="text" id="event_artist_search" size="30"/>
             </td>
-        </tr>
+          </tr>
 
-        <tr>
+          <tr>
             <td width="20%" valign="top" class="color2">
-               Show Date
-               <br>(if a show)
+              Show Date
+              <br>(if a show)
             </td>
             <td width="80%" valign="top">
-            <%= f.text_field :show_date, :size=>10 %>
+              <%= f.text_field :show_date, :size=>10 %>
             </td>
-        </tr>
+          </tr>
 
-        <tr>
+          <tr>
             <td width="20%" valign="top" class="color4">
-            Show Time
+              Show Time
             </td>
 
             <td width="80%" valign="top">
-            <%= f.text_field :show_time, :size=>10 %>
+              <%= f.text_field :show_time, :size=>10 %>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="20%" valign="top" class="color2" >
-           JazzHouston Pick?
+              JazzHouston Pick?
             </td>
             <td width="80%" valign="top">
-             <%= check_box("event","jh_pick_flag") %>
+              <%= check_box("event","jh_pick_flag") %>
             </td>
-        </tr>
-         <tr>
+          </tr>
+          <tr>
             <td width="20%" valign="top" class="color2" >
-           Jam Session? (<b>NEW!</b>)
+              Jam Session? (<b>NEW!</b>)
             </td>
             <td width="80%" valign="top">
-             <%= check_box("event","jam_flag") %>
+              <%= check_box("event","jam_flag") %>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="20%" valign="top" class="color4">
-             Event Type
+              Event Type
             </td>
 
             <td width="80%" valign="top">
-            <%= select("event", "event_type_id", [["Show",1],["Steady",2]]) %>
+              <%= select("event", "event_type_id", [["Show",1],["Steady",2]]) %>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="20%" valign="top" class="color2">
-            Day of Week <br>(ONLY if a steady)
+              Day of Week <br>(ONLY if a steady)
             </td>
 
             <td width="80%" valign="top">
-            <%
-               i=-1
-               days=Date::DAYNAMES.collect{ |day| [day, i=i+1]  } %>
-            <%= select("event", "day_of_week", days) %>
+              <%
+                 i=-1
+                 days=Date::DAYNAMES.collect{ |day| [day, i=i+1]  } %>
+              <%= select("event", "day_of_week", days) %>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="20%" valign="top" class="color4">
-                <p class="mediumText">Venue (<B>REQUIRED!!</B>)</p>
+              <p class="mediumText">Venue (<B>REQUIRED!!</B>)</p>
             </td>
             <td width="80%" valign="top">
 
-                <% if @event && @event.venue  %>
-                   Currently set to <b><a href="/venues/about/<%= @event.venue_id %>"><%= @event.venue.title %></a> </b>
-                    <br/><br/>
-                <% end %>
-                Search venues (note: results will be appear as you type)
-                <br>
-                <%= f.hidden_field :venue_id %>
+              <% if @event && @event.venue  %>
+                  Currently set to <b><a href="/venues/about/<%= @event.venue_id %>"><%= @event.venue.title %></a> </b>
+                  <br/><br/>
+              <% end %>
+              Search venues (note: results will be appear as you type)
+              <br>
+              <%= f.hidden_field :venue_id %>
 
-                <input type="text" id="event_venue_search" size="30"/>
-                <b>if you can't find a venue <a href="/venues/new" target="_new">create one</a>, then search again.</b>
+              <input type="text" id="event_venue_search" size="30"/>
+              <b>if you can't find a venue <a href="/venues/new" target="_new">create one</a>, then search again.</b>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="100%" align="left" colspan="2" valign="top" class="color2">
-            About the show.
+              About the show.
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="100%" colspan="2" align="center" valign="top">
-            <%= f.text_area :about, :cols=>50, :rows=>15%>
+              <%= f.text_area :about, :cols=>80, :rows=>25%>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="20%" valign="top" class="color4"><b>Related Url</b></td>
             <td width="80%" valign="top">
-                <%= f.text_field :related_url, :size=>30 %>
+              <%= f.text_field :related_url, :size=>30 %>
             </td>
-        </tr>
-        <tr>
+          </tr>
+          <tr>
             <td width="100%" valign="top" colspan="2" class="color4">
-            <%= f.submit @mode %>
+              <%= f.submit @mode %>
             </td>
-        </tr>
-    </table>
+          </tr>
+        </table>
 
     <% end %>
     <% if @mode=="Edit" %>
-        <% form_for :event, @event, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
+        <%= form_for @event, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
             <input type="hidden" id="id" name="id" value="<%=@event.event_id%>" >
             <%= f.submit "Delete Event" %>
         <% end %>
     <% end %>
 
-</div>
+  </div>
 </div>
 
 

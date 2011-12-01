@@ -3,5 +3,5 @@
        @mode="Create"
        @target="create"
     %>
-    <%= render :partial => "editor"%>
+    <%= render :partial => "editor", :locals => { :content => @content }%>
 </div>

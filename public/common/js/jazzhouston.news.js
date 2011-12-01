@@ -25,21 +25,21 @@ jh.news = function() {
     // display template for rotator
     var loadingTemplate = new Ext.Template('<br/><br/><img src="/images/ajax-loader.gif">');
     var rotateTemplate = new Ext.Template(
-            '<div class="{cls}">',
+        '<div class="{cls}">',
 //            '<a href="'+NEWS_MAIN_URL+'">See all headlines</a><br/><br/>',
-            '<a href="'+ARTICLE_URL+'{id}">{title}</a><br/>',
-	    '<img src="{img}" align="left" width="125" hspace="2"> {about:ellipsis(300)}',
-            '</div>'
-            );
+        '<a href="'+ARTICLE_URL+'{id}">{title}</a><br/>',
+        '<img src="{img}" align="left" width="125" hspace="2"> {about:ellipsis(300)}',
+        '</div>'
+    );
 
 
     // display template for article preview
     var previewTemplate = new Ext.Template(
-            '<div class="{cls}">',
-            '<b>{title}</b> -- {about:ellipsis(300)}',
-            ': <a href="'+ARTICLE_URL+'{id}">read</a>',
-            '</div>'
-            );
+        '<div class="{cls}">',
+        '<b>{title}</b> -- {about:ellipsis(300)}',
+        ': <a href="'+ARTICLE_URL+'{id}">read</a>',
+        '</div>'
+    );
 
     // simple Ext window for previews
 
@@ -49,10 +49,10 @@ jh.news = function() {
     return {
 
 
-	/** loading template **/
-	loader: function(divId) {
-		loadingTemplate.overwrite(divId, {});
-	},
+        /** loading template **/
+        loader: function(divId) {
+            loadingTemplate.overwrite(divId, {});
+        },
         dialogWindow: null,
 
         createWindow: function(divId, contentEl) {
@@ -112,7 +112,7 @@ jh.news = function() {
         startNewsCycle: function(divId, frequency) {
 
             this.frequency = frequency || this.frequency;
-	    this.loader(divId);
+            this.loader(divId);
 
             // AJAX
             Ext.Ajax.request({

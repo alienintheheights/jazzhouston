@@ -9,7 +9,7 @@
           <%= link_to "New Topic", {:action => "new", :controller=>"forums", :board_id=>board.board_id}, :class=>"newTopic" %>
       <% end %>
   <% else %>
-      Sign on or <a href="/members/new">sign up</a> to participate.
+      to post: login or <a href="/members/new">join</a>
   <% end %>
 </div>
 <div class="hspacer"></div>
@@ -32,9 +32,9 @@
 <table width="100%"  class="topic-list">
   <tbody>
   <tr>
-    <th width="30%" class="tableHeader">Last Post</th>
-    <th width="60%" class="tableHeader">Topic</th>
-    <th width="10%" class="tableHeader">Comments</th>
+    <th width="25%" class="tableHeader">Last Post</th>
+    <th width="70%" class="tableHeader">Topic</th>
+    <th width="5%" class="tableHeader">Comments</th>
   </tr>
 
 
@@ -48,19 +48,21 @@
          end
   %>
       <tr class="<%= cycle('alt','noalt')%>">
-        <td width="30%" class="num">
-          <%= render :partial => "renderpic", :locals => { :item => item} %>
+        <td width="25%" class="num">
+          <div class="forumListPic">
+            <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"50"} %>
+          </div>
           <a class="smallForumLink" href="/members/profile/<%=item.author%>"><%= item.author.downcase %></a>
-             <span class="smallForumLink">
-            <br/> <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
-            <br/> &nbsp;
-          </span>
+            <br/>
+          <div class="smallForumLink">
+            <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+          </div>
         </td>
-        <td width="60%" class="num">
+        <td width="70%" class="num">
           <a class="bigForumLink"
-             href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=@page%>#<%= item.post_count %>"><%= item.title %></a>
+             href="/forums/messages/<%=item.thread_id%>?fpage=<%=@page%>"><%= item.title %></a>
         </td>
-        <td width="10% "class="num">
+        <td width="5% "class="num">
           <a class="smallForumLink" href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>#<%= item.post_count %>"><%= item.post_count-1 %></a>
         </td>
       </tr>

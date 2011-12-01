@@ -1,6 +1,5 @@
-
 <%
-   @mode="Create"
-   @target="create"
+   @mode = "Create"
+   @target = "create"
 %>
- <%= render :partial => "editor"%>
+ <%= render :partial => "editor" , :locals => { :event => @event } %>

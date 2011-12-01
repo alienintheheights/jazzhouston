@@ -1,3 +1,4 @@
+<%= render :partial => "common/extjs" %>
 <script src="/common/js/Ext.ux.GMapPanel.js"></script>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%=@key%>"
         type="text/javascript"></script>
@@ -60,23 +61,23 @@
 </script>
 
 <div id="StageNarrow">
-    <div class="inside">
+  <div class="inside">
 
-        <div style="float:left;">
-            ><a href="/home">Home</a>> <a href="/events/">Shows</a>> <%=@show.performer%>
+    <div style="float:left;">
+      ><a href="/home">Home</a>> <a href="/events/">Shows</a>> <%=@show.performer%>
+    </div>
+
+    <%if logged_in? && current_user.editor_flag==1 -%>
+        <div style="float:right;">
+          <a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
         </div>
+    <% end -%>
 
-        <%if logged_in? && current_user.editor_flag==1 -%>
-            <div style="float:right;">
-                <a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
-            </div>
-        <% end -%>
-        
-        
 
-        <div class="hspacer"></div>
-	<div class="HeaderShow"><%=@show.performer%><br/>
-<!--
+
+    <div class="hspacer"></div>
+    <div class="HeaderShow"><%=@show.performer%><br/>
+      <!--
 	<% if @show.show_date %>
             <%= @show.show_date.strftime("%B %d %Y") %>
         <% end %>
@@ -84,79 +85,79 @@
             <%= @dow[@show.day_of_week] %>s 
         <% end %>
 -->
-	</div>
-        <div class="hspacer"></div>
- <table class="index-two-column-small">
-            <tr>
-                <td valign="top" width="65%" style="border-right: 1px solid;">
-        <b><%= @show.performer %></b><br/>
-        <%= @show.about.html_safe %>
-        <div class="hspacer"></div>
-        <% if @player%>
-            Musician Profile: <a href="/members/profile/<%= @player.user_id %>"><%=@player.first_name%> <%=@player.last_name%></a>   <br/>
-        <% end %>
-<!-- Place this tag where you want the +1 button to render -->
-<g:plusone annotation="inline"></g:plusone>
-
-<!-- Place this render call where appropriate -->
-<script type="text/javascript">
-  (function() {
-    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-    po.src = 'https://apis.google.com/js/plusone.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-  })();
-</script>
-	    </td>
-
-            <td valign="top" width="35%">
-        <% if @show.show_date %>
-            <b><%= @show.show_date.strftime("%A, %B %d, %Y") %></b> <br/>
-        <% end %>
-        <% if @show.day_of_week && !@show.show_date %>
-            <b><%= @dow[@show.day_of_week] %>s</b> <br/>
-        <% end %>
-        <% if @show.venue  %>
-        <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a>, <%=@show.show_time%><br/>
-	<% end %>
-        <% if @show.related_url && @show.related_url!=""%>
-	    <br/>
-            Related Site: <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
-        <% end %>
-        <div class="hspacer"></div>
-<script>function fbs_click() {u=location.href;t=document.title;window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');return false;}</script><style> html .fb_share_link { padding:2px 0 0 20px; height:16px; background:url(http://static.ak.fbcdn.net/images/share/facebook_share_icon.gif?0:26981) no-repeat top left; }</style><a href="http://www.facebook.com/share.php?u=%3Curl%3E" onclick="return fbs_click()" target="_blank" class="fb_share_link">Share this show on Facebook</a>
-
-	</td></tr></table>
-        <div class="hspacer"></div>
-
-        <div class="HeaderShow">
-            <%= @venue.title %>
-        </div>
-        <div class="hspacer"></div>
- <table class="index-two-column-small">
-            <tr>
-                <td valign="top" colspan="2">
-	<% if @venue.image_url && @venue.image_url!="" %>
-        <img src="<%=@venue.image_url%>" align="left" hspace="2" width="150">
-        <% end %>
-<%= @venue.about.html_safe %>
-        
-        <div class="hspacer"></div>
-
-        <b>Address:</b> <%=@venue.address%>
-        <input type="button" id="show-btn" value="Google Map" />
-        <br/><b>Phone:</b> <%=@venue.phone%>
-        <% if @venue.related_url %>
-        <br/><b>Web Site:</b> <a href="<%=@venue.related_url%>"><%=@venue.related_url%></a>
-        <% end %>
-	<br/>
-	<a href="/venues/about/<%= @show.venue_id %>#shows"><b>More</b></a> upcoming shows at <%=@venue.title%>
-
-	</td></tr></table>
-
-
-        <div class="hspacer"></div>
-    
-
     </div>
+    <div class="hspacer"></div>
+    <table class="index-two-column-small">
+      <tr>
+        <td valign="top" width="65%" style="border-right: 1px solid;">
+          <b><%= @show.performer %></b><br/>
+          <%= @show.about.html_safe %>
+          <div class="hspacer"></div>
+          <% if @player%>
+              Musician Profile: <a href="/members/profile/<%= @player.user_id %>"><%=@player.first_name%> <%=@player.last_name%></a>   <br/>
+          <% end %>
+          <!-- Place this tag where you want the +1 button to render -->
+          <g:plusone annotation="inline"></g:plusone>
+
+          <!-- Place this render call where appropriate -->
+          <script type="text/javascript">
+              (function() {
+                  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                  po.src = 'https://apis.google.com/js/plusone.js';
+                  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+              })();
+          </script>
+        </td>
+
+        <td valign="top" width="35%">
+          <% if @show.show_date %>
+              <b><%= @show.show_date.strftime("%A, %B %d, %Y") %></b> <br/>
+          <% end %>
+          <% if @show.day_of_week && !@show.show_date %>
+              <b><%= @dow[@show.day_of_week] %>s</b> <br/>
+          <% end %>
+          <% if @show.venue  %>
+              <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a>, <%=@show.show_time%><br/>
+          <% end %>
+          <% if @show.related_url && @show.related_url!=""%>
+              <br/>
+              Related Site: <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
+          <% end %>
+          <div class="hspacer"></div>
+          <script>function fbs_click() {u=location.href;t=document.title;window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');return false;}</script><style> html .fb_share_link { padding:2px 0 0 20px; height:16px; background:url(http://static.ak.fbcdn.net/images/share/facebook_share_icon.gif?0:26981) no-repeat top left; }</style><a href="http://www.facebook.com/share.php?u=%3Curl%3E" onclick="return fbs_click()" target="_blank" class="fb_share_link">Share this show on Facebook</a>
+
+        </td></tr></table>
+    <div class="hspacer"></div>
+
+    <div class="HeaderShow">
+      <%= @venue.title %>
+    </div>
+    <div class="hspacer"></div>
+    <table class="index-two-column-small">
+      <tr>
+        <td valign="top" colspan="2">
+          <% if @venue.image_url && @venue.image_url!="" %>
+              <img src="<%=@venue.image_url%>" align="left" hspace="2" width="150">
+          <% end %>
+          <%= @venue.about.html_safe %>
+
+          <div class="hspacer"></div>
+
+          <b>Address:</b> <%=@venue.address%>
+          <input type="button" id="show-btn" value="Google Map" />
+          <br/><b>Phone:</b> <%=@venue.phone%>
+          <% if @venue.related_url %>
+              <br/><b>Web Site:</b> <a href="<%=@venue.related_url%>"><%=@venue.related_url%></a>
+          <% end %>
+          <br/>
+          <a href="/venues/about/<%= @show.venue_id %>#shows"><b>More</b></a> upcoming shows at <%=@venue.title%>
+
+        </td></tr></table>
+
+
+    <div class="hspacer"></div>
+
+
+  </div>
 </div>
 

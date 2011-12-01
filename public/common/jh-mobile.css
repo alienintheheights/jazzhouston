@@ -1608,8 +1608,9 @@ a.smallText:hover {
 
 .bigForumLink   {
     text-align: left;
+    vertical-align: text-top;
     font-size:1.1em;
-    color:#3B5998;
+    color:#3C3C3C;
     text-decoration:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
@@ -1619,7 +1620,7 @@ a.bigForumLink, a.bigForumLink:visited {
     text-align: left;
     font-size:1.0em;
     font-weight: normal;
-    color:#3B5998;
+    color:#3C3C3C;
     text-decoration:none;
     border:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
@@ -1637,17 +1638,22 @@ a.bigForumLink:hover {
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
 
+.forumListPic {
+   padding: 1px 5px 1px 0;
+   float:left;
+}
 
 .smallForumLink   {
     text-align: left;
-    font-size:0.7em;
-    color:#3B5998;
+    float:left;
+    font-size:0.5em;
+    color:#3C3C3C;
     text-decoration:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    margin-left: 5px;
+    padding: 0;
 }
 
-a.smallForumLink {
+a.smallForumLink, a.smallForumLink:visited {
     text-align: left;
     font-weight: normal;
     color:#3B5998;
@@ -1657,7 +1663,7 @@ a.smallForumLink {
     font-size:0.9em;
 }
 
-a.smallForumLink:visited, a.smallForumLink:hover  {
+a.smallForumLink:hover  {
     text-align: left;
     font-weight: normal;
     color:#3B5998;
@@ -1666,7 +1672,6 @@ a.smallForumLink:visited, a.smallForumLink:hover  {
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
     font-size:0.9em;
 }
-
 
 
 .messageList {

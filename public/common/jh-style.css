@@ -187,7 +187,7 @@ a.boldLink:hover {
 {
     text-decoration: none;
     border:none;
-    font-size:5.0em;
+    font-size:3.5em;
     color: #2A89C5;
 }
 
@@ -195,7 +195,7 @@ a.boldLink:hover {
 {
     text-decoration: none;
     border:none;
-    font-size:5.0em;
+    font-size:3.5em;
     color: #DDDD00;
 }
 
@@ -512,7 +512,7 @@ html>body #leftside-links li a {
     font-size:1.2em;
     color: #2A89C5;
     background-color:white;
-    padding: 5px 0 1px 2px;
+    padding: 5px 0 1px 0;
     text-align: left;
     font-family:Georgia,"Century Schoolbook","Times New Roman",Times,serif;
 }
@@ -739,7 +739,6 @@ p.home-inside {
 #homegrid table td {
     background-color:white;
     border-left: none;
-    width:50%;
     height: 200px;
     vertical-align: top;
     line-height: 1.5em;
@@ -1553,6 +1552,12 @@ a.smallText:hover {
 /**
 * FORUM CSS
 **/
+.postCount {
+    font-size: 2.2em;
+    color:red;
+    padding: 3px;
+    float: right;
+}
 
 
 .boardList {
@@ -1621,8 +1626,9 @@ a.smallText:hover {
 
 .bigForumLink   {
     text-align: left;
+    vertical-align: text-top;
     font-size:1.1em;
-    color:#3B5998;
+    color:#3C3C3C;
     text-decoration:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
@@ -1632,7 +1638,7 @@ a.bigForumLink, a.bigForumLink:visited {
     text-align: left;
     font-size:1.0em;
     font-weight: normal;
-    color:#3B5998;
+    color:#3C3C3C;
     text-decoration:none;
     border:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
@@ -1650,17 +1656,22 @@ a.bigForumLink:hover {
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
 }
 
+.forumListPic {
+   padding: 1px 5px 1px 0;
+   float:left;
+}
 
 .smallForumLink   {
     text-align: left;
-    font-size:0.7em;
-    color:#3B5998;
+    float:left;
+    font-size:0.5em;
+    color:#3C3C3C;
     text-decoration:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    margin-left: 5px;
+    padding: 0;
 }
 
-a.smallForumLink {
+a.smallForumLink, a.smallForumLink:visited {
     text-align: left;
     font-weight: normal;
     color:#3B5998;
@@ -1670,7 +1681,7 @@ a.smallForumLink {
     font-size:0.9em;
 }
 
-a.smallForumLink:visited, a.smallForumLink:hover  {
+a.smallForumLink:hover  {
     text-align: left;
     font-weight: normal;
     color:#3B5998;
@@ -1809,8 +1820,6 @@ a.messageImg, a.messageImg:hover, a.messageImg:visited {
 
 }
 
-
-
 div.messageDate {
     position: absolute;
     top: 110px;
@@ -1824,9 +1833,13 @@ div.messageDate {
     padding-right: 5px;
     padding-bottom: 10px;
     padding-left: 150px;
+    padding-top: 5px;
     min-height: 178px;
     height: auto !important;
     height: 178px;
+    font-size:1.4em;
+    line-height: 1.4em;
+    width: 70%;
 }
 
 .messageBody a, .messageBody a:visited {
@@ -1938,6 +1951,21 @@ EXTJS IE7 Combo box bug hack
     font-size: 1.3em;
     color: red;
 }
+
+.jh_venue_search_item {
+    background-color: #c3c3c3;
+    padding: 5px;
+    color:blue;
+    width:500px;
+    height: 25px;
+
+}
+
+.x-combo-list .x-combo-selected {
+
+
+}
+
 
 .ext-ie .x-form-text {position:static !important;}
 
