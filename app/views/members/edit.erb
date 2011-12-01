@@ -90,7 +90,7 @@
                             id:'user[about_me]',
                             width: 600,
                             fieldLabel:'Biography',
-                        value: "<%= escape_javascript(@user.about_me.html_safe)%>"
+                        value: "<%= escape_javascript(@user.about_me)%>"
                         }
                     }, {
                         cls:'x-plain',
