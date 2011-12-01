@@ -84,21 +84,23 @@
           <%= item.show_time %>
           <div class="hspacer"></div>
       <% end %>
-
       <h2>More Shows This Week</h2>
-      <%  currentDOW=""
-          for item in @showsThisWeek
-              dow=item.show_date.to_datetime.strftime("%A")
-              if (dow!=currentDOW)
-      %>
-              <div class="hspacer"></div>
-              <b><a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=dow%></a></b>
-              <div class="hspacer"></div>
+      <div class="hspacer"></div>
+      <ul class="showListMain">
+        <%  currentDOW=""
+            for item in @showsThisWeek
+                dow=item.show_date.to_datetime.strftime("%A")
+                if (dow!=currentDOW)
+        %>
+                <li class="showListMainDOW"><b><a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=dow%></a></b></li>
+            <% end %>
+            <li>
+              <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>
+            </li>
+        <%  currentDOW=item.show_date.to_datetime.strftime("%A")
+            end %>
 
-          <% end %>
-          <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a><br/>
-      <%  currentDOW=item.show_date.to_datetime.strftime("%A")
-          end %>
+      </ul>
       <div class="hspacer"></div>
       <b><a href="/events/shows">coming soon...</a></b>
       <div class="hspacer"></div>

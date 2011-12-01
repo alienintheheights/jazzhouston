@@ -22,7 +22,7 @@
           %>
               <tr class="<%=cycle('alt','noalt')%>" style="padding: 5px 0;">
                 <td width="40%" style="font-size:1.3em;" valign="bottom">
-                  <%= render :partial => "common/renderpic",  :locals => { :user => item, :size =>"150"}%>
+                  <%= render :partial => "common/renderpic",  :locals => { :user => item, :size =>"50"}%>
                   <a href="/members/profile/<%=item.username%>"><%= fullname.titleize %></a>
                 </td>
                 <td width="25%" valign="bottom" >

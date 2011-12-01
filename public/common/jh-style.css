@@ -753,6 +753,14 @@ p.home-inside {
   font-size: 0.9em;
 }
 
+.showListMain li {
+    padding: 3px 0;
+}
+
+li.showListMainDOW {
+    padding: 6px 0;
+}
+
 
 #showgrid {
 	margin-left: 25px;

@@ -2,102 +2,101 @@
 </div> <!-- end Wrapper -->
 
 <div id="footer">
-        <div id="leftside-links">
-            <ul>
-            <% if logged_in? -%>
-                <li><a class='navLink' href="/members/profile/<%= current_user.username %>">My Page >></a></li>
-	    <% end %>
-                <li><a class='navLink' href="/events">Shows >></a></li>
-                <li><a class='navLink' href="/articles">News >></a></li>
-                <li><a class='navLink' href="/site/etc">Social >></a></li>
-                <li><a class='navLink' href="/musicians">Roll-a-dex >></a></li>
-                <li><a class='navLink' href="/releases">Local CDs >></a></li>
-                <li><a class='navLink' href="/education">Education >></a></li>
-                <li><a class='navLink' href="/site/feedback">Submit Content >></a></li>
-            </ul>
-        </div>
-        <div class="hspacer"></div>
-        <div class="hspacer"></div>
-           <!-- Google Ad -->
-<script type="text/javascript"><!--
+  <div id="leftside-links">
+    <ul>
+      <% if logged_in? -%>
+          <li><a class='navLink' href="/members/profile/<%= current_user.username %>">My Page >></a></li>
+      <% end %>
+      <li><a class='navLink' href="/events">Calendar</a></li>
+      <li><a class='navLink' href="/musicians">Players</a></li>
+      <li><a class='navLink' href="/releases">Recordings</a></li>
+      <li><a class='navLink' href="/articles">News</a></li>
+      <li><a class='navLink' href="/forums">Forums</a></li>
+      <li><a class='navLink' href="/members/new">Register</a></li>
+      <li><a class='navLink' href="/education">Education</a></li>
+      <li><a class='navLink' href="/site/feedback">Contact</a></li>
+    </ul>
+  </div>
+  <div class="hspacer"></div>
+  <div class="hspacer"></div>
+  <!-- Google Ad -->
+  <script type="text/javascript"><!--
   // XHTML should not attempt to parse these strings, declare them CDATA.
   /* <![CDATA[ */
   window.googleAfmcRequest = {
-    client: 'ca-mb-pub-1710667641333982',
-    format: '320x50_mb',
-    output: 'html',
-    slotname: '3360419287',
+      client: 'ca-mb-pub-1710667641333982',
+      format: '320x50_mb',
+      output: 'html',
+      slotname: '3360419287',
   };
   /* ]]> */
-//--></script>
-<script type="text/javascript"    src="http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js"></script>
-
-       
-
-    <div class="blockwrapper">
-
-       <!--
-        <div class="block">
-            <h2>Something missing?</h2>
-            Need to sumbit a gig, press release, or new CD? Follow these links:
-            <ul>
-                <li><a href="/events/submit">Add a gig</a></li>
-                <li><a href="/contents/submit">Add Press Releases</a></li>
-                <li><a href="/albums/submit">Your CD</a></li>
-
-            </ul>
-        </div>
-        -->
+  //--></script>
+  <script type="text/javascript"    src="http://pagead2.googlesyndication.com/pagead/show_afmc_ads.js"></script>
 
 
-        <div class="block">
-            <h2>Contact</h2>
-            We're run by volunteers, still we'll do our best to help out if you have a problem!
-            <ul>
-                <li><a href="/site/feedback">Feedback</a></li>
-                <li><a href="/site/contact">Contact us</a></li>
-            </ul>
-        </div>
+
+  <div class="blockwrapper">
 
 
-        <div class="block">
-            <h2>About</h2>
-            Background on this site
-            <ul>
-                <li><a href="/site/faq">FAQ</a></li>
-                <li><a href="/site/about">Who we are</a></li>
-
-            </ul>
-        </div>
-
-	<div class="block">
-            <h2>RSS</h2>
-	    Our RSS feeds
-            <ul>
-		<li><a href="/articles/rss">News RSS</a></li>
-		<li><a href="/events/rss">Shows RSS</a></li>
-		<li><a href="http://twitter.com/statuses/user_timeline/22402063.rss">Twitter Feed</a></li>
-	    </ul>
-	</div>
-
-
-        <div class="block">
-            <h2>Legal</h2>
-            Jazzhouston legalese
-            <ul>
-                <li><a href="/site/legal">Website terms</a></li>
-                <li><a href="/site/privacy">Privacy policy</a></li>
-            </ul>
-        </div>
-
-
+    <div class="block">
+      <h2>Contact</h2>
+      We're run by volunteers, still we'll do our best to help out if you have a problem!
+      <ul>
+        <li><a href="/site/feedback">Feedback</a></li>
+        <li><a href="/site/contact">Contact us</a></li>
+      </ul>
     </div>
 
 
+    <div class="block">
+      <h2>About</h2>
+      Background on this site
+      <ul>
+        <li><a href="/site/faq">FAQ</a></li>
+        <li><a href="/site/about">Who we are</a></li>
 
-    <div id="copyright">
-        Copyright &copy; 1995-2009 Jazzhouston.com - All rights reserved
+      </ul>
     </div>
+
+    <div class="block">
+      <h2>RSS</h2>
+      Our RSS feeds
+      <ul>
+        <li><a href="/articles/rss">News RSS</a></li>
+        <li><a href="/events/rss">Shows RSS</a></li>
+        <li><a href="http://twitter.com/statuses/user_timeline/22402063.rss">Twitter Feed</a></li>
+      </ul>
+    </div>
+
+
+    <div class="block">
+      <h2>Legal</h2>
+      Jazzhouston legalese
+      <ul>
+        <li><a href="/site/legal">Website terms</a></li>
+        <li><a href="/site/privacy">Privacy policy</a></li>
+      </ul>
+    </div>
+
+
+    <div class="block">
+      <h2>Social</h2>
+      <ul>
+        <li>
+          <a href="http://www.facebook.com/pages/JazzHouston/193080346744"><img width="50" src="/images/fblogo.png" border="0"></a>
+          &nbsp;
+          <a href="http://twitter.com/#!/jazzhouston"><img width="47" src="/images/twitterlogo.gif" border="0"></a></li>
+      </ul>
+    </div>
+
+
+  </div>
+
+
+
+  <div id="copyright">
+    Copyright &copy; 1995-2009 Jazzhouston.com - All rights reserved
+  </div>
 
 </div>
 </div> <!-- end wrapper -->
@@ -107,12 +106,12 @@
 
 <!-- Google Tracker -->
 <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+    document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
 </script>
 <script type="text/javascript">
-var pageTracker = _gat._getTracker("UA-997481-1");
-pageTracker._trackPageview();
+    var pageTracker = _gat._getTracker("UA-997481-1");
+    pageTracker._trackPageview();
 </script>
 
 

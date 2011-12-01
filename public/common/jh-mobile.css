@@ -750,8 +750,6 @@ p.home-inside {
 }
 
 
-
-
 #showgrid table {
     -moz-box-sizing:border-box;
     border-collapse:separate;
@@ -767,6 +765,15 @@ p.home-inside {
     padding:0;
     vertical-align: top;
 
+}
+
+
+.showListMain li {
+    padding: 3px 0;
+}
+
+li.showListMainDOW {
+    padding: 6px 0;
 }
 
 table.index-three-column  {
