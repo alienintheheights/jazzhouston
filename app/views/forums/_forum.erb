@@ -14,7 +14,7 @@
 </div>
 <div class="hspacer"></div>
 <div class="boardList">
-  <a href="/forums" <% if boardId==0 %> class="selected" <% end %>>Recent</a>
+  topics......... <a href="/forums" <% if boardId==0 %> class="selected" <% end %>>Recent</a>
   <% counter=1
      for bi in boards %>
       <% if bi.board_id == boardId %>
@@ -25,9 +25,6 @@
   <% counter=counter+1
      end %>
 </div>
-<%= render :partial => "pager", :locals => { :page => @page, :board => board}%>
-
-<div class="hspacer"></div>
 
 <table width="100%"  class="topic-list">
   <tbody>
