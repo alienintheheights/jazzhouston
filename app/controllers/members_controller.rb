@@ -5,10 +5,10 @@
 #########################################
 class MembersController < ApplicationController
 
-  require "RMagick"
+  require "RMagick"  #TODO:DEV
   include AuthenticatedSystem
   include ExtjsRails
-  include UserChallenge
+  include UserChallenge  #TODO:DEV
 
   #rescue_from (ActiveRecord::RecordNotFound) { |e| render :file => 'public/404.html' }
   #rescue_from (ActiveRecord::RecordInvalid) { |e| render :file => 'public/404.html' }
@@ -373,7 +373,7 @@ class MembersController < ApplicationController
   #########################################
   def upgrade
     user = User.find(params[:id])
-    # legaacy accounts
+    # legacy accounts
     if (user.password)
       u = User.authenticate(user.username, user.password)
       u.editor_flag=params[:editor_flag].to_i
@@ -445,7 +445,7 @@ class MembersController < ApplicationController
   #####################
   def upload
 
-    if request.post?
+    #if request.post?
       @user = User.find(params[:id])
       @user.update_attributes(params[:user])
 
@@ -463,8 +463,8 @@ class MembersController < ApplicationController
       #flash[:notice] = 'Image Uploaded and Thumbnailed'
       redirect_to :action => "profile", :id => @user.username
 
-    end
-    redirect_to :action => "edit", :id => @user.user_id
+    #end
+    #redirect_to :action => "edit", :id => @user.user_id
   rescue Exception => exception
     flash[:notice]="Boooo!! " + exception
 

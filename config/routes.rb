@@ -65,7 +65,7 @@ match 'news' => 'articles#index'
 match 'news/reviews' => 'articles#reviews'
 resources :articles
 match 'events/:year/:month/:day' => 'events#day'
-resources :events
+#resources :events
 
 match 'forums' => 'forums#index'
 match 'forum' => 'forums#index'

@@ -1,149 +1,140 @@
-
+<%= render :partial => "common/extjs" %>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <% rating_threshold=-6 %>
 
 <div id="StageNarrow">
- <div class="inside">
+  <div class="inside">
 
     ><a href="/home">Home</a>><a href="/forums">Forums</a>> <%= link_to @board.title, {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>@fpage} %> > Topic
     <div class="hspacer"></div>
 
-    
+
     <div class="ForumHeaderTitle">
-        <%=@thread.title%>
+      <%=@thread.title%>
     </div>
     <div  class="board-pager">
-        <div  style="float:left;">
-            <% if !logged_in? %>
-                Sign on or <a href="/members/new">sign up</a> to participate.
-            <% end %>
-            <div class="hspacer"></div>
+      <div  style="float:left;">
+        <% if !logged_in? %>
+            Sign on or <a href="/members/new">sign up</a> to participate.
+        <% end %>
+        <div class="hspacer"></div>
 
-        </div>
+      </div>
 
- 	<div style="float:right;">
-            <% if @last_page>1 %>
-                    <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
-              <% for i in 1..(@last_page) %>
+      <div style="float:right;">
+        <% if @last_page>1 %>
+            <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
+            <% for i in 1..(@last_page) %>
                 <% if i==@page %> <b><%=i%></b> |
                 <% else %>
                     <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=i %>"><%= i %></a> |
                 <% end %>
             <% end %>
-                    <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==@last_page?@page:@page+1 %>">next</a>
-           <% end %>
-        </div>
+            <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==@last_page?@page:@page+1 %>">next</a>
+        <% end %>
+      </div>
 
     </div>
-     <div class="hspacer"></div>
+    <div class="hspacer"></div>
     <div class="messageList">
-    <ul >
+      <ul >
 
         <%
            post_count=0+@pp*(@page-1)
            has_bans=(@ban_list && @ban_list.length>0) || false
            for item in @messages
-             post_count=post_count+1
-		if (item.user.image_url !~/(.*)\.(jpeg|bmp|png|gif|jpg)$/i)
-			item.user.image_url=""
-		end
+               post_count=post_count+1
+               if (item.user && item.user.image_url !~/(.*)\.(jpeg|bmp|png|gif|jpg)$/i)
+                   item.user.image_url=""
+               end
         %>
             <%if (has_bans && item.user && @ban_list.has_key?(item.user.user_id))  %>
                 <li class="messageRow post-ban-row" >      <a name="<%=post_count%>"></a>
-                   message ignored: <%= item.user.username %> is on your ban list (<a href="/forums/ban_list">change this</a>)
+                  message ignored: <%= item.user.username %> is on your ban list (<a href="/forums/ban_list">change this</a>)
                 </li>
             <% else %>
+
                 <li class="<% if (item.rating>rating_threshold) %>messageRow<% else %>blockedMessage<% end%>" id="row_<%=item.message_id%>" style="display: list-item;">
-                    <a name="<%=post_count%>"></a>
-                    <div class="messageAuthor" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"   id="messageAuthor_<%=item.message_id%>">
-                        <% if item.user %>
-                            <% if item.user.image && item.user.image!="" %>
-                                <a href="/members/profile/<%=item.user.username%>"><img width="75" height="75"
-                                                                                                           src="<%= url_for_image_column  item.user, 'image', :name=>'avatar'%>"
-                                                                                                           alt="<%=item.user.username.downcase%>" border="0" hspace="0" vspace="0"></a>
-                                <br/>
-                            <% elsif item.user && item.user.image_url && item.user.image_url!="" %>
-                                <a href="/members/profile/<%=item.user.username%>"><img width="75" height="75"
-                                                                                                           src="<%=item.user.image_url%>" alt="<%=item.user.username.downcase%>" border="0" hspace="0" vspace="0"></a>
-                                <br/>
-                            <% elsif item.user %>
-                                <a href="/members/profile/<%=item.user.username%>"><img width="75" height="75" src="/images/forum-icon-blue.png" alt="<%=item.user.username.downcase%>" border="0" hspace="0" vspace="0"></a>
-                                <br/>
-                            <% end %>
 
-                        <% else %>
-                            <b><%= item.author%></b>
-                        <% end %>
-                        <br/>
-                        <div class="messageDate">
-			<% if item.user %>
-                             <a href="/members/profile/<%=item.user.username%>"><%=item.user.username%></a>
-                            <br/><br/>
-			<% end %>
-                            
-                            <%= item.pdate.strftime("%I:%M %p %b %d %Y") %> <br/>
-                            ip: <%= item.ip_address %>  <br/>
-                            post: #<%=post_count%>
-                        </div>
+                  <div class="messageAuthor"
+                       style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"
+                       id="messageAuthor_<%=item.message_id%>">
+
+                    <div class="hspacer"></div>
+                    <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"100"} %>
+                    <br/>
+                    <div class="messageDate">
+                      <% if item.user %>
+                          <a href="/members/profile/<%=item.user.username%>"><%=item.user.username%></a>
+                      <% end %>
+                      <br/>
+
+                      <%=distance_of_time_in_words(Time.now, item.pdate)%> ago <br/>
+                      <br/>
+                      ip: <%= item.ip_address %>
+
+                      <a name="<%=post_count%>"> </a>
                     </div>
+                  </div>
 
 
-                    <div class="<% if (item.rating>rating_threshold) %>messageRating<% else %>messageRatingBlock<% end%>" >
-                        <div style="display:inline;font-size:0.8em;" id="score_<%=item.message_id%>">rating: <% if (item.rating>0) %>+<%end%><%= item.rating %></div>
-                        <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'NO', <%=logged_in?%>)"><img src="/images/icons/vote_no3.png" border="0" style="vertical-align:middle;cursor:pointer;" alt="thumbs down" vspace="0" hspace="3"/></a>
-                        <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'UP', <%=logged_in?%>)"><img src="/images/icons/vote_yes3.png" style="vertical-align:middle;cursor:pointer;" alt="thumbs up" vspace="0" /></a>
+                  <div class="<% if (item.rating>rating_threshold) %>messageRating<% else %>messageRatingBlock<% end%>" >
+                    <div style="display:inline;font-size:0.8em;" id="score_<%=item.message_id%>">rating: <% if (item.rating>0) %>+<%end%><%= item.rating %></div>
+                    <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'NO', <%=logged_in?%>)"><img src="/images/icons/vote_no3.png" border="0" style="vertical-align:middle;cursor:pointer;" alt="thumbs down" vspace="0" hspace="3"/></a>
+                    <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'UP', <%=logged_in?%>)"><img src="/images/icons/vote_yes3.png" style="vertical-align:middle;cursor:pointer;" alt="thumbs up" vspace="0" /></a>
 
-                    </div>
-                    <div class="forumAlert" style="<% if (item.rating>rating_threshold) %>display:none;<% end%>" id="rowAlert_<%=item.message_id%>">
-                        message by <%= (item.user) ? item.user.username.downcase : item.author %> voted inappropriate (<a href="javascript:void(0)" onclick="jh.forums.show_post(<%=item.message_id%>)">view anyway</a>)
-                    </div>
-                    <div class="messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
-                        <%= simple_format item.message_text.html_safe %>
-                    </div>
+                  </div>
 
+                  <div class="forumAlert" style="<% if (item.rating>rating_threshold) %>display:none;<% end%>" id="rowAlert_<%=item.message_id%>">
+                    message by <%= (item.user) ? item.user.username.downcase : item.author %> voted inappropriate (<a href="javascript:void(0)" onclick="jh.forums.show_post(<%=item.message_id%>)">view anyway</a>)
+                  </div>
+
+                  <div class="messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
+                    <%= raw item.message_text.gsub(/\n/, '<br/>') %>
+                  </div>
 
                 </li>
-          <% end %>
+            <% end %>
         <% end %>
-   </ul>
+      </ul>
     </div>
-   <div  class="board-pager">
-        <div  style="float:left;">
-          <a href="/forums/threads/<%=@thread.board_id%>">back to topics</a>
-        </div>
-       
- 	<div style="float:right;">
-            <% if @last_page>1 %>
-                    <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
-              <% for i in 1..(@last_page) %>
+    <div  class="board-pager">
+      <div  style="float:left;">
+        <a href="/forums/threads/<%=@thread.board_id%>">back to topics</a>
+      </div>
+
+      <div style="float:right;">
+        <% if @last_page>1 %>
+            <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
+            <% for i in 1..(@last_page) %>
                 <% if i==@page %> <b><%=i%></b> |
                 <% else %>
                     <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=i %>"><%= i %></a> |
                 <% end %>
             <% end %>
-                    <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==@last_page?@page:@page+1 %>">next</a>
-           <% end %>
-        </div>
+            <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==@last_page?@page:@page+1 %>">next</a>
+        <% end %>
+      </div>
 
-   </div>
+    </div>
 
     <div class="hspacer"></div>
     <% if logged_in? -%>
 
-    <script type="text/javascript">
-        // Panels for the home page
-        Ext.onReady(function(){
+        <script type="text/javascript">
+            // Panels for the home page
+            Ext.onReady(function(){
 
-            var textArea = new  Ext.form.HtmlEditor({
-                //applyTo:"message_message_text",
-                width:600,
-                height:300
+                var textArea = new  Ext.form.HtmlEditor({
+                    //applyTo:"message_message_text",
+                    width:600,
+                    height:300
+                });
+
+
             });
 
-
-        });
-
-    </script>
+        </script>
         <b>Reply</b><br>
         <% form_for :message, :url => { :action => "reply"}, :html => {:onsubmit=>"return jh.forums.validatePost();"} do |f| %>
             <%= f.text_area :message_text %>
@@ -154,11 +145,11 @@
         <% end %>
 
     <% else%>
-    <div id="forum-login">
-        <b>Login to reply to this and other topics.</b>
-     </div>
+        <div id="forum-login">
+          <b>Login to reply to this and other topics.</b>
+        </div>
     <% end -%>
-</div>
+  </div>
 </div>
 
 

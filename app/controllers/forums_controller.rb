@@ -43,7 +43,10 @@ class ForumsController < ApplicationController
     @page_title = "Forums"
     @boards = Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
 
-    render :template => "forums/threads.erb"
+    respond_to do |format|
+      format.html {render :template => "forums/threads.erb"}
+      format.mobile {render :template => "forums/threads.erb"}
+    end
   end
 
   ################################
