@@ -60,7 +60,7 @@ a:hover {
 }
 
 em {
- font-style: italic;
+    font-style: italic;
 }
 
 img {
@@ -150,10 +150,10 @@ a.boldLink:hover {
 
 
 #Masthead  {
-   /** background-image:url(../images/jh_bg.jpg);
-    background-repeat: no-repeat;
-    background-attachment: scroll;
-    background-position: top left;**/
+    /** background-image:url(../images/jh_bg.jpg);
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: top left;**/
     background-color: #1A1A1A;
     padding: 0 ;
     text-align: center;
@@ -312,14 +312,14 @@ a.boldLink:hover {
 }
 
 #leftside-links {
-	width: 157px;
-	border-right: 1px solid #000;
-	padding: 0 0 1em 0;
-	margin-bottom: 1em;
-	font-family:  tahoma, Verdana,sans-serif;
-	background-color: #2A89C5 /**#90bade**/;
-	color: #333;
-	font-weight: bold;
+    width: 157px;
+    border-right: 1px solid #000;
+    padding: 0 0 1em 0;
+    margin-bottom: 1em;
+    font-family:  tahoma, Verdana,sans-serif;
+    background-color: #2A89C5 /**#90bade**/;
+    color: #333;
+    font-weight: bold;
 }
 
 
@@ -363,7 +363,7 @@ html>body #leftside-links li a {
     width: 125px;
     vertical-align:top;
     font-size: 1.1em;
-/*/*/ text-align: center;			/* ie4 fix */
+    /*/*/ text-align: center;			/* ie4 fix */
     margin-top:0;
     color: black;
     padding: 0 0px 0 0;
@@ -400,7 +400,7 @@ html>body #leftside-links li a {
     text-align: center;
     float:left;
     width:72%;
-/**padding: 0 0 0 130px; **/
+    /**padding: 0 0 0 130px; **/
     background-color: #2A2A2A; /**#CCCC7F;**/
     color: #555;
 }
@@ -411,7 +411,7 @@ html>body #leftside-links li a {
     text-align: center;
     float:left;
     width: 72%;
-/**padding: 0 0 0 125px; **/
+    /**padding: 0 0 0 125px; **/
     background-color: #2A2A2A; /**#CCCC7F;**/
     color: #555;
 }
@@ -468,7 +468,7 @@ html>body #leftside-links li a {
     width: 100%;
 }
 
-#newslist  a, #newslist  a:visited {
+.inside .newslist  a, .inside .newslist  a:visited {
     color: #2A89C5 /**#90bade**/;
     text-decoration: none;
     font-size: 1.0em;
@@ -497,14 +497,14 @@ html>body #leftside-links li a {
 }
 
 .inside .wordText, wordText p {
-     line-height: 1.467em;
-     font-size: 1.2em;
-     font-family: Georgia, arial, sans-serif;
+    line-height: 1.467em;
+    font-size: 1.2em;
+    font-family: Georgia, arial, sans-serif;
 
 }
 
 .inside .wordText a, .inside .wordText a:visited {
-   color: blue;
+    color: blue;
 }
 
 
@@ -686,43 +686,23 @@ p.home-inside {
 }
 
 
-#newslist {
+.newslist {
     margin: 0;
     padding-left: 5px;
+    width: 300px;
 }
 
 
-#newlist ul li {
-   border: 1px dotted #333333;
-    padding: 25px 0px;
-    margin: 0px;
-    text-align: left;
-    font-size: 1.4em;
-    color: black;
-    border-bottom: 1px dotted #333333;
-    clear:both;
-}
-
-#newlist-feature li {
-   border: 1px dotted #333333;
-    padding: 15px 0px;
-    margin: 0px;
-    text-align: left;
-    font-size: 1.4em;
-    color: black;
-    border-bottom: 1px dotted #333333;
-    clear:both;
-}
 
 #fastLinks {
-	padding: 4px 0 5px 0;
-	background-color: #DD0;
-	letter-spacing: 0.3em;
-	text-align: center;
+    padding: 4px 0 5px 0;
+    background-color: #DD0;
+    letter-spacing: 0.3em;
+    text-align: center;
 }
 
 #fastLinks b {
-	color: red;
+    color: red;
 }
 #homegrid table {
     -moz-box-sizing:border-box;
@@ -734,6 +714,7 @@ p.home-inside {
     text-indent:0px;
     border-top: none;
     borer-bottom: none;
+    width:100%;
 }
 
 #homegrid table td {
@@ -742,6 +723,7 @@ p.home-inside {
     height: 200px;
     vertical-align: top;
     line-height: 1.5em;
+    width:50%;
 }
 
 #homegrid table b {
@@ -750,7 +732,7 @@ p.home-inside {
 }
 
 #homegrid table td a a:hover a:visited{
-  font-size: 0.9em;
+    font-size: 0.9em;
 }
 
 .showListMain li {
@@ -763,7 +745,7 @@ li.showListMainDOW {
 
 
 #showgrid {
-	margin-left: 25px;
+    margin-left: 25px;
 
 }
 
@@ -823,7 +805,7 @@ table.index-two-column td {
     background-color:white;
     border: none;
     padding:6px;
-    width:400px;
+    width: 50%;
     min-height:200px;
     height:auto !important;
     height: 200px;
@@ -834,7 +816,7 @@ table.index-two-column td {
 
 
 table.index-two-column td a a:hover a:visited{
-  font-size: 0.9em;
+    font-size: 0.9em;
 }
 
 table.index-two-column-small  {
@@ -866,7 +848,7 @@ table.index-two-column-small td {
 
 
 table.index-two-column-small td a a:hover a:visited{
-  font-size: 0.9em;
+    font-size: 0.9em;
 }
 
 
@@ -954,21 +936,21 @@ table.phone-list a, table.phone-list a:visited {
     text-align: left;
 }
 .cd_listing {
-   clear:both;
-   padding: 20px 10px;
-   font-size: 1.2em;
+    clear:both;
+    padding: 20px 10px;
+    font-size: 1.2em;
 }
 
 .none_entered {
-  color: #ccc;
-  font-style: italic;
+    color: #ccc;
+    font-style: italic;
 }
 #jh_editor {
-  color: red;
-  font-weight: bold;
-  padding: 1px 4px;
-  font-family:'Lucida Grande',Verdana, Arial,Sans-Serif;
-  font-size: 1.3em;
+    color: red;
+    font-weight: bold;
+    padding: 1px 4px;
+    font-family:'Lucida Grande',Verdana, Arial,Sans-Serif;
+    font-size: 1.3em;
 }
 #jh_pic_column {
     float:left;
@@ -1018,24 +1000,24 @@ table.phone-list a, table.phone-list a:visited {
     height: 650px;
 }
 #jh_profile h2, #jh_interests h2, #jh_shows h2, #jh_blogs h2 {
-   font-family: tahoma, sans-serif;
-   padding: 5px 0;
-   background-color: #EEE;
-   color: #2A89C5;
-   border: none;
-   font-size: 1.4em;
-   font-weight: bold;
+    font-family: tahoma, sans-serif;
+    padding: 5px 0;
+    background-color: #EEE;
+    color: #2A89C5;
+    border: none;
+    font-size: 1.4em;
+    font-weight: bold;
 }
 
 
 dl.jh_profile_summary dt{
-	color: #2a2a2a;
+    color: #2a2a2a;
     font-size: 1.1em;
     padding: 3px 0;
 }
 
 dl.jh_profile_summary dd {
-	color: black;
+    color: black;
     padding-bottom: 10px;
 
 }
@@ -1069,8 +1051,8 @@ dl.jh_profile_summary dd {
 }
 
 .contentTypeList a, .contentTypeList a:visited, .contentTypeList a:hover {
-	color: white;
-	border: none;
+    color: white;
+    border: none;
 }
 
 
@@ -1323,8 +1305,8 @@ a.imageLink:visited {
 
 .breathingRoomSpan
 {
-	clear:both;
-	margin-top:3px;
+    clear:both;
+    margin-top:3px;
 }
 
 .vspacerlong
@@ -1430,7 +1412,7 @@ a.imageLink:visited {
 }
 
 #AdRight {
-  padding: 0 5px 0 0;
+    padding: 0 5px 0 0;
 
 }
 
@@ -1663,8 +1645,8 @@ a.bigForumLink:hover {
 }
 
 .forumListPic {
-   padding: 1px 5px 1px 0;
-   float:left;
+    padding: 1px 5px 1px 0;
+    float:left;
 }
 
 .smallForumLink   {
@@ -1977,18 +1959,18 @@ EXTJS IE7 Combo box bug hack
 
 
 .wp-caption {
--moz-border-radius-bottomleft:3px;
--moz-border-radius-bottomright:3px;
--moz-border-radius-topleft:3px;
--moz-border-radius-topright:3px;
-background-color:#F3F3F3;
-border:1px solid #DDDDDD;
-padding-top:4px;
-text-align:center;
+    -moz-border-radius-bottomleft:3px;
+    -moz-border-radius-bottomright:3px;
+    -moz-border-radius-topleft:3px;
+    -moz-border-radius-topright:3px;
+    background-color:#F3F3F3;
+    border:1px solid #DDDDDD;
+    padding-top:4px;
+    text-align:center;
 }
 .alignleft {
-float:left;
-margin:0 14px 10px 0;
+    float:left;
+    margin:0 14px 10px 0;
 }
 
 

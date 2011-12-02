@@ -7,48 +7,48 @@
 class HomeController < ApplicationController
 
 
-    # H-TOWN Timezone
-    @@TZ='Central Time (US & Canada)'
-    
-    ################################
-    # ACTIONS
-    ################################
+  # H-TOWN Timezone
+  @@TZ='Central Time (US & Canada)'
 
-    def index
-        if mobile_request?
-                redirect_to :action=>"mobile"
-        end
-	# get all shows for today
-        @curTime = Time.now.in_time_zone(@@TZ)
+  ################################
+  # ACTIONS
+  ################################
 
-        @showsToday = Event.getShowsToday(@curTime)
-        @showsThisWeek = Event.getShowsThisWeek(@curTime)
-
-        @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>6)
-
-        @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                :order=>"release_date desc", :limit=>3)
-
-        @page_title="News, Events Calendar, Musician Resources, Local Releases"
-
+  def index
+    if mobile_request?
+      redirect_to :action=>"mobile"
     end
+    # get all shows for today
+    @curTime = Time.now.in_time_zone(@@TZ)
 
-    # the mobile index page
-    def mobile
+    @showsToday = Event.getShowsToday(@curTime)
+    @showsThisWeek = Event.getShowsThisWeek(@curTime)
 
-	# get all shows for today
-        @curTime = Time.now.in_time_zone(@@TZ)
+    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>10)
 
- 	@showsToday = Event.getShowsToday(@curTime)
-        @showsThisWeek = Event.getShowsThisWeek(@curTime)
+    @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
+                       :order=>"release_date desc", :limit=>10)
 
-        @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>6)
+    @page_title="News, Events Calendar, Musician Resources, Local Releases"
 
-        @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                :order=>"release_date desc", :limit=>3)
+  end
 
-        @page_title="News, Events Calendar, Musician Resources, Local Releases"
+  # the mobile index page
+  def mobile
 
-    end
+    # get all shows for today
+    @curTime = Time.now.in_time_zone(@@TZ)
+
+    @showsToday = Event.getShowsToday(@curTime)
+    @showsThisWeek = Event.getShowsThisWeek(@curTime)
+
+    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>10)
+
+    @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
+                       :order=>"release_date desc", :limit=>10)
+
+    @page_title="News, Events Calendar, Musician Resources, Local Releases"
+
+  end
 
 end
