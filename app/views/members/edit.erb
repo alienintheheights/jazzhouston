@@ -1,6 +1,6 @@
 <%= render :partial => "common/extjs" %>
 <%
-   about_me = (@user.about_me.nil?)? "" :  @user.about_me
+   about_me =  (@user.about_me.nil?)? "" :  @user.about_me.safe_html
 %>
 <script type="text/javascript">
     Ext.onReady(function(){
