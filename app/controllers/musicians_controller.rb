@@ -11,7 +11,7 @@ class MusiciansController < ApplicationController
     @instrument = params[:id]
     @players = User.find(:all,
                          :include=>:instruments,
-                         :conditions=>["local_player_flag=1 and last_name is not null and instruments.instrument_name=?",params[:id]],
+                         :conditions=>["local_player_flag=1 and (last_name is not null and last_name <>'') and instruments.instrument_name=?",params[:id]],
                          :order =>"last_name"  )
 
     @page_title="Players by Instrument | #{params[:id]}"
