@@ -1,4 +1,7 @@
 <%= render :partial => "common/extjs" %>
+<%
+   about_me = (@user.about_me.nil?)? "" :  @user.about_me
+%>
 <script type="text/javascript">
     Ext.onReady(function(){
 
@@ -86,11 +89,11 @@
                         layout:'form',
                         defaults: {width: 230},
                         items: {
-                        xtype:'htmleditor',
+                            xtype:'htmleditor',
                             id:'user[about_me]',
                             width: 600,
                             fieldLabel:'Biography',
-                        value: "<%= escape_javascript(@user.about_me)%>"
+                            value: "<%= escape_javascript(raw about_me)%>"
                         }
                     }, {
                         cls:'x-plain',
@@ -145,7 +148,7 @@
                             name: 'user[cell_phone]',
                             value: "<%= escape_javascript(@user.cell_phone)%>"
                         }]
-                    }],
+                    }]
             },{
                 cls:'x-plain',
                 title:'Musician Directory Listing (optional)',
@@ -274,7 +277,7 @@
     <div class="hspacer"></div>
     <div class="Header">Delete Account</div>
     <div class="hspacer"></div>
-    <% form_for :user, @user, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
+    <%= form_for @user, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
         <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
         If you'd like to delete your account, click this button. This isn't Facebook, your account will be removed immediately and for good.
         <%= f.submit "Delete Account" %>
@@ -282,8 +285,8 @@
     <% end %>
     <% if logged_in? && (current_user.id==1) -%>
         <div class="hspacer"></div>
-        <div class="Header">Super Power</div>
-        <% form_for :user, @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();" }     do |f| %>
+        <div class="Header">Super Power!!</div>
+        <%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();" }     do |f| %>
             <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
             <% if @user.editor_flag==1 %>
                 User is currently an editor
