@@ -45,7 +45,7 @@
             <div class="breathingRoomSpan"></div>
             <% for item in @albums %>
                 <% if item.image_url != ""  %>
-                    <%= link_to  image_tag(item.image_url,:width=>'125', :height=>'125', :hspace=>'2'), {:action => "about", :controller=>"releases",  :id=>item.album_id} %>
+                    <%= link_to  image_tag(item.image_url,:width=>'75', :height=>'75', :hspace=>'2'), {:action => "about", :controller=>"releases",  :id=>item.album_id} %>
                     <br/>
                 <% end %>
                 <%=item.artist_name%><br/> <%= link_to item.title, {:action => "about", :controller=>"releases",  :id=>item.album_id} %><br/>
@@ -67,7 +67,7 @@
                     <li id="newlist-feature">
                       <br/>
                       <% if item.image_url && !item.image_url.blank?  %>
-                          <%= link_to image_tag(item.image_url,:width=>'125', :height=>'125', :valign=>'top', :align=>'left',:hspace=>'2'), {:action => "words", :controller=>"articles", :id=>current_id} %>
+                          <%= link_to image_tag(item.image_url,:width=>'75', :height=>'75', :valign=>'top', :align=>'left',:hspace=>'2'), {:action => "words", :controller=>"articles", :id=>current_id} %>
                       <%
                          end %>
                       <%= link_to item.title, {:action => "words", :controller=>"articles",  :id=>current_id} %>
