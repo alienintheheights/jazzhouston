@@ -856,8 +856,9 @@ table.index-two-column-small td a a:hover a:visited{
 }
 
 
-
-
+.phoneHeader {
+    background-color:#eeeeee;
+}
 
 
 table.phone-list  {
@@ -881,7 +882,7 @@ table.phone-list tr.alt {
 
 
 table.phone-list tr.noalt {
-    background-color:#FFF091;
+    background-color:#EEEEEE;
     border:1px solid black;
     padding:3px;
     border-spacing:5px;
@@ -890,15 +891,11 @@ table.phone-list tr.noalt {
 }
 
 
-
-
 table.phone-list th {
-    padding:8px 2px;
-    border-spacing:5px;
+    padding:2px 0;
     vertical-align: top;
     text-align: left;
-    font-wieght: bold;
-    font-size: 1.2em;
+    font-size: 1.1em;
     color: black;
 }
 

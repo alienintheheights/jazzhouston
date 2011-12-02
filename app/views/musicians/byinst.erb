@@ -8,10 +8,10 @@
     <div class="Header"><%= @instrument %></div>
     <table class="phone-list" width="100%">
       <tr>
-        <th width="40%" class="tableHeader">Name</th>
-        <th width="25%" class="tableHeader">Cell Phone</th>
-        <th width="25%" class="tableHeader">Home Phone</th>
-        <th width="10%" class="tableHeader">Export Contact vCard</th>
+        <th width="40%" class="phoneHeader">Name</th>
+        <th width="25%" class="phoneHeader">Cell Phone</th>
+        <th width="25%" class="phoneHeader">Home Phone</th>
+        <th width="10%" class="phoneHeader">vCard</th>
       </tr>
       <% for item in @players %>
           <% if (item.first_name || item.last_name)
@@ -21,9 +21,9 @@
                  fullname = item.first_name.gsub( %r{</?[^>]+?>}, '' ) + " " + item.last_name.gsub( %r{</?[^>]+?>}, '' )
           %>
               <tr class="<%=cycle('alt','noalt')%>" style="padding: 5px 0;">
-                <td width="40%" style="font-size:1.3em;" valign="bottom">
-                  <%= render :partial => "common/renderpic",  :locals => { :user => item, :size =>"50"}%>
-                  <a href="/members/profile/<%=item.username%>"><%= fullname.titleize %></a>
+                <td width="40%" valign="bottom">
+                  <%= render :partial => "common/renderpic",  :locals => { :user => item, :size =>"30"}%>
+                 &nbsp; <a href="/members/profile/<%=item.username%>"><%= fullname.titleize %></a>
                 </td>
                 <td width="25%" valign="bottom" >
                   <%= item.cell_phone %>
@@ -32,7 +32,7 @@
                   <%= item.home_phone %>
                 </td>
                 <td width="10%"  valign="bottom">
-                  <a href="/members/vcard/<%=item.id%>"><img src='/images/icons/vcard.png' border='0' width='50'></a>
+                  <a href="/members/vcard/<%=item.id%>"><img src='/images/icons/vcard.png' border='0' width='30'></a>
                 </td>
               </tr>
           <% end %>
