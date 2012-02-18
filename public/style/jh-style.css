@@ -2,27 +2,39 @@
 *
 * Master CSS for JazzHouston
 *
-* Andrew Lienhard, 2008-2009
+* Andrew Lienhard, 2008-2011
 **/
 
 
+
 /** General Overrides **/
-* html
+* html, tr, td, h1, h2, h3, div
 {
-    font-size : 100%;
+    padding: 0;
+    margin: 0;
+    color: #3c3c3c;
 }
 
 body
 {
-    /**font-family:"frutiger lt std","frutiger std",frutiger,"helvetica neue",arial,helvetica,sans-serif;**/
-    font-family: Tahoma, Lucida Grande, Verdana, Lucida Sans Regular, Lucida Sans Unicode, Arial, sans-serif
-    font-style:normal;
-    font-size : 62.5%;
-    text-align:left;
+    font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;/**"frutiger lt std","frutiger std",frutiger,arial,helvetica,sans-serif;**/
+    font-size : 0.9em;
+    text-align: left;
     margin:0;
     padding:0;
-    background-color: #2a2a2a;
+    background-color: #2A2A2A;
 }
+
+
+ul, li
+{
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    color: black;
+    list-style: none;
+}
+
 
 
 a  {
@@ -40,7 +52,7 @@ a:visited  {
 
 
 a:hover {
-    color: red;
+    color: #2A89C5;
     font-size: 1.0em;
     text-decoration:none;
 }
@@ -53,29 +65,18 @@ img {
     border: 0 none;
 }
 
-ul li a
-{
-    padding: 0px 0px;
-    margin: 0px;
-    text-align: left;
-    font-size: 1.4em;
-    color: black;
-    border-bottom: 1px dotted #333333;
-
-}
-
 h2 {
     display:block;
-    font-size:1.8em;
+    font-size:1.4em;
     padding:0 0 4px 1px;
     text-align: left;
-    color: #55CCFF;
+    color: #2A89C5;
     background-color:#2A2A2A;
 }
 
 h3 {
     font-family:Helvetica,Arial,Sans-Serif;
-    font-size:1.3em;
+    font-size:1.2em;
     margin:0;
     background-color:#2A2A2A;
     color: #55CCFF;
@@ -93,51 +94,22 @@ hr {
     border-bottom:5px solid black;
 }
 
-#jh_toolbar {
-    width:115px;
-}
-
-
-a.navLink, a.navLink:visited {
-    border:none;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    color: #1a1a1a;
-    font-size: 1.6em;
-    font-weight: normal;
-    padding: 0 4px;
-
-}
-
-
-
-a.navLink:hover {
-    border:none;
-    letter-spacing: 0.1em;
-    text-decoration: none;
-    color: #dddd00;
-    font-size: 1.6em;
-    font-weight: normal;
-    padding: 0 4px;
-
-}
 
 a.boldLink, a.boldLink:visited {
     border:none;
     text-decoration: none;
     color: #1a1a1a;
-    font-size: 1.15em;
+    font-size: 1.1em;
     font-weight: bold;
 
 }
 
 
-
 a.boldLink:hover {
     border:none;
     text-decoration: none;
-    color: #dddd00;
-    font-size: 1.15em;
+    color: #ddee00;
+    font-size: 1.1em;
     font-weight: bold;
 }
 
@@ -149,129 +121,135 @@ a.boldLink:hover {
 
 
 #Masthead  {
-    /** background-image:url(../images/jh_bg.jpg);
-  background-repeat: no-repeat;
-  background-attachment: scroll;
-  background-position: top left;**/
-    background-color: #1A1A1A;
-    padding: 0 ;
+    background-color: #fff;
     text-align: center;
     font-size: 1.0em;
-    width:100%;
-    min-height:88px;
-    height:auto !important;
-    height:88px;
-
+    min-height:102px;
+    height:110px;
+    margin: 0 auto;
+    padding: 0 0 0 0;
+    width: 999px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
 }
 
 
-
-
-#Masthead #MastheadCenter #logoText {
+#Masthead #logoText {
     float: left;
-    margin: 20px 0 0 10px;
-    overflow: visible;
-    font-family: Sans-Serif;
-    letter-spacing: 0.2em;
-    color: #2A89C5;
-    border:none;
-    text-align: center;
+    padding: 4px 0 2px 8px;
+    letter-spacing: 0.5em;
+    width: auto;
 
 }
 
-/**
-#Masthead #MastheadCenter #logoText a, #logoText a:visited
-**/
-#logoText a, #logoText a:visited
+#Masthead #logoText a, #logoText a:visited
 {
     text-decoration: none;
     border:none;
-    font-size:3.5em;
+    font-size: 32px;
     color: #2A89C5;
 }
 
-#Masthead #MastheadCenter #logoText a:hover
+#Masthead #logoText a:hover
 {
     text-decoration: none;
     border:none;
-    font-size:3.5em;
-    color: #DDDD00;
+    font-size: 32px;
+    color: #2A89C5;
 }
 
+#Masthead #MastheadCenter  {
+    float: left;
+    letter-spacing: 0.4em;
+    color: #eee;
+    text-align: left;
+    width: 300px;
+}
 
 #Masthead #MastheadCenter #subLogoText {
-    display:block;
-    float: left;
-    padding: 5px 0px;
-    overflow: visible;
-    font-family: Sans-Serif;
+    padding: 2px 0 5px 15px;
     letter-spacing: 0.4em;
-    color: #FFFFFF;
-    border:none;
-    text-align: right;
-    font-size: 1.1em;
+    color: #1a1a1a;
+    font-size: 0.8em;
+    float:left;
 }
 
 
 #Masthead #MastheadRight {
     float: right;
-    padding:   0 ;
-
-
+    color: #fff;
+    padding: 5px 5px 0 0;
+    font-size: 0.8em;
 }
-
-
-#Masthead  #MastheadRight #MemberBox {
-    float: right;
-    background-color: #2A89C5;
-    text-align: left;
-    font-size: 1.1em;
-    width: auto;
-    text-align: left;
-    padding: 0 5px ;
-}
-
-
-#MastheadRight #MemberBox #MemberBoxView {
-    float: left;
-    width: 50%;
-}
-
-#MastheadRight #MemberBox #MemberBoxEdit {
-    float: left;
-    width: 50%;
-    text-align: left;
-}
-
 
 
 #MastheadRight #MemberBox h2 {
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: bold;
 }
 
 #MastheadRight #MemberBox a, #MastheadCenter #MemberBox a:visited {
-    color: black;
-    font-size: 1.1em;
+    color: #1a1a1a;
     text-decoration: none;
-    border-bottom: 1px dotted #333333;
 }
 
 
 #MastheadRight #MemberBox a:hover {
-    color: #DDDD00;
-    font-size: 1.1em;
+    color: #333;
     text-decoration: none;
-    border-bottom: 1px dotted #333333;
 }
 
-#MastheadRight #MemberBox ul li
-{
-    list-style-type: none;
-    color: black;
-    text-align: left;
-    padding-left: 0;
+#nav-links {
+    clear:both;
+    width: 999px;
+    padding: 0 0 0 0;
+    margin-bottom: 1em;
+    font-family:  tahoma, Verdana,sans-serif;
+    font-weight: bold;
+    list-style: none;
+    font-size: 1.0em;
+}
 
+
+#nav-links li {
+    border-bottom: 1px solid #656565; /*#2A89C5;*/
+    float: left;
+    padding: 0 0;
+    background-color:#ff6;
+    text-align:center;
+    width: 111px;
+}
+
+#nav-links li a, #nav-links li a:visited {
+    display: block;
+    padding: 5px 16px 5px 5px;
+    background-color: #ff6;
+    color: #1a1a1a;
+    text-decoration: none;
+    height: 24px;
+    border-right: 1px solid #999;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+
+html>body #nav-links li a {
+    width: auto;
+}
+
+#nav-links li a.selected, #nav-links li a.selected:visited {
+    text-decoration: none;
+    color: #2A89C5;
+    background-color: #ff6;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+
+#nav-links li a:hover {
+    background-color: #fff;
+    color: #1a1a1a;
+    border-right: 1px solid #999;
 }
 
 
@@ -291,114 +269,71 @@ a.boldLink:hover {
 ******************/
 
 #Wrapper {
-    width:100%;
-    min-width:100%;
-    width:auto !important;
+    margin: 0 auto;
     padding: 0;
+    background-color: #fff;
+    max-width:972px;
+    width:972px;
 }
 
 
 #CurtainLeft {
     float: left;
-    width: 10px;
+    width: 120px;
     vertical-align:top;
     text-align: center;
     margin: 0 0 0 0;
-    background-color: #2a2a2a;/**#2A89C5;**/
-    min-height:600px;
+    background-color: #DDD;/**#2A89C5;**/
     height:auto !important;
-    height:600px;
 }
 
-#leftside-links {
-    width: 100%;
-    border-right: 1px solid #000;
-    padding: 0 0 1em 0;
-    margin-bottom: 1em;
-    font-family:  tahoma, Verdana,sans-serif;
-    background-color: #2A89C5 /**#90bade**/;
-    color: #333;
-    font-weight: bold;
-    font-size: 1.6em;
-    line-spacing: 0.5em;
-}
-
-
-#leftside-links {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border: none;
-}
-
-#leftside-links li {
-    border-bottom: 1px solid #2A89C5; /*#2A89C5;*/
-    margin: 0;
-}
-
-#leftside-links li a {
-    display: block;
-    padding: 5px 5px 5px 0.5em;
-    border-left: 10px solid #1958b7;
-    border-right: 10px solid #508fc4;
-    background-color: #2175bc;
-    color: #fff;
-    text-decoration: none;
-    width: 100%;
-}
-
-html>body #leftside-links li a {
-    width: auto;
-}
-
-#leftside-links li a:hover {
-    border-left: 10px solid #1c64d1;
-    border-right: 10px solid #5ba3e0;
-    background-color: #2586d7;
-    color: #ddd;
-}
 
 #CurtainRight {
-    background-color:#2a2a2a;/**#2A89C5;**/
+    background-color: #fff;
     float: right;
-    width: 10px;
+    width: 120px;
     vertical-align:top;
     font-size: 1.1em;
-    /*/*/ text-align: center;			/* ie4 fix */
-    margin-top:0;
     color: black;
-    padding: 0 0px 0 0;
-
+    padding: 0 0 0 0;
+    text-align:center;
 }
+
+
 
 
 #Stage {
     text-align: center;
     float:left;
-    width: 100%;
+    max-width:852px;
+    width:852px;
     padding: 0;
-    background-color: ##2A89C5; /**#CCCC7F;**/
-    color: black;
+    overflow-x: hidden;
+    background-color: #2A89C5; /**#CCCC7F;**/
+    color: #555;
 
 }
 
 #StageHome {
     text-align: center;
     float:left;
-    width: 100%;
+    max-width:852px;
+    width:852px;
     padding: 0;
     background-color: #2A2A2A; /**#CCCC7F;**/
-    color: black;
+    color: #555;
 }
 
 
 #StageNarrow {
     text-align: center;
     float:left;
-    width:99%;
-    /**padding: 0 0 0 130px; **/
-    background-color: #2A2A2A; /**#CCCC7F;**/
-    color: black;
+    max-width:852px;
+    width:852px;
+    overflow-x: hidden;
+    background-color: #2A2A2A;
+    color: #555;
+    padding: 0;
 }
 
 
@@ -406,11 +341,11 @@ html>body #leftside-links li a {
 #StageMedium {
     text-align: center;
     float:left;
-    width: 100%;
+    max-width:852px;
+    width:852px;
     /**padding: 0 0 0 125px; **/
     background-color: #2A2A2A; /**#CCCC7F;**/
-    color: black;
-
+    color: #555;
 }
 
 
@@ -423,7 +358,8 @@ html>body #leftside-links li a {
 #StageColumnLeft {
     float: left;
     display: inline;
-    width: 0;
+    width: 45%;
+    margin: 0 5px;
     vertical-align:top;
     text-align: left;
 }
@@ -432,7 +368,8 @@ html>body #leftside-links li a {
 #StageColumnRight {
     float: right;
     display: inline;
-    width: 0;
+    width: 45%;
+    margin: 0 5px;
     vertical-align:top;
     text-align: left;
 }
@@ -442,55 +379,78 @@ html>body #leftside-links li a {
     float: right;
     display: inline;
     background-color:#2A89C5;
-    width: 0;
+    width: 45%;
     margin: 0;
+    padding: 5px 10px;
     vertical-align:top;
     text-align: left;
 }
 
 
+.profile-inside
+{
+    background-color: white;
+    padding: 0 ;
+    text-align:left;
+    line-height:1.4em;
+    width:auto;
+}
+
+
+.forum-inside
+{
+    background-color: white;
+    padding: 0 ;
+    text-align:left;
+    line-height:1.4em;
+    height: auto;
+}
+
+
+
+
 .inside
 {
     background-color: white;
-    font-size: 1.1em;
-    min-height:600px;
-    height:auto !important;
-    height:600px;
-    padding: 5px;
+    padding: 0 8px;
     text-align:left;
-    line-height:1.45em;
-    width: 98%;
+    line-height:1.6em;
+    height: auto;
+    min-height: 800px;
+    overflow: hidden;
 }
 
-.inside a, .inside  a:visited {
-    color: black;
+.inside .newslist  a, .inside .newslist  a:visited {
+    color: black /** #2A89C5 **/;
     text-decoration: none;
-    /**border-bottom: 1px dotted #333333;**/
-    font-size: 0.9em;
+    font-size: 1.0em;
     cursor: pointer;
     border: none;
 }
 
-
-
-.inside a:hover {
-    color: red;
-    font-size: 0.9em;
-    border-bottom: 1px dotted #333333;
+.inside a, .inside  a:visited {
+    color: #033;
+    text-decoration: none;
+    font-size: 1.0em;
+    cursor: pointer;
+    border: none;
 }
 
+.inside a:hover {
+    color: #2A89C5;
+    font-size: 1.0em;
+}
 
 .inside p {
     margin: 0 0 1em;
     line-height: 1.6em;
-    font-size: 95%;
-    font-family: verdana, tahoma, arial, sans-serif;
+    font-size: 100%;
+    font-family: "Lucida Grande", Lucida, Verdana, sans-serif ; /*verdana, tahoma, arial, sans-serif; */
 }
-
 
 .inside .wordText, wordText p {
     line-height: 1.467em;
-    font-size: 1.3em;
+    font-size: 1.1em;
     font-family: Georgia, arial, sans-serif;
 
 }
@@ -500,29 +460,34 @@ html>body #leftside-links li a {
 }
 
 
-
 .inside h2 {
     font-size:1.2em;
-    color: #093D72;
+    color: #2A89C5;
     background-color:white;
-    padding: 5px 0 1px 2px;
+    padding: 5px 0 1px 0;
     text-align: left;
     font-family:Georgia,"Century Schoolbook","Times New Roman",Times,serif;
 }
 
-
+.forum-inside h2 {
+    font-size:1.2em;
+    color: #2A89C5;
+    background-color:white;
+    padding: 5px 0 1px 0;
+    text-align: left;
+    font-family:Georgia,"Century Schoolbook","Times New Roman",Times,serif;
+}
 
 .home-inside
 {
-    background-color: #DDDD00;
-    min-height:600px;
-    font-size: 1.3em;
+    background-color: white;
+    min-height:841px;
     height:auto !important;
-    height:600px;
-    padding: 15px;
+    height:841px;
+    padding: 0;
     text-align:left;
     line-height:1.25em;
-    width: 98%;
+
 }
 
 .home-inside h2 {
@@ -535,7 +500,7 @@ html>body #leftside-links li a {
     color: black;
     text-decoration: none;
     border-bottom: none;
-    font-size: 0.9em;
+    font-size: 1.0em;
 }
 
 
@@ -543,13 +508,13 @@ html>body #leftside-links li a {
     color: black;
     text-decoration: none;
     border-bottom: 1px dotted #333333;
-    font-size: 0.9em;
+    font-size: 1.0em;
 }
 
 .home-inside a:hover {
-    color: red;
+    color: #2A89C5;
     border-bottom: 1px dotted #333333;
-    font-size: 0.9em;
+    font-size: 1.0em;
 }
 
 
@@ -561,15 +526,13 @@ p.home-inside {
 
 .alt-inside
 {
-    background-color: #2A89C5;
+    background-color: white;
     min-height:600px;
     height:auto !important;
     height:600px;
-    padding: 15px;
+    padding: 0;
     text-align:left;
-    font-size: 1.3em;
     line-height:1.45em;
-    width: 98%;
 }
 
 .alt-inside h2 {
@@ -593,19 +556,25 @@ p.home-inside {
 }
 
 
-.alt-inside p {
-    font-size: 1.1em;
+li.newslist-feature {
+    padding: 5px 5px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    overflow: auto;
+    font-size: 1.0em;
+    color:#555;
 }
 
-
+a.venueLink, a:visited.venueLink {
+    color:  #2A89C5;
+}
 
 .admin-panel {
     background-color: white;
-    font-size: 1.4em;
+    font-size: 1.0em;
     text-align:left;
     padding: 15px 2px;
     text-align:left;
-    font-size: 1.2em;
 }
 
 .admin-inside a, .admin-inside a:visited {
@@ -658,7 +627,7 @@ p.home-inside {
 
 .panel-inside a:hover {
     text-decoration: none;
-    color: red;
+    color: #2A89C5;
     font-size: 1.0em;
     border-bottom: 1px dotted #333333;
 }
@@ -666,39 +635,39 @@ p.home-inside {
 
 
 
-#jh_login_form table {
+#jh_login_form  {
+    color:#fff;
+    font-size:0.8em;
+}
+
+#jh_login_form td a, #jh_login_form td a:visited   {
 
 }
 
-#jh_login_form table td {
+#jh_toolbar {
+    width:115px;
     text-align: left;
+    float:left;
 }
 
 
 .newslist {
     margin: 0;
     padding-left: 5px;
-}
-
-.inside .newslist  a, .inside .newslist  a:visited {
-    color: #2A89C5 /**#90bade**/;
-    text-decoration: none;
-    font-size: 1.0em;
-    cursor: pointer;
-    border: none;
+    width: 300px;
 }
 
 
 #fastLinks {
     padding: 4px 0 5px 0;
-    background-color: #DD0;
-    letter-spacing: 0.1em;
+    background-color: #ff6;
+    letter-spacing: 0.3em;
+    text-align: center;
 }
 
 #fastLinks b {
     color: red;
 }
-
 #homegrid table {
     -moz-box-sizing:border-box;
     border-collapse:separate;
@@ -708,17 +677,29 @@ p.home-inside {
     margin-top:0;
     text-indent:0px;
     border-top: none;
-    borer-bottom: none;
+    width:100%;
 }
 
 #homegrid table td {
     background-color:white;
-    border-right:1px solid #B3B3B3;
-    border-left: none;
-    width:50%;
     height: 200px;
     vertical-align: top;
     line-height: 1.5em;
+    width:auto;
+    padding-left: 15px;
+    overflow: auto;
+
+    border-bottom: 1px solid #ccc;
+}
+
+.leftcol {
+    background-color:white;
+    height: 200px;
+    vertical-align: top;
+    line-height: 1.5em;
+    width:340px;
+    border-right: 1px solid #CCC;
+    padding: 0 25px 0 15px;
 }
 
 #homegrid table b {
@@ -728,6 +709,20 @@ p.home-inside {
 
 #homegrid table td a a:hover a:visited{
     font-size: 0.9em;
+}
+
+.showListMain li {
+    padding: 3px 0;
+}
+
+li.showListMainDOW {
+    padding: 6px 0;
+}
+
+
+#showgrid {
+    margin-left: 25px;
+
 }
 
 
@@ -748,14 +743,30 @@ p.home-inside {
 
 }
 
-
-.showListMain li {
-    padding: 3px 0;
+table.index-three-column-small  {
+    -moz-box-sizing:border-box;
+    border-collapse:separate;
+    border-spacing:20px;
+    display:table;
+    margin-bottom:0;
+    margin-top:0;
+    text-indent:0;
+    width: 100%;
+    padding: 2px;
 }
 
-li.showListMainDOW {
-    padding: 6px 0;
+table.index-three-column-small td {
+    background-color:white;
+    padding:2px 0;
+    width:100px;
+    height: 100px;
+    vertical-align: top;
+    text-align: left;
+    color:#1a1a1a;
+    font-size:0.9em;
+    border:1px solid #B3B3B3;
 }
+
 
 table.index-three-column  {
     -moz-box-sizing:border-box;
@@ -772,11 +783,15 @@ table.index-three-column  {
 table.index-three-column td {
     background-color:white;
     border:1px solid #B3B3B3;
-    padding:0;
-    width:33%;
-    height: 200px;
+    padding:5px;
+    width:50%;
+    height: 150px;
     vertical-align: top;
-    text-align: center;
+    text-align: left;
+    color:#1a1a1a;
+    font-size:1.0em;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
 }
 
 
@@ -784,7 +799,7 @@ table.index-three-column td {
 table.index-two-column  {
     -moz-box-sizing:border-box;
     border-collapse:separate;
-    border-spacing:0px;
+    border-spacing:0;
     display:table;
     margin-bottom:0;
     margin-top:0;
@@ -794,11 +809,10 @@ table.index-two-column  {
 table.index-two-column td {
     background-color:white;
     border: none;
-    padding:3px;
-    width:50%;
-    min-height:200px;
+    padding:6px;
+    min-height:30px;
     height:auto !important;
-    height: 200px;
+    height: 30px;
     border-spacing:5px;
     vertical-align: top;
     text-align: left;
@@ -840,6 +854,9 @@ table.index-two-column-small td {
 table.index-two-column-small td a a:hover a:visited{
     font-size: 0.9em;
 }
+
+
+
 
 
 .phoneHeader {
@@ -922,7 +939,6 @@ table.phone-list a, table.phone-list a:visited {
     vertical-align: top;
     text-align: left;
 }
-
 .cd_listing {
     clear:both;
     padding: 20px 10px;
@@ -935,59 +951,58 @@ table.phone-list a, table.phone-list a:visited {
 }
 #jh_editor {
     color: red;
-    font-weight: bold;
-    padding: 1px 4px;
-    font-family:'Lucida Grande',Verdana,Arial,Sans-Serif;
-    font-size: 1.2em;
+    padding: 0 0 0 5px ;
+    font-size: 1.1em;
+    text-align: left;
 }
 #jh_pic_column {
     float:left;
-    min-width: 140px;
+    width: 100px;
+    min-width: 100px;
     width: auto !important;
 }
+#jh_infocol {
+    float:left;
+    padding: 10px 0 0 0 ;
+    overflow-x: auto;
+    width:600px;
+}
+
+#jh_detailcol {
+    float:left;
+    padding: 0;
+    overflow-y:auto;
+    width:100%;
+}
+
+
 #jh_profile {
     float:left;
-    overflow: auto;
-    width: 45%;
-    padding-top:10px;
-    position: absolute;
-    left: 150px;
-    height: 650px;
+    overflow-y:auto;
+    width:95%;
+    padding: 10px 0 0 10px ;
 }
+
 #jh_interests {
     float:left;
-    overflow: auto;
-    width: 45%;
+    padding:10px 0 0 10px;
+    width:95%;
+
+}
+#jh_contact_info {
+    float:left;
     padding-top:10px;
-    position: absolute;
-    left: 150px;
-    height: 650px;
 }
 #jh_blogs {
     float:left;
     overflow: auto;
-    width: 45%;
     padding-top:10px;
-    position: absolute;
-    left: 150px;
     height: 650px;
 }
 #jh_shows {
     float:left;
     overflow: auto;
-    width: 45%;
     padding-top:10px;
-    position: absolute;
-    left: 150px;
-    height: 650px;
-}
-#jh_contact_info {
-    float:left;
-    overflow: auto;
-    width: 45%;
-    padding-top:10px;
-    position: absolute;
-    left: 150px;
     height: 650px;
 }
 #jh_profile h2, #jh_interests h2, #jh_shows h2, #jh_blogs h2 {
@@ -996,9 +1011,11 @@ table.phone-list a, table.phone-list a:visited {
     background-color: #EEE;
     color: #2A89C5;
     border: none;
-    font-size: 1.4em;
+    font-size: 1.2em;
     font-weight: bold;
+    width:100%;
 }
+
 
 dl.jh_profile_summary dt{
     color: #2a2a2a;
@@ -1018,7 +1035,8 @@ dl.jh_profile_summary dd {
     display:block;
     font-size: 1.1em;
     letter-spacing: 0.1em;
-    padding: 5px 0;
+    padding: 15px 0;
+    clear:both;
 }
 
 .flash-alert {
@@ -1026,25 +1044,55 @@ dl.jh_profile_summary dd {
     color: red;
     background-color: white;
     padding: 10px;
-    text-align: center;
+    text-align: left;
 }
 
 .contentTypeList {
     display:block;
+    letter-spacing: 0.1em;
+    font-weight: normal;
+    background-color:#ccc;
+    text-align: center;
+    padding: 2px 0;
+    border: 1px solid #111;
+    text-transform: lowercase;
+    font-size:0.9em;
+}
+
+.contentTypeList a, .contentTypeList a:visited {
+    font-size: 1.1em;
+}
+
+
+.contentTypeList a:hover {
+    color: #ff6;
+    border: none;
+    font-size: 1.1em;
+}
+
+.contentTypeList a.selected, .contentTypeList a.selected:visited, .contentTypeList a.selected:hover {
+    font-size: 1.1em;
+    color:#2A89C5;
+}
+
+.ProfileLinks {
+    display:block;
     letter-spacing: 0.2em;
     font-weight: normal;
     font-size: 1.1em;
-    background-color:#2A89C5;
-    color: black;
+    background-color: #2A89C5;
+    color: white;
     text-align: center;
-    padding: 5px 0;
+    padding: 2px 0;
+    border-bottom: 1px solid #1a1a1a;
+    text-transform: lowercase;
 }
 
-.contentTypeList a, .contentTypeList a:visited, .contentTypeList a:hover {
+.ProfileLinks a, .ProfileLinks a:visited, .ProfileLinks a:hover {
     color: white;
     border: none;
+    font-size: 1.0em;
 }
-
 
 
 .jh_search {
@@ -1067,7 +1115,7 @@ dl.jh_profile_summary dd {
 }
 
 .jh_search_item  {
-    font-size: 1.4em;
+    font-size: 1.1em;
     font-family: Verdana, sans-serif;
     background-color:#EEFFFF;
     color: #2A89C5;
@@ -1087,7 +1135,7 @@ a.jh_search_item ,a.jh_search_item:hover,a.jh_search_item:visited {
 /** Utility classes **/
 .bulletList
 {
-    font-size: 1.4em;;
+    font-size: 1.1em;
 
 }
 
@@ -1123,19 +1171,40 @@ a.imageLink:visited {
 
 }
 
+
 .Header
 {
-    border-width: 1px;
-    border-style: solid;
-    border-color: black;
-    font-size: 1.5em;
-    letter-spacing: 0.5em;
-    background-color: #2A2A2A;
-    color: #DDDD00;
+    font-size: 1.6em;
+    letter-spacing: 0.2em;
+    background-color: #fff;
+    color: black;
     text-align: center;
-    padding: 10px 0 2px 0;
-    height: 35px;
-    font-family: Helvetica,Arial, Sans-Serif;
+    padding: 9px 0 5px 0;
+    height: auto;
+    overflow: auto;
+}
+
+
+
+.ProfileHeader
+{
+    font-size: 1.6em;
+    letter-spacing: 0.4em;
+    background-color: #eee;
+    color: #1a1a1a;
+    text-align: center;
+    padding: 10px 0;
+    height: 30px;
+    overflow: auto;
+}
+
+
+.StoryHeader
+{
+    font-size: 1.4em;
+    letter-spacing: 0.0em;
+    text-align: left;
+    padding: 15px 0 15px 0;
 }
 
 .HeaderShow
@@ -1143,46 +1212,28 @@ a.imageLink:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.5em;;
+    font-size: 1.4em;
     letter-spacing: 0.3em;
-    background-color: #2A2A2A;
-    color: #DDDD00;
+    background-color: #3A3A3A;
+    color: #eee;
     text-align: center;
     padding: 10px 0 10px 0;
     height: auto;
     font-family: Helvetica,Arial, Sans-Serif;
 }
 
-
 .Title
 {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.8em;;
+    font-size: 1.4em;
     letter-spacing: 0.5em;
     color: black;
-    background-color: #DDDD00;
+    background-color: #DDee00;
     text-align: center;
     padding: 20px 0 2px 0;
-    height: 40px;
-    font-family: Helvetica,Arial, Sans-Serif;
-}
-
-
-.WordsTitle
-{
-    background-color:#FFF091;
-    border-width: 1px;
-    border-style: solid;
-    border-color: black;
-    font-size: 1.2em;
-    letter-spacing: 0.3em;
-    color: #1A1A1A;
-    text-align: center;
-    padding: 25px 0 5px 0;
-    height: 45px;
-    overflow: auto;
+    height: 50px;
     font-family: Helvetica,Arial, Sans-Serif;
 }
 
@@ -1193,16 +1244,34 @@ a.imageLink:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.2em;
+    font-size: 1.4em;
     letter-spacing: 0.3em;
-    background-color: #FFF091;
-    color: #2A2A2A;
+    background-color: #ccc;
+    color: #000;
     text-align: center;
-    padding: 15px 0 5px 0;
-    height: 25px;
+    padding: 5px 0 5px 0;
+    height: auto;
     overflow: auto;
-    font-family: Helvetica, Arial, Sans-Serif;
+    font-family: Helvetica,Arial, Sans-Serif;
 }
+
+.WordsTitle
+{
+    background-color:#FFF091;
+    border-width: 1px;
+    border-style: solid;
+    border-color: black;
+    font-size: 1.1em;
+    letter-spacing: 0.1em;
+    color: #1A1A1A;
+    text-align: center;
+    padding: 25px 0 0 0;
+    height: 50px;
+    overflow: auto;
+    font-family: Helvetica,Arial, Sans-Serif;
+}
+
+
 .ShowHeaderTitle
 {
     border-width: 1px;
@@ -1214,7 +1283,7 @@ a.imageLink:visited {
     color: #2A2A2A;
     text-align: center;
     padding: 25px 0 5px 0;
-    height: 45px;
+    height: 55px;
     overflow: auto;
     font-family: Helvetica,Arial, Sans-Serif;
 }
@@ -1228,11 +1297,11 @@ a.imageLink:visited {
     border-color: black;
     font-size: 1.2em;
     letter-spacing: 0.3em;
-    background-color:#2A89C5;
+    background-color:#666;
     color: #FFF;
     text-align: center;
     padding: 25px 0 5px 0;
-    height: 40px;
+    height: 50px;
     overflow: auto;
     font-family: verdana, tahoma, arial, sans-serif;
 }
@@ -1245,10 +1314,10 @@ a.imageLink:visited {
     font-size: 1.2em;
     letter-spacing: 0.3em;
     background-color: #1A1A1A;
-    color: #DDDD00;
+    color: #DDee00;
     text-align: center;
     padding: 25px 0 5px 0;
-    height: 45px;
+    height: 50px;
     overflow: auto;
     font-family: Helvetica,Arial, Sans-Serif;
 }
@@ -1339,7 +1408,7 @@ a.imageLink:visited {
 
 .textfield:hover
 {
-    background-color: #DDDD00;
+    background-color: #DDee00;
 }
 
 .left-column-list {
@@ -1376,7 +1445,7 @@ a.imageLink:visited {
     margin: 0 5px;
     vertical-align:top;
     text-align: left;
-    font-size: 1.4em;
+    font-size: 1.0em;
     min-height:200px;
     height:auto !important;
     height:200px;
@@ -1390,7 +1459,7 @@ a.imageLink:visited {
     margin: 0 5px;
     vertical-align:top;
     text-align: left;
-    font-size: 1.4em;
+    font-size: 1.0em;
     height:auto !important;
     height:200px;
 }
@@ -1403,6 +1472,7 @@ a.imageLink:visited {
 }
 
 #AdRight {
+    padding: 0 0 0 0;
 
 }
 
@@ -1415,11 +1485,12 @@ a.imageLink:visited {
     font-family:'Lucida Grande',Verdana,Arial,Sans-Serif;
     text-align:left;
     padding: 0;
+    border-top: 1px solid #ccc;
 }
 
 #footer div.block h2 {
     display:block;
-    font-size:1.6em;
+    font-size:1.2em;
     font-weight:bold;
     margin: 1px 0 0 0 ;
     padding:0 0 4px 0;
@@ -1427,17 +1498,17 @@ a.imageLink:visited {
 }
 
 #footer .blockwrapper {
-    margin-left:15px;
+    margin-left:15%;
 }
 
 #footer div.block {
     color:#CCCCCC;
     float:left;
-    font-size:1.2em;
+    font-size:1.0em;
     line-height:140%;
-    margin:10px 15px 30px 0;
+    margin:10px 15px 30px;
     padding:0;
-    width:120px;
+    width:160px;
     display:block;
 }
 
@@ -1448,14 +1519,14 @@ a.imageLink:visited {
 
 #footer div.block ul li a {
     text-decoration: none;
-    font-size: 1.1em;
+    font-size: 1.0em;
     color:white;
 }
 
 #copyright {
     text-align: center;
     clear:both;
-    height:45px;
+    height:50px;
     margin:0 auto;
     padding:0;
     width:80%;
@@ -1530,6 +1601,12 @@ a.smallText:hover {
 /**
 * FORUM CSS
 **/
+.postCount {
+    font-size: 2.2em;
+    color:red;
+    padding: 3px;
+    float: right;
+}
 
 
 .boardList {
@@ -1537,15 +1614,15 @@ a.smallText:hover {
     letter-spacing: 0.1em;
     font-weight: normal;
     font-size: 0.9em;
-    background-color:#eee;
+    background-color:#fff;
     color: #1a1a1a;
     text-align: center;
-    padding: 3px 0;
 }
 
 .boardList a, .boardList a:visited, .boardList a:hover {
     font-size: 0.9em;
 }
+
 
 .topic-list {
     background-color: white;
@@ -1553,18 +1630,18 @@ a.smallText:hover {
     width:100%;
     font-weight:bold;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size:1.3em;
+    font-size:1.2em;
     float:left;
     clear:both;
 }
 
 .topic-list th {
-    background:#2A89C5  none repeat scroll 0%;
-    color: white;
+    background:#fff  none repeat scroll 0;
+    color: #999;
     font-size:1em;
     font-style:normal;
     font-weight:normal;
-    padding:5px 10px;
+    padding:5px 0;
     text-transform:uppercase;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
     text-align:left;
@@ -1584,79 +1661,38 @@ a.smallText:hover {
 }
 
 .topic-list td {
-    padding:5px 10px;
+    padding:5px 0;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
     text-decoration:none;
     font-size:1em;
     text-align: left;
 }
 
-.bigForumLink   {
-    text-align: left;
-    vertical-align: text-top;
-    font-size:1.1em;
-    color:#3C3C3C;
-    text-decoration:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-}
-
-
-a.bigForumLink, a.bigForumLink:visited {
-    text-align: left;
-    font-size:1.0em;
-    font-weight: normal;
-    color:#3C3C3C;
-    text-decoration:none;
-    border:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-}
-
-
-
-a.bigForumLink:hover {
-    text-align: left;
-    font-size:1.0em;
-    font-weight: normal;
-    color:#3B5998;
-    text-decoration:none;
-    border:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-}
-
-.forumListPic {
-    padding: 1px 5px 1px 0;
-    float:left;
-}
-
-.smallForumLink   {
-    text-align: left;
-    float:left;
-    font-size:0.5em;
-    color:#3C3C3C;
-    text-decoration:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+.forumPic {
     padding: 0;
 }
 
-a.smallForumLink, a.smallForumLink:visited {
-    text-align: left;
-    font-weight: normal;
-    color:#3B5998;
-    text-decoration:none;
-    border:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size:0.9em;
+.softPad {
+    padding: 5px;
+    float:left;
 }
 
-a.smallForumLink:hover  {
-    text-align: left;
-    font-weight: normal;
-    color:#3B5998;
-    text-decoration:none;
-    border:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size:0.9em;
+
+.commentCountLink {
+    padding: 0 0 0 0 ;
 }
+.commentCountLink a, .commentCountLink a:visited, .commentCountLink a:hover {
+    font-size: 0.8em;
+    padding: 0;
+}
+
+
+
+a.blueLink, a.blueLink:visited, a.blueLink:hover {
+    color: #2A89C5;
+    font-size: 1.1em;
+}
+
 
 
 .messageList {
@@ -1743,7 +1779,7 @@ li.post-ban-row  {
     height: auto !important;
     height: 178px;
     padding-left: 5px;
-    width: 100px;
+    width: 130px;
     font-size: 0.9em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1780,8 +1816,6 @@ a.messageImg, a.messageImg:hover, a.messageImg:visited {
 
 }
 
-
-
 div.messageDate {
     position: absolute;
     top: 110px;
@@ -1789,15 +1823,22 @@ div.messageDate {
     border:none;
     color: #777;
     line-height: 1.2em;
+    text-align: left;
+    width: 120px;
+    padding: 3px 0 0 3px;
 }
 
 .messageBody {
     padding-right: 5px;
     padding-bottom: 10px;
-    padding-left: 120px;
+    padding-left: 150px;
+    padding-top: 5px;
     min-height: 178px;
     height: auto !important;
     height: 178px;
+    font-size:1.1em;
+    line-height: 1.4em;
+    width: 70%;
 }
 
 .messageBody a, .messageBody a:visited {
@@ -1805,7 +1846,6 @@ div.messageDate {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
 }
 
 .messageRating {
@@ -1831,44 +1871,150 @@ div.messageDate {
 }
 
 
-.noalt {
-    background:#EEE  none repeat scroll 0%;
-    color: #474A51;
-    font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
-}
-
-
 .alt {
-    background:white  none repeat scroll 0%;
-    color: #474A51;
+    clear: both;
+    background:#fff  none repeat scroll 0;
     font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
 }
+
+
+
+.noalt {
+    clear: both;
+    background:#eee  none repeat scroll 0;
+    font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
+}
+
+
+.forumThreadBox {
+    clear: both;
+    background: #fff;
+    color: #474A51;
+    font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
+    height:77px;
+    border: 1px solid #eee;
+    width:852px;
+}
+
+.forumAvatarBox {
+    float:left;
+    width:185px;
+    overflow-x: hidden;
+}
+
+.forumMetaInfo {
+    float:left;
+    font-size: 0.9em;
+    overflow-x: hidden;
+    width:105px;
+}
+
+.forumListPic {
+    padding: 1px 5px 1px 0;
+    float:left;
+}
+
+.forumPostTime {
+    clear:both;
+    padding:25px 0 0 0;
+    font-size: 0.8em;
+}
+
+.bigForumLink   {
+    float: left;
+    text-align: left;
+    vertical-align: text-top;
+    font-size:1.0em;
+    color:#2A89C5;
+    text-decoration:none;
+    padding: 10px 0 0 5px ;
+    height: 47px;
+    border-radius: 10px;
+    border-left: 1px solid #eee;
+}
+
+
+.bigForumLink a, bigForumLink a:visited {
+    text-align: left;
+    font-size:1.0em;
+    font-weight: normal;
+    color:#2A89C5;
+    text-decoration:none;
+}
+
+.bigForumLink a:hover {
+    text-align: left;
+    font-size:1.0em;
+    font-weight: normal;
+    color:#2A89C5;
+}
+
+.smallForumLink   {
+    text-align: left;
+    float:left;
+    font-size:0.5em;
+    color:#333;
+    text-decoration:none;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    padding: 5px 0 0 0 ;
+}
+
+a.smallForumLink, a.smallForumLink:visited {
+    text-align: left;
+    font-weight: normal;
+    color:#333;
+    text-decoration:none;
+    border:none;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size:0.9em;
+}
+
+a.smallForumLink:hover  {
+    text-align: left;
+    font-weight: normal;
+    color:#3B5998;
+    text-decoration:none;
+    border:none;
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
+    font-size:0.9em;
+}
+
 .tableHeader {
-    background-color:#2A89C5;
+    background-color:#ff6;
 }
 
 
 
 .num {
-    font-family:Verdana,Arial,Helvetica,sans-serif;
-    font-size:1.1em;
-    font-size-adjust:none;
-    font-stretch:normal;
-    font-style:normal;
-    font-variant:normal;
-    font-weight:normal;
-    line-height:normal;
-    text-align:center;
+    font-size:1.0em;
+}
+
+.forumNewTopicLink  {
+    clear:both;
+    padding: 4px 0;
 }
 
 
+.forumNewTopicLink a, .forumNewTopicLink a:visited {
+    color:red;
+    font-size:1.2em;
+}
+
 .board-pager {
-    display:block;
-    margin: 0 0 5px 0;
+    margin: 5px;
     padding: 0;
     text-decoration: none;
-    width:100%;
-    clear:both;
+    color:#000000;
+    float: right;
+}
+
+.board-pager a, .board-pager a:visited{
+    text-decoration: none;
+}
+
+.board-pager a.selected , .board-pager a.selected:visited{
+    text-decoration: none;
+    color:#2A89C5;
 }
 
 a.newTopic, a.newTopic:visited {
@@ -1911,22 +2057,25 @@ EXTJS IE7 Combo box bug hack
     color: red;
 }
 
-a.boldLink       {
-    font-weight: bold;
-    font-size: 1.2em;
-    text-align: center;
+.jh_venue_search_item {
+    background-color: #c3c3c3;
+    padding: 5px;
+    color:blue;
+    width:500px;
+    height: 25px;
+
 }
 
-a:hover.boldLink       {
-    font-weight: bold;
-    font-size: 1.2em;
-    text-align: center;
+#jh_about {
+    padding: 5px;
+    line-height: 1.6em;
 }
-a:visited.boldLink       {
-    font-weight: bold;
-    font-size: 1.2em;
-    text-align: center;
+
+.x-combo-list .x-combo-selected {
+
+
 }
+
 
 .ext-ie .x-form-text {position:static !important;}
 
@@ -1946,4 +2095,85 @@ a:visited.boldLink       {
     margin:0 14px 10px 0;
 }
 
+.breadcrumbs {
+    border-bottom: 1px solid #ccc;
+    font-size: 0.8em;
+    color:#000000;
+    font-weight: bold;
+}
+.socialrow {
+    padding-top:5px;
+}
 
+a.print {
+    background:url(/images/icon_storytools.gif) 0 -144px no-repeat;
+    padding:0 0 0 21px;
+    line-height:16px
+}
+a.print:hover {
+    background:url(/images/icon_storytools.gif) 0 -160px no-repeat;
+}
+a.twitter {
+    background:url(/images/icon_storytools.gif) 0 -256px no-repeat;
+    padding:0 0 0 19px;
+    cursor:pointer
+}
+a.facebook {
+    background:url(/images/icon_storytools.gif) 0 -272px no-repeat;
+    padding:0 0 0 20px;
+}
+a.rss {
+    background:url(/images/icon_services.gif) 0 0 no-repeat;
+}
+a.rss:hover {
+    background:url(/images/icon_services.gif) 0 -23px no-repeat;
+}
+.gplusTool {
+    width: 75px;
+    position: relative;
+}
+.gpHoriz {
+    position: absolute;
+    left: 25px;
+    top: 0;
+}
+ul.socialrowlist {
+    margin: 0 0 15px 0;
+    padding:0 0 8px 0
+}
+ul.socialrowlist li {
+    float:left;
+    font-size:11px;
+    padding:0 14px 0px 0;
+    line-height:16px;
+}
+ul.socialrowlist li a {
+    float:left;
+}
+ul.socialrowlist li a.gp {
+    margin-left:6px;
+    display:block;
+    float:right;
+}
+ul.socialrowlist li a:hover {
+}
+
+ul.storytools li.right {
+    float:right;
+    padding:0 0 0 10px;
+}
+ul.storytools li.right a.email,
+ul.storytools li.right a.print {
+    display:block;
+    width:16px;
+    height:16px;
+    padding:0;
+}
+ul.storytools li.right a.print {
+    margin-top:-1px;
+}
+#custom-tweet-button a {
+    background:url(/images/icon_storytools.gif) 0 -256px no-repeat;
+    padding:0 0 0 19px;
+    cursor:pointer;
+}

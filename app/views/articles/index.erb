@@ -1,4 +1,4 @@
-
+<%= render :partial => "common/extjs" %>
 <script type="text/javascript">
     Ext.onReady(function(){
 
@@ -23,7 +23,7 @@
                 '<tpl for="."><div class="jh_search_results">',
                 '<a href="/articles/words/{content_id}">{title}</a> (by {author}, posted {display_date})',
                 '</div></tpl>'
-                );
+        );
 
         var articleSearchControl = new Ext.form.ComboBox({
             store: articleSearchDataStore,
@@ -49,21 +49,9 @@
 </script>
 <div id="StageNarrow">
 
-    <div class="home-inside">
+  <div class="home-inside">
 
-        <div style="text-align: center;" id="jh_search"></div>
-        <div class="Header">
-                <%= @page_title %>
-        </div>
-        <div class="contentTypeList">
-            <a href="/articles/">Headlines</a> |
-            <a href="/articles/reviews">Reviews</a> |
-            <a href="/articles/artists">Concerts and Interviews</a> |
-            <a href="/articles/opinions">Opinion</a> 
-         <%if logged_in? && current_user.editor_flag==1 -%>
-                 | <a href="/articles/new"><img src="/images/icons/reply.png" border="0" alt="edit">New Article</a>
-        <% end -%>
-        </div>
-        <%= render :partial => "contentlist" %>
-    </div>
+
+    <%= render :partial => "contentlist" %>
+  </div>
 </div>

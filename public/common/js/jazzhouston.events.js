@@ -98,7 +98,7 @@ jh.events = function() {
 
             var tb = new Ext.Toolbar({
                 items: [{
-                    text:'See Shows By Date',
+                    text:'Select Date',
                     menu: dateMenu
                 }]
             });

@@ -60,22 +60,19 @@
 
 </script>
 <div id="StageNarrow">
+
+  <div class="HeaderShow">
+    <%= @venue.title %>
+  </div>
   <div class="inside">
 
-    ><a href="/home">Home</a>
-    ><a href="/venues/">Venues</a>
+
     <%if logged_in? && current_user.editor_flag==1 -%>
         <div style="float:right;">
           <a href="/venues/edit/<%=@venue.venue_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
 
         </div>
     <% end -%>
-
-    <div class="hspacer"></div>
-
-    <div class="HeaderTitle">
-      <%= @venue.title %>
-    </div>
     <div class="hspacer"></div>
     <!-- Place this tag where you want the +1 button to render -->
     <% if @venue.image_url && @venue.image_url!="" %>
@@ -95,17 +92,6 @@
     <% end %>
 
     <br/>
-    <g:plusone annotation="inline"></g:plusone>
-
-    <!-- Place this render call where appropriate -->
-    <script type="text/javascript">
-        (function() {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = 'https://apis.google.com/js/plusone.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-        })();
-    </script>
-
 
     <div class="hspacer"></div>
     <a name="shows"></a>

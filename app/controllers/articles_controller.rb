@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
   @@article_type[2]="Concerts and Interviews"
   @@article_type[3]="Opinion"
 
-  @@per_page=20
+  @@per_page=18
 
   ################################
   # ACTIONS
@@ -43,7 +43,9 @@ class ArticlesController < ApplicationController
       @page=1
       @articles=Content.find(:all, :order=>"display_date desc", :conditions => ["content_type_id=? and status_id=2",params[:id]], :limit=>@@per_page)
     end
-
+    totalPosts = Content.count(:all, :conditions => ["content_type_id=? and status_id=2",params[:id]])
+    @totalPages = (totalPosts/@@per_page).to_i
+    @sectionId=params[:id]
   end
 
   # article pages

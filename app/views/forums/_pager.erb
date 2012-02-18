@@ -1,13 +1,16 @@
-
-<% if page > 1 %>
-    <% if board.nil? %>
-        <%= link_to "previous", {:action => "index", :controller=>"forums", :page=>(page-1)} %> |
+page: <%= link_to "1", {:action => "index", :controller=>"forums", :page=>1} %>
+<% if page>10 %>..<% end %>
+<% sidx = (page>9)?page-8:2;
+   for i in (sidx..page) %>
+    <% if (i==page)  %>
+    <%= link_to i, {:action => "index", :controller=>"forums", :page=>i}, :class=>"selected" %>
     <% else %>
-        <%= link_to "previous", {:action => "threads", :controller=>"forums", :id=>board.board_id, :page=>(page-1)} %> |
-    <% end %>
+    <%= link_to i, {:action => "index", :controller=>"forums", :page=>i} %>
+<% end  %>
 <% end %>
+
 <% if board.nil? %>
-    <%= link_to "next", {:action => "index", :controller=>"forums", :page=>(page+1)} %>
+    <%= link_to "more", {:action => "index", :controller=>"forums", :page=>(page+1)} %>
 <% else %>
-    <%= link_to "next", {:action => "threads", :controller=>"forums", :id=>board.board_id, :page=>(page+1)} %>
+    <%= link_to "more", {:action => "threads", :controller=>"forums", :id=>board.board_id, :page=>(page+1)} %>
 <% end %>

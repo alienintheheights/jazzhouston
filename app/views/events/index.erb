@@ -59,11 +59,13 @@
 
 
 <div id="StageMedium">
-  <div class="inside">
-    <div class="Header">
-      JazzHouston Calendar
-    </div>
+  <div class="Header">
+    JazzHouston Calendar
+  </div>
 
+  <div class="inside">
+
+    <br/>
     <%if logged_in? && current_user.editor_flag==1 -%>
         <div class="flash-alert" style="float:left;display:inline;"><%= flash[:notice] %></div>
         <div style="float:right;">
@@ -72,13 +74,15 @@
 
     <% end -%>
     <div id="showgrid">
-      <div id="jh_toolbar"></div>
+
       <h2>Playing Today</h2>
+      <div id="jh_toolbar"></div>
       <div class="hspacer"></div>
       <% for item in @showsToday %>
           <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
           <% if item.venue %>
-              at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>,
+              @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
+
           <% end %>
           <%= item.show_time %>
           <div class="hspacer"></div>
@@ -101,7 +105,7 @@
 
       </ul>
       <div class="hspacer"></div>
-      <b><a href="/events/shows">coming soon...</a></b>
+      <a class="blueLink" href="/events/shows">see more upcoming shows</a>
       <div class="hspacer"></div>
 
 
@@ -116,9 +120,9 @@
               <% end %>
               <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>:
               <% if item.venue %>
-                                        <span class="smallText">
-                                        <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>
-                                        </span>
+                   <span class="smallText">
+                    <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>
+                   </span>
               <% end %>
               <div class="hspacer"></div>
           <% end %>
@@ -131,16 +135,8 @@
       Houston Jazz Venues
     </div>
     <div id="jh_venue_about">
-      <img src="http://www.addisontexas.net/REPOSITORY/ASSETS/RESTAURANT-PICS/SAMBUCA%20PIC.JPG" alt="Sambuca" hspace="2" align="left">
-      There are a rotating multitude of places to find Jazz in Houston. As of March 2011, the best bets are
-      <a href="/venues/about/7">Cezanne</a>,
-      <a href="/venues/about/33">Brasil</a>,
-      <a href="/venues/about/295">Smitty's</a>,
-      <a href="/venues/about/440">Cafe 4212</a>,
-      <a href="/venues/about/409">Dharma Cafe</a>,
-      <a href="/venues/about/470">Eddie V's</a>,
-      <a href="/venues/about/181">The Tasting Room</a>,
-      and various wine bars, restaurants, and clubs. Check the <a href="/events">calendar</a> for specifics.
+      <img src="/images/clubs/sambuca.jpg" alt="Sambuca" hspace="2" align="left">
+      There are a rotating multitude of places to find Jazz in Houston. Search by name or scan the <a href="/events">calendar</a> for specifics.
     </div>
     <br/><br/>
     <b>Venue Finder:</b><br/>

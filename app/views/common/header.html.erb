@@ -4,82 +4,58 @@
 <div id="Masthead">
   <div id="MastheadCenter">
     <div id="logoText"><a href="/home">Jazz/Houston</a></div>
+    <br/><div id="subLogoText">since 1995</div>
   </div>
-
   <div id="MastheadRight">
-    <div class="hspacer"></div>
-    <div id="MemberBox">
-
+      <div id="MemberBox">
       <% if logged_in? -%>
-	      <span id="MemberBoxView">
-              <a href="/members/profile/<%= current_user.username %>"><%= "#{(current_user.username)}" %></a>::<a href="/members/logout/">logoff</a>
-              </span>
-              <span id="MemberBoxEdit">
-              <a href="/members/edit/<%= current_user.user_id %>">edit</a>::
-              <a href="/members/changepassword/<%= current_user.user_id %>">change password</a>
-              </span>
+
+          <a  href="/members/profile/<%= current_user.username %>">profile</a> |
+          <a href="/members/edit/<%= current_user.user_id %>">settings</a>  |
+          <a href="/members/logout/">logout</a>
 
 
       <% else -%>
           <div id="jh_login_form" class="login">
             <%= form_tag "/members/login" do -%>
-                        <span id="MemberBoxView">
-                        Username: <br/>
-                        <input class="textfield" type="text" maxlength="26" size="10" id="login" name="login"/>
-                        <br/>
-                        remember me? <%= check_box_tag 'remember_me' %>
-                        </span>
-                        <span id="MemberBoxEdit">
-                        Password:<br/>
-                        <input class="textfield" type="password" name="password" id="password" maxlength="26" size="10"/>
-                          <%= submit_tag 'Go' %>
-                          <br/>
-				        <a href="/members/new">register</a> |
-                        <a href="/members/sendlostpasswordemail">help</a>
-                       </span>
+                <table>
+                  <tr>
+                    <td align="left"><input class="textfield" placeholder="Username" type="text" maxlength="26" size="10" id="login" name="login"/></td>
+                    <td align="left"><input class="textfield" placeholder="Password" type="password" name="password" id="password" maxlength="26" size="10"/></td>
+                    <td align="left"><%= submit_tag 'Go' %></td>
+                  </tr>
+                  <tr>
+                    <td align="left">
+                      Remember me<%= check_box_tag 'remember_me' %> </td>
+                    <td align="left" colspan="2">
+                      <a href="/members/sendlostpasswordemail">Forgot your password?</a>
+                    </td>
+                  </tr>
+                </table>
+
             <% end -%>
           </div>
+
       <% end -%>
+
     </div>
 
   </div>
+  <div id="nav-links">
 
+    <ul>
+      <li> <a <% if current_page?(:controller => 'home') %>class='selected'<% end %> href="/home">home</a></li>
+      <li><a <% if current_page?(:controller => 'events') %>class='selected'<% end %> href="/events">shows</a></li>
+      <li><a <% if current_page?(:controller => 'news') || current_page?(:controller => 'articles') %>class='selected'<% end %> href="/news">articles</a></li>
+      <li><a <% if current_page?(:controller => 'forums') %>class='selected'<% end %> href="/forums">forums</a></li>
+      <li><a <% if current_page?(:controller => 'releases') %>class='selected'<% end %> href="/releases">cds</a></li>
+      <li><a <% if current_page?(:controller => 'musicians') %>class='selected'<% end %> href="/musicians">players</a></li>
+      <li><a <% if current_page?(:controller => 'education') %>class='selected'<% end %> href="/education">schools</a></li>
+      <li><a <% if current_page?(:controller => 'members') %>class='selected'<% end %> href="/members">members</a></li>
+      <li><a <% if current_page?(:controller => 'site', :action=>'feedback') %>class='selected'<% end %> href="/site/feedback">contact</a></li>
+    </ul>
+  </div>
 
 </div>
 <div id="Wrapper">
-  <div id="CurtainLeft">
 
-    <div id="leftside-links">
-      <ul>
-        <% if logged_in? -%>
-            <li><a class='navLink' href="/members/profile/<%= current_user.username %>">My Page</a></li>
-        <% end %>
-        <li><a class='navLink' href="/events">Calendar</a></li>
-        <li><a class='navLink' href="/musicians">Players</a></li>
-        <li><a class='navLink' href="/releases">Recordings</a></li>
-        <li><a class='navLink' href="/articles">News</a></li>
-        <li><a class='navLink' href="/forums">Forums</a></li>
-        <li><a class='navLink' href="/members/new">Register</a></li>
-        <li><a class='navLink' href="/education">Education</a></li>
-        <li><a class='navLink' href="/site/feedback">Contact</a></li>
-      </ul>
-    </div>
-    <div class="hspacer"></div>
-    <div class="hspacer"></div>
-    <div id="AdRight">
-      <!-- Google Ad -->
-      <script type="text/javascript"><!--
-      google_ad_client = "pub-1710667641333982";
-      /* 120x600, created 6/1/09 */
-      google_ad_slot = "2420785327";
-      google_ad_width = 120;
-      google_ad_height = 600;
-      //-->
-      </script>
-      <script type="text/javascript"
-              src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-      </script>
-    </div>
-
-
-  </div>

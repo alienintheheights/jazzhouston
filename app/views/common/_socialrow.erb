@@ -1,0 +1,44 @@
+<div class="socialrow">
+  <ul class="socialrowlist">
+    <li class="twitterTool">
+      <a class="twitter popup" href="http://twitter.com/share">Tweet</a>
+      <script>
+          $('.popup').click(function(event) {
+              var width  = 575,
+                      height = 400,
+                      left   = ($(window).width()  - width)  / 2,
+                      top    = ($(window).height() - height) / 2,
+                      url    = this.href,
+                      opts   = 'status=1' +
+                              ',width='  + width  +
+                              ',height=' + height +
+                              ',top='    + top    +
+                              ',left='   + left;
+
+              window.open(url, 'twitter', opts);
+
+              return false;
+          });
+      </script>
+    </li>
+    <li class="facebookTool"><a name="Xfb_share" onclick="return fbs_click();" class="facebook">Facebook</a></li>
+    <li class="gplusTool"><g:plusone size="small" annotation="none" href="http://www.npr.org/2012/02/11/146696282/deconstructing-dengue-how-old-is-that-mosquito">&nbsp;</g:plusone><div class="gpHoriz" >Google+</div></li>
+ </ul>
+</div>
+
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share"
+        type="text/javascript">
+</script>
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<script type="text/javascript">
+    (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+</script>
+
+<script>function fbs_click() {u=location.href;t=document.title;window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(u)+'&t='+encodeURIComponent(t),'sharer','toolbar=0,status=0,width=626,height=436');return false;}</script><style> html .fb_share_link { padding:2px 0 0 20px; height:16px; background:url(http://static.ak.fbcdn.net/images/share/facebook_share_icon.gif?0:26981) no-repeat top left; }</style>
+<script>function tw_click() {u=location.href;t=document.title;window.open('https://twitter.com/share?url=<%=url%>','twsharer','toolbar=0,status=0,width=626,height=436');return false;}</script><style> html .fb_share_link {  }</style>

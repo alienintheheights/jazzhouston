@@ -17,7 +17,7 @@ class ReleasesController < ApplicationController
   def index
 
     @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"release_date desc", :limit=>9)
+                       :order=>"release_date desc", :limit=>15)
     @page_title="Local Recordings"
 
     respond_to do |format|

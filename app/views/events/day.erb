@@ -13,47 +13,42 @@
 </script>
 
 <div id="StageMedium">
-    <div class="inside">
+  <div class="Header"><%=  @curTime.strftime("%A, %B %d") %>: One-Night Only </div>
+
+  <div class="inside">
 
 
-        ><a href="/home">Home</a>><a href="/events">Events</a>
-        ><b>Shows for <%=  @curTime.strftime("%A %B %d") %></b>
-        <div id="jh_toolbar"></div>
-        
+    <div id="jh_toolbar"></div>
 
-        <div class="hspacer"></div>
-        <div class="HeaderTitle">One-Night Only </div>
-        <div class="hspacer"></div>
-        <% if @onenighters.length==0 %>
-            <p class="smallText">None scheduled:
-                see <a href="/events/shows">upcoming shows</a>
+    <div class="hspacer"></div>
+    <% if @onenighters.length==0 %>
+        <p class="smallText">None scheduled:
+          see <a href="/events/shows">upcoming shows</a>
+
+    <% end %>
+    <% for item in @onenighters %>
+        <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %></b>
+
+        <% if item.venue %>
+            @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
 
         <% end %>
-        <% for item in @onenighters %>
-            <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %></b>
+        <%= item.show_time %>
+       <div class="hspacer"></div>
+    <% end %>
 
-	    <% if item.venue %>
-            at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, {:remote => true} %>,
-	    <% end %>
-            <%= item.show_time %>
-            <br/>
-            <%= item.about.html_safe %>
-            <div class="hspacer"></div>
+    <div class="hspacer"></div>
+    <div class="Header">Every <%=  @curTime.strftime("%A") %></div>
+    <div class="hspacer"></div>
+    <% for item in @steadies %>
+        <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %></b>
+        <% if item.venue %>
+            @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
+
         <% end %>
+        <%= item.show_time %>
 
         <div class="hspacer"></div>
-        <div class="HeaderTitle">Every <%=  @curTime.strftime("%A") %></div>
-        <div class="hspacer"></div>
-        <% for item in @steadies %>
-            <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %></b>
-	    <% if item.venue %>
-            at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, {:remote => true} %>,
-	    <% end %>
-            <%= item.show_time %>
-            <br/>
-            <%= item.about.html_safe %>
-
-            <div class="hspacer"></div>
-        <% end %>
-    </div>
+    <% end %>
+  </div>
 </div>

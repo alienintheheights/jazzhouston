@@ -24,10 +24,10 @@ class HomeController < ApplicationController
     @showsToday = Event.getShowsToday(@curTime)
     @showsThisWeek = Event.getShowsThisWeek(@curTime)
 
-    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>10)
+    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>9)
 
     @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"release_date desc", :limit=>10)
+                       :order=>"release_date desc", :limit=>5)
 
     @page_title="News, Events Calendar, Musician Resources, Local Releases"
 
@@ -42,10 +42,10 @@ class HomeController < ApplicationController
     @showsToday = Event.getShowsToday(@curTime)
     @showsThisWeek = Event.getShowsThisWeek(@curTime)
 
-    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>10)
+    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>5)
 
     @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"release_date desc", :limit=>10)
+                       :order=>"release_date desc", :limit=>5)
 
     @page_title="News, Events Calendar, Musician Resources, Local Releases"
 

@@ -53,10 +53,12 @@
             itemSelector: 'div.jh_search_item',
             tpl: memberSearchResultTemplate,
             onSelect: function(record){ // override default onSelect to do redirect
-                var artistField=document.getElementById("event_artist_id");
+
+                var artistField = Ext.get("event_artist_id");
                 artistField.value =  record.data.user_id;
-                var artistName=document.getElementById("event_artist_search");
+                var artistName =  Ext.get("event_artist_search");
                 artistName.value = record.data.first_name + " " +record.data.last_name;
+                this.setValue(artistName.value);
                 this.collapse();
             }
 
@@ -87,9 +89,8 @@
 
         var venueSearchControl = new Ext.form.ComboBox({
             store: venueSearchDataStore,
-            displayField:'title',
-            applyTo:'event_venue_search',
-            typeAhead: false,
+            displayField: 'title',
+            applyTo: 'event_venue_search',
             loadingText: 'Searching...',
             width: 275,
             listWidth: 570,
@@ -99,10 +100,11 @@
             itemSelector: 'div.jh_venue_search_item',
             tpl: venueSearchResultTemplate,
             onSelect: function(record){ // override default onSelect to do redirect
-                var venueField=document.getElementById("event_venue_id");
+                var venueField = document.getElementById("event_venue_id");
                 venueField.value =  record.data.venue_id;
-                var venueName=document.getElementById("event_venue_search");
+                var venueName = document.getElementById("event_venue_search");
                 venueName.value = record.data.title;
+                this.setValue(record.data.title);
                 this.collapse();
             }
 
@@ -112,23 +114,28 @@
 
     function validate() {
 
-        if (document.forms[0].event_venue_id.value=="") {
+        if ( !Ext.get("event_venue_id").getValue()) {
             alert("You must enter a venue!");
             return false;
         }
 
-        if (document.forms[0].event_about.value.length<=5) {
+        if (!Ext.get("event_about").getValue() || Ext.get("event_about").getValue().length <= 5) {
             alert("Please enter information ABOUT the show!");
             return false;
         }
 
-        if (document.forms[0].event_performer.value!="" && document.forms[0].event_performer.value.length>59) {
+         if (!Ext.get("event_performer").getValue()) {
+            alert("Performer info missing.");
+            return false;
+        }
+
+        if (Ext.get("event_performer").getValue() && Ext.get("event_performer").getValue().length > 59) {
             alert("Performer too long! Please shorten performer info or move show details into the about section");
             return false;
         }
 
 
-        if (document.forms[0].event_type_id=="1" && document.forms[0].event_show_date=="") {
+        if (Ext.get("event_event_type_id").getValue() === "1" && !Ext.get("event_show_date").getValue()) {
             alert("The show needs a date!");
             return false;
         }

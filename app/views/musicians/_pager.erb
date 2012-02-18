@@ -1,0 +1,16 @@
+page: <%= link_to "1", {:action => "byinst", :controller=>"musicians", :page=>1} %>
+<% if page>10 %>..<% end %>
+<% sidx = (page>9)?page-8:2;
+   for i in (sidx..page) %>
+    <% if (i==page)  %>
+    <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i}, :class=>"selected" %>
+    <% else %>
+    <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i} %>
+<% end  %>
+<% end %>
+
+<% if instrument.nil? %>
+    <%= link_to "more", {:action => "byinst", :controller=>"musicians", :page=>(page+1)} %>
+<% else %>
+    <%= link_to "more", {:action => "byinst", :controller=>"musicians", :id=>instrument, :page=>(page+1)} %>
+<% end %>

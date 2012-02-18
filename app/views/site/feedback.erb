@@ -1,59 +1,60 @@
 <div id="StageNarrow">
-    <div class="inside">
-        <div class="HeaderTitle">
-           Jazzhouston Feedback Form
-        </div>
+  <div class="HeaderTitle">
+    Jazzhouston Feedback Form
+  </div>
 
-          <div class="flash-alert">
-            <%= flash[:notice] %>
-        </div>
+  <div class="inside">
 
-	Please use this form to submit your feedback and requests for gigs, CD's, news, etc. It will be sent to our editor content team for review.
-	<br/><br/>
-<b>Show Guidelines</b>:
-<br/>Artist or Band name:
-<br/>Event Date or Day-of-Week if recurring:
-<br/>Venue Name:
-<br/>Basic Description (one paragraph):
-<br/>Artist Web Site:
-<br/><br/>
-<b>Press Release Guidelines</b>:
-<br/>Release Date:
-<br/>Image URLs if needed:
-<br/>Plain text content (HTML only creates format problems): 
-<br/>Related Links:
-<br/><br/>
-<b>CD Release Guidelines</b>:
-<br/>Release Date:
-<br/>Image URL:
-<br/>Artist Web Site:
-<br/>Purchase Link:
-<br/>Genre:
-<br/>Basic "About" (one paragraph):
-	<br/><br/>
-        <form action="/site/feedback" method="post">
-           Your Name<br/>
-           <input type="text" name="name"/>
-            <br/><br/>
-            Your Email Address (required IF YOU WANT A RESPONSE)<br/>
-           <input type="text" name="email"/>
-             <br/><br/>
-            <b>Your Message</b><br/>
-            <textarea name="message" cols="50" rows="25"></textarea>
-            <input type="hidden" name='authenticity_token' value= '<%= form_authenticity_token() %>'/>
-            <br/><br/>
-            <b>Now add these numbers:</b>
-            <div id="challengeImageDiv"><img src="/members/challenge_image"></div><br/>
-             Sum: <input type="text" name="imageChallenge"/>
-             <br/><br/>
-	NOTE: <b>This form is not for sending Kelly or Andrew messages</b>; it is sent to a large group of editors. Use their emails if you need to reach them directly.
-	<br/>
-            <input type="submit">
-<br/><br/>
-
-        </form>
-
-
-
+    <div class="flash-alert">
+      <%= flash[:notice] %>
     </div>
+
+    Please use this form to submit your feedback and requests for gigs, CD's, news, etc. It will be sent to our editor content team for review.
+    <br/><br/>
+    <b>Show Guidelines</b>:
+    <br/>Artist or Band name:
+    <br/>Event Date or Day-of-Week if recurring:
+    <br/>Venue Name:
+    <br/>Basic Description (one paragraph):
+    <br/>Artist Web Site:
+    <br/><br/>
+    <b>Press Release Guidelines</b>:
+    <br/>Release Date:
+    <br/>Image URLs if needed:
+    <br/>Plain text content (HTML only creates format problems):
+    <br/>Related Links:
+    <br/><br/>
+    <b>CD Release Guidelines</b>:
+    <br/>Release Date:
+    <br/>Image URL:
+    <br/>Artist Web Site:
+    <br/>Purchase Link:
+    <br/>Genre:
+    <br/>Basic "About" (one paragraph):
+    <br/><br/>
+    <form action="/site/feedback" method="post">
+      Your Name<br/>
+      <input type="text" name="name"/>
+      <br/><br/>
+      Your Email Address (required IF YOU WANT A RESPONSE)<br/>
+      <input type="text" name="email"/>
+      <br/><br/>
+      <b>Your Message</b><br/>
+      <textarea name="message" cols="50" rows="25"></textarea>
+      <input type="hidden" name='authenticity_token' value= '<%= form_authenticity_token() %>'/>
+      <br/><br/>
+      <b>Now add these numbers:</b>
+      <div id="challengeImageDiv"><img src="/members/challenge_image"></div><br/>
+      Sum: <input type="text" name="imageChallenge"/>
+      <br/><br/>
+      NOTE: <b>This form is not for sending Kelly or Andrew messages</b>; it is sent to a large group of editors. Use their emails if you need to reach them directly.
+      <br/>
+      <input type="submit">
+      <br/><br/>
+
+    </form>
+
+
+
+  </div>
 </div>

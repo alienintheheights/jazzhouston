@@ -14,7 +14,7 @@ class ForumsController < ApplicationController
 
   # TODO: make boards a class var?
   @@moderation_mode = false
-  @@per_page = 25
+  @@per_page = 12
   @@message_threshold = -6
 
 
@@ -45,7 +45,7 @@ class ForumsController < ApplicationController
 
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
-      format.mobile {render :template => "forums/threads.erb"}
+      format.mobile {render :template => "forums/threads_mobile.erb"}
     end
   end
 
@@ -89,6 +89,7 @@ class ForumsController < ApplicationController
     pageNumber = params[:page]
     @fpage = params[:fpage]
     @thread = ForumThread.find(params[:id])
+    @boards=Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
 
     if (@thread)
       @ban_list= (logged_in? && session[:user_bans])?  session[:user_bans] : {}
@@ -239,33 +240,33 @@ class ForumsController < ApplicationController
   ################################
   def new
     @page_title="Forum | New Post"
-    @boards=Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
-    @board=nil
-    @board_id=0
+    @boards = Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
+    @board = nil
+    @board_id = 0
     if (params[:board_id])
-      @board=Board.find(params[:board_id])
-      @board_id=@board.board_id
+      @board = Board.find(params[:board_id])
+      @board_id = @board.board_id
     end
     if logged_in? && request.post?
 
       thread = ForumThread.new()
-      thread.title=params[:title]
-      thread.board_id=@board_id
-      thread.post_count=1
-      thread.modified_date=Time.now
-      thread.user_id=current_user.user_id
-      thread.author=current_user.username
-      thread.monologue_flag=1
+      thread.title = params[:title]
+      thread.board_id = @board_id
+      thread.post_count = 1
+      thread.modified_date = Time.now
+      thread.user_id = current_user.user_id
+      thread.author = current_user.username
+      thread.monologue_flag = 1
       thread.status= (@@moderation_mode) ? 1 : 2
       thread.save!
 
       message = Message.new(params[:message])
-      message.user_id=current_user.user_id
-      message.thread_id=thread.thread_id
-      message.author=current_user.username
-      message.ip_address=request.remote_ip()
-      message.status= (@@moderation_mode) ? 1 : 2
-      message.pdate=Time.now
+      message.user_id = current_user.user_id
+      message.thread_id = thread.thread_id
+      message.author = current_user.username
+      message.ip_address = request.remote_ip()
+      message.status = (@@moderation_mode) ? 1 : 2
+      message.pdate = Time.now
       message.save!
 
 

@@ -1,3 +1,4 @@
+<%= render :partial => "common/extjs" %>
 
 <script type="text/javascript">
 
@@ -23,7 +24,7 @@
                 '<tpl for="."><div class="jh_search_item">',
                 '<a href="/members/profile/{username}">{last_name}, {first_name}</a> ({username})',
                 '</div></tpl>'
-                );
+        );
 
         var liveSearchControl = new Ext.form.ComboBox({
             store: liveSearchDataStore,
@@ -55,96 +56,95 @@
 %>
 
 <div id="StageNarrow">
-    <div class="home-inside">
+  <div class="Header">Member Center</div>
 
-        <div class="hspacer"></div>
-
-        <div class="flash-alert"><%= flash[:notice] %></div>
-        <div class="Header">Member Center</div>
-        
-        <div id="jh_member_search"></div>
-
-        <div class="hspacer"></div>
-        <div class="hspacer"></div>
+  <div class="inside">
+    <div id="jh_member_search"></div>
+    <br/>
+    <div class="flash-alert"><%= flash[:notice] %></div>
 
 
-        <%if logged_in? -%>
-            <div id="StageColumnLeft">
-                <b>Account Options</b>
-                <div class="hspacer"></div>
-                Profile: <a href="/members/edit/<%=current_user.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a> |
-                <a href="/members/profile/<%=current_user.username%>">View</a>
-                <div class="hspacer"></div>
-                <a href="/members/changepassword/<%=current_user.user_id%>">Change</a> your password
-                <div class="hspacer"></div>
-                <a href="/members/logout">Sign Out</a>
+    <%if logged_in? -%>
+        <div id="StageColumnLeft">
+          <b>Account Options</b>
+          <div class="hspacer"></div>
+          Profile: <a href="/members/edit/<%=current_user.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a> |
+          <a href="/members/profile/<%=current_user.username%>">View</a>
+          <div class="hspacer"></div>
+          <a href="/members/changepassword/<%=current_user.user_id%>">Change</a> your password
+          <div class="hspacer"></div>
+          <a href="/members/logout">Sign Out</a>
 
-            </div>
-            <div id="StageColumnRight">
-                <% if current_user.editor_flag==1 %>
-                    <b>Site Editor Options</b>
-                    <div class="hspacer"></div>
-                    Content Editing has changed with this new release of Jazzhouston.
-                    See <a href="/site/editor">Editor Home</a> for details.
-                     <div class="hspacer"></div>
-                <% else %>
-                    <b>Did you know?</b>
-                     <div class="hspacer"></div>
-                    If you are a musician and would like to be listed in the musician's directory,
-                    simply click the <a href="/members/edit/<%=current_user.user_id%>">edit user</a>
-                    link. Once there, select the Musician's tab and check the box to open a list of
-                    instruments. Once you've added your instruments, you'll be in the <a href="/musicians">Musician's Listing</a>.
-                     <div class="hspacer"></div>
-                    *NEW* -- If you would like to ignore certain users in the forum, check out the new <a href="/forums/ban_list">Ignore User</a>
-                    feature.
-                <% end %>
-            </div>
-        <% else -%>
-            <div id="StageColumnLeft">
-                <b>Sign up</b>
-                <br/>If you haven't already joined, click to <a class="boldLink" href="/members/new">join</a>.
-                <br/><br/>
-                <b>Membership Benefits:</b>
-                <div class="hspacer"></div>
-                <ul>
-                    <li>Listings in the musicians directory</li>
-                    <li>Access to the Jazzhouston Forums</li>
-                    <li>Optional access to Jazzhouston newsletters</li>
-			<br/>
-                    <li>Did we mention that it's free? And we will never send you spam or sell your info. Just saying... </li>
-                </ul>
-            </div>
-            <div id="StageColumnRight">
-                <b>Member Help</b>
-                <div class="hspacer"></div>
-                <a href="/members/sendlostpasswordemail">Forgot your password?</a>
-                <div class="hspacer"></div>
-                <a href="/members/confirmform">Resend your confirmation E-Mail?</a>
-            </div>
-
-        <% end -%>
-
-
-        <div class="hspacer"></div>
-
-
-        <div class="Header">Newest Members</div>
-        <div class="hspacer"></div>
-        <% for item in @users
-            new_user=(item.modified_date==item.created_date || item.modified_date=nil)
-            mod_date=item.modified_date||item.created_date
-            if (mod_date)
-                mod_date=mod_date.strftime("%Y/%m/%d")
-            end
-        %>
-            <div class="vertical-listing">
-
-                <%= link_to item.username.downcase, {:action => "profile",  :id=>item.username} %>:
-                <%= item.first_name.titleize %> <%= item.last_name.titleize %>
-                <span class="smallTextItalics">(joined: <%= mod_date %>)</span>
-            </div>
-        <% end %>
         </div>
-    </div>
+        <div id="StageColumnRight">
+          <% if current_user.editor_flag==1 %>
+              <b>Site Editor Options</b>
+              <div class="hspacer"></div>
+              Content Editing has changed with this new release of Jazzhouston.
+              See <a href="/site/editor">Editor Home</a> for details.
+              <div class="hspacer"></div>
+          <% else %>
+              <b>Did you know?</b>
+              <div class="hspacer"></div>
+              If you are a musician and would like to be listed in the musician's directory,
+              simply click the <a href="/members/edit/<%=current_user.user_id%>">edit user</a>
+              link. Once there, select the Musician's tab and check the box to open a list of
+              instruments. Once you've added your instruments, you'll be in the <a href="/musicians">Musician's Listing</a>.
+              <div class="hspacer"></div>
+              *NEW* -- If you would like to ignore certain users in the forum, check out the new <a href="/forums/ban_list">Ignore User</a>
+              feature.
+          <% end %>
+        </div>
+    <% else -%>
+        <div id="StageColumnLeft">
+          <b>Sign up</b>
+          <br/>If you haven't already joined, click to <a class="boldLink" href="/members/new">join</a>.
+          <br/><br/>
+          <b>Membership Benefits:</b>
+          <div class="hspacer"></div>
+          <ul>
+            <li>Listings in the musicians directory</li>
+            <li>Access to the Jazzhouston Forums</li>
+            <li>Optional access to Jazzhouston newsletters</li>
+            <br/>
+            <li>Did we mention that it's free? And we will never send you spam or sell your info. Just saying... </li>
+          </ul>
+        </div>
+        <div id="StageColumnRight">
+          <b>Member Help</b>
+          <div class="hspacer"></div>
+          <a href="/members/sendlostpasswordemail">Forgot your password?</a>
+          <div class="hspacer"></div>
+          <a href="/members/confirmform">Resend your confirmation E-Mail?</a>
+        </div>
+
+    <% end -%>
+
+
+    <div class="hspacer"></div>
+
+
+    <div class="Header">Newest Members</div>
+    <div class="hspacer"></div>
+    <% for item in @users
+           new_user=(item.modified_date==item.created_date || item.modified_date=nil)
+           mod_date=item.modified_date||item.created_date
+           full_name =   item.first_name.titleize + item.last_name.titleize
+           if (mod_date)
+               mod_date=mod_date.strftime("%Y/%m/%d")
+           end
+    %>
+        <div class="vertical-listing">
+
+          <%= render :partial => "common/renderpic", :locals => { :user => item, :size =>"60"} %>
+          <div class="softPad">
+            <%= link_to full_name, {:action => "profile",  :id=>item.username} %>
+            <br/>
+            <span class="smallTextItalics">joined <%=distance_of_time_in_words(Time.now, mod_date)%> ago</span>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>
 
 

@@ -1,10 +1,14 @@
 <%
    unless user.nil?
        basePath = "/members/profile/" + user.username
+       # fix bad user data
+       if user.image_url && user.image_url !~/(.*)\.(jpeg|bmp|png|gif|jpg)$/i
+           user.image_url=""
+       end
        # set user image URL
        if user.image && user.image!=""
            src =url_for_image_column(user, 'image', :name=>'avatar')
-       elsif user.image_url && user.image_url!=""
+       elsif user.image_url && user.image_url!="" && user.image!=""
            src = user.image_url
        else
            src="/images/forum-icon-blue.png"

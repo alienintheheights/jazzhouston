@@ -8,46 +8,49 @@
 
     // Panels for the events page
     Ext.onReady(function(){
-       
+
         jh.events.dateToolbar("jh_toolbar");
     });
 
 
 </script>
 <div id="StageNarrow">
-    <div class="inside">
+  <div class="Header">Upcoming Shows </div>
 
+  <div class="inside">
 
-        
-        ><a href="/home">Home</a>
-        ><a href="/events/">Events</a>
-        ><b>Upcoming Shows</b>
-        <div id="jh_toolbar"></div>
+    <div id="jh_toolbar"></div>
 
+    <div class="hspacer"></div>
+    <% if @shows.length==0 %>
+        <p class="smallText">None scheduled (or at least, we're way behind on keeping the listings current)
 
-        <div class="hspacer"></div>
-        <div class="Header">Upcoming Shows </div>
-        <div class="hspacer"></div>
-        <% if @shows.length==0 %>
-            <p class="smallText">None scheduled (or at least, we're way behind on keeping the listings current)
-
-        <% end %>
-        <% for item in @shows %>
-             <%=item.show_date.to_datetime.strftime("%a %b %d")%>:
-            <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
-            <% if item.venue %>
+    <% end %>
+    <table width="100%" class="index-two-column">
+      <% for item in @shows %>
+          <tr>
+            <td width="10%"><%=item.show_date.to_datetime.strftime("%b %d")%></td>
+            <td width='36%'>
+              <% if item.venue %>
             <span class="smallText">
-                <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>
+                @<%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
             </span>
-            <% end %>
-          
-            <div class="hspacer"></div>
-        <% end %>
+              <% end %>
+            </td>
+            <td widdth="54%"><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></td>
 
-        <div class="hspacer"></div>
+          </tr>
+      <% end %>
+    </table>
+    <div class="hspacer"></div>
+    Check back for more shows. We post 'em as we get 'em!
+     <br/>
+    Subscribe to our RSS feed:
+  <a href="http://jazzhouston.com/events/rss"><img width="20" align="top" src="/images/icon_hopout_rss.png" border="0"></a>
+  <br/>
+   Follow us on Twitter:<a href="http://twitter.com/#!/jazzhouston"><img width="20" align="top" src="/images/icon_hopout_twitter.png" border="0"></a>
 
 
 
-
-    </div>
+  </div>
 </div>

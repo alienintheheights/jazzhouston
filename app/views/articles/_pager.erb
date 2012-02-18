@@ -1,0 +1,15 @@
+<% if totalPages>1  %>
+    page: <%= link_to "1", {:action => "index", :controller=>"articles", :id=>@id, :type=>@type, :page=>1} %>
+    <% if page>10 %>..<% end %>
+    <% sidx = (page>9)?page-8:2;
+       for i in (sidx..page)
+           if (i==page)  %>
+            <%= link_to i, {:action => "index", :controller=>"articles", :id=>@id, :type=>@type,  :page=>i}, :class=>"selected" %>
+        <% else %>
+            <%= link_to i, {:action => "index", :controller=>"articles", :id=>@id, :type=>@type,  :page=>i} %>
+        <% end  %>
+    <% end %>
+    <% if page < totalPages %>
+        <%= link_to "more", {:action => "index", :controller=>"articles",:id=>@id, :type=>@type, :page=>@page+1} %>
+    <% end %>
+<% end %>

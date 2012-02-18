@@ -1,29 +1,44 @@
-
+<script type="text/javascript">
+    $(function() {
+        $('table.phone-list tr').not(':first').hover( function(){
+                    $(this).css('background-color', '#ff6');
+                    $(this).css('font-size', '1.0em');
+                },
+                function(){
+                    $(this).css('background-color', '#fff');
+                    $(this).css('font-size', '1.0em');
+                });
+    });
+</script>
 <div id="StageNarrow">
+  <div class="HeaderShow"><%= @instrument.titleize %></div>
+
   <div class="inside">
-
-    ><a href="/">Home</a>> <a href="/musicians">Musicians</a> > <%= @instrument %>
-
-    <div class="hspacer"></div>
-    <div class="Header"><%= @instrument %></div>
+    <div class="breadcrumbs">
+      <a href="/">Home</a>> <a href="/musicians">Musicians</a>>
+    </div>
+    <div class="board-pager" style="float:right;">
+      <%= render :partial => "pager", :locals => { :page => @page, :instrument => @instrument}%>
+    </div>
     <table class="phone-list" width="100%">
       <tr>
-        <th width="40%" class="phoneHeader">Name</th>
+        <th width="25%" class="phoneHeader">Name</th>
         <th width="25%" class="phoneHeader">Cell Phone</th>
         <th width="25%" class="phoneHeader">Home Phone</th>
-        <th width="10%" class="phoneHeader">vCard</th>
+        <th width="25%" class="phoneHeader">vCard</th>
       </tr>
       <% for item in @players %>
           <% if (item.first_name || item.last_name)
-                 if (item.image_url !~/\.(jpeg|png|bmp|gif|jpg)$/i)
-                     item.image_url=""
-                 end
                  fullname = item.first_name.gsub( %r{</?[^>]+?>}, '' ) + " " + item.last_name.gsub( %r{</?[^>]+?>}, '' )
           %>
-              <tr class="<%=cycle('alt','noalt')%>" style="padding: 5px 0;">
-                <td width="40%" valign="bottom">
-                  <%= render :partial => "common/renderpic",  :locals => { :user => item, :size =>"30"}%>
-                 &nbsp; <a href="/members/profile/<%=item.username%>"><%= fullname.titleize %></a>
+              <tr style="padding: 5px 0;">
+                <td width="35%" valign="bottom">
+
+                  <div class="forumListPic">
+                    <%= render :partial => "common/renderpic", :locals => { :user => item, :size =>"30"} %>
+                  </div>
+                  <a class="smallForumLink" href="/members/profile/<%=item.username%>"><%= fullname.titleize %></a>
+
                 </td>
                 <td width="25%" valign="bottom" >
                   <%= item.cell_phone %>
@@ -31,13 +46,16 @@
                 <td width="25%"  valign="bottom">
                   <%= item.home_phone %>
                 </td>
-                <td width="10%"  valign="bottom">
+                <td width="15%"  valign="bottom">
                   <a href="/members/vcard/<%=item.id%>"><img src='/images/icons/vcard.png' border='0' width='30'></a>
                 </td>
               </tr>
           <% end %>
       <% end %>
     </table>
+     <div class="board-pager" style="float:right;">
+      <%= render :partial => "pager", :locals => { :page => @page, :instrument => @instrument}%>
+    </div>
     <div class="hspacer"></div>
   </div>
 </div>

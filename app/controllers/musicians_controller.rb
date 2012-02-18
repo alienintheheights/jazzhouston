@@ -2,17 +2,27 @@ class MusiciansController < ApplicationController
   attr_accessor :password
   include ExtjsRails
 
+  @@per_page = 25
+
   def index
-    @instruments = Instrument.all(:order=>"instrument_group, instrument_name")
+    @instruments = Instrument.all(:order=>"instrument_name")
     @page_title="Musicians"
   end
 
   def byinst
     @instrument = params[:id]
+    @total_players = User.count(:all, :include=>:instruments,
+                               :conditions=>["local_player_flag=1 and (last_name is not null and last_name <>'') and instruments.instrument_name=?",params[:id]])
+
+    page_number = params[:page]
+    @page = (page_number)? page_number.to_i : 1
+    offset = @@per_page  * (@page-1)
+
     @players = User.find(:all,
                          :include=>:instruments,
                          :conditions=>["local_player_flag=1 and (last_name is not null and last_name <>'') and instruments.instrument_name=?",params[:id]],
-                         :order =>"last_name"  )
+                         :order =>"last_name", :limit=>@@per_page, :offset=>offset  )
+
 
     @page_title="Players by Instrument | #{params[:id]}"
   rescue Exception=> e

@@ -5,10 +5,10 @@
 #########################################
 class MembersController < ApplicationController
 
-  require "RMagick"  #TODO:DEV
+  #require "RMagick"  #TODO:DEV
   include AuthenticatedSystem
   include ExtjsRails
-  include UserChallenge  #TODO:DEV
+  #include UserChallenge  #TODO:DEV
 
   #rescue_from (ActiveRecord::RecordNotFound) { |e| render :file => 'public/404.html' }
   #rescue_from (ActiveRecord::RecordInvalid) { |e| render :file => 'public/404.html' }
@@ -24,7 +24,7 @@ class MembersController < ApplicationController
   @@msg[2]="Password changed! Please login."
 
   def loginpage
-
+     @page_title = "Log In Page"
   end
 
   #########################################
@@ -84,7 +84,7 @@ class MembersController < ApplicationController
   #########################################
   def index
     @page_title="Members Home"
-    @users = User.find(:all, :conditions=>"status_id=0", :order=>"user_id desc", :limit=>25)
+    @users = User.find(:all, :conditions=>"status_id=0", :order=>"user_id desc", :limit=>10)
 
     if (params[:msgid])
       flash[:notice]=@@msg[params[:msgid].to_i]
@@ -316,7 +316,7 @@ class MembersController < ApplicationController
 
     @user = User.new(params[:user])
     @user.status_id=1
-    # get the instruments
+              # get the instruments
     user_instruments=params[:instrument]
     if (user_instruments)
       instruments=[]
@@ -446,25 +446,25 @@ class MembersController < ApplicationController
   def upload
 
     #if request.post?
-      @user = User.find(params[:id])
-      @user.update_attributes(params[:user])
+    @user = User.find(params[:id])
+    @user.update_attributes(params[:user])
 
-      # cleanup
-      if (@user.image_url && @user.image_url!="")
-        @user.image=nil
-        @user.save!
-      elsif (@user.image && @user.image!="")
-        @user.image_url=nil
-        @user.save!
-      end
-      # clear cache, if any
-      expire_user(@user)
+    # cleanup
+    if (@user.image_url && @user.image_url!="")
+      @user.image=nil
+      @user.save!
+    elsif (@user.image && @user.image!="")
+      @user.image_url=nil
+      @user.save!
+    end
+    # clear cache, if any
+    expire_user(@user)
 
-      #flash[:notice] = 'Image Uploaded and Thumbnailed'
-      redirect_to :action => "profile", :id => @user.username
+    #flash[:notice] = 'Image Uploaded and Thumbnailed'
+    redirect_to :action => "profile", :id => @user.username
 
-    #end
-    #redirect_to :action => "edit", :id => @user.user_id
+      #end
+      #redirect_to :action => "edit", :id => @user.user_id
   rescue Exception => exception
     flash[:notice]="Boooo!! " + exception
 

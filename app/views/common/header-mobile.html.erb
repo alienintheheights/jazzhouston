@@ -2,21 +2,68 @@
 <body>
 
 <div id="Masthead">
-    <div id="MastheadCenter">
-        <div id="logoText"><a href="/home">Jazz/Houston</a></div>
-    </div>
+  <div id="MastheadSpan">
+    <div id="MemberBox">
 
-    <div id="MastheadRight">
-          <div class="hspacer"></div>
-        <div id="MemberBox">
+      <% if logged_in? -%>
+	      <span id="MemberBoxView">
+              Welcome, <%= "#{(current_user.first_name.titleize)}" %>!
+              </span>
 
-            <% if logged_in? -%>
-		<a href="/members/logout">Sign Out</a>
-            <% else -%>
-	        <a href="/members/loginpage">Sign In</a>
+
+
+      <% else -%>
+          <div id="jh_login_form" class="login">
+            <%= form_tag "/members/login" do -%>
+                <input class="textfield" placeholder="Username" type="text" maxlength="46" size="12" id="login" name="login"/>
+                <input class="textfield" placeholder="Password" type="password" name="password" id="password" maxlength="46" size="12"/>
+                <%= submit_tag 'Log In' %>
+
+                <%= check_box_tag 'remember_me' %>Remember me
+                </span>
             <% end -%>
-        </div>
+          </div>
+      <% end -%>
     </div>
+    <div id="MemberMeta">
+        <% if logged_in? -%>
+          <a href="/members/profile/<%= current_user.username %>">View profile</a> |
+	          <a href="/members/edit/<%= current_user.user_id %>">Settings</a> |
+              <a href="/members/changepassword/<%= current_user.user_id %>">Change password</a> |
+
+            <a href="/members/logout/">Sign out</a>
+
+
+      <% else -%>
+          <div id="jh_login_form" class="login">
+            <a href="/members/sendlostpasswordemail">Password help?</a> |
+            <a href="/members/">Register</a>
+          </div>
+      <% end -%>
+    </div>
+
+
+  </div>
+  <div id="MastheadCenter">
+    <div id="logoText"><a href="/home">Jazz/Houston</a></div>
+  </div>
+  <div id="MastheadRight">
+   since 1995
+  </div>
+
+
+</div>
+<div id="nav-links">
+  <ul>
+    <li> <a <% if current_page?(:controller => 'home', :action=>'mobile') %>class='selected'<% end %> href="/home">home</a></li>
+    <li><a <% if current_page?(:controller => 'events') %>class='selected'<% end %> href="/events">shows</a></li>
+    <li><a <% if current_page?(:controller => 'forums') %>class='selected'<% end %> href="/forums">forums</a></li>
+    <li><a <% if current_page?(:controller => 'musicians') %>class='selected'<% end %> href="/musicians">players</a></li>
+    <li><a <% if current_page?(:controller => 'news') %>class='selected'<% end %> href="/news">news</a></li>
+  </ul>
+</div>
+
 </div>
 <div id="Wrapper">
+
 
