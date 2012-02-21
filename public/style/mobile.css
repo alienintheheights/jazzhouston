@@ -13,6 +13,7 @@
     padding: 0;
     margin: 0;
     color: #3c3c3c;
+    -webkit-text-size-adjust: none;
 }
 
 body
@@ -25,6 +26,9 @@ body
     background-color: #2A2A2A;
 }
 
+img {
+    max-width: 250px;
+}
 
 ul, li
 {
@@ -124,8 +128,8 @@ a.boldLink:hover {
     background-color: #fff;
     text-align: center;
     font-size: 1.0em;
-    width:100%;
-    height:79px;
+    width: 100% !important;
+    height:84px;
     margin: 0 auto;
     padding: 0 0 0 0;
     -moz-border-radius: 15px;
@@ -137,9 +141,8 @@ a.boldLink:hover {
     text-align: left;
     padding: 7px 0 5px 5px;
     border-bottom: 1px solid #ccc;
-    height: 25px;
+    height: 30px;
     font-size:0.9em;
-
     color:#333;
 }
 
@@ -196,7 +199,7 @@ a.boldLink:hover {
     padding: 2px 0 5px 15px;
     letter-spacing: 0.4em;
     color: #1a1a1a;
-    font-size: 0.8em;
+    font-size: 0.7em;
     float:left;
 }
 
@@ -205,7 +208,7 @@ a.boldLink:hover {
     float: right;
     color: #666;
     padding: 5px 5px 0 0;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 
 
@@ -227,7 +230,7 @@ a.boldLink:hover {
 
 #nav-links {
     clear:both;
-    width: 100%;
+    width: 100% !important;
     padding: 0 0 0 0;
     margin-bottom: 1em;
     font-family:  tahoma, Verdana,sans-serif;
@@ -298,7 +301,7 @@ html>body #nav-links li a {
     overflow: auto;
     margin: 0 auto;
     padding: 0;
-    width: 100%;
+    width: 100% !important;
     background-color: #fff;
 }
 
@@ -379,9 +382,8 @@ html>body #leftside-links li a {
 #Stage {
     text-align: center;
     float:left;
-    width: 100%;
+    width: 100% !important;
     padding: 0;
-    background-color: #2A89C5; /**#CCCC7F;**/
     color: #555;
 
 }
@@ -389,9 +391,8 @@ html>body #leftside-links li a {
 #StageHome {
     text-align: center;
     float:left;
-    width: 100%;
+    width: 100% !important;
     padding: 0;
-    background-color: #2A2A2A; /**#CCCC7F;**/
     color: #555;
 }
 
@@ -402,8 +403,7 @@ html>body #leftside-links li a {
 #StageNarrow {
     text-align: center;
     float:left;
-    width: 100%;
-    background-color: #2A2A2A;
+    width: 100% !important;
     color: #555;
     padding: 0;
 }
@@ -413,9 +413,7 @@ html>body #leftside-links li a {
 #StageMedium {
     text-align: center;
     float:left;
-    width: 100%;
-    /**padding: 0 0 0 125px; **/
-    background-color: #2A2A2A; /**#CCCC7F;**/
+    width: 100% !important;
     color: #555;
 }
 
@@ -458,6 +456,20 @@ html>body #leftside-links li a {
 }
 
 
+
+
+.cd-inside
+{
+    background-color: white;
+    padding: 0 8px;
+    text-align:left;
+    line-height:1.6em;
+    height: auto;
+    min-height: 600px;
+    overflow: hidden;
+}
+
+
 .profile-inside
 {
     background-color: white;
@@ -484,11 +496,10 @@ html>body #leftside-links li a {
 .inside
 {
     background-color: white;
-    padding: 0 8px;
+    padding: 0 2px;
     text-align:left;
     line-height:1.6em;
     height: auto;
-    overflow-y: auto;
 }
 
 .inside .newslist  a, .inside .newslist  a:visited {
@@ -640,6 +651,11 @@ li.newslist-feature {
     color:#555;
 }
 
+
+a.venueLink, a:visited.venueLink {
+    color:  #2A89C5;
+}
+
 .admin-panel {
     background-color: white;
     font-size: 1.0em;
@@ -716,7 +732,7 @@ li.newslist-feature {
 }
 
 #jh_toolbar {
-    width:115px;
+    width:25%;
     text-align: left;
     float:left;
 }
@@ -725,7 +741,7 @@ li.newslist-feature {
 .newslist {
     margin: 0;
     padding-left: 5px;
-    width: 300px;
+    width: auto;
 }
 
 
@@ -748,7 +764,7 @@ li.newslist-feature {
     margin-top:0;
     text-indent:0px;
     border-top: none;
-    padding: 0 15% 0 20%;
+    padding: 0 15% 0 1%;
 }
 
 #homegrid table td {
@@ -826,7 +842,7 @@ table.index-three-column-small  {
 table.index-three-column-small td {
     background-color:white;
     padding:2px 0;
-    width:100px;
+    width:33%;
     height: 100px;
     vertical-align: top;
     text-align: left;
@@ -834,6 +850,8 @@ table.index-three-column-small td {
     font-size:0.9em;
     border:1px solid #B3B3B3;
 }
+
+
 
 
 table.index-three-column  {
@@ -852,6 +870,35 @@ table.index-three-column td {
     background-color:white;
     border:1px solid #B3B3B3;
     padding:5px;
+    width:33%;
+    min-width:33%;
+    height: 150px;
+    vertical-align: top;
+    text-align: center;
+    color:#1a1a1a;
+    font-size:1.0em;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+
+
+table.index-two-column  {
+   -moz-box-sizing:border-box;
+    border-collapse:separate;
+    border-spacing:20px;
+    display:table;
+    margin-bottom:0;
+    margin-top:0;
+    text-indent:0;
+    width: 100%;
+    padding: 2px;
+}
+
+table.index-two-column td {
+     background-color:white;
+    border:1px solid #B3B3B3;
+    padding:5px;
     width:50%;
     height: 150px;
     vertical-align: top;
@@ -863,33 +910,9 @@ table.index-three-column td {
 }
 
 
-
-table.index-two-column  {
-    -moz-box-sizing:border-box;
-    border-collapse:separate;
-    border-spacing:0px;
-    display:table;
-    margin-bottom:0;
-    margin-top:0;
-    text-indent:0;
-}
-
-table.index-two-column td {
-    background-color:white;
-    border: none;
-    padding:6px;
-    width: 50%;
-    min-height:200px;
-    height:auto !important;
-    height: 200px;
-    border-spacing:5px;
-    vertical-align: top;
-    text-align: left;
-}
-
-
 table.index-two-column td a a:hover a:visited{
-    font-size: 0.9em;
+    font-size: 1.0em;
+    text-decoration:none;
 }
 
 table.index-two-column-small  {
@@ -925,7 +948,30 @@ table.index-two-column-small td a a:hover a:visited{
 }
 
 
+table.index-single-column  {
+    -moz-box-sizing:border-box;
+    border-collapse:separate;
+    display:table;
+    margin-bottom:0;
+    margin-top:0;
+    text-indent:0;
+    width: 75%;
+    padding: 2px;
+}
 
+table.index-single-column td {
+    background-color:white;
+    border:1px solid #B3B3B3;
+    padding:5px;
+    width:75%;
+    min-height: 150px;
+    vertical-align: top;
+    text-align: left;
+    color:#1a1a1a;
+    font-size:1.0em;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
 
 
 .phoneHeader {
@@ -1022,7 +1068,7 @@ table.phone-list a, table.phone-list a:visited {
 #jh_editor {
     color: red;
     padding: 0 0 0 5px ;
-    font-size: 1.1em;
+    font-size: 0.8em;
     text-align: left;
 }
 #jh_pic_column {
@@ -1131,13 +1177,13 @@ dl.jh_profile_summary dd {
 
 .contentTypeList a, .contentTypeList a:visited, .contentTypeList a:hover {
 
-    font-size: 1.0em;
+    font-size: 0.9em;
 }
 
 
 .contentTypeList a, .contentTypeList a:visited, .contentTypeList a:hover {
 
-    font-size: 1.1em;
+    font-size: 0.9em;
 }
 
 
@@ -1574,7 +1620,7 @@ a.imageLink:visited {
     line-height:140%;
     margin:10px 15px 30px;
     padding:0;
-    width:160px;
+    width:15%;
     display:block;
 }
 
@@ -1689,24 +1735,18 @@ a.smallText:hover {
     font-size: 0.9em;
 }
 
-.contentTypeList a.selected, .contentTypeList a.selected:visited, .contentTypeList a.selected:hover {
-    font-size: 1.1em;
-    color:#2A89C5;
-}
-
 .topic-list {
-    background-color: white;
+    background-color: #fff;
     margin-bottom:2em;
     width:100%;
-    font-weight:bold;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size:1.2em;
+    font-size:1.0em;
     float:left;
     clear:both;
 }
 
 .topic-list th {
-    background:#fff  none repeat scroll 0;
+    background:#eee  none repeat scroll 0;
     color: #999;
     font-size:1em;
     font-style:normal;
@@ -1718,7 +1758,7 @@ a.smallText:hover {
 }
 
 .topic-list th a a:visited {
-    font-size:1.1em;
+    font-size:1.0em;
     color:white;
     text-decoration:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
@@ -1727,7 +1767,7 @@ a.smallText:hover {
 .topic-list th a:hover  {
     color: white;
     text-decoration:none;
-    font-size:1.1em;
+    font-size:1.0em;
 }
 
 .topic-list td {
@@ -1953,28 +1993,27 @@ div.messageDate {
 }
 
 
-
 .forumThreadBox {
     clear: both;
-    background:white  none repeat scroll 0;
+    background: #fff;
     color: #474A51;
+    font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
     height:77px;
     border: 1px solid #eee;
-
-    width:95%;
-    overflow: hidden;
+    width:100%;
 }
 
 .forumAvatarBox {
     float:left;
-    background-color: #fff;
-    width:20%;
+    width:185px;
+    overflow-x: hidden;
 }
 
 .forumMetaInfo {
     float:left;
     font-size: 0.9em;
-    overflow: hidden;
+    overflow-x: hidden;
+    width:105px;
 }
 
 .forumListPic {
@@ -1984,11 +2023,39 @@ div.messageDate {
 
 .forumPostTime {
     clear:both;
-    padding:5px 0 0 0;
+    padding:25px 0 0 0;
     font-size: 0.8em;
 }
 
+.bigForumLink   {
+    text-align: left;
+    vertical-align: text-top;
+    font-size:1.0em;
+    color:#2A89C5;
+    text-decoration:none;
+    padding: 10px 0 0 5px;
+    height: 57px;
+    border-radius: 10px;
+    border-left: 1px solid #eee;
+    width:auto;
+    overflow-x: hidden;
+}
 
+
+.bigForumLink a, bigForumLink a:visited {
+    text-align: left;
+    font-size:1.0em;
+    font-weight: normal;
+    color:#2A89C5;
+    text-decoration:none;
+}
+
+.bigForumLink a:hover {
+    text-align: left;
+    font-size:1.0em;
+    font-weight: normal;
+    color:#2A89C5;
+}
 .smallForumLink   {
     text-align: left;
     float:left;
@@ -2019,40 +2086,6 @@ a.smallForumLink:hover  {
     font-size:0.9em;
 }
 
-.bigForumLink   {
-    float:left;
-    text-align: left;
-    vertical-align: text-top;
-    font-size:1.0em;
-    color:#2A89C5;
-    text-decoration:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    padding: 15px 0 0 5px ;
-    height:47px;
-    border-radius: 10px;
-    border-left: 1px solid #eee;
-    width:75%;
-}
-
-
-.bigForumLink a, bigForumLink a:visited {
-    text-align: left;
-    font-size:1.1em;
-    font-weight: normal;
-    color:#2A89C5;
-    text-decoration:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-}
-
-.bigForumLink a:hover {
-    text-align: left;
-    font-size:1.1em;
-    font-weight: normal;
-    color:#333;
-    text-decoration:none;
-    font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-}
-
 .tableHeader {
     background-color:#ffe;
 }
@@ -2079,7 +2112,6 @@ a.smallForumLink:hover  {
     padding: 0;
     text-decoration: none;
     color:#000000;
-    float: right;
 }
 
 .board-pager a, .board-pager a:visited{
@@ -2088,7 +2120,7 @@ a.smallForumLink:hover  {
 
 .board-pager a.selected , .board-pager a.selected:visited{
     text-decoration: none;
-    color:red;
+    color: #2A89C5;
 }
 
 a.newTopic, a.newTopic:visited {
@@ -2135,7 +2167,7 @@ EXTJS IE7 Combo box bug hack
     background-color: #c3c3c3;
     padding: 5px;
     color:blue;
-    width:500px;
+    width:45%;
     height: 25px;
 
 }
@@ -2175,6 +2207,7 @@ EXTJS IE7 Combo box bug hack
     font-size: 0.8em;
     color:#000000;
     font-weight: bold;
+    text-align: left;
 }
 .socialrow {
     padding-top:5px;
@@ -2251,4 +2284,23 @@ ul.storytools li.right a.print {
     background:url(http://media.npr.org/chrome/news/icon_storytools.gif) 0 -256px no-repeat;
     padding:0 0 0 19px;
     cursor:pointer;
+}
+
+
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+-webkit-box-align: center;
+text-align: center;
+cursor: default;
+color: buttontext;
+padding: 1px 2px 3px;
+border: 1px outset buttonface;
+border-image: initial;
+background-color: buttonface;
+box-sizing: border-box;
+}
+input[type="radio"], input[type="checkbox"] {
+margin: 1px 0.5ex;
+padding: initial;
+background-color: initial;
+border: initial;
 }

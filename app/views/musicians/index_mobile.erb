@@ -1,0 +1,77 @@
+<%= render :partial => "common/extjs" %>
+
+<script type="text/javascript">
+
+    Ext.onReady(function(){
+
+        var liveSearchDataStore = new Ext.data.Store({
+            proxy: new Ext.data.HttpProxy({
+                url: '/musicians/search_ext',
+                method: 'GET'
+            }),
+            reader: new Ext.data.JsonReader({
+                totalProperty: 'items',
+                root: 'results',
+                id: 'username'
+            }, [{name:'user_id'},
+                {name: 'first_name'},
+                {name: 'last_name'},
+                {name: 'username'}
+            ])
+        });
+
+        var liveSearchResultTemplate = new Ext.XTemplate(
+                '<tpl for="."><div class="jh_search_item">',
+                '<a href="/musicians/profile/{username}">{last_name}, {first_name}</a> ({username})',
+                '</div></tpl>'
+        );
+
+        var liveSearchControl = new Ext.form.ComboBox({
+            store: liveSearchDataStore,
+            displayField:'username',
+            typeAhead: false,
+            loadingText: 'Searching...',
+            width: 200,
+            emptyText: 'Type in a name and hit enter...',
+            hideTrigger:true,
+            hideOnClick:true,
+            minChars: 2,
+            itemSelector: 'div.jh_search_item',
+            applyTo: 'jh_musician_search',
+            tpl: liveSearchResultTemplate,
+            onSelect: function(record){ // override default onSelect to do redirect
+                window.location = String.format('http://www.jazzhouston.com/members/profile/{0}', record.data.user_id);
+            }
+
+        });
+
+        //liveSearchControl.render('jh_musician_search');
+    });
+</script>
+
+
+
+<div id="StageNarrow">
+  <div class='Header'>Players By Instrument</div>
+
+  <div class="cd-inside">
+
+
+
+    Search: <input type="text" size="20" name="jh_musician_search" id="jh_musician_search" />
+
+    <div class="hspacer"></div>
+
+    <% for item in @instruments%>
+        <a href="/musicians/byinst/<%=item.instrument_name%>"><%= item.instrument_name %></a>
+        <br/>
+    <% end %>
+
+    <div class="hspacer"></div>
+
+
+
+
+
+  </div>
+</div>

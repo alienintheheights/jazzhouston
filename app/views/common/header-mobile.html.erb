@@ -19,7 +19,6 @@
                 <input class="textfield" placeholder="Password" type="password" name="password" id="password" maxlength="46" size="12"/>
                 <%= submit_tag 'Log In' %>
 
-                <%= check_box_tag 'remember_me' %>Remember me
                 </span>
             <% end -%>
           </div>
@@ -27,17 +26,16 @@
     </div>
     <div id="MemberMeta">
         <% if logged_in? -%>
-          <a href="/members/profile/<%= current_user.username %>">View profile</a> |
+          <a href="/members/profile/<%= current_user.username %>">Profile</a> |
 	          <a href="/members/edit/<%= current_user.user_id %>">Settings</a> |
-              <a href="/members/changepassword/<%= current_user.user_id %>">Change password</a> |
 
             <a href="/members/logout/">Sign out</a>
 
 
       <% else -%>
           <div id="jh_login_form" class="login">
-            <a href="/members/sendlostpasswordemail">Password help?</a> |
-            <a href="/members/">Register</a>
+            <a href="/members/sendlostpasswordemail">Help?</a> |
+            <a href="/members/">Join</a>
           </div>
       <% end -%>
     </div>

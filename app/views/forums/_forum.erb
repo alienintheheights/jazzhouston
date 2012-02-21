@@ -1,7 +1,7 @@
 <script type="text/javascript">
     $(function() {
         $('.forumThreadBox').hover( function(){
-                    $(this).css('background-color', '#ff6');
+                    $(this).css('background-color', '#eee');
                 },
                 function(){
                     $(this).css('background-color', '#fff');
@@ -72,3 +72,7 @@
       </div>
     </div>
 <% end %>
+
+<div class="board-pager" style="float:right;">
+  <%= render :partial => "pager", :locals => { :page => @page, :board => board}%>
+</div>

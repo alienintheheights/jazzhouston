@@ -39,13 +39,13 @@ class ForumsController < ApplicationController
       @threads = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page)
       @page = 1
     end
-
+    @ban_list = (logged_in? && session[:user_bans])?  session[:user_bans] : {}
     @page_title = "Forums"
     @boards = Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
 
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
-      format.mobile {render :template => "forums/threads_mobile.erb"}
+      format.mobile {render :template => "forums/index_mobile.erb"}
     end
   end
 
@@ -77,7 +77,10 @@ class ForumsController < ApplicationController
     end
 
     @boards=Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
-
+    respond_to do |format|
+      format.html {render :template => "forums/threads.erb"}
+      format.mobile {render :template => "forums/threads_mobile.erb"}
+    end
   end
 
   ################################
@@ -110,7 +113,7 @@ class ForumsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index..erb
+      format.html {render :template => "forums/messages.erb"}
       format.mobile {render :template => "forums/messages_mobile.erb"}
     end
   end

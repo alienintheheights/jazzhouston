@@ -89,6 +89,11 @@ class MembersController < ApplicationController
     if (params[:msgid])
       flash[:notice]=@@msg[params[:msgid].to_i]
     end
+
+    respond_to do |format|
+      format.mobile # index..erb
+      format.html {render :template => "members/index_mobile.erb"}
+    end
   end
 
 

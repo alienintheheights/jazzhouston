@@ -7,7 +7,8 @@
        end
        # set user image URL
        if user.image && user.image!=""
-           src =url_for_image_column(user, 'image', :name=>'avatar')
+           src = "/images/forum-icon-blue.png"
+           #url_for_image_column(user, 'image', :name=>'avatar')    #TODO hack until i fix format
        elsif user.image_url && user.image_url!="" && user.image!=""
            src = user.image_url
        else

@@ -7,12 +7,18 @@ class MusiciansController < ApplicationController
   def index
     @instruments = Instrument.all(:order=>"instrument_name")
     @page_title="Musicians"
+
+    respond_to do |format|
+      format.html # index..erb
+      format.mobile {render :template => "musicians/index_mobile.erb"}
+    end
   end
 
   def byinst
     @instrument = params[:id]
-    @total_players = User.count(:all, :include=>:instruments,
-                               :conditions=>["local_player_flag=1 and (last_name is not null and last_name <>'') and instruments.instrument_name=?",params[:id]])
+    @total_players = User.count(:all,
+                         :include=>:instruments,
+                         :conditions=>["local_player_flag=1 and (last_name is not null and last_name <>'') and instruments.instrument_name=?",params[:id]])
 
     page_number = params[:page]
     @page = (page_number)? page_number.to_i : 1
@@ -25,6 +31,7 @@ class MusiciansController < ApplicationController
 
 
     @page_title="Players by Instrument | #{params[:id]}"
+    @page_size = @@per_page
   rescue Exception=> e
     render :text => "error running query " + e.message
   end

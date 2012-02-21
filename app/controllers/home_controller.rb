@@ -24,7 +24,7 @@ class HomeController < ApplicationController
     @showsToday = Event.getShowsToday(@curTime)
     @showsThisWeek = Event.getShowsThisWeek(@curTime)
 
-    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>9)
+    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>7)
 
     @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
                        :order=>"release_date desc", :limit=>5)

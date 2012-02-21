@@ -37,17 +37,17 @@
     <div id="jh_pic_column">
 
       <%= render :partial => "common/renderpic", :locals => { :user => @member, :size =>"150"} %>
-
-    </div>
-    <div id="jh_infocol">
-
-      <div id="jh_editor">
+      <br/> <div id="jh_editor">
         <% if @member.admin_flag==1 %>
             JazzHouston Admin
         <% elsif @member.editor_flag==1 %>
             JazzHouston Editor
         <% end %>
       </div>
+    </div>
+    <div id="jh_infocol">
+
+
       <table width="90%" cellspacing="6" cellpadding="0" align="left">
         <% if @isaplaya %>
             <tr>
@@ -85,8 +85,11 @@
               <td><a href="<%=@member.url%>" target="_new"><%=@member.url%></a></td>
             </tr>
         <% end %>
-
-
+        <% if logged_in? && (current_user.user_id==params[:id].to_i || current_user.admin_flag==1) -%>
+            <tr>
+              <td align="left" colspan="2"><a href="/members/edit/<%=@member.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a></td>
+            </tr>
+        <% end -%>
       </table>
     </div>
 
@@ -147,7 +150,7 @@
             <% end %>
         <% end %>
       </div>
-         <div class="hspacer"></div>
+      <div class="hspacer"></div>
 
     </div>
     <div class="clear"></div>

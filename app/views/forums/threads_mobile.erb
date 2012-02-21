@@ -2,20 +2,11 @@
    boardId = (@board.nil?)? 0: @board.board_id
 %>
 <div id="StageNarrow">
+
   <div class="forum-inside">
 
-
-    <div class="hspacer"></div>
-
-
-    <span style="padding: 2px 5px; float: left;">
-      <%=number_with_delimiter(@totalPosts)%> forum posts and still going...
-    </span>
-
-
-
-    <div class="board-pager" style="float:right;">
-      <%= render :partial => "pager", :locals => { :page => @page, :board => @board}%>
+    <div class="board-pager" style="float:left;">
+      <%=@board.title%>> <%= render :partial => "pager", :locals => { :page => @page, :board => @board}%>
     </div>
     <div class="forumNewTopicLink">
       <% if logged_in? %>
@@ -26,17 +17,15 @@
           <% end %>
       <% end %>
     </div>
+
     <%
-       has_bans=(@ban_list && @ban_list.length>0) || false
        for item in @threads
            page_num = item.post_count>@pp? 1+((item.post_count-1)/@pp).floor : 1
-           next if (has_bans && item.monologue_flag==1 && ban_list.has_key?(item.user_id))
     %>
-
         <div class="forumThreadBox">
           <div class="forumAvatarBox">
             <div class="forumListPic">
-              <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"70"} %>
+              <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
             </div>
             <div class="forumMetaInfo">
               <a class="smallForumLink" href="/members/profile/<%=item.author%>"><%= item.author.downcase %></a>
@@ -47,10 +36,13 @@
             </div>
           </div>
           <div class= "bigForumLink">
-            <a href="/forums/messages/<%=item.thread_id%>?fpage=<%=@page%>"><%= truncate(item.title, :length => 55) %></a> (<a class="num" href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>#<%= item.post_count %>"><%= item.post_count-1 %></a>)
+            <a href="/forums/messages/<%=item.thread_id%>?fpage=<%=@page%>"><%= truncate(item.title, :length => 70) %></a>
+            <br/><a class="smallForumLink" style="margin-top:12px;" href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>#<%= item.post_count %>"><%= item.post_count-1 %> comment<% if item.post_count-1 != 1 %>s<% end %></a>
           </div>
         </div>
+
     <% end %>
+
 
   </div>
 </div>

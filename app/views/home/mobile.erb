@@ -3,7 +3,7 @@
   <div class="HeaderTitle">Mobile-Tablet Edition</div>
   <div class="inside">
     <div id="homegrid">
-       <div class="hspacer"></div>
+      <div class="hspacer"></div>
       <table >
         <tr>
           <td class="leftcol">
@@ -12,7 +12,7 @@
             <% for item in @showsToday %>
                 <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
                 <% if item.venue %>
-                    @<%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>,
+                    @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
                 <% end %>
                 <%= item.show_time %>
                 <div class="hspacer"></div>
@@ -35,9 +35,9 @@
 
             </ul>
             <div class="hspacer"></div>
-            <b><a href="/events/shows">coming soon...</a></b>
+            <a class="blueLink" href="/events/shows">see more upcoming shows</a>
             <div class="hspacer"></div>
-             <h2>News and Reviews </h2>
+            <h2>News and Reviews </h2>
             <div class="newslist">
               <ul>
                 <% counter=0

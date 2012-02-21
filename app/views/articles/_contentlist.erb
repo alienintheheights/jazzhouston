@@ -15,7 +15,7 @@
   <%= render :partial => "pager", :locals => {:totalPages =>@totalPages, :page => @page, :id => @id, :type => @type}%>
 </div>
 
-<table class="index-three-column">
+<table class="index-two-column">
   <% counter=0
      for item in @articles
          current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id

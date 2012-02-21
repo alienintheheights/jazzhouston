@@ -19,7 +19,7 @@ class ArticlesController < ApplicationController
   @@article_type[2]="Concerts and Interviews"
   @@article_type[3]="Opinion"
 
-  @@per_page=18
+  @@per_page=10
 
   ################################
   # ACTIONS
@@ -46,6 +46,11 @@ class ArticlesController < ApplicationController
     totalPosts = Content.count(:all, :conditions => ["content_type_id=? and status_id=2",params[:id]])
     @totalPages = (totalPosts/@@per_page).to_i
     @sectionId=params[:id]
+
+    respond_to do |format|
+      format.html {render :template => "articles/index.erb"}
+      format.mobile {render :template => "articles/index_mobile.erb"}
+    end
   end
 
   # article pages

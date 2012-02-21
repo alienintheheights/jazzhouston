@@ -14,6 +14,11 @@
     <%= render :partial => "genre"%>
     <div class="hspacer"></div>
 
+    <div class="HeaderTitle">
+      Newest Releases
+    </div>
+
+
     <table class="index-three-column-small">
       <% counter=0
          for item in @albums %>
@@ -38,63 +43,8 @@
       <% end %>
     </table>
 
-    <center><b><a href="/releases/browse">Browse all releases</a></b> </center>
+    <center><b><a class="blueLink" href="/releases/browse">Browse all releases...</a></b> </center>
     <div class="hspacer"></div>
-
-    <div class="HeaderTitle">
-      Local Release Sampler
-    </div>
-    <div class="hspacer"></div>
-    <table class="index-two-column">
-      <tr>
-        <td valign="top">
-          <div id="panel-inside">
-            Enjoy full-length tracks from select local CD releases. This playlist will
-            generate from a larger pool of music, so check back often for more music! Click the
-            info button for the artist's website.
-          </div>
-        </td>
-        <td>
-
-
-          <!-- START WIMPY PLAYER CODE -->
-          <table width="80%" class="index-two-column" align="center">
-            <tr>
-              <td align="center" valign="middle">
-                <div id="jh_musicplayer"><a href="http://www.adobe.com/products/flashplayer/">Flash Player upgrade required</a></div>
-                <script language="javascript">
-                    // <![CDATA[
-                    var wimpyConfigs4257 = new Object();
-                    wimpyConfigs4257.wimpySwf="/mediaplayers/rave/rave.swf";
-                    wimpyConfigs4257.wimpyApp="/site/playlist";
-                    wimpyConfigs4257.wimpyWidth="300";
-                    wimpyConfigs4257.wimpyHeight="350";
-                    wimpyConfigs4257.wimpySkin="/mediaplayers/rave/skins/catco/skin_catco.xml";
-                    wimpyConfigs4257.autoAdvance="no";
-                    wimpyConfigs4257.repeatPlaylist="on";
-                    wimpyConfigs4257.randomPlayback="on";
-                    wimpyConfigs4257.randomOnLoad="yes";
-                    wimpyConfigs4257.setAspectRatio="maintain";
-                    wimpyConfigs4257.infoButtonAction="info";
-                    wimpyConfigs4257.wimpyHTMLpageTitle="JazzHouston Local Releases";
-                    wimpyConfigs4257.bkgdColor="white";
-                    wimpyConfigs4257.getMyid3info="yes";
-                    wimpyConfigs4257.findAllMedia="yes";
-                    wimpyConfigs4257.wimpyReg="MyUyM1pYcnhsTCUyNyU3RVZ6JTNFUERhNXJlMCUzQSU1Q2JhdyUyOW1UYiU1Q1dnJTNBJTI4";
-
-
-                    makeWimpyPlayer(wimpyConfigs4257, "jh_musicplayer");
-                    // ]]>
-                </script>
-              </td>
-            </tr>
-          </table>
-
-        </td>
-      </tr>
-
-    </table>
-
 
   </div>
 </div>

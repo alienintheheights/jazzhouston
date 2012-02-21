@@ -62,7 +62,7 @@ jh.forums = function() {
                 return false;
             }
 
-            if (document.forms[0].message_message_text.value=="") {
+            if (!Ext.get("message_message_text").getValue()) {
                 alert("This post is blank. Please try again. ");
                 return false;
             }

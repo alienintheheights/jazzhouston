@@ -1,41 +1,38 @@
 <%= render :partial => "common/extjs" %>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <% rating_threshold=-6 %>
-
+<%
+   boardId = (@board.nil?)? 0: @board.board_id
+%>
 <div id="StageNarrow">
-  <div class="inside">
-
-    ><a href="/home">Home</a>><a href="/forums">Forums</a>> <%= link_to @board.title, {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>@fpage} %> > Topic
-    <div class="hspacer"></div>
 
 
-    <div class="ForumHeaderTitle">
+
+  <div class="cd-inside">
+
+    <div class="breadcrumbs">
+       <a href="/forums">Forums</a>> <%= link_to @board.title, {:action => "threads", :controller=>"forums", :id=>@board.board_id, :page=>@fpage },  :class=>"selected"%>
+
+    </div>
+    <div style="float:right;">
+      <% if @last_page>1 %>
+          <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
+          <% for i in 1..(@last_page) %>
+              <% if i==@page %> <b><%=i%></b>
+              <% else %>
+                  <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=i %>"><%= i %></a>
+              <% end %>
+          <% end %>
+          <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==@last_page?@page:@page+1 %>">next</a>
+      <% end %>
+    </div>
+
+
+    <div class="StoryHeader">
       <%=@thread.title%>
     </div>
-    <div  class="board-pager">
-      <div  style="float:left;">
-        <% if !logged_in? %>
-            Sign on or <a href="/members/new">sign up</a> to participate.
-        <% end %>
-        <div class="hspacer"></div>
 
-      </div>
 
-      <div style="float:right;">
-        <% if @last_page>1 %>
-            <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
-            <% for i in 1..(@last_page) %>
-                <% if i==@page %> <b><%=i%></b> |
-                <% else %>
-                    <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=i %>"><%= i %></a> |
-                <% end %>
-            <% end %>
-            <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==@last_page?@page:@page+1 %>">next</a>
-        <% end %>
-      </div>
-
-    </div>
-    <div class="hspacer"></div>
     <div class="messageList">
       <ul >
 
@@ -44,9 +41,6 @@
            has_bans=(@ban_list && @ban_list.length>0) || false
            for item in @messages
                post_count=post_count+1
-               if (item.user && item.user.image_url !~/(.*)\.(jpeg|bmp|png|gif|jpg)$/i)
-                   item.user.image_url=""
-               end
         %>
             <%if (has_bans && item.user && @ban_list.has_key?(item.user.user_id))  %>
                 <li class="messageRow post-ban-row" >      <a name="<%=post_count%>"></a>
@@ -61,17 +55,16 @@
                        id="messageAuthor_<%=item.message_id%>">
 
                     <div class="hspacer"></div>
-                    <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"100"} %>
+                    <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"60"} %>
                     <br/>
                     <div class="messageDate">
                       <% if item.user %>
-                          <a href="/members/profile/<%=item.user.username%>"><%=item.user.username%></a>
+                          <b><%=item.user.first_name%> <%=item.user.last_name%></b>
+                          <br/><i><%=item.user.username%></i>
                       <% end %>
-                      <br/>
+                      <br/>  <br/>
 
-                      <%=distance_of_time_in_words(Time.now, item.pdate)%> ago <br/>
-                      <br/>
-                      ip: <%= item.ip_address %>
+                      <%=distance_of_time_in_words(Time.now, item.pdate)%> ago
 
                       <a name="<%=post_count%>"> </a>
                     </div>
@@ -99,17 +92,15 @@
       </ul>
     </div>
     <div  class="board-pager">
-      <div  style="float:left;">
-        <a href="/forums/threads/<%=@thread.board_id%>">back to topics</a>
-      </div>
+
 
       <div style="float:right;">
         <% if @last_page>1 %>
             <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
             <% for i in 1..(@last_page) %>
-                <% if i==@page %> <b><%=i%></b> |
+                <% if i==@page %> <b><%=i%></b>
                 <% else %>
-                    <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=i %>"><%= i %></a> |
+                    <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=i %>"><%= i %></a>
                 <% end %>
             <% end %>
             <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==@last_page?@page:@page+1 %>">next</a>
@@ -121,22 +112,9 @@
     <div class="hspacer"></div>
     <% if logged_in? -%>
 
-        <script type="text/javascript">
-            // Panels for the home page
-            Ext.onReady(function(){
 
-                var textArea = new  Ext.form.HtmlEditor({
-                    //applyTo:"message_message_text",
-                    width:600,
-                    height:300
-                });
-
-
-            });
-
-        </script>
         <b>Reply</b><br>
-        <% form_for :message, :url => { :action => "reply"}, :html => {:onsubmit=>"return jh.forums.validatePost();"} do |f| %>
+        <%= form_for :message, :url => { :action => "reply"}, :html => {:onsubmit=>"return jh.forums.validatePost();"} do |f| %>
             <%= f.text_area :message_text %>
             <input type='hidden' name="message[thread_id]" id="message_thread_id" value="<%=@thread.thread_id%>">
             <input type='hidden' name="board_id" id="board_id" value="<%=@board.board_id%>">

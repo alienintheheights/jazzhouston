@@ -271,7 +271,6 @@ html>body #nav-links li a {
 #Wrapper {
     margin: 0 auto;
     padding: 0;
-    background-color: #fff;
     max-width:972px;
     width:972px;
 }
@@ -309,8 +308,6 @@ html>body #nav-links li a {
     width:852px;
     padding: 0;
     overflow-x: hidden;
-    background-color: #2A89C5; /**#CCCC7F;**/
-    color: #555;
 
 }
 
@@ -320,8 +317,6 @@ html>body #nav-links li a {
     max-width:852px;
     width:852px;
     padding: 0;
-    background-color: #2A2A2A; /**#CCCC7F;**/
-    color: #555;
 }
 
 
@@ -331,9 +326,8 @@ html>body #nav-links li a {
     max-width:852px;
     width:852px;
     overflow-x: hidden;
-    background-color: #2A2A2A;
-    color: #555;
     padding: 0;
+    background-color: #fff;
 }
 
 
@@ -343,9 +337,6 @@ html>body #nav-links li a {
     float:left;
     max-width:852px;
     width:852px;
-    /**padding: 0 0 0 125px; **/
-    background-color: #2A2A2A; /**#CCCC7F;**/
-    color: #555;
 }
 
 
@@ -409,7 +400,7 @@ html>body #nav-links li a {
 
 
 
-.inside
+.cd-inside
 {
     background-color: white;
     padding: 0 8px;
@@ -417,6 +408,16 @@ html>body #nav-links li a {
     line-height:1.6em;
     height: auto;
     min-height: 800px;
+    overflow: hidden;
+}
+
+.inside
+{
+    background-color: white;
+    padding: 0 8px;
+    text-align:left;
+    line-height:1.6em;
+    height: auto;
     overflow: hidden;
 }
 
@@ -784,6 +785,41 @@ table.index-three-column td {
     background-color:white;
     border:1px solid #B3B3B3;
     padding:5px;
+    width:33%;
+    min-width:33%;
+    height: 150px;
+    vertical-align: top;
+    text-align: center;
+    color:#1a1a1a;
+    font-size:1.0em;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
+
+a.index-three-column a.index-three-column:hover a.index-three-column:visited {
+    font-size: 1.0em;
+    text-decoration:none;
+}
+
+
+
+table.index-two-column  {
+   -moz-box-sizing:border-box;
+    border-collapse:separate;
+    border-spacing:20px;
+    display:table;
+    margin-bottom:0;
+    margin-top:0;
+    text-indent:0;
+    width: 100%;
+    padding: 2px;
+}
+
+table.index-two-column td {
+     background-color:white;
+    border:1px solid #B3B3B3;
+    padding:5px;
     width:50%;
     height: 150px;
     vertical-align: top;
@@ -795,32 +831,9 @@ table.index-three-column td {
 }
 
 
-
-table.index-two-column  {
-    -moz-box-sizing:border-box;
-    border-collapse:separate;
-    border-spacing:0;
-    display:table;
-    margin-bottom:0;
-    margin-top:0;
-    text-indent:0;
-}
-
-table.index-two-column td {
-    background-color:white;
-    border: none;
-    padding:6px;
-    min-height:30px;
-    height:auto !important;
-    height: 30px;
-    border-spacing:5px;
-    vertical-align: top;
-    text-align: left;
-}
-
-
 table.index-two-column td a a:hover a:visited{
-    font-size: 0.9em;
+    font-size: 1.0em;
+    text-decoration:none;
 }
 
 table.index-two-column-small  {
@@ -856,6 +869,32 @@ table.index-two-column-small td a a:hover a:visited{
 }
 
 
+table.index-single-column  {
+    -moz-box-sizing:border-box;
+    border-collapse:separate;
+    border-spacing:20px;
+    display:table;
+    margin-bottom:0;
+    margin-top:0;
+    text-indent:0;
+    width: 100%;
+    padding: 2px;
+}
+
+table.index-single-column td {
+    background-color:white;
+    border:1px solid #B3B3B3;
+    padding:5px;
+    width:75%;
+    min-height: 150px;
+    vertical-align: top;
+    text-align: left;
+    color:#1a1a1a;
+    font-size:1.0em;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+}
+
 
 
 
@@ -885,7 +924,7 @@ table.phone-list tr.alt {
 
 
 table.phone-list tr.noalt {
-    background-color:#EEEEEE;
+    background-color:#ff6;
     border:1px solid black;
     padding:3px;
     border-spacing:5px;
@@ -960,6 +999,7 @@ table.phone-list a, table.phone-list a:visited {
     width: 100px;
     min-width: 100px;
     width: auto !important;
+    padding-top: 5px;
 }
 #jh_infocol {
     float:left;
@@ -1049,13 +1089,12 @@ dl.jh_profile_summary dd {
 
 .contentTypeList {
     display:block;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.0em;
     font-weight: normal;
-    background-color:#ccc;
+    background-color:#f4f0e8;
     text-align: center;
     padding: 2px 0;
-    border: 1px solid #111;
-    text-transform: lowercase;
+    border: 1px solid #ccc;
     font-size:0.9em;
 }
 
@@ -1065,14 +1104,14 @@ dl.jh_profile_summary dd {
 
 
 .contentTypeList a:hover {
-    color: #ff6;
+    color: red;
     border: none;
     font-size: 1.1em;
 }
 
 .contentTypeList a.selected, .contentTypeList a.selected:visited, .contentTypeList a.selected:hover {
     font-size: 1.1em;
-    color:#2A89C5;
+    border-bottom: 1px dotted #333;
 }
 
 .ProfileLinks {
@@ -1898,7 +1937,7 @@ div.messageDate {
 
 .forumAvatarBox {
     float:left;
-    width:185px;
+    width:191px;
     overflow-x: hidden;
 }
 
@@ -1906,7 +1945,7 @@ div.messageDate {
     float:left;
     font-size: 0.9em;
     overflow-x: hidden;
-    width:105px;
+    width:111px;
 }
 
 .forumListPic {
@@ -1927,8 +1966,8 @@ div.messageDate {
     font-size:1.0em;
     color:#2A89C5;
     text-decoration:none;
-    padding: 10px 0 0 5px ;
-    height: 47px;
+    padding: 10px 0 0 5px;
+    height: 60px;
     border-radius: 10px;
     border-left: 1px solid #eee;
 }

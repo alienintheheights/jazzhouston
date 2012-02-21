@@ -1,9 +1,3 @@
-<%
-   if (@member.image_url !~/\.(jpeg|png|bmp|gif|jpg)$/i)
-       @member.image_url=""
-   end
-
-%>
 <script type="text/javascript">
     var activeRegion='jh_interests';
     function swap(region) {
@@ -37,17 +31,17 @@
     <div id="jh_pic_column">
 
       <%= render :partial => "common/renderpic", :locals => { :user => @member, :size =>"100"} %>
-
-    </div>
-    <div id="jh_infocol">
-
-      <div id="jh_editor">
+       <br/>  <div id="jh_editor">
         <% if @member.admin_flag==1 %>
             JazzHouston Admin
         <% elsif @member.editor_flag==1 %>
             JazzHouston Editor
         <% end %>
       </div>
+    </div>
+    <div id="jh_infocol">
+
+
       <table width="90%" cellspacing="6" cellpadding="0" align="left">
         <% if @isaplaya %>
             <tr>
