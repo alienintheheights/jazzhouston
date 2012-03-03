@@ -1,38 +1,13 @@
-<script type="text/javascript">
-    $(function() {
-        $('.forumThreadBox').hover( function(){
-                    $(this).css('background-color', '#eee');
-                },
-                function(){
-                    $(this).css('background-color', '#fff');
-                });
-    });
-</script>
+<%= render :partial => "switcher", :locals => {
+        :board => board,
+        :totalPosts => @totalPosts,
+        :boards => boards,
+          :showCount => false
+} %>
 <%
    boardId = (board.nil?)? 0: board.board_id
+   boardTitle = (board.nil?)? '': board.title
 %>
-<div class="contentTypeList">
-  <a href="/forums" <% if boardId==0 %> class="selected" <% end %>>Recent</a>
-  <% counter=1
-     for bi in boards %>
-      <% if bi.board_id == boardId %>
-          | <%= link_to bi.title, {:action => "threads", :controller=>"forums", :id=>bi.board_id },  :class=>"selected"%>
-      <% else %>
-          | <%= link_to bi.title, {:action => "threads", :controller=>"forums", :id=>bi.board_id } %>
-      <% end %>
-  <% counter=counter+1
-     end %>
-</div>
-
-
-<div class="hspacer"></div>
-
-
-<span style="padding: 2px 5px; float: left;">
-  <%=number_with_delimiter(@totalPosts)%> forum posts and still going...
-</span>
-
-
 
 <div class="board-pager" style="float:right;">
   <%= render :partial => "pager", :locals => { :page => @page, :board => board}%>
