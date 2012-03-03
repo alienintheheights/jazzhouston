@@ -26,7 +26,7 @@
         <p class="smallText">None scheduled (or at least, we're way behind on keeping the listings current)
 
     <% end %>
-    <table width="100%" class="index-two-column">
+    <table width="100%" class="index-two-column-small">
       <% for item in @shows %>
           <tr>
             <td width="10%"><%=item.show_date.to_datetime.strftime("%b %d")%></td>

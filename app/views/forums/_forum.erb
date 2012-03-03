@@ -1,17 +1,14 @@
 <%= render :partial => "switcher", :locals => {
         :board => board,
         :totalPosts => @totalPosts,
-        :boards => boards,
-          :showCount => false
+        :boards =>@boards,
+        :showCount => true
 } %>
 <%
    boardId = (board.nil?)? 0: board.board_id
    boardTitle = (board.nil?)? '': board.title
 %>
 
-<div class="board-pager" style="float:right;">
-  <%= render :partial => "pager", :locals => { :page => @page, :board => board}%>
-</div>
 <div class="forumNewTopicLink">
   <% if logged_in? %>
       <% if board.nil? %>

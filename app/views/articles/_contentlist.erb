@@ -22,7 +22,7 @@
   %>
       <% if counter%2==0 %><tr><% end %>
       <td>
-        <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@type, :sectionId=>@id, :page=>@page}, :class=>"blueLink"%>
+        <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@type, :sectionId=>@id, :page=>@page}%>
         <% if item.display_date && item.author && item.author.downcase!="press release" %>
             <br/>
                 <span class="smallText">

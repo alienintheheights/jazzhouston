@@ -824,7 +824,7 @@ table.index-two-column td {
     height: 150px;
     vertical-align: top;
     text-align: left;
-    color:#1a1a1a;
+    color:#555;
     font-size:1.0em;
     -moz-border-radius: 15px;
     border-radius: 15px;
@@ -1049,7 +1049,7 @@ table.phone-list a, table.phone-list a:visited {
     font-family: tahoma, sans-serif;
     padding: 5px 0;
     background-color: #EEE;
-    color: #2A89C5;
+    color: #2A2A2A;
     border: none;
     font-size: 1.2em;
     font-weight: bold;
@@ -1885,7 +1885,8 @@ div.messageDate {
     height: 178px;
     font-size:1.1em;
     line-height: 1.4em;
-    width: 70%;
+    word-wrap:break-word;
+    width:70%;
 }
 
 .messageBody a, .messageBody a:visited {
@@ -2073,12 +2074,12 @@ a.newTopic, a.newTopic:visited {
 }
 
 .color2 {
-    background-color: #CCCC33;
+    background-color: #eeee11;
     padding: 10px 5px;
 }
 
 .color4 {
-    background-color: #CCCC74;
+    background-color: #eeee66;
     padding: 10px 5px;
 }
 /**

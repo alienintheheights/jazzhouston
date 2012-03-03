@@ -8,9 +8,6 @@
       <a <% if @sectionId=="6" %>class="selected"<%end%> href="/articles/reviews?page=<%=@page%>">Reviews</a> |
       <a <% if @sectionId=="5" %>class="selected"<%end%> href="/articles/artists?page=<%=@page%>">Concerts and Interviews</a> |
       <a <% if @sectionId=="3" %>class="selected"<%end%> href="/articles/opinions?page=<%=@page%>">Opinion</a>
-      <%if logged_in? && current_user.editor_flag==1 -%>
-          | <a href="/articles/new"><img src="/images/icons/reply.png" border="0" alt="edit">New Article</a>
-      <% end -%>
     </div>
   <div class="cd-inside">
     <%= render :partial => "common/socialrow", :locals => {

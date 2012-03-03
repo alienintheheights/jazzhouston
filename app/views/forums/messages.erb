@@ -6,19 +6,12 @@
 %>
 <div id="StageNarrow">
 
-
-    <div class="contentTypeList">
-      <a href="/forums" <% if boardId==0 %> class="selected" <% end %>>Recent</a>
-      <% counter=1
-         for bi in @boards %>
-          <% if bi.board_id == boardId %>
-              | <%= link_to bi.title, {:action => "threads", :controller=>"forums", :id=>bi.board_id, :page=>@fpage },  :class=>"selected"%>
-          <% else %>
-              | <%= link_to bi.title, {:action => "threads", :controller=>"forums", :id=>bi.board_id } %>
-          <% end %>
-      <% counter=counter+1
-         end %>
-    </div>
+  <%= render :partial => "switcher", :locals => {
+          :board => @board,
+          :totalPosts => @totalPosts,
+          :boards => @boards,
+          :showCount => false
+  } %>
 
   <div class="cd-inside">
 

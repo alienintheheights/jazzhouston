@@ -1,0 +1,41 @@
+<script type="text/javascript">
+    $(function() {
+        $('.forumThreadBox').hover( function(){
+                    $(this).css('background-color', '#eeefee');
+                },
+                function(){
+                    $(this).css('background-color', '#fff');
+                });
+        $("select").change(function () {
+            var str = "/forums/";
+            $("select option:selected").each(function () {
+                if (this.value === "0") {
+                    window.location  =   str;
+                } else {
+                    window.location = str + "threads/" + this.value;
+                }
+            });
+
+        });
+
+    });
+</script>
+<%
+   boardId = (board.nil?)? 0: board.board_id
+   boardTitle = (board.nil?)? '': board.title
+%>
+<div class="contentTypeList">
+  <a href="/forums/<% if boardId > 0%>threads/<%=boardId%><% end%>">Current forum</a> <select name="boardId" id="boardSelect">
+  <option name="recent" value="0" <% if boardId==0 %> selected <% end %>>Recent</option>
+  <% counter=1
+     for bi in boards %>
+      <option value="<%=bi.board_id%>" <% if bi.board_id == boardId %> selected <% end %>><%=bi.title%></option>
+  <% counter=counter+1
+     end %>
+</select>
+  <% if showCount %>
+<span style="font-size:0.8em;">
+  <%=number_with_delimiter(totalPosts)%> forum posts and still going...
+</span>
+  <% end %>
+</div>

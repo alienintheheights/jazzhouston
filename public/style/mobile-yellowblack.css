@@ -1810,13 +1810,11 @@ a.blueLink, a.blueLink:visited, a.blueLink:hover {
     clear: left;
 }
 
-.messageList ul, .messageList li{
+.messageList ul, .messageList li {
     list-style-type: none;
-    min-height: 180px;
-    height: 180px;
     height: auto !important;
     margin: 0;
-    padding: 0;
+    padding: 5px 0;
 }
 
 .messageList li {
@@ -1831,10 +1829,6 @@ a.blueLink, a.blueLink:visited, a.blueLink:hover {
 
 .messageList li ul {
     display: none;
-    margin-left: -150px;
-    margin-bottom: -10px;
-    padding-left: 50px;
-    margin-top: 5px;
     background: #fff;
 }
 
@@ -1882,20 +1876,16 @@ li.post-ban-row  {
     margin: 5px 0;
 }
 
+.messageBlock {
+
+}
 .messageAuthor {
-    position: absolute;
-    left: 5px;
-    top: 5px;
-    min-height: 178px;
-    height: auto !important;
-    height: 178px;
+    padding-top: 5px;
     padding-left: 5px;
-    width: 130px;
     font-size: 0.9em;
+    font-style: normal;
     overflow: hidden;
     text-overflow: ellipsis;
-
-
 } * html .messageAuthor { overflow: visible; }
 
 
@@ -1909,16 +1899,6 @@ li.post-ban-row  {
 }
 
 
-
-.messageAuthor img {
-    position: absolute;
-    left: 5px;
-    top: 10px;
-    border: 1px solid #ccc;
-    display:block;
-    vertical-align:left;
-
-}
 
 
 a.messageImg, a.messageImg:hover, a.messageImg:visited {
@@ -1937,9 +1917,9 @@ div.messageDate {
 }
 
 .messageBody {
+    float:left;
     padding-right: 5px;
     padding-bottom: 10px;
-    padding-left: 150px;
     padding-top: 5px;
     min-height: 178px;
     height: auto !important;
@@ -2135,12 +2115,12 @@ a.newTopic, a.newTopic:visited {
 }
 
 .color2 {
-    background-color: #CCCC33;
+    background-color: #eeee11;
     padding: 10px 5px;
 }
 
 .color4 {
-    background-color: #CCCC74;
+    background-color: #eeee66;
     padding: 10px 5px;
 }
 /**

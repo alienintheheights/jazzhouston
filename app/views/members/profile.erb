@@ -1,8 +1,7 @@
 <%
-   if (@member.image_url !~/\.(jpeg|png|bmp|gif|jpg)$/i)
-       @member.image_url=""
+    if (@member.url &&  @member.url!="" && @member.url !~/^http/i)
+       @member.url = "http://" + @member.url
    end
-
 %>
 <script type="text/javascript">
     var activeRegion='jh_interests';
@@ -30,7 +29,7 @@
   <% end %>
 
 
-  <div class="inside">
+  <div class="cd-inside">
 
 
 

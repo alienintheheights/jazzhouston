@@ -44,8 +44,8 @@ class ForumsController < ApplicationController
     @boards = Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
 
     respond_to do |format|
-      format.html {render :template => "forums/threads.erb"}
-      format.mobile {render :template => "forums/index_mobile.erb"}
+      format.mobile {render :template => "forums/threads.erb"}
+      format.html {render :template => "forums/index_mobile.erb"}
     end
   end
 
@@ -273,7 +273,7 @@ class ForumsController < ApplicationController
       message.save!
 
 
-      redirect_to :action=>"threads", :id=>@board_id
+      redirect_to :action=>"index"
     end
 
 
@@ -313,7 +313,7 @@ class ForumsController < ApplicationController
 
       thread.save!
     end
-    redirect_to :action=>"threads", :id=>board.board_id
+    redirect_to :action=>"index"
 
   rescue Exception => exception
     puts exception.message

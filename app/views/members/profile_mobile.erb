@@ -1,3 +1,9 @@
+<%
+   if (@member.url &&  @member.url!="" && @member.url !~/^http/i)
+       @member.url = "http://" + @member.url
+   end
+
+%>
 <script type="text/javascript">
     var activeRegion='jh_interests';
     function swap(region) {

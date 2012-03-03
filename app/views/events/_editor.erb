@@ -54,10 +54,12 @@
             tpl: memberSearchResultTemplate,
             onSelect: function(record){ // override default onSelect to do redirect
 
-                var artistField = Ext.get("event_artist_id");
-                artistField.value =  record.data.user_id;
-                var artistName =  Ext.get("event_artist_search");
-                artistName.value = record.data.first_name + " " +record.data.last_name;
+                var artistName = record.data.first_name + " " +record.data.last_name;
+
+                $("input[id=event_artist_id]").val(record.data.user_id);
+                $("input[id=event_artist_search]").val(artistName);
+                $("#artist-selected").html("You've selected <b>"+ artistName +" </b>");
+
                 this.setValue(artistName.value);
                 this.collapse();
             }
@@ -97,15 +99,17 @@
             emptyText: 'To search venue, just type in a name...',
             hideTrigger:true,
             hideOnClick:true,
+            minChars:3,
             itemSelector: 'div.jh_venue_search_item',
             tpl: venueSearchResultTemplate,
             onSelect: function(record){ // override default onSelect to do redirect
-                var venueField = document.getElementById("event_venue_id");
-                venueField.value =  record.data.venue_id;
-                var venueName = document.getElementById("event_venue_search");
-                venueName.value = record.data.title;
+                $("input[id=event_venue_id]").val(record.data.venue_id);
+                $("input[id=event_venue_search]").val(record.data.title);
+                $("#venue-selected").html("You've selected <b>"+ record.data.title +" </b>");
                 this.setValue(record.data.title);
                 this.collapse();
+
+
             }
 
         });
@@ -114,28 +118,28 @@
 
     function validate() {
 
-        if ( !Ext.get("event_venue_id").getValue()) {
+        if ( !$("input[id=event_venue_id]").val()) {
             alert("You must enter a venue!");
             return false;
         }
 
-        if (!Ext.get("event_about").getValue() || Ext.get("event_about").getValue().length <= 5) {
+        if (!$("textarea#event_about").val() || $("textarea#event_about").val().length <= 5) {
             alert("Please enter information ABOUT the show!");
             return false;
         }
 
-         if (!Ext.get("event_performer").getValue()) {
+        if (!$("input[id=event_performer]").val()) {
             alert("Performer info missing.");
             return false;
         }
 
-        if (Ext.get("event_performer").getValue() && Ext.get("event_performer").getValue().length > 59) {
+        if ($("input[id=event_performer]").val() && $("input[id=event_performer]").val().length > 59) {
             alert("Performer too long! Please shorten performer info or move show details into the about section");
             return false;
         }
 
 
-        if (Ext.get("event_event_type_id").getValue() === "1" && !Ext.get("event_show_date").getValue()) {
+        if ($("input[id=event_event_type_id]").val() === "1" && !$("input[id=event_show_date]").val()) {
             alert("The show needs a date!");
             return false;
         }
@@ -147,14 +151,9 @@
 
     function delete_confirm() {
 
-        var answer=confirm("Are you sure you want to DELETE this event?");
+        var answer = confirm("Are you sure you want to DELETE this event?");
 
-        if (answer) {
-            return true;
-        }
-
-
-        return false;
+        return (answer);
     }
 
 
@@ -189,7 +188,7 @@
           </tr>
           <tr>
             <td width="20%" valign="top" class="color4">
-              Link show to Jazzhouston Musician.
+              Link show to JazzHouston Musician (OPTIONAL)
             </td>
 
             <td width="80%" valign="top">
@@ -198,15 +197,16 @@
               <b>Search:</b>
               <%= f.hidden_field :artist_id %>
               <input type="text" id="event_artist_search" size="30"/>
+               <div id="artist-selected"></div>
             </td>
           </tr>
 
           <tr>
             <td width="20%" valign="top" class="color2">
-              Show Date
-              <br>(if a show)
+              Date of Show
+              <br>(only if a show, not for steady gigs)
             </td>
-            <td width="80%" valign="top">
+            <td width="80%" valign="top">  (click right side calendar button)
               <%= f.text_field :show_date, :size=>10 %>
             </td>
           </tr>
@@ -267,12 +267,14 @@
                   Currently set to <b><a href="/venues/about/<%= @event.venue_id %>"><%= @event.venue.title %></a> </b>
                   <br/><br/>
               <% end %>
-              Search venues (note: results will be appear as you type)
+              Search venues (note: results will be appear as you type, click on the name that appears in the list)
               <br>
+              <b>if you can't find a venue <a class="blueLink" href="/venues/new" target="_new">create one</a>, then search again.</b>
               <%= f.hidden_field :venue_id %>
 
               <input type="text" id="event_venue_search" size="30"/>
-              <b>if you can't find a venue <a href="/venues/new" target="_new">create one</a>, then search again.</b>
+              <div id="venue-selected"></div>
+
             </td>
           </tr>
           <tr>
