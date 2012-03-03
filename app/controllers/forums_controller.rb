@@ -44,8 +44,8 @@ class ForumsController < ApplicationController
     @boards = Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
 
     respond_to do |format|
-      format.mobile {render :template => "forums/threads.erb"}
-      format.html {render :template => "forums/index_mobile.erb"}
+      format.html {render :template => "forums/threads.erb"}
+      format.mobile {render :template => "forums/index_mobile.erb"}
     end
   end
 
