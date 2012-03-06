@@ -1,0 +1,76 @@
+<link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
+<script src="/common/js/jquery-ui.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    /**
+     * On-Ready jQuery block
+     */
+    $(function() {
+
+
+        // artist search
+        $( "#article_search" ).autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url:"/search/search_articles_ext",
+                    dataType: "json",
+                    data: {
+                        query: request.term,
+                        maxRows: 15
+                    },
+                    success: function(data) {
+                        response($.map(data.results, function(item) {
+                            return {
+                                label: item.title,
+                                value: item.content_id
+                            }
+                        }))
+                    }
+                })
+            },
+            dataType: 'json',
+            minLength: 3,
+            select: function( event, ui ) {
+                event.preventDefault();
+                window.location = '/articles/edit/'+ui.item.value;
+            }
+        });
+
+    });
+
+
+
+</script>
+<div id="StageNarrow">
+
+  <div class="cd-inside">
+    <input type="text" placeholder="Search Published Stories" id="article_search"/>
+
+     <h2>Recently Created Articles</h2>
+    <div class="hspacer"></div>
+    <%  for item in @live
+
+            title = (item.title.nil? || item.title=="")?  "No Title Set" :item.title
+    %>
+        <a class="blueLink" href="/articles/edit/<%=item.content_id%>"><%=title%></a>
+        <% if !item.display_date.nil?%>
+            <%= item.display_date.strftime("%B #{item.display_date.day.ordinalize} %Y") %>
+        <% end %>
+        <br/>
+    <% end %>
+    <div class="hspacer"></div>
+    <h2>Articles still marked as "Working"</h2>
+    These are articles that have not been published.
+    <div class="hspacer"></div>
+    <%  for item in @working
+
+            title = (item.title.nil? || item.title=="")?  "No Title Set" :item.title
+    %>
+        <a class="blueLink" href="/articles/edit/<%=item.content_id%>"><%=title%></a>
+        <% if !item.display_date.nil?%>
+            <%= item.display_date.strftime("%B #{item.display_date.day.ordinalize} %Y") %>
+        <% end %>
+        <br/>
+    <% end %>
+    <div class="hspacer"></div>
+  </div>
+</div>
