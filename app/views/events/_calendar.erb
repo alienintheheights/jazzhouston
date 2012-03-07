@@ -7,17 +7,17 @@
     $(function() {
         // calendar
 
-        $( "#jh_toolbar" ).datepicker({
-            showOn: "button",
-            buttonImage: "/common/js/jquery/css/images/calendar.gif",
-            buttonImageOnly: false,
-            buttonText: 'Pick Date',
+        $( "#datepicker" ).datepicker({
             dateFormat: 'yy-mm-dd',
             onSelect : function(date){
                 var dateArray = date.split("-");
                 window.location = '/events/'+dateArray[0]+'/'+dateArray[1]+'/'+dateArray[2];
 
             }
+        }).hide();
+
+        $("#datelink").click(function() {
+            $("#datepicker").show();
         });
 
         // venue search
@@ -51,3 +51,30 @@
     });
 
 </script>
+
+<div class="contentTypeList">
+</div>
+
+<div id="SearchBar">
+  <ul class="nav-bar">
+                      <li><a href="#" class="main">Nav Item 1</a></li>
+                      <li class="has-flyout">
+                          <a href="#" class="main">Nav Item 2</a>
+                          <a href="#" class="flyout-toggle"><span> </span></a>
+                          <div class="flyout small">
+                              <h5>Small Example (200px)</h5>
+                              <p>This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. This is example text. </p>
+                          </div>
+                      </li>
+
+                  </ul>
+
+  <ul class="breadcrumbs">
+    <li><a href="/events">today</a></li>
+    <li> <a href="/events/shows">all shows</a></li>
+    <li id="datelink">select date</li>
+  </ul>
+  <div class="ItemHSpacer"><input id="event_venue_search" size="15" placeholder="Search Venues"/></div>
+</div>
+<div id="datepicker"></div>
+
