@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   #########################################
   def detect_browser
     return false if (request.xhr?)
-    return (mobile_request?)? "mobile_application" : "application"
+    (mobile_request?)? "mobile_application" : "application"
   end
 
   def mobile_subdomain?

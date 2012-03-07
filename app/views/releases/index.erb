@@ -1,17 +1,24 @@
-<script language="javascript" src="/mediaplayers/rave/rave.js"></script>
+
 
 <div id="StageNarrow">
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/releases">Houston Jazz CD's</a>
+    </li>
+  </ul>
   <div class="home-inside">
-
-    <div class="Header">
-      Houston Jazz CD's
+    <div id="SearchBar">
+      <div class="ItemHSpacer">
+        <%= render :partial => "genre"%>
+      </div>
+      <div class="ItemHSpacer">
+        <ul >
+          <li><a href="/releases/browse">browse all recordings</a></li>
+        </ul>
+      </div>
     </div>
-    <%if logged_in? && current_user.editor_flag==1 -%>
-        <div style="float:right;">
-          <a href="/releases/new/"><img src="/images/icons/reply.png" border="0" alt="edit">New Album</a>
-        </div>
-    <% end -%>
-    <%= render :partial => "genre"%>
+
+
     <div class="hspacer"></div>
 
 
@@ -21,12 +28,12 @@
           <% if counter%3==0 %><tr><% end %>
           <td>
             <% if item.image_url != ""  %>
-                <%= link_to image_tag(item.image_url,:width=>'120',:hspace=>'5', :align=>'left'), {:action => "about", :controller=>"releases", :id=>item.album_id} %>
+                <%= link_to image_tag(item.image_url,:width=>'150',:hspace=>'5', :align=>'left'), {:action => "about", :controller=>"releases", :id=>item.album_id} %>
             <% end %>
             <%= item.artist_name %><br/>
             <%= link_to item.title, {:action => "about", :controller=>"releases", :id=>item.album_id} %>
             <br/><br/>
-             <% if item.release_date %>
+            <% if item.release_date %>
                 <br/><%= item.release_date.strftime("%B %Y") %>
             <% end %>
             <br/> <a href="/releases/bygenre/<%=item.genre.genre_id%>"><%=item.genre.genre_name %></a>

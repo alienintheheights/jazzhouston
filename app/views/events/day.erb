@@ -1,47 +1,41 @@
 
+  <div id="StageMedium">
+    <ul class="breadcrumbs">
+      <li>
+        <a href="/events">Events</a>
+      </li>
+      <li>
+        By Date
+      </li>
+    </ul>
 
-<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
-<script type="text/javascript" src="/common/js/jazzhouston.events.js"></script>
-
-<script type="text/javascript">
-
-    Ext.onReady(function(){
-
-        jh.events.dateToolbar("jh_toolbar");
-
-    });
-</script>
-
-<div id="StageMedium">
-  <div class="Header"><%=  @curTime.strftime("%A, %B %d") %>: One-Night Only </div>
+  <%= render :partial => "/events/calendar"%>
 
   <div class="cd-inside">
-
-
-    <div id="jh_toolbar"></div>
-
     <div class="hspacer"></div>
+    <h2>Shows for <%=  @curTime.strftime("%A, %B #{@curTime.day.ordinalize}") %></h2>
     <% if @onenighters.length==0 %>
-        <p class="smallText">None scheduled:
-          see <a href="/events/shows">upcoming shows</a>
+        <br/>No shows scheduled for this date:
+        see <a href="/events/shows">upcoming shows</a>
 
     <% end %>
+    <br/>
     <% for item in @onenighters %>
-        <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %></b>
+        <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %>
 
         <% if item.venue %>
             @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
 
         <% end %>
         <%= item.show_time %>
-       <div class="hspacer"></div>
+        <div class="hspacer"></div>
     <% end %>
 
     <div class="hspacer"></div>
-    <div class="Header">Every <%=  @curTime.strftime("%A") %></div>
+    <h2>Appearing Every <%=  @curTime.strftime("%A") %></h2>
     <div class="hspacer"></div>
     <% for item in @steadies %>
-        <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %></b>
+        <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %>
         <% if item.venue %>
             @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
 

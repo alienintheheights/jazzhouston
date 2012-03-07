@@ -1,45 +1,44 @@
 
-<div class="contentTypeList">
-  <a <% if @sectionId=="1" %>class="selected"<%end%> href="/articles/">Headlines</a> |
-  <a <% if @sectionId=="6" %>class="selected"<%end%> href="/articles/reviews">Reviews</a> |
-  <a <% if @sectionId=="5" %>class="selected"<%end%> href="/articles/artists">Concerts and Interviews</a> |
-  <a <% if @sectionId=="3" %>class="selected"<%end%> href="/articles/opinions">Opinion</a>
-  <%if logged_in? && current_user.editor_flag==1 -%>
-      | <a href="/articles/new"><img src="/images/icons/reply.png" border="0" alt="edit">New Article</a>
-  <% end -%>
-</div>
-<div style="float:left;" id="jh_search"></div>
+<ul class="breadcrumbs">
+  <li>
+    <a href="/articles">Articles</a>
+  </li>
+  <li>
+    <%=@page_title%>
+  </li>
+
+</ul>
+
+<div class="home-inside">
+  <%= render :partial => "header", :locals => {:section_id =>@section_id, :skip_pager=>false}%>
 
 
-<div class="board-pager">
-  <%= render :partial => "pager", :locals => {:totalPages =>@totalPages, :page => @page, :id => @id, :type => @type}%>
-</div>
-
-<table class="index-two-column">
-  <% counter=0
-     for item in @articles
-         current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
-  %>
-      <% if counter%2==0 %><tr><% end %>
-      <td>
-        <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@type, :sectionId=>@id, :page=>@page}%>
-        <% if item.display_date && item.author && item.author.downcase!="press release" %>
-            <br/>
+  <table class="index-two-column">
+    <% counter=0
+       for item in @articles
+           current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
+    %>
+        <% if counter%2==0 %><tr><% end %>
+        <td>
+          <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@section_id, :page=>@page}%>
+          <% if item.display_date && item.author && item.author.downcase!="press release" %>
+              <br/>
                 <span class="smallText">
                  by <a href="/members/profile/<%=item.author_id%>"><%= item.author %></a>, posted: <%= item.display_date.strftime("%b %d, %Y") %>
                 </span>
+          <% end %>
+          <br/> <br/>
+          <% if item.image_url && !item.image_url.blank?  %>
+              <%= link_to image_tag(item.image_url,:width=>'70', :height=>'70',:align=>'left',:hspace=>'2', :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@section_id, :page=>@page} %>
+          <% end %>
+          <%=item.teaser %>
+        </td>
+        <% counter=counter+1
+           if counter%2==0 %>
+            </tr>
         <% end %>
-        <br/> <br/>
-        <% if item.image_url && !item.image_url.blank?  %>
-            <%= link_to image_tag(item.image_url,:width=>'70', :height=>'70',:align=>'left',:hspace=>'2', :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@type, :sectionId=>@id, :page=>@page} %>
-        <% end %>
-        <%=item.teaser %>
-      </td>
-      <% counter=counter+1
-         if counter%2==0 %>
-          </tr>
-      <% end %>
-  <% end %>
-</table>
+    <% end %>
+  </table>
+
 
      

@@ -1,54 +1,40 @@
 
+  <div id="StageMedium">
+    <ul class="breadcrumbs">
+      <li>
+        <a href="/events">Events</a>
+      </li>
+      <li>
+        All Shows
+      </li>
+    </ul>
 
-<!-- AJAX Javascript for Rotating Content -->
-<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
-<script type="text/javascript" src="/common/js/jazzhouston.events.js"></script>
-
-<script type="text/javascript">
-
-    // Panels for the events page
-    Ext.onReady(function(){
-
-        jh.events.dateToolbar("jh_toolbar");
-    });
-
-
-</script>
-<div id="StageNarrow">
-  <div class="Header">Upcoming Shows </div>
+  <%= render :partial => "/events/calendar"%>
 
   <div class="cd-inside">
-
-    <div id="jh_toolbar"></div>
-
     <div class="hspacer"></div>
     <% if @shows.length==0 %>
-        <p class="smallText">None scheduled (or at least, we're way behind on keeping the listings current)
-
+        <p class="smallText">None scheduled (or at least, we're way behind on keeping the listings current #EditorFail)
     <% end %>
-    <table width="100%" class="index-two-column-small">
+    <div id="showgrid">
       <% for item in @shows %>
-          <tr>
-            <td width="10%"><%=item.show_date.to_datetime.strftime("%b %d")%></td>
-            <td width='36%'>
-              <% if item.venue %>
-            <span class="smallText">
-                @<%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
-            </span>
-              <% end %>
-            </td>
-            <td widdth="54%"><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></td>
+          <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
+          <% if item.venue %>
+              @<%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
+          <% end %>
+          <%=  item.show_date.strftime("%A, %B #{item.show_date.day.ordinalize}") %>
 
-          </tr>
+          <div class="hspacer"></div>
       <% end %>
-    </table>
-    <div class="hspacer"></div>
-    Check back for more shows. We post 'em as we get 'em!
-     <br/>
-    Subscribe to our RSS feed:
-  <a href="http://jazzhouston.com/events/rss"><img width="20" align="top" src="/images/icon_hopout_rss.png" border="0"></a>
-  <br/>
-   Follow us on Twitter:<a href="http://twitter.com/#!/jazzhouston"><img width="20" align="top" src="/images/icon_hopout_twitter.png" border="0"></a>
+      <div class="hspacer"></div>
+      Check back for more shows. We post 'em as we get 'em!
+      <br/>
+      Subscribe to our RSS feed:
+      <a href="http://jazzhouston.com/events/rss"><img width="20" align="top" src="/images/icon_hopout_rss.png" border="0"></a>
+      <br/>
+      Follow us on Twitter:<a href="http://twitter.com/#!/jazzhouston"><img width="20" align="top" src="/images/icon_hopout_twitter.png" border="0"></a>
+      <div class="hspacer"></div>
+    </div>
 
 
 

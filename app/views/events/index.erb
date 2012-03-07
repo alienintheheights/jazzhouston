@@ -1,82 +1,23 @@
-<%= render :partial => "common/extjs" %>
-<script type="text/javascript" src="/common/js/jazzhouston.events.js"></script>
-<script type="text/javascript">
-
-    // Panels for the events page
-    Ext.onReady(function(){
-
-        jh.events.dateToolbar("jh_toolbar");
-
-        // Venue search
-        var venueSearchDataStore = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({
-                url: '/venues/search_ext',
-                method: 'GET'
-            }),
-            reader: new Ext.data.JsonReader({
-                totalProperty: 'items',
-                root: 'results',
-                id: 'venue_id'
-            }, [{name:'venue_id'},
-                {name: 'title'}
-            ])
-        });
-
-
-        var venueSearchResultTemplate = new Ext.XTemplate(
-                '<tpl for="."><div class="jh_search_item">',
-                '<a class="bigForumLink" href="/venues/about/{venue_id}">{title}</a>',
-                '</div></tpl>'
-        );
-
-        var venueSearchControl = new Ext.form.ComboBox({
-            store: venueSearchDataStore,
-            displayField:'title',
-            typeAhead: false,
-            loadingText: 'Searching...',
-            width: 200,
-            listWidth: 200,
-            maxHeight: 200,
-            minChars: 3,
-            height: 200,
-            emptyText: 'To search venue, just type in a name...',
-            hideTrigger:true,
-            hideOnClick:true,
-            itemSelector: 'div.jh_search_item',
-            tpl: venueSearchResultTemplate,
-            onSelect: function(record){ // override default onSelect to do redirect
-                window.location = String.format('http://www.jazzhouston.com/venues/about/{0}', record.data.venue_id);
-            }
-
-        });
-
-        venueSearchControl.render('jh_event_venue_search');
-
-    });
-
-
-</script>
-
-
 <div id="StageMedium">
-  <div class="Header">
-    JazzHouston Calendar
-  </div>
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/events">Events</a>
+    </li>
+    <li>
+      Today
+    </li>
+  </ul>
 
-  <div class="inside">
+  <%= render :partial => "/events/calendar"%>
 
-    <br/>
-    <%if logged_in? && current_user.editor_flag==1 -%>
-        <div class="flash-alert" style="float:left;display:inline;"><%= flash[:notice] %></div>
-        <div style="float:right;">
-          <a href="/events/new"><img src="/images/icons/reply.png" border="0" alt="edit">New Show</a><br/>
-        </div>
+  <div class="cd-inside">
 
-    <% end -%>
+
     <div id="showgrid">
 
-      <h2>Playing Today</h2>
-      <div id="jh_toolbar"></div>
+      <div class="hspacer"></div>
+
+      <h2 >Playing Today: <%=  @curTime.strftime("%A, %B #{@curTime.day.ordinalize}") %></h2>
       <div class="hspacer"></div>
       <% for item in @showsToday %>
           <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
@@ -104,7 +45,6 @@
             end %>
 
       </ul>
-      <div class="hspacer"></div>
       <a class="blueLink" href="/events/shows">see more upcoming shows</a>
       <div class="hspacer"></div>
 
@@ -131,16 +71,6 @@
       <% end %>
     </div>
 
-    <div class="Header">
-      Houston Jazz Venues
-    </div>
-    <div id="jh_venue_about">
-      <img src="/images/clubs/sambuca.jpg" alt="Sambuca" hspace="2" align="left">
-      There are a rotating multitude of places to find Jazz in Houston. Search by name or scan the <a href="/events">calendar</a> for specifics.
-    </div>
-    <br/><br/>
-    <b>Venue Finder:</b><br/>
-    <div id="jh_event_venue_search"></div>
-    <div class="hspacer"></div>
+
   </div>
 </div>

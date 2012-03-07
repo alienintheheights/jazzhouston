@@ -1,23 +1,17 @@
 <%
-    if (@member.url &&  @member.url!="" && @member.url !~/^http/i)
+   if (@member.url &&  @member.url!="" && @member.url !~/^http/i)
        @member.url = "http://" + @member.url
    end
+   if (!@member.cell_phone.nil?)
+       @member.cell_phone.gsub!(/[^\d]/,'')
+       @member.cell_phone = number_to_phone(@member.cell_phone)
+   end
+   if (!@member.home_phone.nil?)
+       @member.home_phone.gsub!(/[^\d]/,'')
+       @member.home_phone = number_to_phone(@member.home_phone)
+   end
 %>
-<script type="text/javascript">
-    var activeRegion='jh_interests';
-    function swap(region) {
-        var pcmp =document.getElementById(activeRegion);
-        pcmp.style.display='none';
-
-        var cmp = document.getElementById(region);
-        cmp.style.display='block';
-
-        activeRegion=region;
-    }
-
-</script>
 <div id="StageNarrow">
-
 
   <div class="ProfileHeader">
     <%=@member.first_name%> <%=@member.last_name%>
@@ -30,19 +24,16 @@
 
 
   <div class="cd-inside">
-
-
-
     <div id="jh_pic_column">
 
       <%= render :partial => "common/renderpic", :locals => { :user => @member, :size =>"150"} %>
       <br/> <div id="jh_editor">
-        <% if @member.admin_flag==1 %>
-            JazzHouston Admin
-        <% elsif @member.editor_flag==1 %>
-            JazzHouston Editor
-        <% end %>
-      </div>
+      <% if @member.admin_flag==1 %>
+          JazzHouston Admin
+      <% elsif @member.editor_flag==1 %>
+          JazzHouston Editor
+      <% end %>
+    </div>
     </div>
     <div id="jh_infocol">
 
@@ -63,13 +54,13 @@
         <% if @member.cell_phone && @member.cell_phone != "" %>
             <tr>
               <td align="left">Phone</td>
-              <td><%=@member.cell_phone%></td>
+              <td><%=number_to_phone @member.cell_phone%></td>
             </tr>
         <% end %>
         <% if @member.home_phone && @member.home_phone != "" %>
             <tr>
               <td align="left">Phone (alt)</td>
-              <td><%=@member.home_phone%></td>
+              <td><%=number_to_phone @member.home_phone%></td>
             </tr>
         <% end %>
         <% if @member.email %>

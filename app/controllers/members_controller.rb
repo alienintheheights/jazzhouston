@@ -5,10 +5,10 @@
 #########################################
 class MembersController < ApplicationController
 
-  #require "RMagick"  #TODO:DEV
+  require "RMagick"  #TODO:DEV
   include AuthenticatedSystem
   include ExtjsRails
-  #include UserChallenge  #TODO:DEV
+  include UserChallenge  #TODO:DEV
 
   #rescue_from (ActiveRecord::RecordNotFound) { |e| render :file => 'public/404.html' }
   #rescue_from (ActiveRecord::RecordInvalid) { |e| render :file => 'public/404.html' }
@@ -24,7 +24,7 @@ class MembersController < ApplicationController
   @@msg[2]="Password changed! Please login."
 
   def loginpage
-     @page_title = "Log In Page"
+    @page_title = "Log In Page"
   end
 
   #########################################
@@ -48,7 +48,7 @@ class MembersController < ApplicationController
 
     if logged_in?
       if params[:remember_me] == "1"
-        self.current_user.remember_me
+        self.current_user.remember_me   #TODO: dev
         cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
       user_bans=UserBan.find(:all, :conditions=>["victim_id=?",current_user.user_id])
@@ -70,7 +70,7 @@ class MembersController < ApplicationController
   # Logout
   #########################################
   def logout
-    self.current_user.forget_me if logged_in?
+    self.current_user.forget_me if logged_in?   #TODO: dev
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
@@ -84,15 +84,15 @@ class MembersController < ApplicationController
   #########################################
   def index
     @page_title="Members Home"
-    @users = User.find(:all, :conditions=>"status_id=0", :order=>"user_id desc", :limit=>10)
+    @users = User.find(:all, :conditions=>"status_id=0", :order=>"user_id desc", :limit=>20)
 
     if (params[:msgid])
       flash[:notice]=@@msg[params[:msgid].to_i]
     end
 
     respond_to do |format|
-      format.mobile # index..erb
-      format.html {render :template => "members/index_mobile.erb"}
+      format.html # index..erb
+      format.mobile {render :template => "members/index_mobile.erb"}
     end
   end
 
@@ -312,7 +312,7 @@ class MembersController < ApplicationController
 
     challenge = session["uc"]
     session["uc"] = nil
-    test=true #challenge.checkResponse(params[:imageChallenge])
+    test=challenge.checkResponse(params[:imageChallenge])   #TODO:DEV
     if (!test )
       data = { :failure => 'true', :message=>"Invalid Image challenge response. Try again" }
       render :text => data.to_json, :layout => false
@@ -321,7 +321,7 @@ class MembersController < ApplicationController
 
     @user = User.new(params[:user])
     @user.status_id=1
-              # get the instruments
+    # get the instruments
     user_instruments=params[:instrument]
     if (user_instruments)
       instruments=[]
@@ -332,6 +332,11 @@ class MembersController < ApplicationController
       @user.instruments=instruments
       @user.local_player_flag=1
     end
+
+    if (@user.url &&  @user.url!="" && @user.url !~/^http/i)
+      @user.url = "http://" + @user.url
+    end
+
     @user.save!
     flash[:success] = "Thanks for signing up!"
 
@@ -418,6 +423,7 @@ class MembersController < ApplicationController
       @user.instruments=[]
       @user.local_player_flag=0
     end
+
     @user.save!
     expire_user(@user)
     render :json => {:success=>true, :message=>"Successfully updated your account", :user=>@user}

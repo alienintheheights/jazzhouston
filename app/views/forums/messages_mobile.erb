@@ -58,7 +58,13 @@
                     </div>
 
                     <div class="messageAuthor">
-                      <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a>
+                      <% if item.user %>
+                          <b><%=item.user.first_name%> <%=item.user.last_name%></b>
+                          <br/><i><%=item.user.username%></i>
+                      <% else %>
+                           <b><%=item.author%></b>
+                          <br/><i>legacy account</i>
+                      <% end %>
                       <br/><%=distance_of_time_in_words(Time.now, item.pdate)%> ago
                     </div>
 

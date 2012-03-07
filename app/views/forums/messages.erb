@@ -5,13 +5,20 @@
    boardId = (@board.nil?)? 0: @board.board_id
 %>
 <div id="StageNarrow">
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/forums">Forums</a>
+    </li>
+    <li>
+      <% if (@board.nil?) %>
+          <a href="/forums">Recent</a>
+      <% else %>
+          <a href="/forums/threads/<%=@board.board_id%>"><%=@board.title%></a>
+      <% end %>
 
-  <%= render :partial => "switcher", :locals => {
-          :board => @board,
-          :totalPosts => @totalPosts,
-          :boards => @boards,
-          :showCount => false
-  } %>
+    </li>
+  </ul>
+
 
   <div class="cd-inside">
 
@@ -61,6 +68,9 @@
                       <% if item.user %>
                           <b><%=item.user.first_name%> <%=item.user.last_name%></b>
                           <br/><i><%=item.user.username%></i>
+                      <% else %>
+                           <b><%=item.author%></b>
+                          <br/><i>legacy account</i>
                       <% end %>
                       <br/>  <br/>
 

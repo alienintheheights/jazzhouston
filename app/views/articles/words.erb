@@ -1,48 +1,56 @@
 <%
- @page = @page || 1
+   @page = @page || 1
 %>
 <div id="StageNarrow">
 
-  <div class="contentTypeList">
-      <a <% if @sectionId=="1" %>class="selected"<%end%> href="/articles/?page=<%=@page%>">Headlines</a> |
-      <a <% if @sectionId=="6" %>class="selected"<%end%> href="/articles/reviews?page=<%=@page%>">Reviews</a> |
-      <a <% if @sectionId=="5" %>class="selected"<%end%> href="/articles/artists?page=<%=@page%>">Concerts and Interviews</a> |
-      <a <% if @sectionId=="3" %>class="selected"<%end%> href="/articles/opinions?page=<%=@page%>">Opinion</a>
-    </div>
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/articles">Articles</a>
+    </li>
+    <li>
+      <a href="/articles?id=<%=@section_id%>&page=<%=@page%>"><%=@section_title%></a>
+    </li>
+    <li>
+      Story
+    </li>
+  </ul>
+
+  <%= render :partial => "header", :locals => {:section_id =>@section_id, :skip_pager=>true}%>
+
   <div class="cd-inside">
-    <%= render :partial => "common/socialrow", :locals => {
-            :title=>@article.title,
-            :url=>request.url
-    }
-    %>
     <div class="StoryHeader">
-      <%=@article.title%>
+      <%=@article.title%> <%if logged_in? && current_user.editor_flag==1 -%>
+          <a style="font-size:12px;" href="/articles/edit/<%=@article.content_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit Story</a><br/>
+      <% end -%>
     </div>
+    <% if @article.display_date %>
+        <%= @article.display_date.strftime("%B #{@article.display_date.day.ordinalize} %Y") %>
+    <% end %>
     <% if @article.author_id %>
         by <a href="/members/profile/<%= @article.author_id%>"><%=@article.author%></a>
     <% else %>
         by <b><%=@article.author%></b>
     <% end %>
-    <% if @article.display_date %>
-        <br/><i><%= @article.display_date.strftime("%b %d %Y") %> </i>
-    <% end %>
-    <%if logged_in? && current_user.editor_flag==1 -%>
-        <a href="/articles/edit/<%=@article.content_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
-    <% end -%>
 
-
-    <div class="hspacer"></div>
     <div class="wordText">
-      <%=raw @article.body_text.html_safe%>
+      <% if html_break_flag = 0 %>
+          <%=raw @article.body_text%>
+      <% else %>
+          <%=simple_format(@article.body_text.html_safe, {}, :sanitize => false)%>
+      <% end %>
     </div>
+    <%= render :partial => "common/socialrow", :locals => {
+            :title=>@article.title,
+            :url=>request.url
+    }
+    %>
+    <div class="hspacer"></div>
 
     <div class="hspacer"></div>
 
-  <div class="hspacer"></div>
 
 
 
-
-</div>
+  </div>
 </div>
 

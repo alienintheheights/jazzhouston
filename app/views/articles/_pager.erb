@@ -1,15 +1,16 @@
-<% if totalPages>1  %>
-    page: <%= link_to "1", {:action => "index", :controller=>"articles", :id=>@id, :type=>@type, :page=>1} %>
-    <% if page>10 %>..<% end %>
-    <% sidx = (page>9)?page-8:2;
-       for i in (sidx..page)
-           if (i==page)  %>
-            <%= link_to i, {:action => "index", :controller=>"articles", :id=>@id, :type=>@type,  :page=>i}, :class=>"selected" %>
-        <% else %>
-            <%= link_to i, {:action => "index", :controller=>"articles", :id=>@id, :type=>@type,  :page=>i} %>
-        <% end  %>
-    <% end %>
-    <% if page < totalPages %>
-        <%= link_to "more", {:action => "index", :controller=>"articles",:id=>@id, :type=>@type, :page=>@page+1} %>
-    <% end %>
+<% if total_pages > 1  %>
+    <ul class="board-pager">
+      <li>page: <%= link_to "1", {:action => "index", :controller=>"articles", :type=>@section_id, :page=>1} %></li>
+      <% sidx = (page>4)?page-3:2;
+         for i in (sidx..page)
+             if (i==page)  %>
+             <li><%= link_to i, {:action => "index", :controller=>"articles", :type=>@section_id,  :page=>i}, :class=>"selected" %></li>
+          <% else %>
+              <li><%= link_to i, {:action => "index", :controller=>"articles", :type=>@section_id,  :page=>i} %></li>
+          <% end  %>
+      <% end %>
+      <% if page < total_pages %>
+          <li><%= link_to " more", {:action => "index", :controller=>"articles",:type=>@section_id, :page=>@page+1} %></li>
+      <% end %>
+    </ul>
 <% end %>

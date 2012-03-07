@@ -11,12 +11,15 @@
     });
 </script>
 <div id="StageNarrow">
-  <div class="HeaderShow"><%= @instrument.titleize %></div>
-
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/musicians">Musician Roll-a-dex</a>
+    </li>
+    <li>
+      <%= @instrument.titleize %>
+    </li>
+  </ul>
   <div class="inside">
-    <div class="breadcrumbs">
-      <a href="/">Home</a>> <a href="/musicians">Musicians</a>>
-    </div>
     <div class="board-pager" style="float:right;">
       <%= render :partial => "pager", :locals => { :page => @page, :instrument => @instrument, :total =>@total_players, :page_size=>@page_size}%>
     </div>
@@ -30,6 +33,14 @@
       <% for item in @players %>
           <% if (item.first_name || item.last_name)
                  fullname = item.first_name.gsub( %r{</?[^>]+?>}, '' ) + " " + item.last_name.gsub( %r{</?[^>]+?>}, '' )
+                 if (item.cell_phone && item.cell_phone!="" && !item.cell_phone.nil?)
+                     item.cell_phone.gsub!(/[^\d]/,'')
+                     item.cell_phone = number_to_phone(item.cell_phone)
+                 end
+                 if (item.home_phone && item.home_phone!="" && !item.home_phone.nil?)
+                     item.home_phone.gsub!(/[^\d]/,'')
+                     item.home_phone = number_to_phone(item.home_phone)
+                 end
           %>
               <tr style="padding: 5px 0;">
                 <td width="35%" valign="bottom">
@@ -53,7 +64,7 @@
           <% end %>
       <% end %>
     </table>
-     <div class="board-pager" style="float:right;">
+    <div class="board-pager" style="float:right;">
       <%= render :partial => "pager", :locals => { :page => @page, :instrument => @instrument, :total =>@total_players, :page_size=>@page_size}%>
     </div>
     <div class="hspacer"></div>

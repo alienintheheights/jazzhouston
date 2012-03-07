@@ -10,7 +10,7 @@ class EventsController < ApplicationController
 
   include AuthenticatedSystem
 
-  before_filter :login_required, :only =>[:update, :create, :destroy, :update_featured]
+  before_filter :login_required, :only =>[:update, :create, :new, :edit, :destroy, :update_featured]
 
   respond_to :html, :js, :xml, :json
 
@@ -138,6 +138,12 @@ class EventsController < ApplicationController
 
   # rss feed
   def rss_block
+     redirect_to :action=>"rssblock"
+  end
+
+
+  # rss feed
+  def rssblock
     response.headers["Content-Type"] = "application/rss+xml; charset=utf-8"
 
     @curTime = Time.now.in_time_zone(@@TZ)
@@ -176,12 +182,17 @@ class EventsController < ApplicationController
     if (@event.event_type_id==2)
       @event.show_date=nil
     end
+    if (@event.artist_id && @event.artist_id>0)
+      @player = User.find(@event.artist_id)
+    end
   end
 
   # EDIT WRITE
   def update
     @event = Event.find(params[:id])
-
+    if (@event.artist_id && @event.artist_id>0)
+      @player = User.find(@event.artist_id)
+    end
     respond_to do |format|
       if @event.update_attributes(params[:event])
         format.html { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
@@ -201,7 +212,10 @@ class EventsController < ApplicationController
   # NEW WRITE
   def create
     @event = Event.new(params[:event])
-
+    if (@event.artist_id && @event.artist_id>0)
+      @player = User.find(@event.artist_id)
+    end
+    flash[:notice] = 'Your event has been created!'
     respond_to do |format|
       if @event.save
         flash[:notice] = 'Event was successfully created.'

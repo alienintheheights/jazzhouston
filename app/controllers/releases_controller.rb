@@ -8,7 +8,7 @@
 
 class ReleasesController < ApplicationController
 
-  before_filter :login_required, :only =>[:update, :create]
+  before_filter :login_required, :only =>[:new, :edit, :update, :create]
 
   ################################
   # ACTIONS

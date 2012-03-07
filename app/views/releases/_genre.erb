@@ -1,5 +1,4 @@
-<form action="/releases/bygenre" method="get">
-<a href="/releases/browse">See All</a> | <select name="id" onChange="this.form.submit();">
+<form action="/releases/bygenre" method="get"><select name="id" onChange="this.form.submit();">
 <option value="1" selected>Select a genre...
 <%
 @genres = Genre.find(:all, :order => "genre_id")

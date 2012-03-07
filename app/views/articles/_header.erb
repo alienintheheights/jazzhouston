@@ -1,0 +1,22 @@
+
+<div id="SearchBar">
+  <div class="ItemHSpacer">
+    <input type="text" placeholder="Search Stories"  size="15" id="article_search"/>
+  </div>
+  <div class="ItemHSpacer">
+    <ul >
+      <li><a href="/articles/">Headlines</a></li>
+      <li><a href="/articles/reviews">Reviews</a></li>
+      <li> <a href="/articles/artists">Concerts and Interviews</a></li>
+      <li><a href="/articles/opinions">Opinion</a></li>
+    </ul>
+  </div>
+
+  <% if !skip_pager && !@total_pages.nil?  %>
+      <div class="board-pager" style="float:right;padding-right:15px;">
+        <%= render :partial => "pager", :locals => {:total_pages =>@total_pages, :page => @page, :type => @section_id}%>
+      </div>
+  <% end %>
+</div>
+
+

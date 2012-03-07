@@ -9,15 +9,16 @@
 class ArticlesController < ApplicationController
 
   include AuthenticatedSystem
+  include ExtjsRails
 
-  before_filter :login_required, :only =>[:update, :create, :destroy, :update_featured]
+  before_filter :login_required, :only =>[:update, :create, :destroy, :update_featured, :workflow, :new, :edit, :workflow]
 
-
-  @@article_type=[]
-  @@article_type[0]="Headlines"
-  @@article_type[1]="Reviews"
-  @@article_type[2]="Concerts and Interviews"
-  @@article_type[3]="Opinion"
+  @@sections = {
+      1=>"Headlines",
+      3=>"Opinions",
+      5=>"Concerts and Interviews",
+      6=>"Reviews"
+  }
 
   @@per_page=10
 
@@ -27,25 +28,18 @@ class ArticlesController < ApplicationController
 
   # the index page
   def index
-    if (!params[:id])
-      params[:id]=1
-      params[:type]=0
+    @section_id = (params[:type].nil?)? 1 : params[:type].to_i
+    @page_title = @@sections[@section_id]
+    if (@page_title.nil?)
+      @section_id = 1 # default value
+      @page_title = @@sections[@section_id]
     end
-    @id=params[:id]
-    @type=params[:type]
-    @page_title=@@article_type[params[:type].to_i]
-    pageNumber=params[:page]
-    if (pageNumber)
-      @page=pageNumber.to_i
-      offset=getOffset(@page)
-      @articles=Content.find(:all, :order=>"display_date desc", :conditions => ["content_type_id=? and status_id=2",params[:id]], :limit=>@@per_page, :offset=>offset)
-    else
-      @page=1
-      @articles=Content.find(:all, :order=>"display_date desc", :conditions => ["content_type_id=? and status_id=2",params[:id]], :limit=>@@per_page)
-    end
-    totalPosts = Content.count(:all, :conditions => ["content_type_id=? and status_id=2",params[:id]])
-    @totalPages = (totalPosts/@@per_page).to_i
-    @sectionId=params[:id]
+    @page =       (params[:page].nil?) ? 1 : params[:page].to_i
+    offset =      getOffset(@page) || 0
+    total_posts = Content.count(:all, :conditions => ["content_type_id=? and status_id=2",@section_id])
+    @total_pages= (total_posts/@@per_page).to_i
+
+    @articles =   Content.find(:all, :order=>"display_date desc", :conditions => ["content_type_id=? and status_id=2",@section_id], :limit=>@@per_page, :offset=>offset)
 
     respond_to do |format|
       format.html {render :template => "articles/index.erb"}
@@ -55,48 +49,57 @@ class ArticlesController < ApplicationController
 
   # article pages
   def words
-    @article=Content.find(params[:id])
-    #@article.body_text=autoBreaks(@article.body_text,@article.html_break_flag)
-    @page_title= @article.title
-    @sectionId=params[:sectionId]
-    @type=params[:type]
-    if (!@type)
-      @type=0
-    end
-    @section_title=@@article_type[params[:type].to_i]
-    @page=params[:page]
+    @article  =   Content.find(params[:id])
+    @page_title=  @article.title
+    @section_id = (params[:type].nil?)? 1 : params[:type].to_i
+    @section_title=@@sections[@section_id]
+    @page =       (params[:page].nil?) ? 1 : params[:page].to_i
+
   rescue ActiveRecord::RecordNotFound
-    @article=Content.find_by_sub_title(params[:id])
+    @article =    Content.find_by_sub_title(params[:id])
     # TODO: remove redundant code
-    #@article.body_text=autoBreaks(@article.body_text,@article.html_break_flag)
-    @page_title= @article.title
-    @sectionId=params[:sectionId]
-    @type=params[:type]
-    if (!@type)
-      @type=0
-    end
-    @section_title=@@article_type[params[:type].to_i]
-    @page=params[:page]
+    @page_title=  @article.title
+    @section_id = (params[:type].nil?)? 1 : params[:type].to_i
+    @section_title=@@sections[@section_id]
+    @page =       (params[:page].nil?) ? 1 : params[:page].to_i
   end
 
   # an index of review articles (i.e., content_type_id=6)
   def reviews
-    redirect_to :action=>"index", :id=>6, :type=>1
+    redirect_to :action=>"index", :type=>6
   end
 
   # an index of editorial articles (i.e., content_type_id=3)
   def opinions
-    redirect_to :action=>"index", :id=>3, :type=>3
+    redirect_to :action=>"index", :type=>3
   end
 
   # an index of concert review and interview articles (i.e., content_type_id=5)
   def artists
-    redirect_to :action=>"index", :id=>5, :type=>2
+    redirect_to :action=>"index", :type=>5
   end
 
   # reviews pages
   def review
     words()
+  end
+
+  def search_articles_url_ext
+    @search_term=params[:query]
+    results = Content.find(:all,
+                           :conditions=>"status_id=2 and lower(sub_title) = lower('"+@search_term+"')")
+    render :json => to_ext_json(results)
+  end
+
+
+  # the index page
+  def workflow
+
+    @page_title="Story Workflow"
+    @live=Content.find(:all, :order=>"content_id desc", :conditions => ["status_id=2"],:limit=>10)
+    @working=Content.find(:all, :order=>"content_id desc", :conditions => ["status_id=1"])
+
+
   end
 
 

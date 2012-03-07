@@ -1,50 +1,101 @@
-<%= render :partial => "switcher", :locals => {
-        :board => board,
-        :totalPosts => @totalPosts,
-        :boards =>@boards,
-        :showCount => true
-} %>
-<%
-   boardId = (board.nil?)? 0: board.board_id
-   boardTitle = (board.nil?)? '': board.title
-%>
+<script type="text/javascript">
+    $(function() {
+        $('.forumThreadBox').hover( function(){
+                    $(this).css('background-color', '#eeefee');
+                },
+                function(){
+                    $(this).css('background-color', '#fff');
+                });
+        $("select").change(function () {
+            var str = "/forums/";
+            $("select option:selected").each(function () {
+                if (this.value === "0") {
+                    window.location  =   str;
+                } else {
+                    window.location = str + "threads/" + this.value;
+                }
+            });
 
-<div class="forumNewTopicLink">
-  <% if logged_in? %>
-      <% if board.nil? %>
-          <%= link_to "+new topic", {:action => "new", :controller=>"forums", :class=>"newTopic"} %>
-      <% else %>
-          <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=>board.board_id}, :class=>"newTopic" %>
-      <% end %>
-  <% end %>
-</div>
-<%
-   has_bans=(ban_list && ban_list.length>0) || false
-   for item in threads
-       page_num = item.post_count>@pp? 1+((item.post_count-1)/@pp).floor : 1
-       next if (has_bans && item.monologue_flag==1 && ban_list.has_key?(item.user_id))
-%>
+        });
 
-    <div class="forumThreadBox">
-      <div class="forumAvatarBox">
-        <div class="forumListPic">
-          <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
-        </div>
-        <div class="forumMetaInfo">
-          <a class="smallForumLink" href="/members/profile/<%=item.author%>"><%= item.author.downcase %></a>
+    });
+</script>
+<div id="StageNarrow">
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/forums">Forums</a>
+    </li>
+    <li>
+      <%=(@board.nil?) ? "Recent" :@board.title%>
+    </li>
+  </ul>
+  <div id="SearchBar">
+    <div class="ItemHSpacer">
+      <%= render :partial => "switcher", :locals => {
+              :board => board,
+              :totalPosts => @totalPosts,
+              :boards =>@boards,
+              :showCount => true
+      } %>
+    </div>
+    <div class="ItemHSpacer">
+      <ul >
+        <% if logged_in? %>
+            <li>
+              <% if board.nil? %>
+                  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :class=>"newTopic"} %>
+              <% else %>
+                  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=>board.board_id}, :class=>"newTopic" %>
+              <% end %>
 
-          <div class="forumPostTime">
-            <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+            </li>
+
+        <% end %>
+      </ul>
+    </div>
+    <div class="board-pager" style="float:right;">
+      <%= render :partial => "pager", :locals => { :page => @page, :board => board}%>
+    </div>
+  </div>
+
+  <div class="forum-inside">
+
+    <%
+       boardId = (board.nil?)? 0: board.board_id
+       boardTitle = (board.nil?)? '': board.title
+    %>
+
+    <%
+       has_bans=(ban_list && ban_list.length>0) || false
+       for item in threads
+           page_num = item.post_count>@pp? 1+((item.post_count-1)/@pp).floor : 1
+           next if (has_bans && item.monologue_flag==1 && ban_list.has_key?(item.user_id))
+    %>
+
+        <div class="forumThreadBox">
+          <div class="forumAvatarBox">
+            <div class="forumListPic">
+              <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
+            </div>
+
+          </div>
+          <div class= "bigForumLink">
+            <a href="/forums/messages/<%=item.thread_id%>?fpage=<%=@page%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
+
+            <div class="forumPostTime">
+              <% if !item.user.nil? %>
+                  <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
-      <div class= "bigForumLink">
-        <a href="/forums/messages/<%=item.thread_id%>?fpage=<%=@page%>"><%= truncate(item.title, :length => 70) %></a>
-        <br/><a class="smallForumLink" style="margin-top:12px;" href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>#<%= item.post_count %>"><%= item.post_count-1 %> comment<% if item.post_count-1 != 1 %>s<% end %></a>
-      </div>
-    </div>
-<% end %>
 
-<div class="board-pager" style="float:right;">
-  <%= render :partial => "pager", :locals => { :page => @page, :board => board}%>
+    <% end %>
+
+    <div class="hspacer"></div>
+    <span style="font-size:0.8em;padding-left:10px;">
+     <%=number_with_delimiter(@totalPosts)%> forum posts and still going...
+    </span>
+    <div class="hspacer"></div>
+  </div>
 </div>

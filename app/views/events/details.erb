@@ -18,10 +18,10 @@
                     layout: 'fit',
                     title: "<%=@venue.title%>",
                     closeAction: 'hide',
-                    width:400,
-                    height:400,
-                    x: 240,
-                    y: 160,
+                    width:300,
+                    height:300,
+                    x: 50,
+                    y: 50,
                     items: {
                         xtype: 'gmappanel',
                         region: 'center',
@@ -61,47 +61,38 @@
 
 </script>
 
-<div id="StageNarrow">
+
+  <div id="StageMedium">
+    <ul class="breadcrumbs">
+      <li>
+        <a href="/events">Events</a>
+      </li>
+      <li>
+        Show Listing
+      </li>
+    </ul>
 
 
   <div class="HeaderShow"><%=@show.performer%><br/>
 
-
-
-    <!--
-	<% if @show.show_date %>
-            <%= @show.show_date.strftime("%B %d %Y") %>
-        <% end %>
-        <% if @show.day_of_week && !@show.show_date %>
-            <%= @dow[@show.day_of_week] %>s
-        <% end %>
--->
   </div>
 
   <div class="inside">
-    <%if logged_in? && current_user.editor_flag==1 -%>
-        <div style="float:right;">
-          <a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
-        </div>
-    <% end -%>
+
     <div class="hspacer"></div>
     <table class="index-two-column-small">
       <tr>
-        <td valign="top" width="65%" style="border-right: 1px solid;">
-          <b><%= @show.performer %></b><br/>
-          <%= @show.about.html_safe %>
-          <div class="hspacer"></div>
-          <% if @player%>
-              Musician Profile: <a href="/members/profile/<%= @player.user_id %>"><%=@player.first_name%> <%=@player.last_name%></a>   <br/>
-          <% end %>
-          <%= render :partial => "common/socialrow", :locals => {
-                  :title=>@show.performer,
-                  :url=>request.url}%>
-        </td>
+        <td valign="top" colspan="2">
 
-        <td valign="top" width="35%">
-          <% if @show.show_date %>
-              <b><%= @show.show_date.strftime("%A, %B %d, %Y") %></b> <br/>
+          <%if logged_in? && current_user.editor_flag==1 -%>
+              <div style="float:right;">
+                <a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
+              </div>
+          <% end -%>
+          <b><%= @show.performer %></b>
+          <br/>
+           <% if @show.show_date %>
+              <%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %> <br/>
           <% end %>
           <% if @show.day_of_week && !@show.show_date %>
               <b><%= @dow[@show.day_of_week] %>s</b> <br/>
@@ -109,12 +100,23 @@
           <% if @show.venue  %>
               <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a>, <%=@show.show_time%><br/>
           <% end %>
-          <% if @show.related_url && @show.related_url!=""%>
-              <br/>
-              Related Site: <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
-          <% end %>
 
-        </td></tr></table>
+          <div class="hspacer"></div>
+          <%= @show.about.html_safe %>
+          <div class="hspacer"></div>
+           <% if @show.related_url && @show.related_url!=""%>
+             <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
+          <% end %>
+          <br/>
+          <% if @player%>
+              Musician Profile: <a href="/members/profile/<%= @player.user_id %>"><%=@player.first_name%> <%=@player.last_name%></a>   <br/>
+          <% end %>
+          <br/>
+          <%= render :partial => "common/socialrow", :locals => {
+                  :title=>@show.performer,
+                  :url=>request.url}%>
+        </td>
+      </tr></table>
     <div class="hspacer"></div>
   </div>
 

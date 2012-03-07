@@ -9,17 +9,22 @@
 %>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <div id="StageNarrow">
-  <div class="Header">
-    <%=title%>
-  </div>
+
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/forums">Forums</a>
+    </li>
+    <li>
+     <%=title%>
+    </li>
+  </ul>
 
   <div class="cd-inside">
 
-    <div class="hspacer"></div>
     <%= form_for :message, :url => { :action => "new"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
         <% if !@board %>
             <br/>
-            <b>Pick a forum topic</b>
+            <b>Pick a message board</b>
             <select name="board_id">
               <%  for board in @boards %>
                   <option value="<%=board.id%>"><%=board.title%>

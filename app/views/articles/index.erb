@@ -1,55 +1,47 @@
-<%= render :partial => "common/extjs" %>
+<link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
+<script src="/common/js/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    Ext.onReady(function(){
+    /**
+     * On-Ready jQuery block
+     */
+    $(function() {
 
-        var articleSearchDataStore = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({
-                url: '/search/search_articles_ext',
-                method: 'GET'
-            }),
-            reader: new Ext.data.JsonReader({
-                totalProperty: 'items',
-                root: 'results',
-                id: 'keyword'
-            }, [{name:'content_id'},
-                {name: 'teaser'},
-                {name: 'title'},
-                {name: 'author'},
-                {name: 'display_date'}
-            ])
-        });
 
-        var articleSearchResultTemplate = new Ext.XTemplate(
-                '<tpl for="."><div class="jh_search_results">',
-                '<a href="/articles/words/{content_id}">{title}</a> (by {author}, posted {display_date})',
-                '</div></tpl>'
-        );
-
-        var articleSearchControl = new Ext.form.ComboBox({
-            store: articleSearchDataStore,
-            displayField:'keyword',
-            typeAhead: false,
-            loadingText: 'Searching...',
-            width: 275,
-            listWidth: 600,
-            hideOnClick:true,
-            emptyText: 'To search stories, just type in words...',
-            hideTrigger:true,
-            minChars: 2,
-            itemSelector: 'div.jh_search_item',
-            tpl: articleSearchResultTemplate,
-            onSelect: function(record){ // override default onSelect to do redirect
-                window.location = String.format('http://www.jazzhouston.org/articles/words/{0}', record.data.article_id);
+        // artist search
+        $( "#article_search" ).autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url:"/search/search_articles_ext",
+                    dataType: "json",
+                    data: {
+                        query: request.term,
+                        maxRows: 15
+                    },
+                    success: function(data) {
+                        response($.map(data.results, function(item) {
+                            return {
+                                label: item.title,
+                                value: item.content_id
+                            }
+                        }))
+                    }
+                })
+            },
+            dataType: 'json',
+            minLength: 3,
+            select: function( event, ui ) {
+                event.preventDefault();
+                window.location = '/articles/words/'+ui.item.value;
             }
-
         });
 
-        articleSearchControl.render('jh_search');
     });
+
+
+
 </script>
 <div id="StageNarrow">
 
-  <div class="home-inside">
 
 
     <%= render :partial => "contentlist" %>

@@ -6,13 +6,13 @@ class User < ActiveRecord::Base
     # TODO:DEV replace file_column to carrierwave
     # http://www.engineyard.com/blog/2011/a-gentle-introduction-to-carrierwave/
     #
-    file_column :image, :magick => {
-            :versions => {
-                    :thumb => {:crop => "1:1", :geometry => "50x50"},
-                    :profile => {:crop => "1:1", :geometry => "200x200"},
-                    :avatar => {:crop => "1:1", :geometry => "125x125"}
-            }
-    }
+    #file_column :image, :magick => {
+    #        :versions => {
+    #                :thumb => {:crop => "1:1", :geometry => "50x50"},
+    #                :profile => {:crop => "1:1", :geometry => "200x200"},
+    #                :avatar => {:crop => "1:1", :geometry => "125x125"}
+    #        }
+    #}
 
 
     set_primary_key "user_id"

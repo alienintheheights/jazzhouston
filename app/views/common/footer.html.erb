@@ -1,8 +1,17 @@
 
 
 <div id="CurtainRight">
-
-
+  <%if logged_in? && current_user.editor_flag==1 -%>
+      <div class="EditorTools">
+        <h2>Editor Tools</h2>
+        <a href="/events/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a Show</a>
+        <br/><a href="/venues/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a Venue</a>
+        <br/><a href="/articles/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a Story</a>
+        <br/><a href="/articles/workflow"><img src="/images/icons/reply.png" border="0" alt="edit">Story Workflow</a>
+        <br/><a href="/releases/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a CD</a>
+      </div>
+      <div class="hspacer"></div>
+  <% end -%>
   <b>Follow Us</b>    <br/>
   <a href="http://www.facebook.com/pages/JazzHouston/193080346744"><img width="40" align="bottom" src="/images/icon_hopout_facebook.png" border="0"></a>
   <br/>

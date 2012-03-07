@@ -1,16 +1,19 @@
-page: <%= link_to "1", {:action => "index", :controller=>"forums", :page=>1} %>
-<% if page>10 %>..<% end %>
-<% sidx = (page>9)?page-8:2;
-   for i in (sidx..page) %>
-    <% if (i==page)  %>
-    <%= link_to i, {:action => "index", :controller=>"forums", :page=>i}, :class=>"selected" %>
-    <% else %>
-    <%= link_to i, {:action => "index", :controller=>"forums", :page=>i} %>
-<% end  %>
-<% end %>
+<ul class="board-pager">
+  <li> page: <%= link_to "1", {:action => "index", :controller=>"forums", :page=>1} %></li>
 
-<% if board.nil? %>
-    <%= link_to "more", {:action => "index", :controller=>"forums", :page=>(page+1)} %>
-<% else %>
-    <%= link_to "more", {:action => "threads", :controller=>"forums", :id=>board.board_id, :page=>(page+1)} %>
-<% end %>
+  <% sidx = (page>6)?page-5:2;
+     for i in (sidx..page) %>
+      <% if (i==page)  %>
+          <li><%= link_to i, {:action => "index", :controller=>"forums", :page=>i}, :class=>"selected" %></li>
+      <% else %>
+          <li><%= link_to i, {:action => "index", :controller=>"forums", :page=>i} %></li>
+      <% end  %>
+  <% end %>
+  <li>
+    <% if board.nil? %>
+        <%= link_to "more", {:action => "index", :controller=>"forums", :page=>(page+1)} %>
+    <% else %>
+        <%= link_to "more", {:action => "threads", :controller=>"forums", :id=>board.board_id, :page=>(page+1)} %>
+    <% end %>
+  </li>
+</ul>

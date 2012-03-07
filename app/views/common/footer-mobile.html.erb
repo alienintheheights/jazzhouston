@@ -2,6 +2,18 @@
 </div> <!-- end Wrapper -->
 
 <div id="footer">
+  <%if logged_in? && current_user.editor_flag==1 -%>
+      <div class="EditorTools">
+        <b>Editor Tools</b>
+        <br/>
+        <a href="/events/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a Show</a>
+        <br/><a href="/venues/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a Venue</a>
+        <br/><a href="/articles/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a Story</a>
+        <br/><a href="/articles/workflow"><img src="/images/icons/reply.png" border="0" alt="edit">Story Workflow</a>
+        <br/><a href="/releases/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a CD</a>
+      </div>
+      <div class="hspacer"></div>
+  <% end -%>
   <div id="leftside-links">
     <ul>
       <li><a class='navLink' href="/events">Calendar</a></li>
