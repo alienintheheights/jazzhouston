@@ -1,5 +1,4 @@
-<%= render :partial => "common/extjs" %>
-<script type="text/javascript" src="/common/js/jazzhouston.util.js"></script>
+<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
 <script type="text/javascript">
 
     Ext.onReady(function(){
@@ -234,8 +233,16 @@
     });
 </script>
 <div id="StageNarrow">
+
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/members">Members</a>
+    </li>
+    <li>
+     Create Account
+    </li>
+  </ul>
   <div class="inside">
-    ><a href="/">Home</a>><a href="/members">Members</a> > Create Account
 
     <div class="hspacer"></div>
     <div id="jh_linkto_profile_div" style="display:none">

@@ -16,8 +16,7 @@
     <div id="showgrid">
 
       <div class="hspacer"></div>
-
-      <h2 >Playing Today: <%=  @curTime.strftime("%A, %B #{@curTime.day.ordinalize}") %></h2>
+      <h2>Playing Today: <%=  @curTime.strftime("%A, %B #{@curTime.day.ordinalize}") %></h2>
       <div class="hspacer"></div>
       <% for item in @showsToday %>
           <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
@@ -31,17 +30,17 @@
       <h2>More Shows This Week</h2>
       <div class="hspacer"></div>
       <ul class="showListMain">
-        <%  currentDOW=""
+        <%  current_dow = ""
             for item in @showsThisWeek
-                dow=item.show_date.to_datetime.strftime("%A")
-                if (dow!=currentDOW)
+                dow = item.show_date.to_datetime.strftime("%A")
+                if (dow != current_dow)
         %>
                 <li class="showListMainDOW"><b><a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=dow%></a></b></li>
             <% end %>
             <li>
               <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>
             </li>
-        <%  currentDOW=item.show_date.to_datetime.strftime("%A")
+        <%  current_dow = item.show_date.to_datetime.strftime("%A")
             end %>
 
       </ul>

@@ -2,7 +2,7 @@
 *
 * Master CSS for JazzHouston
 *
-* Andrew Lienhard, 2008-2011
+* Andrew Lienhard, 2008-2012
 **/
 
 
@@ -14,6 +14,12 @@
     margin: 0;
     color: #3c3c3c;
     -webkit-text-size-adjust: none;
+}
+
+@media screen and (max-device-width: 480px){
+    body {
+        -webkit-text-size-adjust: none;
+    }
 }
 
 body
@@ -132,8 +138,6 @@ a.boldLink:hover {
     height:84px;
     margin: 0 auto;
     padding: 0 0 0 0;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
 }
 
 #Masthead #MastheadSpan {
@@ -338,17 +342,17 @@ html>body #nav-links li a {
 }
 
 #leftside-links li {
-    border-bottom: 1px solid #2A89C5; /*#2A89C5;*/
+    border-bottom: 1px solid #eeee11; /*#2A89C5;*/
     margin: 0;
 }
 
 #leftside-links li a {
     display: block;
     padding: 5px 5px 5px 0.5em;
-    border-left: 10px solid #1958b7;
-    border-right: 10px solid #508fc4;
-    background-color: #2175bc;
-    color: #fff;
+    border-left: 10px solid #1a1a1a;
+    border-right: 10px solid #1a1a1a;
+    background-color: #eeee11;
+    color: #1a1a1a;
     text-decoration: none;
     width: 100%;
 }
@@ -358,10 +362,7 @@ html>body #leftside-links li a {
 }
 
 #leftside-links li a:hover {
-    border-left: 10px solid #1c64d1;
-    border-right: 10px solid #5ba3e0;
-    background-color: #2586d7;
-    color: #ddd;
+    color: #666;
 }
 
 #CurtainRight {
@@ -406,6 +407,7 @@ html>body #leftside-links li a {
     width: 100% !important;
     color: #555;
     padding: 0;
+    overflow-x:hidden;
 }
 
 
@@ -466,7 +468,7 @@ html>body #leftside-links li a {
     line-height:1.6em;
     height: auto;
     min-height: 600px;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 
@@ -884,7 +886,7 @@ table.index-three-column td {
 
 
 table.index-two-column  {
-   -moz-box-sizing:border-box;
+    -moz-box-sizing:border-box;
     border-collapse:separate;
     border-spacing:20px;
     display:table;
@@ -896,7 +898,7 @@ table.index-two-column  {
 }
 
 table.index-two-column td {
-     background-color:white;
+    background-color:white;
     border:1px solid #B3B3B3;
     padding:5px;
     width:50%;
@@ -1944,7 +1946,7 @@ div.messageDate {
     height: 178px;
     font-size:1.1em;
     line-height: 1.4em;
-    width: 70%;
+    word-wrap:break-word;
 }
 
 .messageBody a, .messageBody a:visited {
@@ -1956,7 +1958,7 @@ div.messageDate {
 
 .messageRating {
     float: right;
-    width: 105px;
+    width: auto;
     text-align: right;
     padding: 2px 0 2px 8px;
 }
@@ -1966,7 +1968,7 @@ div.messageDate {
     float: right;
     background: #F6F6F6 none repeat scroll 0 0;
     color: #777777;
-    width: 105px;
+    width: auto;
     text-align: right;
     padding: 2px 0 2px 8px;
 }
@@ -2004,7 +2006,7 @@ div.messageDate {
 
 .forumAvatarBox {
     float:left;
-    width:185px;
+    width:85px;
     overflow-x: hidden;
 }
 
@@ -2021,10 +2023,15 @@ div.messageDate {
 }
 
 .forumPostTime {
-    clear:both;
-    padding:25px 0 0 0;
+    padding: 7px 0 0 0;
     font-size: 0.8em;
 }
+
+.forumPostTime a, .forumPostTime a:visited {
+    font-size: 0.8em;
+    padding-right: 0;
+}
+
 
 .bigForumLink   {
     text-align: left;
@@ -2032,10 +2039,7 @@ div.messageDate {
     font-size:1.0em;
     color:#2a2a2a;
     text-decoration:none;
-    padding: 10px 0 0 5px;
-    height: 57px;
-    border-radius: 10px;
-    border-left: 1px solid #eee;
+    padding: 10px 0 0 0;
     width:auto;
     overflow-x: hidden;
 }
@@ -2286,19 +2290,19 @@ ul.storytools li.right a.print {
 
 
 input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
--webkit-box-align: center;
-text-align: center;
-cursor: default;
-color: buttontext;
-padding: 1px 2px 3px;
-border: 1px outset buttonface;
-border-image: initial;
-background-color: buttonface;
-box-sizing: border-box;
+    -webkit-box-align: center;
+    text-align: center;
+    cursor: default;
+    color: buttontext;
+    padding: 1px 2px 3px;
+    border: 1px outset buttonface;
+    border-image: initial;
+    background-color: buttonface;
+    box-sizing: border-box;
 }
 input[type="radio"], input[type="checkbox"] {
-margin: 1px 0.5ex;
-padding: initial;
-background-color: initial;
-border: initial;
+    margin: 1px 0.5ex;
+    padding: initial;
+    background-color: initial;
+    border: initial;
 }

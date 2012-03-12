@@ -147,7 +147,7 @@ a.boldLink:hover {
     text-decoration: none;
     border:none;
     font-size: 32px;
-    color: #2A89C5;
+    color: #1a1a1a;
 }
 
 #Masthead #logoText a:hover
@@ -155,7 +155,7 @@ a.boldLink:hover {
     text-decoration: none;
     border:none;
     font-size: 32px;
-    color: #2A89C5;
+    color: #1a1a1a;
 }
 
 #Masthead #MastheadCenter  {
@@ -215,7 +215,7 @@ a.boldLink:hover {
     border-bottom: 1px solid #656565; /*#2A89C5;*/
     float: left;
     padding: 0 0;
-    background-color:#ff6;
+    background-color:#eeee11;
     text-align:center;
     width: 111px;
 }
@@ -223,7 +223,7 @@ a.boldLink:hover {
 #nav-links li a, #nav-links li a:visited {
     display: block;
     padding: 5px 16px 5px 5px;
-    background-color: #ff6;
+    background-color: #eeee11;
     color: #1a1a1a;
     text-decoration: none;
     height: 24px;
@@ -239,8 +239,8 @@ html>body #nav-links li a {
 
 #nav-links li a.selected, #nav-links li a.selected:visited {
     text-decoration: none;
-    color: #2A89C5;
-    background-color: #ff6;
+    color: #333;
+    background-color: #eeee11;
     font-size: 1.1em;
     font-weight: normal;
 }
@@ -463,7 +463,7 @@ html>body #nav-links li a {
 
 .inside h2 {
     font-size:1.2em;
-    color: #2A89C5;
+    color: #2a2a2a;
     background-color:white;
     padding: 5px 0 1px 0;
     text-align: left;
@@ -661,7 +661,7 @@ a.venueLink, a:visited.venueLink {
 
 #fastLinks {
     padding: 4px 0 5px 0;
-    background-color: #ff6;
+    background-color: #eeee11;
     letter-spacing: 0.3em;
     text-align: center;
 }
@@ -924,7 +924,7 @@ table.phone-list tr.alt {
 
 
 table.phone-list tr.noalt {
-    background-color:#ff6;
+    background-color:#eeee11;
     border:1px solid black;
     padding:3px;
     border-spacing:5px;
@@ -1087,15 +1087,26 @@ dl.jh_profile_summary dd {
     text-align: left;
 }
 
+.forumBoardSelect {
+    display:block;
+    letter-spacing: 0.1em;
+    font-weight: normal;
+    background-color:#fff;
+    text-align: left;
+    padding-left: 5px;
+    font-size:0.9em;
+    text-transform: lowercase;
+}
+
 .contentTypeList {
     display:block;
-    letter-spacing: 0.0em;
+    letter-spacing: 0.2em;
     font-weight: normal;
-    background-color:#f4f0e8;
+    background-color:#eee;
     text-align: center;
-    padding: 2px 0;
-    border: 1px solid #ccc;
     font-size:0.9em;
+    text-transform: lowercase;
+    padding-bottom: 2px;
 }
 
 .contentTypeList a, .contentTypeList a:visited {
@@ -1104,15 +1115,12 @@ dl.jh_profile_summary dd {
 
 
 .contentTypeList a:hover {
-    color: red;
+    color: #333;
     border: none;
     font-size: 1.1em;
 }
 
-.contentTypeList a.selected, .contentTypeList a.selected:visited, .contentTypeList a.selected:hover {
-    font-size: 1.1em;
-    border-bottom: 1px dotted #333;
-}
+
 
 .ProfileLinks {
     display:block;
@@ -1213,12 +1221,12 @@ a.imageLink:visited {
 
 .Header
 {
-    font-size: 1.6em;
+    font-size: 1.4em;
     letter-spacing: 0.2em;
-    background-color: #fff;
+    background-color: #eee;
     color: black;
     text-align: center;
-    padding: 9px 0 5px 0;
+    padding: 5px 0 5px 0;
     height: auto;
     overflow: auto;
 }
@@ -1964,7 +1972,7 @@ div.messageDate {
     text-align: left;
     vertical-align: text-top;
     font-size:1.0em;
-    color:#2A89C5;
+    color:#2a2a2a;
     text-decoration:none;
     padding: 10px 0 0 5px;
     height: 60px;
@@ -1977,7 +1985,7 @@ div.messageDate {
     text-align: left;
     font-size:1.0em;
     font-weight: normal;
-    color:#2A89C5;
+    color:#2a2a2a;
     text-decoration:none;
 }
 
@@ -2019,7 +2027,7 @@ a.smallForumLink:hover  {
 }
 
 .tableHeader {
-    background-color:#ff6;
+    background-color:#eeee11;
 }
 
 
@@ -2113,6 +2121,10 @@ EXTJS IE7 Combo box bug hack
 .x-combo-list .x-combo-selected {
 
 
+}
+
+.x-toolbar {
+    background: none;
 }
 
 

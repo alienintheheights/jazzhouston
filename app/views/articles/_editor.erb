@@ -91,7 +91,7 @@
             return false;
         }
         if (!$("#content_display_date").val()) {
-            alert("The show needs a date");
+            alert("The story needs a display date");
             return false;
         }
         return true;
@@ -105,7 +105,7 @@
   <div class="inside">
 
     <h2>JazzHouston Story Editor</h2>
-    <%= form_for  @content, :url => { :action => @target}, :html => { :onsubmit => "return validate();" } do |f| %>
+    <%= form_for  @content, :url => { :action => @target}, :html => {:multipart => true , :onsubmit => "return validate();" } do |f| %>
         <% if @mode=="Edit" %>
             <div class="hspacer"></div>
             Preview: <a href="/articles/words/<%=@content.content_id%>"><%=@content.title%></a><br/>
@@ -113,14 +113,29 @@
         <% end %>
         <table width="100%">
           <tr>
-            <td class="color2">
+            <td class="color4">
               *<%= f.label :title %><br />
               <%= f.text_field :title, :size=>40 %>
             </td>
           </tr>
+
+          <tr>
+            <td class="color2">
+              <% if @content.photo.exists? then %>
+                  <%= image_tag @content.photo.url(:small), :align=>"left", :width=>"100" %>
+              <% end %>
+              <b>Upload photo</b> for article
+              <%= f.file_field :photo %>
+              <br/>Or, assign a remote <%= f.label :image_url %>
+              <%= f.text_field :image_url, :size=>25, :placeholder=>"http://" %>
+              <br/>This photo will be displayed on the teaser and inside the article
+            </td>
+          </tr>
+
           <tr>
             <td class="color4">
-              *<%= f.label :author %><br />
+
+              *Author Byline<br />
               <% if @mode=="Edit" %>
                   <input type="hidden" id="content_author" name="content[author]" value="<%=@content.author%>"/>
               <% else %>
@@ -158,12 +173,6 @@
           </tr>
           <tr>
             <td class="color4">
-              <%= f.label :image_url %>
-              <%= f.text_field :image_url, :size=>25, :placeholder=>"http://" %>
-            </td>
-          </tr>
-          <tr>
-            <td class="color2">
               Article Type:
               <%
                  types=[["News",1],["Opinion",3],["Jazz Columns",4],["Interviews and Concert Reviews",5],["CD Reviews",6]]
@@ -173,18 +182,18 @@
             </td>
           </tr>
           <tr>
-            <td class="color4">
+            <td class="color2">
               <%= f.label :body_text %><br />
               <%= f.text_area :body_text %> (drag bottom right corner to expand editor)
             </td>
           </tr>
           <tr>
-            <td class="color2">
+            <td class="color4">
               Auto-Format Article? <%= check_box("content","html_break_flag") %>Yes
             </td>
           </tr>
           <tr>
-            <td class="color4">
+            <td class="color2">
               Article Status
               <%
                  status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]
@@ -201,7 +210,7 @@
             </td>
           </tr>
           <tr>
-            <td class="color2">
+            <td class="color4">
               <%= f.submit @mode, :id=>'submit' %>
             </td>
           </tr>

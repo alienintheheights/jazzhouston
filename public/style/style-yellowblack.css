@@ -22,7 +22,7 @@ body
     text-align: left;
     margin:0;
     padding:0;
-    background-color: #2A2A2A;
+    background-color: #aaa;
 }
 
 
@@ -37,31 +37,40 @@ ul, li
 
 
 
-a  {
-    color: black;
-    font-size: 1.0em;
-    text-decoration:none;
+input {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
-input {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
+input:focus {
+    background-color: #fff;
 }
+
 
 ::-webkit-input-placeholder {
    color: #555;
-   padding-left: 4px;
+   padding-left: 3px;
 }
 
 :-moz-placeholder {
    color: #555;
-   padding-left: 4px;
+   padding-left: 3px;
+}
+
+input:-webkit-autofill {
+    background-color: #fff !important;
+}
+
+a  {
+    color: #000;
+    font-size: 1.0em;
+    text-decoration:none;
 }
 
 
 a:visited  {
-    color: black;
+    color: #000;
     font-size: 1.0em;
     text-decoration:none;
 }
@@ -228,10 +237,8 @@ a.boldLink:hover {
 
 
 #nav-links li {
-    border-bottom: 1px solid #656565; /*#2A89C5;*/
     float: left;
     padding: 0 0;
-    background-color:#eeee11;
     text-align:center;
     width: 111px;
 }
@@ -239,7 +246,7 @@ a.boldLink:hover {
 #nav-links li a, #nav-links li a:visited {
     display: block;
     padding: 5px 16px 5px 5px;
-    background-color: #eeee11;
+    background-color: #F0EC05;
     color: #1a1a1a;
     text-decoration: none;
     height: 24px;
@@ -256,7 +263,7 @@ html>body #nav-links li a {
 #nav-links li a.selected, #nav-links li a.selected:visited {
     text-decoration: none;
     color: #333;
-    background-color: #eeee11;
+    background-color: #F0EC05;
     font-size: 1.1em;
     font-weight: normal;
 }
@@ -422,7 +429,7 @@ html>body #nav-links li a {
 .cd-inside
 {
     background-color: white;
-    padding: 0 0 0 8px;
+    padding: 0 8px;
     text-align:left;
     line-height:1.6em;
     height: auto;
@@ -692,7 +699,7 @@ a.venueLink, a:visited.venueLink {
 
 #fastLinks {
     padding: 4px 0 5px 0;
-    background-color: #eeee11;
+    background-color: #F0EC05;
     letter-spacing: 0.3em;
     text-align: center;
 }
@@ -798,6 +805,8 @@ table.index-three-column-small td {
     color:#1a1a1a;
     font-size:0.9em;
     border:1px solid #B3B3B3;
+    -moz-border-radius-bottomleft: 15px;
+    -webkit-border-bottom-left-radius: 15px;
 }
 
 
@@ -849,17 +858,19 @@ table.index-two-column  {
 }
 
 table.index-two-column td {
-    background-color: #eee;
-    border:1px solid #B3B3B3;
-    padding:5px;
+    background-color: #fff;
+    border:2px solid #ccc;
+    padding: 5px 8px 5px 8px;
     width:50%;
-    height: 150px;
+    line-height: 1.6em;
+    min-height:100px;
+    height:100px;
     vertical-align: top;
     text-align: left;
-    color:#555;
+    color:#1a1a1a;
     font-size:1.0em;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+    -moz-border-radius-bottomleft: 15px;
+    -webkit-border-bottom-left-radius: 15px;
 }
 
 
@@ -909,29 +920,25 @@ table.index-single-column  {
     margin-bottom:0;
     margin-top:0;
     text-indent:0;
-    width: 100%;
+    width: 75%;
     padding: 2px;
 }
 
 table.index-single-column td {
-    background-color:white;
-    border:1px solid #B3B3B3;
+    background-color:#fff;
     padding:5px;
-    width:75%;
     min-height: 150px;
     vertical-align: top;
     text-align: left;
-    color:#1a1a1a;
-    font-size:1.0em;
-    -moz-border-radius: 15px;
-    border-radius: 15px;
+    color:#555;
+    font-size:0.9em;
 }
 
 
 
 
 .phoneHeader {
-    background-color:#eeeeee;
+    background-color:#eee;
 }
 
 
@@ -956,7 +963,7 @@ table.phone-list tr.alt {
 
 
 table.phone-list tr.noalt {
-    background-color:#eeee11;
+    background-color:#F0EC05;
     border:1px solid black;
     padding:3px;
     border-spacing:5px;
@@ -1115,7 +1122,7 @@ dl.jh_profile_summary dd {
     font-size: 1.2em;
     color: red;
     background-color: white;
-    padding: 10px;
+    padding: 4px 0;
     text-align: left;
 }
 
@@ -1252,7 +1259,7 @@ a.imageLink:visited {
 
 
 .EditorTools {
-    background-color:#ee1;
+    background-color:#F0EC05;
     padding: 10px 0;
     clear:both;
     width:100%;
@@ -1265,7 +1272,7 @@ a.imageLink:visited {
     font-size:1.0em;
     padding: 0 0 4px 0;
     margin: 0;
-    background-color: #ee1;
+    background-color: #F0EC05;
     color:black;
 }
 
@@ -1371,7 +1378,7 @@ a.imageLink:visited {
 
 .WordsTitle
 {
-    background-color:#FFF091;
+    background-color:#FF0EC0591;
     border-width: 1px;
     border-style: solid;
     border-color: black;
@@ -1393,7 +1400,7 @@ a.imageLink:visited {
     border-color: black;
     font-size: 1.1em;
     letter-spacing: 0.2em;
-    background-color:#FFF091;
+    background-color:#FF0EC0591;
     color: #2A2A2A;
     text-align: center;
     padding: 25px 0 5px 0;
@@ -2097,7 +2104,7 @@ a.smallForumLink:hover  {
 }
 
 .tableHeader {
-    background-color:#eeee11;
+    background-color:#F0EC05;
 }
 
 
@@ -2118,21 +2125,25 @@ a.smallForumLink:hover  {
 }
 
 .board-pager {
-    margin: 5px;
     padding: 0;
     text-decoration: none;
-    color:#000000;
-    float: right;
+    float: left;
+    padding-left: 8px;
+    font-size: 0.9em;
 }
 
 .board-pager a, .board-pager a:visited{
     text-decoration: none;
+    color:#333;
+    padding-left: 2px;
 }
 
-.board-pager a.selected , .board-pager a.selected:visited{
-    text-decoration: none;
-    color:#2A89C5;
+
+.board-pager ul li {
+    float: left;
+    background-color: #fff;
 }
+
 
 a.newTopic, a.newTopic:visited {
     color: red;
@@ -2240,24 +2251,23 @@ EXTJS IE7 Combo box bug hack
 
 #EventSwitcher {
     padding: 5px 0 0 0;
-    background-color: #ee1;
+    background-color: #F0EC05;
     height: 25px;
 }
 
 .ItemHSpacer {
     float: left;
     padding: 0 5px;
-    height:20px;
+    height:15px;
     color:#fff;
 }
 
 .ItemHSpacer ul {
-    font-size: 0.8em;
+    font-size: 0.9em;
     color:#fff;
     list-style: none outside;
     display: block;
-    background: #777;
-    padding: 2px 10px;
+    background: #2A89C5;
     border: 1px solid #DDD;
     border-radius: 2px;
     overflow: auto;
@@ -2266,7 +2276,7 @@ EXTJS IE7 Combo box bug hack
 
 .ItemHSpacer ul li {
     float:left;
-    padding: 0 10px ;
+    padding: 0 10px 2px 10px ;
     color:#fff;
 }
 
@@ -2299,7 +2309,7 @@ ul.breadcrumbs li {
     text-align: -webkit-match-parent;
     padding: 0 12px 0 0;
     float: left;
-    color:#88a;
+    color:#999;
 }
 
 ul.breadcrumbs li:after {
@@ -2309,12 +2319,10 @@ ul.breadcrumbs li:after {
 
 ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     color: #333;
-    padding-left: 12px;
     text-decoration: none;
 }
 
 
-/** END Zurb styles **/
 
 .socialrow {
     padding-top:5px;

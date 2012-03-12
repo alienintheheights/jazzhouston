@@ -1,4 +1,4 @@
-<%= render :partial => "common/extjs" %>
+<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
 <%
    about_me =  (@user.about_me.nil?)? "" :  @user.about_me.html_safe
 %>
@@ -220,12 +220,18 @@
 
     function delete_confirm() {
         var answer=confirm("Are you sure you want to DELETE this account?");
-        return (answer);
+        if (answer) {
+            return true;
+        }
+        return false;
     }
 
     function upgrade_confirm() {
         var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
-        return (answer);
+        if (answer) {
+            return true;
+        }
+        return false;
     }
 
 
@@ -260,9 +266,12 @@
     <a name="photo"></a>
     <%= form_for @user, :url=>{:action=>"upload"}, :html => { :multipart => true } do |f| %>
         <p>
-          <% if @user.image %><b>Replace current image? Either upload or set a remote URL</b><br/><br/><% end %>
-          Select an image from your computer<%= file_column_field("user", "image") %>
-          <br/>Or the URL of a remote image <%= f.text_field :image_url  %>
+          <%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"100"} %>
+          <% if @user.image %>
+                Replace current image? Either upload or set a remote URL<br/>
+          <% end %>
+          Browse File <%= file_column_field("user", "image") %>
+          <br/>Or enter the URL of an image hosted elsewhere <%= f.text_field :image_url  %>
         </p>
         <input type="hidden" id="id" name="id" value="<%=@user.user_id%>" >
         <input type="hidden" id="local_player_flag" name="local_player_flag" value="<%=@user.local_player_flag%>" >

@@ -26,7 +26,7 @@
 
           </div>
           <div class= "bigForumLink">
-            <a href="/forums/messages/<%=item.thread_id%>?fpage=<%=@page%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
+            <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=@page%>#<%= item.post_count %>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
 
             <div class="forumPostTime">
               <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago

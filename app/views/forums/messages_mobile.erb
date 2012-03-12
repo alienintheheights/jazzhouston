@@ -1,14 +1,27 @@
-<%= render :partial => "common/extjs" %>
+<%= render :partial => "common/extjs", :locals=>{:jsonly=>true} %>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <% rating_threshold=-6 %>
 <%
    boardId = (@board.nil?)? 0: @board.board_id
 %>
 <div id="StageNarrow">
+  <ul class="breadcrumbs">
+      <li>
+        <a href="/forums">Forums</a>
+      </li>
+      <li>
+        <% if (@board.nil?) %>
+            <a href="/forums">Recent</a>
+        <% else %>
+            <a href="/forums/threads/<%=@board.board_id%>?fpage=<%=@fpage%>"><%=@board.title%></a>
+        <% end %>
 
-  <div class="cd-inside">
+      </li>
+    </ul>
 
-    <div style="float:right;">
+  <div class="forum-inside">
+
+    <div>
       <% if @last_page>1 %>
           <a href="/forums/messages/<%=@thread.thread_id%>?page=<%=@page==1?1:@page-1 %>">previous</a> |
           <% for i in 1..(@last_page) %>
@@ -106,7 +119,7 @@
 
         <b>Reply</b><br>
         <%= form_for :message, :url => { :action => "reply"}, :html => {:onsubmit=>"return jh.forums.validatePost();"} do |f| %>
-            <%= f.text_area :message_text %>
+            <%= f.text_area :message_text, :cols => 35, :rows => 20 %>
             <input type='hidden' name="message[thread_id]" id="message_thread_id" value="<%=@thread.thread_id%>">
             <input type='hidden' name="board_id" id="board_id" value="<%=@board.board_id%>">
             <br/>

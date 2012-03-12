@@ -78,18 +78,17 @@ class EventsController < ApplicationController
 
     @show = Event.find(params[:id])
 
-    if (@show && @show.artist_id && @show.artist_id>0)
-      @player= User.find(@show.artist_id);
-    end if
+    if (@show && @show.artist_id && @show.artist_id>0 && User.exists?(@show.artist_id))
+      @player= User.find(@show.artist_id)
+    end
 
-        if (@show && @show.venue_id)
-          @venue=Venue.find(@show.venue_id)
-        end
+    if (@show && @show.venue_id)
+      @venue=Venue.find(@show.venue_id)
+    end
 
     # for use in the View
     @dow =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
     @page_title = @show.performer
-
   end
 
   # featured event
@@ -138,7 +137,7 @@ class EventsController < ApplicationController
 
   # rss feed
   def rss_block
-     redirect_to :action=>"rssblock"
+    redirect_to :action=>"rssblock"
   end
 
 
@@ -182,15 +181,16 @@ class EventsController < ApplicationController
     if (@event.event_type_id==2)
       @event.show_date=nil
     end
-    if (@event.artist_id && @event.artist_id>0)
+    if (@event.artist_id && @event.artist_id>0 && User.exists?(@event.artist_id))
       @player = User.find(@event.artist_id)
     end
+
   end
 
   # EDIT WRITE
   def update
     @event = Event.find(params[:id])
-    if (@event.artist_id && @event.artist_id>0)
+    if (@event.artist_id && @event.artist_id>0 && User.exists?(@event.artist_id))
       @player = User.find(@event.artist_id)
     end
     respond_to do |format|

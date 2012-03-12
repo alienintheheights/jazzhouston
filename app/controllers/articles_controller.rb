@@ -49,19 +49,17 @@ class ArticlesController < ApplicationController
 
   # article pages
   def words
-    @article  =   Content.find(params[:id])
-    @page_title=  @article.title
+    article_id = params[:id]
+    if !Content.exists?(article_id)
+      @article =  Content.find_by_sub_title(article_id)
+    else
+      @article  = Content.find(article_id)
+    end
+    @page_title = @article.title
     @section_id = (params[:type].nil?)? 1 : params[:type].to_i
     @section_title=@@sections[@section_id]
     @page =       (params[:page].nil?) ? 1 : params[:page].to_i
 
-  rescue ActiveRecord::RecordNotFound
-    @article =    Content.find_by_sub_title(params[:id])
-    # TODO: remove redundant code
-    @page_title=  @article.title
-    @section_id = (params[:type].nil?)? 1 : params[:type].to_i
-    @section_title=@@sections[@section_id]
-    @page =       (params[:page].nil?) ? 1 : params[:page].to_i
   end
 
   # an index of review articles (i.e., content_type_id=6)

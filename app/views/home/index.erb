@@ -1,5 +1,13 @@
 <!-- Stage for home page -->
 <div id="StageHome" >
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/home">Home</a>
+    </li>
+    <% if logged_in?%>
+        <li>Welcome <%=current_user.first_name%>!   </li>
+    <% end %>
+  </ul>
   <div class="inside">
     <div id="homegrid">
 
@@ -65,8 +73,11 @@
                        current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
                 %>
                     <li class="newslist-feature">
+
                       <% if item.image_url && !item.image_url.blank?  %>
-                          <%= link_to image_tag(item.image_url,:width=>'75', :height=>'75', :valign=>'top', :align=>'left',:hspace=>'4'), {:action => "words", :controller=>"articles", :id=>current_id} %>
+                          <%= link_to image_tag(item.image_url, :width=>'70', :height=>'70',:align=>'left',:hspace=>'2', :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@section_id, :page=>@page} %>
+                      <% elsif item.photo.exists? then %>
+                          <%= image_tag item.photo.url(:thumb), :align=>"left", :width=>'70',:hspace=>'2' %>
                       <% end %>
                       <%= link_to item.title, {:action => "words", :controller=>"articles",  :id=>current_id} %>
                       <br/><span style="padding-top: 5px; font-size:0.9em;">

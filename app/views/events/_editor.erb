@@ -42,6 +42,11 @@
             }
         });
 
+        $("#selected_artist_remove").click(function() {
+            $( "#event_artist_id" ).val("");
+            $( "#selected_artist" ).text("artist removed");
+        });
+
 
         // venue search
         $( "#event_venue_search" ).autocomplete({
@@ -76,6 +81,8 @@
             }
         });
     });
+
+
 
     /**
      * Validation
@@ -206,14 +213,17 @@
               <input id="event_artist_search" size="30" placeholder="auto-search: type away!"/>
               <div id="event_artist_result" style="background-color:#ff0;" ></div>
               <% if @player   %>
+                  <span id="selected_artist">
                   Musician link set to <a href="/members/profile/<%=@event.artist_id%>"><%=@player.first_name%> <%=@player.last_name%></a>
+                  <br/> <span id="selected_artist_remove">click to remove artist</span>
+                  </span>
               <% end %>
             </td>
           </tr>
           <tr>
             <td class="color2">
               About the show<br/>
-              <i>Personnel, Cover, etc.</i>
+              <i>Personnel, Cover, etc. But please try to keep it brief and HTML-free.</i>
               <br/>
               <%= f.text_area :about, :cols=>50, :rows=>15%>
             </td>

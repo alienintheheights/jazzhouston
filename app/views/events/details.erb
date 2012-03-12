@@ -1,4 +1,4 @@
-<%= render :partial => "common/extjs" %>
+<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
 <script src="/common/js/Ext.ux.GMapPanel.js"></script>
 <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%=@key%>"
         type="text/javascript"></script>
@@ -20,8 +20,6 @@
                     closeAction: 'hide',
                     width:300,
                     height:300,
-                    x: 50,
-                    y: 50,
                     items: {
                         xtype: 'gmappanel',
                         region: 'center',
@@ -62,15 +60,15 @@
 </script>
 
 
-  <div id="StageMedium">
-    <ul class="breadcrumbs">
-      <li>
-        <a href="/events">Events</a>
-      </li>
-      <li>
-        Show Listing
-      </li>
-    </ul>
+<div id="StageMedium">
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/events">Events</a>
+    </li>
+    <li>
+      Show Listing
+    </li>
+  </ul>
 
 
   <div class="HeaderShow"><%=@show.performer%><br/>
@@ -91,7 +89,7 @@
           <% end -%>
           <b><%= @show.performer %></b>
           <br/>
-           <% if @show.show_date %>
+          <% if @show.show_date %>
               <%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %> <br/>
           <% end %>
           <% if @show.day_of_week && !@show.show_date %>
@@ -104,8 +102,8 @@
           <div class="hspacer"></div>
           <%= @show.about.html_safe %>
           <div class="hspacer"></div>
-           <% if @show.related_url && @show.related_url!=""%>
-             <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
+          <% if @show.related_url && @show.related_url!=""%>
+              <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
           <% end %>
           <br/>
           <% if @player%>
@@ -132,8 +130,10 @@
         <table class="index-two-column-small">
           <tr>
             <td valign="top" colspan="2">
-              <% if  @venue.image_url && @venue.image_url!="" %>
+              <% if @venue.image_url && @venue.image_url!="" %>
                   <img src="<%=@venue.image_url%>" align="left" hspace="2" width="150">
+              <% elsif @venue.photo.exists? then %>
+                  <%= image_tag @venue.photo.url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
               <% end %>
               <%= @venue.about.html_safe %>
 

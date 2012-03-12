@@ -1,6 +1,13 @@
 
 <div id="StageNarrow">
-
+  <ul class="breadcrumbs">
+    <li>
+      <a href="/releases">Houston Jazz CD's</a>
+    </li>
+    <li>
+      CD Info Page
+    </li>
+  </ul>
   <div class="cd-inside">
 
     <%= render :partial => "common/socialrow", :locals => {
@@ -11,8 +18,8 @@
     <div class="StoryHeader">
       <%=@album.artist_name%>: <%=@album.title%>
       <% if (logged_in? && (current_user.editor_flag==1)) %>
-       <a href="/releases/edit/<%=@album.album_id%>"><img src="/images/icons/reply.png" border="0" alt="edit"></a>
-    <% end %>
+          <a href="/releases/edit/<%=@album.album_id%>"><img src="/images/icons/reply.png" border="0" alt="edit"></a>
+      <% end %>
     </div>
 
 
@@ -43,7 +50,7 @@
         <td colspan="2">
           <%=@album.about.html_safe%>
           <div class="hspacer"></div>
-         </td>
+        </td>
       </tr>
     </table>
   </div>

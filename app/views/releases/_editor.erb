@@ -1,125 +1,147 @@
-<%= render :partial => "common/extjs" %>
 <%= render :partial => "common/tinymce" %>
+<link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
+<script src="/common/js/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    // Panels for the home page
-    Ext.onReady(function(){
+    /**
+     * On-Ready jQuery block
+     */
 
-          var dateItem = new Ext.form.DateField({
-            applyTo:"album_release_date",
-            handler : function(datepicker, date){
+    $(function() {
+        // calendar
+        $( "#album_release_date" ).datepicker({
+            dateFormat: 'yy-mm-dd'
+        });
 
+        // artist search
+        $( "#album_artist_search" ).autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url:"/members/search_ext",
+                    dataType: "json",
+                    data: {
+                        query: request.term,
+                        maxRows: 15
+                    },
+                    success: function(data) {
+                        response($.map(data.results, function(item) {
+                            return {
+                                label: item.first_name +' '+ item.last_name,
+                                value: item.user_id
+                            }
+                        }))
+                    }
+                })
+            },
+            dataType: 'json',
+            minLength: 3,
+            select: function( event, ui ) {
+                event.preventDefault();
+                var message = "You selected: <b><a href='/members/profile/"+ui.item.value+"'>"+ui.item.label+"</a></b>";
+                $( "#album_artist_search" ).val( ui.item.label );
+                $( "<div/>" ).html( message ).prependTo( "#album_artist_result" );
+                $( "#album_artist_result" ).scrollTop( 0 );
+                $( "#album_musician_id" ).val( ui.item.value );
+                $( "#album_artist" ).val( ui.item.label );
             }
         });
 
-	var memberSearchDataStore = new Ext.data.Store({
-            proxy: new Ext.data.HttpProxy({
-                url: '/members/search_ext',
-                method: 'GET'
-            }),
-            reader: new Ext.data.JsonReader({
-                totalProperty: 'items',
-                root: 'results',
-                id: 'username'
-            }, [{name:'user_id'},
-                {name: 'first_name'},
-                {name: 'last_name'},
-                {name: 'username'}
-            ])
-        });
-
-
-        var memberSearchResultTemplate = new Ext.XTemplate(
-                '<tpl for="."><div class="jh_search_item">',
-                '<a href="/members/profile/{username}">{last_name}, {first_name}</a> ({username})',
-                '</div></tpl>'
-                );
-
-        var memberSearchControl = new Ext.form.ComboBox({
-            store: memberSearchDataStore,
-            displayField:'username',
-            applyTo:'album_artist_search',
-            typeAhead: false,
-            loadingText: 'Searching...',
-            width: 275,
-            listWidth: 570,
-            emptyText: 'To search users, just type in a name...',
-            hideTrigger:true,
-            itemSelector: 'div.jh_search_item',
-            tpl: memberSearchResultTemplate,
-            onSelect: function(record){ // override default onSelect to do redirect
-                var authorField=document.getElementById("album_musician_id");
-                var searchField=document.getElementById("album_artist_search");
-                searchField.value=record.data.first_name + " " + record.data.last_name;
-                authorField.value=record.data.user_id;
-                this.collapse();
-            }
-
-        });
 
 
     });
+
+    /**
+     * Validation
+     */
+    function validate() {
+        if ( !$("#album_artist_name").val()) {
+            alert("You must enter an artist");
+            return false;
+        }
+        if ( !$("#album_title").val()) {
+            alert("You must enter a title");
+            return false;
+        }
+        if (!$("#album_release_date").val()) {
+            alert("The CD needs a release date");
+            return false;
+        }
+
+        if (!$("#album_image_url").val()) {
+            alert("The CD needs cover art");
+            return false;
+        }
+        return true;
+    }
+
+
+
 </script>
+
 <div id="StageNarrow">
-    <div class="inside">
-
-        <h2><%=@mode%> Album</h2>
-        <%= form_for  @album , :url => { :action => @target} do |f| %>
-	    <% if @mode=="Edit" %>
-                <div class="hspacer"></div>
-         	Preview: <%= link_to @album.title, {:action => "about", :id=>@album.album_id} %><br/>
-                <input type="hidden" id="id" name="id" value="<%=@album.album_id%>" >
-            <% end %>
-
-            <p>
-                <%= f.label :title %><br />
-                <%= f.text_field :title %>
-            </p>
-            <p>
-                <%= f.label :artist_name %><br />
-                <%= f.text_field :artist_name %>
-            </p>
- 	    <% if @mode=="Edit" %>
-                <input type="hidden" id="album_musician_id" name="album[musician_id]" value="<%=@album.musician_id%>"/>
-            <% else %>
-                <input type="hidden" id="album_musician_id" name="album[musician_id]"/>
-            <% end %>
-
-            <%= f.hidden_field :musician_id %>
-            <input type="text" id="album_artist_search" size="30"/>
-            </p>
-
-            <p>
-                <%= f.label :about %><br />
-                <%= f.text_area :about%>
-            </p>
- 	    <p>
-                 <%
-                    genre=[["Jazz Vocal",1],["Piano Trio",2],["Instrumental Straight-Ahead",3],["Urban Contemporary",4],["Duos",6],["Solo",7],["Latin Jazz",8],
-				["Fusion",9],["Experimental/Avant-Garde",10],["Big Band",11]]
-                  %>
-            <%= select("album", "genre_id", genre) %><br />
-            <p>
-                <%= f.label :release_date %><br />
-                <%= f.text_field :release_date %>
-            </p>
-
-            <p>
-                <%= f.label :image_url %><br />
-                <%= f.text_field :image_url %>
-            </p>
-            <p>
-                <%= f.label :related_url %><br />
-                <%= f.text_field :related_url %>
-            </p>
-             <p>
-                <%= f.label :buy_url %><br />
-                <%= f.text_field :buy_url %>
-            </p>
-            <p>
-                <%= f.submit @mode %>
-            </p>
+  <div class="inside">
+    <h2><%=@mode%> Album</h2>
+    <%= form_for  @album , :html => {:multipart => true , :onsubmit => "return validate();" }, :url => { :action => @target} do |f| %>
+        <% if @mode=="Edit" %>
+            <div class="hspacer"></div>
+            Preview: <%= link_to @album.title, {:action => "about", :id=>@album.album_id} %><br/>
+            <input type="hidden" id="id" name="id" value="<%=@album.album_id%>" >
         <% end %>
 
+        <p class="color2">
+          <%= f.label :title %><br />
+          <%= f.text_field :title %>
+        </p>
+        <p class="color4">
+          Artist Name(s)<br />
+          <%= f.text_field :artist_name %>
+        </p>
+        <% if @mode=="Edit" %>
+            <input type="hidden" id="album_musician_id" name="album[musician_id]" value="<%=@album.musician_id%>"/>
+        <% else %>
+            <input type="hidden" id="album_musician_id" name="album[musician_id]"/>
+        <% end %>
 
-    </div>
+        <p  class="color2">
+          JazzHouston Profile Link (optional)<br/>
+        <%= f.hidden_field :musician_id %>
+          <input id="album_artist_search" size="30" placeholder="auto-search: type away!"/>
+          <div id="album_artist_result" ><% if @album && @album.musician_id>0  %>
+                Artist set to <b><a href="/members/profile/<%= @album.musician_id %>">profile link</a> </b>
+            <% end %></div>
+        </p>
+        <p class="color4">
+          <%= f.label :release_date %><br />
+          <%= f.text_field :release_date, :size=>"8", :placeholder=>"click to set" %>
+        </p>
+
+        <p class="color2">
+          <%= f.label :image_url %><br />
+          <%= f.text_field :image_url, :placeholder=>'http://' %>
+        </p>
+        <p class="color4">
+          <%= f.label :related_url %><br />
+          <%= f.text_field :related_url, :placeholder=>'http://' %>
+        </p>
+        <p class="color2">
+          <%= f.label :buy_url %><br />
+          <%= f.text_field :buy_url, :placeholder=>'http://' %>
+        </p>
+
+        <p class="color4">
+          Album Genre<br/>
+          <%
+             genre=[["Jazz Vocal",1],["Piano Trio",2],["Instrumental Straight-Ahead",3],["Urban Contemporary",4],["Duos",6],["Solo",7],["Latin Jazz",8],
+                    ["Fusion",9],["Experimental/Avant-Garde",10],["Big Band",11]]
+          %>
+          <%= select("album", "genre_id", genre) %><br />
+        </p>
+        <p class="color4">
+          <%= f.label :about %><br />
+          <%= f.text_area :about%>
+        </p>
+        <p class="color2">
+          <%= f.submit @mode %>
+        </p>
+    <% end %>
+  </div>
 </div>

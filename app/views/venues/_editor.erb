@@ -53,8 +53,14 @@
         </p>
 
         <p class="color2">
-          Optional: Image URL of the Venue<br />
-          <%= f.text_field :image_url, :placeholder=>"http://" %>
+           <% if @venue.photo.exists? then %>
+                  <%= image_tag @venue.photo.url(:small), :align=>"left", :width=>"100", :hspace=>"3" %>
+              <% end %>
+              <b>Upload photo</b> for venue page
+              <%= f.file_field :photo %>
+              <br/>Or, assign a remote <%= f.label :image_url %>
+              <%= f.text_field :image_url, :size=>25, :placeholder=>"http://" %>
+              <br/>This photo will be displayed on the venue's page
         </p>
         <p class="color4">
           *<%= f.label :about %><br />

@@ -43,21 +43,21 @@
     <li>
       <a href="/musicians">Musician Roll-a-dex</a>
     </li>
+    <li>Search by Name or by Instrument</li>
   </ul>
 
   <div class="cd-inside">
-    <input type="text" size="15" placeholder="Search Players" name="jh_musician_search" id="jh_musician_search" />
-
+     <input type="text" size="35" placeholder="Search Players" name="jh_musician_search" id="jh_musician_search" />
     <table cellspacing="20" align="center" width="100%">
       <tr>
         <%
            counter=0
            for item in @instruments%>
-            <% if counter%5==0 %>
+            <% if counter%5==0 && counter>0 %>
                 </tr><tr>
             <% end %>
             <td width="20%" valign="top" >
-              <a href="/musicians/byinst/<%=item.instrument_name%>"><%= item.instrument_name %></a>
+              <a href="/musicians/byinst/<%=item.instrument_name%>"><%= item.instrument_name.titleize %></a>
 
             </td>
         <% counter=counter+1
