@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
+<script src="/common/js/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function() {
         $('.forumThreadBox').hover( function(){
@@ -17,6 +19,27 @@
             });
 
         });
+
+        <% if @admin_mode %>
+        $(".hider").click(function(){
+            var thread_id = this.innerHTML;
+
+            $( "#dialog-confirm" ).dialog({
+                height:200,
+                modal: true,
+                buttons: {
+                    "Hide Message?": function() {
+                        window.location = "/forums/hidepost/" + thread_id;
+                        $( this ).dialog( "close" );
+                    },
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
+                }
+            });
+            return false;
+        });
+        <% end %>
 
     });
 </script>
@@ -59,6 +82,9 @@
   </div>
 
   <div class="forum-inside">
+    <div id="dialog-confirm" style="display:none;" title="Hide Post">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This post will be hidden. Are you sure?</p>
+    </div>
 
     <%
        boardId = (board.nil?)? 0: board.board_id
@@ -84,6 +110,9 @@
             <div class="forumPostTime">
               <% if !item.user.nil? %>
                   <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+              <% end %>
+               <% if @admin_mode %>
+                  <br/><div class="hider"><%=item.thread_id%></div>
               <% end %>
             </div>
           </div>

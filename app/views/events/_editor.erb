@@ -137,8 +137,7 @@
     <%= form_for @event, :url =>{:action=>@target}, :html => { :onsubmit => "return validate();" }   do |f| %>
         <% if @mode=="Edit" %>
             <div class="hspacer"></div>
-            <div  style="background-color:#ff0;">
-
+            <div  style="background-color:#F0EC05;">
               <div class="flash-alert">
                 <%= flash[:notice] %>
               </div>
@@ -211,7 +210,7 @@
               <br/>
               <%= f.hidden_field :artist_id %>
               <input id="event_artist_search" size="30" placeholder="auto-search: type away!"/>
-              <div id="event_artist_result" style="background-color:#ff0;" ></div>
+              <div id="event_artist_result" style="background-color:#F0EC05;" ></div>
               <% if @player   %>
                   <span id="selected_artist">
                   Musician link set to <a href="/members/profile/<%=@event.artist_id%>"><%=@player.first_name%> <%=@player.last_name%></a>

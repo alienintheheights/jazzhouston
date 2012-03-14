@@ -17,6 +17,7 @@ class ForumsController < ApplicationController
   @@per_page = 12
   @@message_threshold = -6
 
+  before_filter :login_required, :only =>[:hidepost]
 
   ################################
   # ACTIONS
@@ -28,11 +29,10 @@ class ForumsController < ApplicationController
   ################################
   def index
     Time.zone = @@TZ
-    @pp = @@per_page
-    pageNumber = params[:page]
+    page_number = params[:page]
     @totalPosts = Message.count(:all)
-    if (pageNumber)
-      @page = pageNumber.to_i
+    if (page_number)
+      @page = page_number.to_i
       offset = getOffset(@page)
       @threads = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page, :offset=>offset)
     else
@@ -42,7 +42,9 @@ class ForumsController < ApplicationController
     @ban_list = (logged_in? && session[:user_bans])?  session[:user_bans] : {}
     @page_title = "Forums"
     @boards = Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
-
+    @pp = @@per_page
+    # super power to edit live threads
+    @admin_mode = (params[:admin] && logged_in? && current_user.admin_flag==1)
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
       format.mobile {render :template => "forums/index_mobile.erb"}
@@ -58,14 +60,13 @@ class ForumsController < ApplicationController
 
     Time.zone = @@TZ
     @board = Board.find(params[:id])
-    @pp = @@per_page
-    pageNumber = params[:page]
+    page_number = params[:page]
     @totalPosts = Message.count(:all)
     if (@board)
       @ban_list = (logged_in? && session[:user_bans])?  session[:user_bans] : {}
 
-      if (pageNumber)
-        @page = pageNumber.to_i
+      if (page_number)
+        @page = page_number.to_i
         offset = getOffset(@page)
         @threads = ForumThread.find(:all, :conditions=>["board_id=? and status=2", params[:id]], :order=>"modified_date desc", :limit=>@@per_page, :offset=>offset)
       else
@@ -75,8 +76,10 @@ class ForumsController < ApplicationController
 
       @page_title="Forums | #{@board.title}"
     end
-
     @boards=Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
+    @pp = @@per_page
+    # super power to edit live threads
+    @admin_mode = (params[:admin] && logged_in? && current_user.admin_flag==1)
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
       format.mobile {render :template => "forums/threads_mobile.erb"}
@@ -320,6 +323,16 @@ class ForumsController < ApplicationController
     flash[:notice]="Unable to post reply "
     redirect_to :action=>"threads", :id=>board.board_id
 
+  end
+
+  def hidepost
+    if logged_in? && current_user.user_id == 1
+      thread_id = params[:id]
+      thread = ForumThread.find(thread_id)
+      thread.status=0
+      thread.save!
+    end
+    redirect_to :action=>"index"
   end
 
   private

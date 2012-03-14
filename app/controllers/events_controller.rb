@@ -195,9 +195,11 @@ class EventsController < ApplicationController
     end
     respond_to do |format|
       if @event.update_attributes(params[:event])
+        format.mobile { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
         format.html { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
         format.xml  { head :ok }
       else
+        format.mobile { render :action => "edit" }
         format.html { render :action => "edit" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
@@ -219,9 +221,11 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         flash[:notice] = 'Event was successfully created.'
+        format.mobile {redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id  }
         format.html {redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id  }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
+        format.mobile { render :action => "new" }
         format.html { render :action => "new" }
         format.xml  { render :xml => @event.errors, :status => :unprocessable_entity }
       end
@@ -235,6 +239,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       flash[:notice]="Event Deleted"
+      format.mobile { redirect_to :event=>@event, :action=>"index"   }
       format.html { redirect_to :event=>@event, :action=>"index"   }
       format.xml  { head :ok }
     end

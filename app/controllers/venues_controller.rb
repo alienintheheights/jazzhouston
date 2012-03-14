@@ -66,6 +66,7 @@ class VenuesController < ApplicationController
         @venue = Venue.new
 
         respond_to do |format|
+            format.mobile # new.html.erb
             format.html # new.html.erb
             format.xml  { render :xml => @venue }
         end
@@ -83,10 +84,11 @@ class VenuesController < ApplicationController
 
         respond_to do |format|
             if @venue.update_attributes(params[:venue])
-                #flash[:notice] = 'Article was successfully updated.'
+                format.mobile { redirect_to :venue=>@venue, :action=>"edit", :id=>@venue.venue_id   }
                 format.html { redirect_to :venue=>@venue, :action=>"edit", :id=>@venue.venue_id   }
                 format.xml  { head :ok }
             else
+                format.mobile { render :action => "edit" }
                 format.html { render :action => "edit" }
                 format.xml  { render :xml => @venue.errors, :status => :unprocessable_entity }
             end
@@ -102,6 +104,7 @@ class VenuesController < ApplicationController
         respond_to do |format|
             if @venue.save
                 flash[:notice] = 'Venue was successfully created.'
+                format.mobile { redirect_to :venue=>@venue, :action=>"edit", :id=>@venue.venue_id  }
                 format.html { redirect_to :venue=>@venue, :action=>"edit", :id=>@venue.venue_id  }
                 format.xml  { render :xml => @venue, :status => :created, :location => @venue }
             else
@@ -118,6 +121,7 @@ class VenuesController < ApplicationController
         @venue.destroy
 
         respond_to do |format|
+            format.mobile { redirect_to(@venue) }
             format.html { redirect_to(@venue) }
             format.xml  { head :ok }
         end
