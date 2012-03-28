@@ -16,20 +16,25 @@
     -webkit-text-size-adjust: none;
 }
 
-@media screen and (max-device-width: 480px){
-    body {
-        -webkit-text-size-adjust: none;
-    }
-}
+
 
 body
 {
     font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;/**"frutiger lt std","frutiger std",frutiger,arial,helvetica,sans-serif;**/
-    font-size : 0.9em;
+    font-size : 12px;
     text-align: left;
     margin:0;
     padding:0;
     background-color: #fff;
+}
+
+
+/*------------IPHONE-------------*/
+@media screen and (max-device-width: 480px){
+    /*--- iPhone only CSS here ---*/
+    body {
+        -webkit-text-size-adjust:none;
+    }
 }
 
 img {
@@ -49,21 +54,21 @@ ul, li
 
 a  {
     color: black;
-    font-size: 1.0em;
+    font-size: 12px;
     text-decoration:none;
 }
 
 
 a:visited  {
     color: black;
-    font-size: 1.0em;
+    font-size: 12px;
     text-decoration:none;
 }
 
 
 a:hover {
     color: #2A89C5;
-    font-size: 1.0em;
+    font-size: 12px;
     text-decoration:none;
 }
 
@@ -77,7 +82,7 @@ img {
 
 h2 {
     display:block;
-    font-size:1.4em;
+    font-size:16px;
     padding:0 0 4px 1px;
     text-align: left;
     color: #2A89C5;
@@ -86,14 +91,14 @@ h2 {
 
 h3 {
     font-family:Helvetica,Arial,Sans-Serif;
-    font-size:1.2em;
+    font-size:14px;
     margin:0;
     background-color:#2A2A2A;
     color: #55CCFF;
 }
 
 p {
-    font-size : 1.1em;
+    font-size : 13px;
     color : black;
     margin: 8px 0;
 }
@@ -109,7 +114,7 @@ a.boldLink, a.boldLink:visited {
     border:none;
     text-decoration: none;
     color: #1a1a1a;
-    font-size: 1.1em;
+    font-size: 13px;
     font-weight: bold;
 
 }
@@ -119,7 +124,7 @@ a.boldLink:hover {
     border:none;
     text-decoration: none;
     color: #ddeeee110;
-    font-size: 1.1em;
+    font-size: 13px;
     font-weight: bold;
 }
 
@@ -133,7 +138,7 @@ a.boldLink:hover {
 #Masthead  {
     background-color: #fff;
     text-align: center;
-    font-size: 1.0em;
+    font-size: 12px;
     width: 100% !important;
     height:84px;
     margin: 0 auto;
@@ -146,7 +151,7 @@ a.boldLink:hover {
     padding: 7px 0 5px 5px;
     border-bottom: 1px solid #ccc;
     height: 30px;
-    font-size:0.9em;
+    font-size:10px;
     color:#333;
 }
 
@@ -158,12 +163,12 @@ a.boldLink:hover {
 #Masthead #MastheadSpan #MemberMeta {
     float:right;
     padding: 3px 3px 0 0;
-    font-size: 1.0em;
+    font-size: 12px;
     color:#333;
 }
 
 #Masthead #MastheadSpan #MemberMeta a, #Masthead #MastheadSpan #MemberMeta a:visited {
-    font-size: 0.9em;
+    font-size: 10px;
     color:#333;
 }
 
@@ -217,7 +222,7 @@ a.boldLink:hover {
 
 
 #Masthead #MastheadSpan #MemberBox h2 {
-    font-size: 1.2em;
+    font-size: 14px;
     font-weight: bold;
 }
 
@@ -240,7 +245,7 @@ a.boldLink:hover {
     font-family:  tahoma, Verdana,sans-serif;
     font-weight: bold;
     list-style: none;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 
@@ -261,7 +266,7 @@ a.boldLink:hover {
     text-decoration: none;
     height: 20px;
     border-right: 1px solid #999;
-    font-size: 1.0em;
+    font-size: 12px;
     font-weight: normal;
 }
 
@@ -274,7 +279,7 @@ html>body #nav-links li a {
     text-decoration: none;
     color: #2a2a2a;
     background-color: #eeee11;
-    font-size: 1.0em;
+    font-size: 12px;
     font-weight: normal;
 }
 
@@ -287,12 +292,12 @@ html>body #nav-links li a {
 
 
 #jh_change_password {
-    font-size: 0.9em;
+    font-size: 10px;
     padding: 0;
 }
 
 #jh_change_password a, #jh_change_password a:visited {
-    font-size: 0.9em;
+    font-size: 10px;
 }
 
 
@@ -329,7 +334,7 @@ html>body #nav-links li a {
     background-color: #eeee11 /**#90bade**/;
     color: #333;
     font-weight: bold;
-    font-size: 1.6em;
+    font-size: 18px;
     line-spacing: 0.5em;
 }
 
@@ -370,7 +375,7 @@ html>body #leftside-links li a {
     float: left;
     width: 3%;
     vertical-align:top;
-    font-size: 1.1em;
+    font-size: 13px;
     color: black;
     padding: 0 0 0 0;
     text-align:center;
@@ -424,7 +429,7 @@ html>body #leftside-links li a {
 
 
 #Stage h3 {
-    font-size: 1.2em;
+    font-size: 14px;
 }
 
 #StageColumnLeft {
@@ -466,7 +471,7 @@ html>body #leftside-links li a {
     background-color: white;
     padding: 0 0 0 8px;
     text-align:left;
-    line-height:1.6em;
+    line-height:18px;
     height: auto;
     min-height: 600px;
     overflow-x: hidden;
@@ -476,9 +481,9 @@ html>body #leftside-links li a {
 .forum-inside
 {
     background-color: white;
-    padding: 0 0 0 2px;
+    padding: 0 0 0 3px;
     text-align:left;
-    line-height:1.4em;
+    line-height:16px;
     height: auto;
     min-height: 600px;
 }
@@ -486,7 +491,7 @@ html>body #leftside-links li a {
 
 
 .cd-inside h2 {
-    font-size:1.2em;
+    font-size:14px;
     color: #2a2a2a;
     background-color:white;
     padding: 5px 0 1px 0;
@@ -500,7 +505,7 @@ html>body #leftside-links li a {
     background-color: white;
     padding: 0 ;
     text-align:left;
-    line-height:1.4em;
+    line-height:16px;
     width:auto;
 }
 
@@ -510,7 +515,7 @@ html>body #leftside-links li a {
     background-color: white;
     padding: 0 ;
     text-align:left;
-    line-height:1.4em;
+    line-height:16px;
     height: auto;
     min-height: 841px !important;
 }
@@ -523,14 +528,14 @@ html>body #leftside-links li a {
     background-color: white;
     padding: 0 2px;
     text-align:left;
-    line-height:1.6em;
+    line-height:18px;
     height: auto;
 }
 
 .inside .newslist  a, .inside .newslist  a:visited {
     color: black /** #2A89C5 **/;
     text-decoration: none;
-    font-size: 1.0em;
+    font-size: 12px;
     cursor: pointer;
     border: none;
 }
@@ -538,26 +543,26 @@ html>body #leftside-links li a {
 .inside a, .inside  a:visited {
     color: #033;
     text-decoration: none;
-    font-size: 1.0em;
+    font-size: 12px;
     cursor: pointer;
     border: none;
 }
 
 .inside a:hover {
     color: #2A89C5;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 .inside p {
     margin: 0 0 1em;
-    line-height: 1.6em;
+    line-height: 18px;
     font-size: 100%;
     font-family: "Lucida Grande", Lucida, Verdana, sans-serif ; /*verdana, tahoma, arial, sans-serif; */
 }
 
 .inside .wordText, wordText p {
     line-height: 1.467em;
-    font-size: 1.1em;
+    font-size: 13px;
     font-family: Georgia, arial, sans-serif;
 
 }
@@ -568,7 +573,7 @@ html>body #leftside-links li a {
 
 
 .inside h2 {
-    font-size:1.2em;
+    font-size:14px;
     color: #2a2a2a;
     background-color:white;
     padding: 5px 0 1px 0;
@@ -577,7 +582,7 @@ html>body #leftside-links li a {
 }
 
 .forum-inside h2 {
-    font-size:1.2em;
+    font-size:14px;
     color: #2A89C5;
     background-color:white;
     padding: 5px 0 1px 0;
@@ -599,7 +604,7 @@ html>body #leftside-links li a {
 }
 
 .home-inside h2 {
-    font-size:1.2em;
+    font-size:14px;
     color: #2A2A2A;
     background-color:#CCCCCC;
 }
@@ -608,7 +613,7 @@ html>body #leftside-links li a {
     color: black;
     text-decoration: none;
     border-bottom: none;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 
@@ -616,18 +621,18 @@ html>body #leftside-links li a {
     color: black;
     text-decoration: none;
     border-bottom: 1px dotted #333333;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 .home-inside a:hover {
     color: #2A89C5;
     border-bottom: 1px dotted #333333;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 
 p.home-inside {
-    font-size: 1.1em;
+    font-size: 13px;
 }
 
 
@@ -645,7 +650,7 @@ p.home-inside {
 }
 
 .alt-inside h2 {
-    font-size:1.2em;
+    font-size:14px;
     color: #2A2A2A;
     background-color:#CCCCCC;
 }
@@ -654,14 +659,14 @@ p.home-inside {
     color: black;
     text-decoration: none;
     border-bottom: 1px dotted #333333;
-    font-size: 0.9em;
+    font-size: 10px;
 }
 
 
 .alt-inside  a:hover{
     color: black;
     border-bottom: 1px dotted #333333;
-    font-size: 0.9em;
+    font-size: 10px;
 }
 
 
@@ -672,7 +677,7 @@ li.newslist-feature {
     margin-top: 10px;
     margin-bottom: 15px;
     overflow: auto;
-    font-size: 1.0em;
+    font-size: 12px;
     color:#555;
 }
 
@@ -683,7 +688,7 @@ a.venueLink, a:visited.venueLink {
 
 .admin-panel {
     background-color: white;
-    font-size: 1.0em;
+    font-size: 12px;
     text-align:left;
     padding: 15px 2px;
     text-align:left;
@@ -692,12 +697,12 @@ a.venueLink, a:visited.venueLink {
 .admin-inside a, .admin-inside a:visited {
     color: black;
     border-bottom: 1px dotted #333333;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 .admin-inside a:hover  {
     color: #16B31E;
-    font-size: 1.0em;
+    font-size: 12px;
     border-bottom: 1px dotted #333333;
 }
 
@@ -712,7 +717,7 @@ a.venueLink, a:visited.venueLink {
     padding: 10px;
     text-align:left;
     background-color: white;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 .panel-inside-rotate
@@ -722,7 +727,7 @@ a.venueLink, a:visited.venueLink {
     padding: 10px;
     text-align:left;
     background-color: white;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 
@@ -732,7 +737,7 @@ a.venueLink, a:visited.venueLink {
     /**border-bottom: 1px dotted #333333;**/
     cursor: pointer;
     border: none;
-    font-size: 1.0em;
+    font-size: 12px;
 
 }
 
@@ -740,7 +745,7 @@ a.venueLink, a:visited.venueLink {
 .panel-inside a:hover {
     text-decoration: none;
     color: #2A89C5;
-    font-size: 1.0em;
+    font-size: 12px;
     border-bottom: 1px dotted #333333;
 }
 
@@ -749,7 +754,7 @@ a.venueLink, a:visited.venueLink {
 
 #jh_login_form  {
     color:#111;
-    font-size:0.8em;
+    font-size:9px;
 }
 
 #jh_login_form td a, #jh_login_form td a:visited   {
@@ -796,7 +801,7 @@ a.venueLink, a:visited.venueLink {
     background-color:white;
     height: 200px;
     vertical-align: top;
-    line-height: 1.5em;
+    line-height: 17px;
     width:auto;
     padding-left: 15px;
     overflow: auto;
@@ -807,17 +812,17 @@ a.venueLink, a:visited.venueLink {
     background-color:white;
     height: 200px;
     vertical-align: top;
-    line-height: 1.5em;
+    line-height: 17px;
     padding-left: 15px;
 }
 
 #homegrid table b {
-    font-size: 1.1em;
+    font-size: 13px;
     margin-bottom: 5px;
 }
 
 #homegrid table td a a:hover a:visited{
-    font-size: 0.9em;
+    font-size: 10px;
 }
 
 .showListMain li {
@@ -873,7 +878,7 @@ table.index-three-column-small td {
     vertical-align: top;
     text-align: left;
     color:#1a1a1a;
-    font-size:0.9em;
+    font-size:10px;
     border:1px solid #B3B3B3;
 }
 
@@ -902,7 +907,7 @@ table.index-three-column td {
     vertical-align: top;
     text-align: center;
     color:#1a1a1a;
-    font-size:1.0em;
+    font-size:12px;
     -moz-border-radius: 15px;
     border-radius: 15px;
 }
@@ -930,14 +935,14 @@ table.index-two-column td {
     height: 150px;
     vertical-align: top;
     text-align: left;
-    font-size:1.0em;
+    font-size:12px;
     -moz-border-radius: 15px;
     border-radius: 15px;
 }
 
 
 table.index-two-column td a a:hover a:visited{
-    font-size: 1.0em;
+    font-size: 12px;
     text-decoration:none;
 }
 
@@ -970,7 +975,7 @@ table.index-two-column-small td {
 
 
 table.index-two-column-small td a a:hover a:visited{
-    font-size: 0.9em;
+    font-size: 10px;
 }
 
 
@@ -993,7 +998,7 @@ table.index-single-column td {
     vertical-align: top;
     text-align: left;
     color:#555;
-    font-size:0.9em;
+    font-size:10px;
 }
 
 
@@ -1037,7 +1042,7 @@ table.phone-list th {
     padding:2px 0;
     vertical-align: top;
     text-align: left;
-    font-size: 1.1em;
+    font-size: 13px;
     color: black;
 }
 
@@ -1081,7 +1086,7 @@ table.phone-list a, table.phone-list a:visited {
 .cd_listing {
     clear:both;
     padding: 20px 10px;
-    font-size: 1.2em;
+    font-size: 14px;
 }
 
 .none_entered {
@@ -1092,7 +1097,7 @@ table.phone-list a, table.phone-list a:visited {
 #jh_editor {
     color: red;
     padding: 0 0 0 5px ;
-    font-size: 0.8em;
+    font-size: 9px;
     text-align: left;
 }
 #jh_pic_column {
@@ -1104,7 +1109,7 @@ table.phone-list a, table.phone-list a:visited {
     padding: 3px 0 0 0 ;
     overflow-x: auto;
     width:70%;
-    font-size:0.9em;
+    font-size:10px;
 }
 
 #jh_detailcol {
@@ -1150,7 +1155,7 @@ table.phone-list a, table.phone-list a:visited {
     background-color: #EEE;
     color: #2a2a2a;
     border: none;
-    font-size: 1.2em;
+    font-size: 14px;
     font-weight: bold;
     width:100%;
 }
@@ -1158,7 +1163,7 @@ table.phone-list a, table.phone-list a:visited {
 
 dl.jh_profile_summary dt{
     color: #2a2a2a;
-    font-size: 1.1em;
+    font-size: 13px;
     padding: 3px 0;
 }
 
@@ -1172,14 +1177,14 @@ dl.jh_profile_summary dd {
 
 .vertical-listing {
     display:block;
-    font-size: 1.1em;
+    font-size: 13px;
     letter-spacing: 0.1em;
     padding: 15px 0;
     clear:both;
 }
 
 .flash-alert {
-    font-size: 1.2em;
+    font-size: 14px;
     color: red;
     background-color: white;
     padding: 10px;
@@ -1195,18 +1200,18 @@ dl.jh_profile_summary dd {
     padding: 2px 0;
     border: 1px solid #111;
     text-transform: lowercase;
-    font-size:1.0em;
+    font-size:12px;
     height: 18px;
 }
 
 .contentTypeList a, .contentTypeList a:visited {
     text-decoration: none;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 
 .contentTypeList a:hover {
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 
@@ -1214,7 +1219,7 @@ dl.jh_profile_summary dd {
     display:block;
     letter-spacing: 0.2em;
     font-weight: normal;
-    font-size: 1.1em;
+    font-size: 13px;
     background-color: #2a2a2a;
     color: white;
     text-align: center;
@@ -1226,7 +1231,7 @@ dl.jh_profile_summary dd {
 .ProfileLinks a, .ProfileLinks a:visited, .ProfileLinks a:hover {
     color: white;
     border: none;
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 
@@ -1236,7 +1241,7 @@ dl.jh_profile_summary dd {
 }
 
 .jh_search_results  {
-    font-size: 1.1em;
+    font-size: 13px;
     font-family: tahoma, sans-serif;
     background-color:white;
     color: #2A89C5;
@@ -1250,7 +1255,7 @@ dl.jh_profile_summary dd {
 }
 
 .jh_search_item  {
-    font-size: 1.1em;
+    font-size: 13px;
     font-family: Verdana, sans-serif;
     background-color:#EEFFFF;
     color: #2A89C5;
@@ -1270,7 +1275,7 @@ a.jh_search_item ,a.jh_search_item:hover,a.jh_search_item:visited {
 /** Utility classes **/
 .bulletList
 {
-    font-size: 1.1em;
+    font-size: 13px;
 
 }
 
@@ -1328,7 +1333,7 @@ a.imageLink:visited {
 }
 
 .ItemHSpacer ul {
-    font-size: 0.8em;
+    font-size: 12px;
     color:#fff;
     list-style: none outside;
     display: block;
@@ -1358,7 +1363,7 @@ a.imageLink:visited {
 }
 
 ul.breadcrumbs {
-    font-size: 0.8em;
+    font-size: 12px;
     color:#aaa;
     list-style: none outside;
     display: block;
@@ -1403,7 +1408,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 
 .EditorTools h2 {
     text-align: center;
-    font-size:1.0em;
+    font-size:12px;
     padding: 0 0 4px 0;
     margin: 0;
     background-color: #ee1;
@@ -1411,14 +1416,14 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 }
 
 .EditorTools a, .EditorTools a:visited{
-    font-size: 0.8em;
+    font-size: 9px;
     padding-left:8px;
 }
 
 
 .Header
 {
-    font-size: 1.6em;
+    font-size: 18px;
     letter-spacing: 0.2em;
     background-color: #fff;
     color: black;
@@ -1432,7 +1437,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 {
     padding: 5px 0 5px 10px;
     text-align:left;
-    font-size: 1.6em;
+    font-size: 18px;
     letter-spacing: 0.2em;
     background-color: #fff;
     color: black;
@@ -1442,7 +1447,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 
 .ProfileHeader
 {
-    font-size: 1.4em;
+    font-size: 16px;
     letter-spacing: 0.4em;
     background-color: #eee;
     color: #1a1a1a;
@@ -1455,7 +1460,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 
 .StoryHeader
 {
-    font-size: 1.4em;
+    font-size: 16px;
     letter-spacing: 0.0em;
     text-align: left;
     padding: 15px 0 15px 0;
@@ -1466,7 +1471,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.4em;
+    font-size: 16px;
     letter-spacing: 0.3em;
     background-color: #3A3A3A;
     color: #eee;
@@ -1481,7 +1486,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.4em;
+    font-size: 16px;
     letter-spacing: 0.5em;
     color: black;
     background-color: #DDeeee110;
@@ -1498,7 +1503,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.2em;
+    font-size: 14px;
     letter-spacing: 0.3em;
     background-color: #ccc;
     color: #000;
@@ -1515,7 +1520,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.1em;
+    font-size: 13px;
     letter-spacing: 0.1em;
     color: #1A1A1A;
     text-align: center;
@@ -1531,7 +1536,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.1em;
+    font-size: 13px;
     letter-spacing: 0.2em;
     background-color:#FFF091;
     color: #2A2A2A;
@@ -1549,7 +1554,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.2em;
+    font-size: 14px;
     letter-spacing: 0.3em;
     background-color:#666;
     color: #FFF;
@@ -1565,7 +1570,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     border-width: 1px;
     border-style: solid;
     border-color: black;
-    font-size: 1.2em;
+    font-size: 14px;
     letter-spacing: 0.3em;
     background-color: #1A1A1A;
     color: #DDeeee110;
@@ -1646,7 +1651,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     background: transparent url("../images/submit.gif") no-repeat;
     height:20px;
     border:solid 0 #fff;
-    font:1.1em Palatino Linotype,Book Antiqua,Palatino,serif;
+    font:13px Palatino Linotype,Book Antiqua,Palatino,serif;
     color:#666;
     text-transform:uppercase;
 
@@ -1699,7 +1704,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     margin: 0 5px;
     vertical-align:top;
     text-align: left;
-    font-size: 1.0em;
+    font-size: 12px;
     min-height:200px;
     height:auto !important;
     height:200px;
@@ -1713,7 +1718,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
     margin: 0 5px;
     vertical-align:top;
     text-align: left;
-    font-size: 1.0em;
+    font-size: 12px;
     height:auto !important;
     height:200px;
 }
@@ -1744,7 +1749,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 
 #footer div.block h2 {
     display:block;
-    font-size:1.2em;
+    font-size:14px;
     font-weight:bold;
     margin: 1px 0 0 0 ;
     padding:0 0 4px 0;
@@ -1758,7 +1763,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 #footer div.block {
     color:#CCCCCC;
     float:left;
-    font-size:1.0em;
+    font-size:12px;
     line-height:140%;
     margin:10px 15px 30px;
     padding:0;
@@ -1773,7 +1778,7 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 
 #footer div.block ul li a {
     text-decoration: none;
-    font-size: 1.0em;
+    font-size: 12px;
     color:white;
 }
 
@@ -1802,26 +1807,26 @@ ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
 .error {font-size : 18px; color : red; }
 
 .tinyText {
-    font-size : 0.8em;
+    font-size : 9px;
     color : black;
 }
 
 .smallText {
-    font-size : 0.8em;
+    font-size : 9px;
     color : black;
     margin: 0 2px;
 }
 
 a.smallText {
-    font-size : 0.8em;
+    font-size : 9px;
 }
 
 a.smallText:visited {
-    font-size : 0.8em;
+    font-size : 9px;
 }
 
 a.smallText:hover {
-    font-size : 0.8em;
+    font-size : 9px;
 }
 
 
@@ -1829,7 +1834,7 @@ a.smallText:hover {
 
 
 .smallTextItalics {
-    font-size : 0.8em;
+    font-size : 9px;
     margin: 0 2px;
     font-style: italic;
 }
@@ -1837,18 +1842,18 @@ a.smallText:hover {
 .mediumText {
     color : black;
     margin: 10px 0;
-    font-size :1.0em;
+    font-size :12px;
 }
 
 
-.largeText {font-size : 1.4em; ; color : black; }
+.largeText {font-size : 16px; ; color : black; }
 
-.titleText { font-size : 1.6em   ; font-weight: bold; color : black; }
+.titleText { font-size : 18px   ; font-weight: bold; color : black; }
 
 .headerText { font-size : 2.0em;  ; font-weight: bold; color : black; }
 
 
-.redText {font-size : 1.4em;   ; color : red; font-weight : bold; }
+.redText {font-size : 16px;   ; color : red; font-weight : bold; }
 
 .nobreak { display:inline; margin: 0; padding: 0; width: 10px;}
 
@@ -1867,14 +1872,14 @@ a.smallText:hover {
     display:block;
     letter-spacing: 0.1em;
     font-weight: normal;
-    font-size: 0.9em;
+    font-size: 10px;
     background-color:#fff;
     color: #1a1a1a;
     text-align: center;
 }
 
 .boardList a, .boardList a:visited, .boardList a:hover {
-    font-size: 0.9em;
+    font-size: 10px;
 }
 
 .topic-list {
@@ -1882,7 +1887,7 @@ a.smallText:hover {
     margin-bottom:2em;
     width:100%;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size:1.0em;
+    font-size:12px;
     float:left;
     clear:both;
 }
@@ -1900,7 +1905,7 @@ a.smallText:hover {
 }
 
 .topic-list th a a:visited {
-    font-size:1.0em;
+    font-size:12px;
     color:white;
     text-decoration:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
@@ -1909,7 +1914,7 @@ a.smallText:hover {
 .topic-list th a:hover  {
     color: white;
     text-decoration:none;
-    font-size:1.0em;
+    font-size:12px;
 }
 
 .topic-list td {
@@ -1934,7 +1939,7 @@ a.smallText:hover {
     padding: 0 0 0 0 ;
 }
 .commentCountLink a, .commentCountLink a:visited, .commentCountLink a:hover {
-    font-size: 0.8em;
+    font-size: 9px;
     padding: 0;
 }
 
@@ -1942,7 +1947,7 @@ a.smallText:hover {
 
 a.blueLink, a.blueLink:visited, a.blueLink:hover {
     color: #2A89C5;
-    font-size: 1.1em;
+    font-size: 13px;
 }
 
 
@@ -2023,7 +2028,7 @@ li.post-ban-row  {
 .messageAuthor {
     padding-top: 5px;
     padding-left: 5px;
-    font-size: 0.9em;
+    font-size: 10px;
     font-style: normal;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2033,8 +2038,8 @@ li.post-ban-row  {
 .messageAuthor a , .messageAuthor a:visited, .messageAuthor a:hover {
     border:none;
     color: black;
-    line-height: 1.2em;
-    font-size: 1.1em;
+    line-height: 14px;
+    font-size: 13px;
     font-weight: bold;
     padding: 2px 0 0 0;
 }
@@ -2051,21 +2056,22 @@ a.messageImg, a.messageImg:hover, a.messageImg:visited {
 div.messageDate {
     position: absolute;
     top: 110px;
-    font-size: 0.9em;
+    font-size: 10px;
     border:none;
     color: #777;
-    line-height: 1.2em;
+    line-height: 14px;
 }
 
 .messageBody {
     float:left;
     padding-bottom: 10px;
     padding-top: 5px;
+    padding-left: 4px;
     min-height: 178px;
     height: auto !important;
     height: 178px;
-    font-size:1.1em;
-    line-height: 1.4em;
+    font-size:13px;
+    line-height: 16px;
     word-wrap:break-word;
 }
 
@@ -2132,7 +2138,7 @@ div.messageDate {
 
 .forumMetaInfo {
     float:left;
-    font-size: 0.9em;
+    font-size: 10px;
     overflow-x: hidden;
     width:105px;
 }
@@ -2144,11 +2150,11 @@ div.messageDate {
 
 .forumPostTime {
     padding: 7px 0 0 0;
-    font-size: 0.8em;
+    font-size: 9px;
 }
 
 .forumPostTime a, .forumPostTime a:visited {
-    font-size: 0.8em;
+    font-size: 9px;
     padding-right: 0;
 }
 
@@ -2156,7 +2162,7 @@ div.messageDate {
 .bigForumLink   {
     text-align: left;
     vertical-align: text-top;
-    font-size:1.0em;
+    font-size:12px;
     color:#2a2a2a;
     text-decoration:none;
     padding: 10px 0 0 0;
@@ -2167,7 +2173,7 @@ div.messageDate {
 
 .bigForumLink a, bigForumLink a:visited {
     text-align: left;
-    font-size:1.0em;
+    font-size:12px;
     font-weight: normal;
     color:#2a2a2a;
     text-decoration:none;
@@ -2175,7 +2181,7 @@ div.messageDate {
 
 .bigForumLink a:hover {
     text-align: left;
-    font-size:1.0em;
+    font-size:12px;
     font-weight: normal;
     color:#2A89C5;
 }
@@ -2196,7 +2202,7 @@ a.smallForumLink, a.smallForumLink:visited {
     text-decoration:none;
     border:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size:0.9em;
+    font-size:10px;
 }
 
 a.smallForumLink:hover  {
@@ -2206,7 +2212,7 @@ a.smallForumLink:hover  {
     text-decoration:none;
     border:none;
     font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-    font-size:0.9em;
+    font-size:10px;
 }
 
 .tableHeader {
@@ -2216,7 +2222,7 @@ a.smallForumLink:hover  {
 
 
 .num {
-    font-size:1.0em;
+    font-size:12px;
 }
 
 .forumNewTopicLink  {
@@ -2227,7 +2233,7 @@ a.smallForumLink:hover  {
 
 .forumNewTopicLink a, .forumNewTopicLink a:visited {
     color:red;
-    font-size:1.2em;
+    font-size:14px;
 }
 
 .board-pager {
@@ -2280,21 +2286,21 @@ EXTJS IE7 Combo box bug hack
 **/
 
 #jh_venue_about, #jh_venue_about a, #jh_venue_about a:visited {
-    font-size: 1.0em;
+    font-size: 12px;
 }
 
 .jh_search_item {
-    font-size: 1.3em;
+    font-size: 15px;
     background-color: white;
 }
 
 .jh_search_item a, .jh_search_item a:visited {
-    font-size: 1.3em;
+    font-size: 15px;
 }
 
 
 .jh_search_item a:hover {
-    font-size: 1.3em;
+    font-size: 15px;
     color: red;
 }
 
@@ -2338,7 +2344,7 @@ EXTJS IE7 Combo box bug hack
 
 
 .breadcrumbs {
-    font-size: 0.8em;
+    font-size: 9px;
     color:#000000;
 }
 
