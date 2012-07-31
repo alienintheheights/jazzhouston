@@ -105,17 +105,15 @@ class SiteController < ApplicationController
   def playlist
     headers["Content-Type"] = "text/xml; charset=utf-8"
 
-    #@xspf=""
-    #render :xml => @xspf
   end
 
   # challenge image: TODO put this in a shared lib
   def challenge_image
     # production
-    storePath = "/home/jazzhouston/rails/jazzhouston/public/images"
+    store_path = "/home/jazzhouston/rails/jazzhouston/public/images"
     # dev
     #storePath = "/Users/andrew/Development/www/jazzhouston/public/images"
-    filename = storePath + "/camouflage.png"
+    filename = store_path + "/camouflage.png"
 
     challenge = UserChallenge::SumImageChallenger.new
     session["uc"] = challenge

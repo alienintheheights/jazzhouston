@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   before_filter :redirect_to_mobile_if_applicable
 
   ##  evolving array of mobile UA strings
-  MOBILE_BROWSERS = ["webOS", "Mobile", "iphone", "ipad", "android", "ipod", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle", "mobile","pda","psp","treo"]
+  MOBILE_BROWSERS = ["Android","android", "iphone", "iPhone", "ipod", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle","pda","psp","treo"]
 
   ########################################
   ##  detect mobile based on USER_AGENT,
@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   #########################################
   def detect_browser
     return false if (request.xhr?)
-    (mobile_request?)? "mobile_application" : "application"
+    (mobile_request?)?  "mobile_application" : "application"
   end
 
   def mobile_subdomain?

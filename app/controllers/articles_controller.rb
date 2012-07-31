@@ -37,7 +37,7 @@ class ArticlesController < ApplicationController
     @page =       (params[:page].nil?) ? 1 : params[:page].to_i
     offset =      getOffset(@page) || 0
     total_posts = Content.count(:all, :conditions => ["content_type_id=? and status_id=2",@section_id])
-    @total_pages= (total_posts/@@per_page).to_i
+    @total_pages= (total_posts/@@per_page).to_i  + 1
 
     @articles =   Content.find(:all, :order=>"display_date desc", :conditions => ["content_type_id=? and status_id=2",@section_id], :limit=>@@per_page, :offset=>offset)
 

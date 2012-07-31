@@ -128,7 +128,7 @@
            for item in @users
                new_user=(item.modified_date==item.created_date || item.modified_date=nil)
                mod_date=item.modified_date||item.created_date
-               full_name =   item.first_name.titleize + item.last_name.titleize
+               full_name =   item.first_name.titleize + ' ' + item.last_name.titleize
                if (mod_date)
                    mod_date=mod_date.strftime("%Y/%m/%d")
                end

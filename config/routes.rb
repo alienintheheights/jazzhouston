@@ -58,9 +58,12 @@ match 'venues/search_ext' => 'venues#search_ext'
 resources :venues
 match 'articles/words/:id' => 'articles#words'
 match 'articles/reviews' => 'articles#reviews'
-match 'articles/opinion' => 'articles#opinion'
+match 'articles/artists' => 'articles#artists'
+match 'articles/opinions' => 'articles#opinions'
 match 'articles/articles' => 'articles#articles'
 match 'articles/rss' => 'articles#rss'
+match 'articles/workflow' => 'articles#workflow'
+match 'articles/search_articles_url_ext' => 'articles#search_articles_url_ext'
 match 'news' => 'articles#index'
 match 'news/reviews' => 'articles#reviews'
 resources :articles

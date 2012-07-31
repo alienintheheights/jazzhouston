@@ -184,7 +184,7 @@
           <tr>
             <td class="color2">
               <%= f.label :body_text %><br />
-              <%= f.text_area :body_text %> (drag bottom right corner to expand editor)
+              <%= f.text_area :body_text.gsub(/\n\r/, '</p><p>') %> (drag bottom right corner to expand editor)
             </td>
           </tr>
           <tr>

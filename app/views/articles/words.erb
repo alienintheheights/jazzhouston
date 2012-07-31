@@ -35,11 +35,8 @@
       <% if @article.photo.exists? then %>
           <%= image_tag @article.photo.url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
       <% end %>
-      <% if html_break_flag = 0 %>
-          <%=raw @article.body_text%>
-      <% else %>
-          <%=simple_format(@article.body_text.html_safe, {}, :sanitize => false)%>
-      <% end %>
+      <%=raw @article.body_text.gsub(/\n\r/, '</p><p>') %>
+
     </div>
     <%= render :partial => "common/socialrow", :locals => {
             :title=>@article.title,

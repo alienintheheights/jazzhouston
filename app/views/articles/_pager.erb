@@ -1,7 +1,14 @@
-<% if total_pages > 1  %>
+<% if total_pages > 1
+    count_limit = 4  # if more than this number of pages, use the "more" pattern
+%>
     <ul class="board-pager">
-      <li>page: <%= link_to "1", {:action => "index", :controller=>"articles", :type=>@section_id, :page=>1} %></li>
-      <% sidx = (page>4)?page-3:2;
+      <li>page: <%= link_to "1", {:action => "index", :controller=>"articles", :type=>@section_id, :page=>1} %>
+      <%
+         sidx = (page > count_limit) ? page - (count_limit - 1) : count_limit - 2;
+         if(sidx>2)
+            %>...<%
+         end
+         %></li><%
          for i in (sidx..page)
              if (i==page)  %>
              <li><%= link_to i, {:action => "index", :controller=>"articles", :type=>@section_id,  :page=>i}, :class=>"selected" %></li>

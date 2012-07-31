@@ -2,7 +2,7 @@ class Notifier < ActionMailer::Base
 
     def confirmation_email(user, subject, key, sent_at = Time.now)
         recipients user.email
-        from       'notification@jazzhouston.org'
+        from       'notification@jazzhouston.com'
         subject    subject
         sent_on    sent_at
         body       :username => user.username, :key=>key
@@ -12,7 +12,7 @@ class Notifier < ActionMailer::Base
 
     def signup_notification(user, subject, sent_at = Time.now)
         recipients user.email
-        from       'notification@jazzhouston.org'
+        from       'notification@jazzhouston.com'
         subject    subject
         sent_on    sent_at
         body       :account => user
@@ -21,7 +21,7 @@ class Notifier < ActionMailer::Base
 
     def lost_password(user, subject, key, sent_at = Time.now)
         recipients user.email
-        from       'notification@jazzhouston.org'
+        from       'notification@jazzhouston.com'
         subject    subject
         sent_on    sent_at
         body       :account => user,  :key=>key
@@ -29,7 +29,7 @@ class Notifier < ActionMailer::Base
 
     def updated_password(user, subject, sent_at = Time.now)
         recipients user.email
-        from       'notification@jazzhouston.org'
+        from       'notification@jazzhouston.com'
         subject    subject
         sent_on    sent_at
         body       :account => user
@@ -39,7 +39,7 @@ class Notifier < ActionMailer::Base
     def feedback(to, name, email, subject, message, sent_at = Time.now)
         recipients to
         reply_to email
-        from       'notification@jazzhouston.org'
+        from       'notification@jazzhouston.com'
         subject    subject
         sent_on    sent_at
         body       :from_addr => email, :from_name=>name, :message=>message

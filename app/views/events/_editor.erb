@@ -110,7 +110,7 @@
         }
 
 
-        if ($("input[id=event_event_type_id]").val() === "1" && !$("input[id=event_show_date]").val()) {
+        if ($("#event_event_type_id").val() === "1" && !$("input[id=event_show_date]").val()) {
             alert("The show needs a date!");
             return false;
         }

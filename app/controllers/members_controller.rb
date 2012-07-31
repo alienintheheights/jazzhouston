@@ -5,7 +5,7 @@
 #########################################
 class MembersController < ApplicationController
 
-  require "RMagick"  #TODO:DEV
+  #require "RMagick"  #TODO:DEV
   include AuthenticatedSystem
   include ExtjsRails
   include UserChallenge  #TODO:DEV
@@ -70,7 +70,7 @@ class MembersController < ApplicationController
   # Logout
   #########################################
   def logout
-    self.current_user.forget_me if logged_in?   #TODO: dev
+    #self.current_user.forget_me if logged_in?   #TODO: dev
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
@@ -88,6 +88,9 @@ class MembersController < ApplicationController
 
     if (params[:msgid])
       flash[:notice]=@@msg[params[:msgid].to_i]
+    end
+    if (logged_in?)
+      @user = User.find(self.current_user.user_id)
     end
 
     respond_to do |format|
@@ -129,8 +132,6 @@ class MembersController < ApplicationController
     end
 
   end
-
-
 
 
   #########################################
@@ -179,7 +180,7 @@ class MembersController < ApplicationController
       subject="Welcome to Jazzhouston!"
       Notifier.deliver_signup_notification(@user, subject)
 
-      session[:user]=@user
+      #session[:user]=@user
       self.current_user=@user
 
       redirect_to(:controller => '/members', :action => 'index', :msgid=>0)
@@ -301,8 +302,6 @@ class MembersController < ApplicationController
   end
 
 
-
-
   #########################################
   # Called by the sign-up form
   #########################################
@@ -321,7 +320,7 @@ class MembersController < ApplicationController
 
     @user = User.new(params[:user])
     @user.status_id=1
-    # get the instruments
+                                                            # get the instruments
     user_instruments=params[:instrument]
     if (user_instruments)
       instruments=[]
@@ -333,7 +332,7 @@ class MembersController < ApplicationController
       @user.local_player_flag=1
     end
 
-    if (@user.url &&  @user.url!="" && @user.url !~/^http/i)
+    if (!@user.url.nil &&  !@user.url.blank? && @user.url !~/^http/i)
       @user.url = "http://" + @user.url
     end
 
@@ -359,19 +358,18 @@ class MembersController < ApplicationController
   # GET /members/edit/id
   #########################################
   def edit
-    validUser=false
+    valid_user = false
     if logged_in? && (self.current_user.user_id==params[:id].to_i || self.current_user.admin_flag==1)
-      @user = User.find(params[:id])
-      @page_title="Member Profile | Editing for #{@user.username}"
-      validUser=true
-      @instruments = Instrument.all(:order=>"instrument_group, instrument_name")
+      @user =       User.find(params[:id])
+      @page_title=  "Member Profile | Editing for #{@user.username}"
+      valid_user=   true
+      @instruments= Instrument.all(:order=>"instrument_group, instrument_name")
       @myinstruments=[]
       for item in @user.instruments
         @myinstruments[item.instrument_id]=item.instrument_name
       end
-
     end
-    if (!validUser)
+    if (!valid_user)
       redirect_to(:controller => '/members', :action => 'profile', :id=>params[:id])
     end
 
@@ -460,24 +458,23 @@ class MembersController < ApplicationController
     @user = User.find(params[:id])
     @user.update_attributes(params[:user])
 
-    # cleanup
-    if (@user.image_url && @user.image_url!="")
-      @user.image=nil
-      @user.save!
-    elsif (@user.image && @user.image!="")
-      @user.image_url=nil
-      @user.save!
-    end
     # clear cache, if any
-    expire_user(@user)
+    #expire_user(@user)
+    if params[:user][:photo].present?
+      render :cropper
+    else
+      flash[:notice] = "Successfully uploaded photo"
+      redirect_to :action => "profile", :id => @user.username
+    end
 
-    #flash[:notice] = 'Image Uploaded and Thumbnailed'
-    redirect_to :action => "profile", :id => @user.username
+
+      #flash[:notice] = 'Image Uploaded and Thumbnailed'
+
 
       #end
       #redirect_to :action => "edit", :id => @user.user_id
   rescue Exception => exception
-    flash[:notice]="Boooo!! " + exception
+    flash[:notice]= exception
 
   end
 

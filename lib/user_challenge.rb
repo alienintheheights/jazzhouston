@@ -122,7 +122,7 @@ module UserChallenge
 
     class SumImageChallenger
 
-        require "RMagick"
+        #require "RMagick"   #TODO: dev
 
         include SumChallenge
 
@@ -214,7 +214,7 @@ module UserChallenge
 
     class RandomTextImageChallenger
 
-        require "RMagick"
+        #require "RMagick"   #TODO:DEV
 
         include RandomTextChallenge
 

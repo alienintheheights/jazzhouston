@@ -30,7 +30,7 @@
 
           </div>
           <div class= "bigForumLink">
-            <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=@page%>#<%= item.post_count %>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
+            <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=@page%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
 
             <div class="forumPostTime">
               <% if item.user %>
