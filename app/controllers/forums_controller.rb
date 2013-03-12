@@ -48,7 +48,7 @@ class ForumsController < ApplicationController
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
       format.mobile {render :template => "forums/index_mobile.erb"}
-      format.json {render :json => @threads.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :photo_file_name, :image_url] } })  }
+      format.json {render :json => @threads.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
     end
   end
 
@@ -69,22 +69,22 @@ class ForumsController < ApplicationController
       if (page_number)
         @page = page_number.to_i
         offset = getOffset(@page)
-        @threads = ForumThread.find(:all, :conditions=>["board_id=? and status=2", params[:id]], :order=>"modified_date desc", :limit=>@@per_page, :offset=>offset)
+        @threads = ForumThread.where("board_id=? and status=2", params[:id]).includes(:user).order("modified_date desc").limit(@@per_page).offset(offset)
       else
-        @threads = ForumThread.find(:all, :conditions=>["board_id=? and status=2", params[:id]], :order=>"modified_date desc", :limit=>@@per_page)
+        @threads = ForumThread.where("board_id=? and status=2", params[:id]).includes(:user).order("modified_date desc").limit(@@per_page)
         @page = 1
       end
 
       @page_title="Forums | #{@board.title}"
     end
-    @boards=Board.find(:all, :conditions=>"status=2", :order=>:sort_order)
+    @boards=Board.where("status=2").order(:sort_order)
     @pp = @@per_page
     # super power to edit live threads
     @admin_mode = (params[:admin] && logged_in? && current_user.admin_flag==1)
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
       format.mobile {render :template => "forums/threads_mobile.erb"}
-      format.json {render :json => @threads}
+      format.json {render :json => @threads.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
     end
   end
 
@@ -108,10 +108,9 @@ class ForumsController < ApplicationController
       if (pageNumber)
         @page=pageNumber.to_i
         offset=getOffset(@page)
-        @messages=Message.find(:all, :include=>:user, :select=>"users.user_id, users.username, users.image_url, messages.*",:conditions=>["thread_id=? and status=2",params[:id]], :order=>:pdate, :limit=>@@per_page, :offset=>offset)
+        @messages=Message.includes(:user).select("users.user_id, users.username, users.image_url, messages.*").where("thread_id=? and status=2",params[:id]).order(:pdate).limit(@@per_page).offset(offset)
       else
-        @messages=Message.find(:all, :include=>:user, :select=>"users.user_id, users.username, users.image_url, messages.*",:conditions=>["thread_id=? and status=2",params[:id]], :order=>:pdate, :limit=>@@per_page)
-        @page=1
+        @messages=Message.includes(:user).select("users.user_id, users.username, users.image_url, messages.*").where("thread_id=? and status=2",params[:id]).order(:pdate).limit(@@per_page)
       end
 
       @page_title="#{@board.title} | #{@thread.title}"
@@ -120,7 +119,7 @@ class ForumsController < ApplicationController
     respond_to do |format|
       format.html {render :template => "forums/messages.erb"}
       format.mobile {render :template => "forums/messages_mobile.erb"}
-      format.json {render :json => @messages}
+      format.json {render :json => @messages.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
     end
   end
 
@@ -142,7 +141,7 @@ class ForumsController < ApplicationController
     message_id = params[:id]
     if (message_id)
       # check for existing vote
-      scores = MessageScore.find(:all, :conditions=>["user_id=? and message_id=?",current_user.user_id, message_id])
+      scores = MessageScore.where("user_id=? and message_id=?",current_user.user_id, message_id)
       message= Message.find(message_id)
       data={}
       if (!scores || scores.length==0)
