@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <atom:link href="http://www.jazzhouston.org/articles/rss" rel="self" type="application/rss+xml" />
+    <title>JazzHouston | Forum Posts (RSS Feed)</title>
+    <link>http://www.jazzhouston.com/forum </link>
+    <description>Latest Forum Posts for <%= Time.now.strftime("%a, %d %b %Y %S %Z") %></description>
+    <language>en-us</language>
+    <ttl>90</ttl>
+    <pubDate><%= Time.now.strftime("%a, %d %b %Y %S %Z") %></pubDate>
+    <copyright>Copyright(c) 1996-, JazzHouston.com</copyright>
+    <lastBuildDate><%= Time.now.strftime("%a, %d %b %Y %H:%M:%S %Z") %></lastBuildDate>
+
+    <% for item in @threads
+        page_num = item.post_count>@pp? 1+((item.post_count-1)/@pp).floor : 1
+    %>
+        <item>
+          <title><![CDATA[
+            <%= item.title%>
+            ]]></title>
+          <link>http://www.jazzhouston.com/forums/messages/<%=item.thread_id%>?page=<%=page_num%></link>
+          <description><![CDATA[
+            <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>"><%= truncate(item.title, :length => 50) %></a>,
+            <% if !item.user.nil? %>
+                <% if item.post_count-1 == 0 %>new topic <% else %>response<% end %> by <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a>
+              <% end %>
+              ]]></description>
+          <pubDate><%= item.modified_date.strftime("%a, %d %b %Y %S %Z") %></pubDate>
+          <guid>/forums/messages/<%=item.thread_id%>?page=<%=page_num%></guid>
+        </item>
+    <% end %>
+
+  </channel>
+</rss>

@@ -14,7 +14,7 @@ class ForumsController < ApplicationController
 
   # TODO: make boards a class var?
   @@moderation_mode = false
-  @@per_page = 12
+  @@per_page = 15
   @@message_threshold = -6
 
   before_filter :login_required, :only =>[:hidepost]
@@ -34,9 +34,9 @@ class ForumsController < ApplicationController
     if (page_number)
       @page = page_number.to_i
       offset = getOffset(@page)
-      @threads = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page, :offset=>offset)
+      @threads = ForumThread.where("status=2").order("threads.modified_date desc").includes(:user).select("users.user_id, users.username,users.image_url, threads.*").limit(@@per_page).offset(offset)
     else
-      @threads = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page)
+      @threads = ForumThread.where("status=2").order("threads.modified_date desc").includes(:user).select("users.user_id, users.username,users.image_url, threads.*").limit(@@per_page)
       @page = 1
     end
     @ban_list = (logged_in? && session[:user_bans])?  session[:user_bans] : {}
@@ -48,6 +48,7 @@ class ForumsController < ApplicationController
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
       format.mobile {render :template => "forums/index_mobile.erb"}
+      format.json {render :json => @threads.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :photo_file_name, :image_url] } })  }
     end
   end
 
@@ -83,12 +84,13 @@ class ForumsController < ApplicationController
     respond_to do |format|
       format.html {render :template => "forums/threads.erb"}
       format.mobile {render :template => "forums/threads_mobile.erb"}
+      format.json {render :json => @threads}
     end
   end
 
   ################################
   # GET /forums/messages/<THREAD_ID>
-  ################################                                                                            ƒ
+  ################################
   def messages
 
     Time.zone = @@TZ
@@ -118,6 +120,7 @@ class ForumsController < ApplicationController
     respond_to do |format|
       format.html {render :template => "forums/messages.erb"}
       format.mobile {render :template => "forums/messages_mobile.erb"}
+      format.json {render :json => @messages}
     end
   end
 
@@ -148,7 +151,7 @@ class ForumsController < ApplicationController
         data["alert"]="message rating updated!"
         data["success"]=1
 
-        new_score = MessageScore.new();
+        new_score = MessageScore.new()
         new_score.user_id=current_user.user_id
         new_score.message_id=message_id
         new_score.save!
@@ -166,6 +169,31 @@ class ForumsController < ApplicationController
 
 
 
+  end
+
+  def forum_topics
+    # TODO: add sanitize param & request Url check!
+    offset = params[:query]  || 0
+    results = ForumThread.includes(:user).where("status=2").order("threads.modified_date desc").limit(@@per_page).offset(offset)
+
+    render :json => to_ext_json(results)
+  end
+
+  def forum_messages
+    # TODO: add sanitize param & request Url check!
+    offset = params[:query]  || 0
+    results = ForumThread.includes(:user).where("status=2").order("threads.modified_date desc").limit(@@per_page).offset(offset)
+
+    render :json => to_ext_json(results)
+  end
+
+  # rss feed
+  def rss
+    response.headers["Content-Type"] = "application/rss+xml; charset=utf-8"
+    @curTime = Time.now
+    @threads = ForumThread.find(:all, :include=>:user, :select=>"users.user_id, users.username,users.image_url, threads.*",:conditions=>"status=2", :order=>"threads.modified_date desc", :limit=>@@per_page)
+    @pp = @@per_page
+    render :layout=> false
   end
 
 

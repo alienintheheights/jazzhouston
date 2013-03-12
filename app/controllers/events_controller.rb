@@ -89,6 +89,11 @@ class EventsController < ApplicationController
     # for use in the View
     @dow =["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
     @page_title = @show.performer
+
+    respond_to do |format|
+      format.html {render :template => "events/details.erb"}
+      format.json {render :json => @show.to_json(:include =>:venue  )  }
+    end
   end
 
   # featured event

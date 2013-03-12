@@ -5,7 +5,7 @@
 #########################################
 class MembersController < ApplicationController
 
-  #require "RMagick"  #TODO:DEV
+  require "RMagick"  #TODO:DEV
   include AuthenticatedSystem
   include ExtjsRails
   include UserChallenge  #TODO:DEV
@@ -70,7 +70,7 @@ class MembersController < ApplicationController
   # Logout
   #########################################
   def logout
-    #self.current_user.forget_me if logged_in?   #TODO: dev
+    self.current_user.forget_me if logged_in?   #TODO: dev
     cookies.delete :auth_token
     reset_session
     flash[:notice] = "You have been logged out."
@@ -129,6 +129,7 @@ class MembersController < ApplicationController
     respond_to do |format|
       format.html # index..erb
       format.mobile {render :template => "members/profile_mobile.erb"}
+      format.json {render :json =>@member}
     end
 
   end
@@ -267,10 +268,10 @@ class MembersController < ApplicationController
           flash[:notice]="The new passwords don't match. Try again."
         else
           u.password=params[:new_password]
-          u.save(false)
+          u.save(:validate => false)
           self.current_user=u
           flash[:notice]="Password updated!"
-          Notifier.deliver_updated_password(u, "Password reset for jazzhouston")
+          #Notifier.deliver_updated_password(u, "Password reset for jazzhouston")
         end
       end
 
@@ -284,6 +285,11 @@ class MembersController < ApplicationController
       end
     end
     @page_title="Members | Change Your Password"
+  rescue Exception => exception
+
+      data = { :failure => 'true', :message=>exception.message}
+      render :text => data.to_json, :layout => false
+
   end
 
 
@@ -484,12 +490,9 @@ class MembersController < ApplicationController
   # EXT-JS JSON Happy AJAX Search
   #########################################
   def search_ext
-    @search_term=params[:query]
-    @users = User.find(:all,:select=>"username, first_name, last_name, user_id",
-                       :order=>"last_name",
-                       :conditions=>"lower(username) like lower('%"+@search_term+"%') or lower(first_name) like lower('%"+@search_term+"%') or  lower(last_name) like  lower('%"+@search_term+"%')")
-
-    render :json => to_ext_json(@users)
+     @search_term = "%#{params[:query].downcase}%"
+     @users = User.where("lower(username) like ? or lower(first_name) like ? or lower(last_name) like ? ", @search_term, @search_term, @search_term).order("last_name").select("username, first_name, last_name, user_id")
+     render :json => to_ext_json(@users)
   end
 
   ##############################################

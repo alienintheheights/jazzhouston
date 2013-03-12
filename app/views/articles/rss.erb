@@ -26,7 +26,20 @@
                <%= item.title%> 
                 ]]></title>
                <link>http://www.jazzhouston.com/articles/words/<%=item.content_id%></link>
-               <description><![CDATA[<%=item.teaser%>
+               <description><![CDATA[
+                 <% if item.display_date %>
+                        <%= item.display_date.strftime("%B #{item.display_date.day.ordinalize} %Y") %>
+                    <% end %>
+                    <% if item.author_id %>
+                        by <a href="/members/profile/<%= item.author_id%>"><%=item.author%></a>
+                    <% else %>
+                        by <b><%=item.author%></b>
+                    <% end %>
+                    <div class="wordText">
+                      <% if item.photo.exists? then %>
+                          <%= image_tag item.photo.url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
+                      <% end %>
+                      <%=raw item.body_text.gsub(/\n\r/, '</p><p>') %>
                 ]]></description>
           <pubDate><%= @curTime.strftime("%a, %d %b %Y") %> 00:00:02 CST</pubDate>
           <guid>http://www.jazzhouston.com/articles/words/<%=item.content_id%></guid>

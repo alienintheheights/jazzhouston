@@ -59,6 +59,9 @@ class ArticlesController < ApplicationController
     @section_id = (params[:type].nil?)? 1 : params[:type].to_i
     @section_title=@@sections[@section_id]
     @page =       (params[:page].nil?) ? 1 : params[:page].to_i
+    if @article.status_id == 0 || (@article.status_id == 1 && !(logged_in? && current_user.editor_flag == 1))
+      redirect_to :action => "index", :type=>@section_title
+    end
 
   end
 
@@ -83,9 +86,9 @@ class ArticlesController < ApplicationController
   end
 
   def search_articles_url_ext
+    # TODO: add sanitize param & request Url check!
     @search_term=params[:query]
-    results = Content.find(:all,
-                           :conditions=>"status_id=2 and lower(sub_title) = lower('"+@search_term+"')")
+    results = Content.where("status_id=2 and lower(sub_title) = lower('?')", @search_term)
     render :json => to_ext_json(results)
   end
 
