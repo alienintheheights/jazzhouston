@@ -61,7 +61,7 @@ class Post < ActiveRecord::Base
 
   # before save function
   def prep_post
-	self.pdate = Time.now
+	self.pdate = Time.now if (self.id.nil?)
 	self.status = 2
   end
 
