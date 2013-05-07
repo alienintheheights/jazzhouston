@@ -1,49 +1,32 @@
 <%= render :partial => "common/extjs", :locals=>{:jsonly=>true} %>
-<%= render :partial => "common/tinymce" %>
-<%
-   if (!@board)
-       title="New Topic"
-   else
-       title=@board.title
-   end
-%>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <div id="StageNarrow">
 
   <ul class="breadcrumbs">
-    <li>
-      <a href="/forums">Forums</a>
-    </li>
-    <li>
-     <%=title%>
-    </li>
+	<li>
+	  <a href="/forums">Forums</a>
+	</li>
+	<li>
+	  New Topic
+	</li>
   </ul>
 
   <div class="cd-inside">
+	<%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
+	  <%= f.label :title %>
+	  <%= f.text_field :title, :size=>60 %> <br/>
 
-    <%= form_for :message, :url => { :action => "new"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
-        <% if !@board %>
-            <br/>
-            <b>Pick a message board</b>
-            <select name="board_id">
-              <%  for board in @boards %>
-                  <option value="<%=board.id%>"><%=board.title%>
-              <% end %>
-            </select>
-        <% else %>
-            <input type='hidden' name="board_id" id="board_id" value="<%=@board_id%>">
-        <% end %>
-        <br/>
-        Topic:<br/>
-        <input type="text" size="50" maxlength="80" name="title" id="title" />
-        <br/>
-        Message :<br/>
-        <%= f.text_area :message_text, :rows=>20, :cols=>60 %>
+	  Forum Board
+	  <%= f.collection_select :board_id, ForumBoard.where("status=2").all, :board_id, :title, {:selected => "Local Scene"} %>
 
-        (drag bottom right corner to expand editor)
+	  <br/>
+	  <%= f.fields_for :posts do |message_form| %>
+		<%= message_form.label :message_text %> <br/>
+		<%= message_form.text_area :message_text, :rows=>20, :cols=>80 %>
+		<br/>(drag bottom right corner to expand editor)
+	  <% end %>
 
-        <br/>
-        <%= f.submit "Post new Topic" %>
-    <% end %>
+	  <%= f.submit "Post New Topic" %>
+	<% end %>
   </div>
 </div>

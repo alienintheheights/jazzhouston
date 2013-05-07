@@ -1,0 +1,6 @@
+<%= form.fields_for :forum_posts do |message_form| %>
+<%= message_form.label :message_text %> <br/>
+	  <%= message_form.text_area :message_text, :rows=>20, :cols=>80 %>
+
+	  (drag bottom right corner to expand editor)
+<% end %>

@@ -19,7 +19,7 @@ class EventsController < ApplicationController
   ################################
 
   # H-TOWN Timezone
-  @@TZ='Central Time (US & Canada)'
+  @@time_zone='Central Time (US & Canada)'
 
   # the date-based page
   def day
@@ -35,7 +35,7 @@ class EventsController < ApplicationController
     if params[:year] != "" && params[:month] != "" && params[:day] != ""
       @curTime = Time.local(params[:year],params[:month],params[:day])
     else
-      @curTime = Time.now.in_time_zone(@@TZ)
+      @curTime = Time.now.in_time_zone(@@time_zone)
     end
 
     @onenighters = Event.getOneNightShowsToday(@curTime)
@@ -48,7 +48,7 @@ class EventsController < ApplicationController
   # index page
   def index
 
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
 
     @showsToday = Event.getShowsToday(@curTime)
     @showsThisWeek = Event.getShowsThisWeek(@curTime)
@@ -57,14 +57,21 @@ class EventsController < ApplicationController
     @jams = Event.find(:all, :include => [:venue], :conditions=>"jam_flag=1", :order=>"day_of_week, show_time")
 
     # for use in the View
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
     @page_title = "Local Music Calendar"
+
+    all_data = @showsToday + @showsThisWeek
+
+    respond_to do |format|
+      format.html {render :template => "events/index.erb"}
+      format.json {render :json => all_data.to_json(:include =>:venue  )  }
+    end
   end
 
 
   # all shows page
   def shows
-    curDate = Time.now.in_time_zone(@@TZ).strftime("%Y-%m-%d")
+    curDate = Time.now.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
     @shows = Event.find(:all, :conditions=>["event_type_id=1 and show_date >= ?",curDate], :order=>"show_date")
 
     # for use in the View
@@ -133,7 +140,7 @@ class EventsController < ApplicationController
   def rss
     response.headers["Content-Type"] = "application/rss+xml; charset=utf-8"
 
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
 
     @showlist = Event.getShowsToday(@curTime)
     render :layout=>false
@@ -150,9 +157,9 @@ class EventsController < ApplicationController
   def rssblock
     response.headers["Content-Type"] = "application/rss+xml; charset=utf-8"
 
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
     # hack to fetch shows in blocks of 3 at a time
-    t2 = Time.parse(@curTime.strftime("%a, %d %b %Y 09:30:00 CST")).in_time_zone(@@TZ)
+    t2 = Time.parse(@curTime.strftime("%a, %d %b %Y 09:30:00 CST")).in_time_zone(@@time_zone)
     @segment = (2*(@curTime-t2)/3660).to_int
 
     @showlist = Event.getShowsToday(@curTime)
@@ -161,7 +168,7 @@ class EventsController < ApplicationController
 
   # ajax rotate call
   def rotate
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
     Event.getShowsToday(@curTime)
 
 
@@ -169,7 +176,7 @@ class EventsController < ApplicationController
 
   # calendar page
   def calendar
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
     @page_title = "Calendar"
   end
 

@@ -2413,3 +2413,7 @@ ul.storytools li.right a.print {
     padding:0 0 0 19px;
     cursor:pointer;
 }
+.jh_forum_current_page {
+  font-size: 16px;
+  font-weight: bold;
+}

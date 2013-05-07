@@ -1,0 +1,14 @@
+<% if logged_in? -%>
+  <b>Reply</b><br>
+  <%  topic.posts.build %>
+  <%= form_for [topic, topic.posts.build], :method=>"post", :url => { :action => "update"}, :html => {:onsubmit=>"return jh.forums.validatePost();"} do |f| %>
+	  <%= f.text_area :message_text, :cols => 40, :rows => 20 %>
+	  <%= f.hidden_field :thread_id %>
+	<%= f.submit "Reply" %>
+  <% end %>
+
+<% else%>
+  <div id="forum-login">
+	<b>Login to reply to this and other topics.</b>
+  </div>
+<% end -%>

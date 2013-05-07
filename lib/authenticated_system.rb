@@ -53,7 +53,7 @@ rescue ActiveRecord::RecordNotFound
     def login_required
       username, passwd = get_auth_data
       self.current_user ||= User.authenticate(username, passwd) || :false if username && passwd
-      logged_in? && authorized? ? true : access_denied
+	  logged_in? && authorized? ? true : access_denied
     end
     
     # Redirect as appropriate when an access request fails.
@@ -73,7 +73,7 @@ rescue ActiveRecord::RecordNotFound
         accepts.xml do
           headers["Status"]           = "Unauthorized"
           headers["WWW-Authenticate"] = %(Basic realm="Web Password")
-          render :text => "Could't authenticate you", :status => '401 Unauthorized'
+          render :text => "Couldn't authenticate you", :status => '401 Unauthorized'
         end
       end
       false
@@ -83,7 +83,7 @@ rescue ActiveRecord::RecordNotFound
     #
     # We can return to this location by calling #redirect_back_or_default.
     def store_location
-      session[:return_to] = request.request_uri
+      session[:return_to] = "http://#{request.host+request.fullpath}"
     end
     
     # Redirect to the URI stored by the most recent store_location call or
@@ -100,7 +100,7 @@ rescue ActiveRecord::RecordNotFound
     end
 
     # When called with before_filter :login_from_cookie will check for an :auth_token
-    # cookie and log the user back in if apropriate
+    # cookie and log the user back in, if appropriate
     def login_from_cookie
       return unless cookies[:auth_token] && !logged_in?
       user = User.find_by_remember_token(cookies[:auth_token])

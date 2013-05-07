@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 
 
   # H-TOWN Timezone
-  @@TZ='Central Time (US & Canada)'
+  @@time_zone='Central Time (US & Canada)'
 
   ################################
   # ACTIONS
@@ -19,7 +19,7 @@ class HomeController < ApplicationController
       redirect_to :action=>"mobile"
     end
     # get all shows for today
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
 
     @showsToday = Event.getShowsToday(@curTime)
     @showsThisWeek = Event.getShowsThisWeek(@curTime)
@@ -37,7 +37,7 @@ class HomeController < ApplicationController
   def mobile
 
     # get all shows for today
-    @curTime = Time.now.in_time_zone(@@TZ)
+    @curTime = Time.now.in_time_zone(@@time_zone)
 
     @showsToday = Event.getShowsToday(@curTime)
     @showsThisWeek = Event.getShowsThisWeek(@curTime)

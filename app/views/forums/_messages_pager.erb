@@ -1,0 +1,23 @@
+<%
+   page_number = page_vars[:page_number]
+   orig_page_number = page_vars[:orig_page_number]
+   last_page = page_vars[:last_page]
+   if page_vars[:last_page] > 1
+	 if wrap %>
+	<div style="float:right;">
+  <% end%>
+  <a href="/forums/messages/<%=topic.thread_id%>?fpage=<%=orig_page_number%>&page=<%=(page_number==1) ? 1 : page_number-1 %>">previous</a> |
+  <% for i in 1..(last_page) %>
+	<% if i == page_number %> <b class="jh_forum_current_page"><%=i%></b>
+	<% else %>
+	  <a href="/forums/messages/<%=topic.thread_id%>?page=<%=i %>&fpage=<%=orig_page_number%>"><%= i %></a>
+	<% end %>
+  <% end %>
+  <a href="/forums/messages/<%=topic.thread_id%>?page=<%=(page_number==last_page) ? page_number : page_number+1 %>&fpage=<%=orig_page_number%>">next</a>
+  <% if wrap %>
+	</div>
+  <% end
+	 end %>
+
+
+

@@ -360,7 +360,7 @@ html>body #nav-links li a {
 }
 
 #leftside-links li {
-    border-bottom: 1px solid #eeee11; /*#2A89C5;*/
+    border-bottom: 1px solid #ccc; /*#2A89C5;*/
     margin: 0;
 }
 
@@ -369,7 +369,7 @@ html>body #nav-links li a {
     padding: 5px 5px 5px 0.5em;
     border-left: 10px solid #1a1a1a;
     border-right: 10px solid #1a1a1a;
-    background-color: #eeee11;
+    background-color: #eee;
     color: #1a1a1a;
     text-decoration: none;
     width: 100%;
@@ -2249,20 +2249,25 @@ a.smallForumLink:hover  {
     font-size:14px;
 }
 
+
 .board-pager {
-    margin: 5px;
     padding: 0;
     text-decoration: none;
-    color:#000000;
+    float: left;
+    padding-left: 8px;
+    font-size: 0.9em;
 }
 
 .board-pager a, .board-pager a:visited{
     text-decoration: none;
+    color:#333;
+    padding-left: 2px;
 }
 
-.board-pager a.selected , .board-pager a.selected:visited{
-    text-decoration: none;
-    color: #2A89C5;
+
+.board-pager ul li {
+    float: left;
+    background-color: #fff;
 }
 
 a.newTopic, a.newTopic:visited {

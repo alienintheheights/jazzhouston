@@ -44,7 +44,7 @@ class SearchController < ApplicationController
     #########################################
     def search_forums_ext
         @search_term = "%#{params[:query].downcase}%"
-        @posts = ForumThread.where("lower(title) like ? ", @search_term).order("modified_date DESC").select("title")
+        @posts = Topic.where("lower(title) like ? ", @search_term).order("modified_date DESC").select("title")
         render :json => to_ext_json(@posts)
     end
 

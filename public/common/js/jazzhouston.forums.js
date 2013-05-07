@@ -125,10 +125,11 @@ jh.forums = function() {
          * Rates posts and takes action on row as needed.
          * @param mid
          * @param mode UP or DOWN
+		 * @param lflag logged in or not boolean
          */
         rate_post: function(mid, mode, lflag) {
 
-            if (lflag==false) {
+            if (!lflag) {
                 Ext.Msg.alert("Alert","You must be logged in to vote.");
             }
             // AJAX
@@ -139,8 +140,8 @@ jh.forums = function() {
                     var new_score= jsonData["score"];
                     var success_flag=jsonData["success"];
                     if (success_flag && success_flag==1) {
-                        var hide = (jsonData["hide"]==1)? true:false;
-                        var open = (jsonData["reopen"]==1)? true:false;
+                        var hide = jsonData["hide"];
+                        var open = jsonData["reopen"];
 
                         var score_box = document.getElementById("score_"+mid);
                         score_box.innerHTML=(new_score>0)?"rating: +"+new_score:"rating: "+new_score;

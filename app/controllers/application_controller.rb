@@ -43,7 +43,7 @@ class ApplicationController < ActionController::Base
     MOBILE_BROWSERS.each do |m|
       return true if agent.match(m)
     end
-    return false
+    false
   end
 
   private

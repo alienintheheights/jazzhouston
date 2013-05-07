@@ -1,15 +1,7 @@
-
-<%
-   boardId = (board.nil?)? 0: board.board_id
-%>
-
-<select name="boardId" id="boardSelect">
+<select name="board_id" id="boardSelect">
   <option value="0" disabled="disabled">Select message board</option>
   <option value="0" >Most Recent Posts</option>
-  <% counter=1
-     for bi in boards %>
-      <option value="<%=bi.board_id%>" <% if bi.board_id == boardId %> selected <% end %>><%=bi.title%></option>
-  <% counter=counter+1
-     end %>
+  <% for bi in board_list%>
+      <option value="<%=bi.board_id%>" <% if bi.board_id == board.board_id %> selected <% end %>><%=bi.title%></option>
+  <% end %>
 </select>
-

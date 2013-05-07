@@ -1,129 +1,112 @@
 <link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
 <script src="/common/js/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    $(function() {
-        $('.forumThreadBox').hover( function(){
-                    $(this).css('background-color', '#eeefee');
-                },
-                function(){
-                    $(this).css('background-color', '#fff');
-                });
-        $("select").change(function () {
-            var str = "/forums/";
-            $("select option:selected").each(function () {
-                if (this.value === "0") {
-                    window.location  =   str;
-                } else {
-                    window.location = str + "threads/" + this.value;
-                }
-            });
+  $(function() {
+	$('.forumThreadBox').hover( function(){
+			  $(this).css('background-color', '#eeefee');
+			},
+			function(){
+			  $(this).css('background-color', '#fff');
+			});
+	$("select").change(function () {
+	  var str = "/forums/";
+	  $("select option:selected").each(function () {
+		if (this.value === "0") {
+		  window.location  =   str;
+		} else {
+		  window.location = str + "index/" + this.value;
+		}
+	  });
 
-        });
+	});
 
-        <% if @admin_mode %>
-        $(".hider").click(function(){
-            var thread_id = this.innerHTML;
+	<% if page_vars[:admin_mode] %>
+	$(".hider").click(function(){
+	  var thread_id = this.innerHTML;
+	  $( "#dialog-confirm" ).dialog({
+		height:200,
+		modal: true,
+		buttons: {
+		  "Hide Message?": function() {
+			window.location = "/forums/hidepost/" + thread_id;
+			$( this ).dialog( "close" );
+		  },
+		  Cancel: function() {
+			$( this ).dialog( "close" );
+		  }
+		}
+	  });
+	  return false;
+	});
+	<% end %>
 
-            $( "#dialog-confirm" ).dialog({
-                height:200,
-                modal: true,
-                buttons: {
-                    "Hide Message?": function() {
-                        window.location = "/forums/hidepost/" + thread_id;
-                        $( this ).dialog( "close" );
-                    },
-                    Cancel: function() {
-                        $( this ).dialog( "close" );
-                    }
-                }
-            });
-            return false;
-        });
-        <% end %>
-
-    });
+  });
 </script>
 <div id="StageNarrow">
   <ul class="breadcrumbs">
-    <li>
-      <a href="/forums">Forums</a>
-    </li>
-    <li>
-      <%=(@board.nil?) ? "Recent" :@board.title%>
-    </li>
+	<li>
+	  <a href="/forums">Forums</a>
+	</li>
+	<li>
+	  <%= board.title%>
+	</li>
+
   </ul>
   <div id="SearchBar">
-    <div class="ItemHSpacer">
-      <%= render :partial => "switcher", :locals => {
-              :board => board,
-              :totalPosts => @totalPosts,
-              :boards =>@boards,
-              :showCount => true
-      } %>
-    </div>
-    <div class="ItemHSpacer">
-      <ul >
-        <% if logged_in? %>
-            <li>
-              <% if board.nil? %>
-                  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :class=>"newTopic"} %>
-              <% else %>
-                  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=>board.board_id}, :class=>"newTopic" %>
-              <% end %>
+	<div class="ItemHSpacer">
+	  <%= render :partial => "switcher", :locals => {:show_count => true} %>
+	</div>
+	<div class="ItemHSpacer">
+	  <ul>
+		<li>
+		  <% if logged_in? %>
+			<%= link_to "+new topic", {:action => "new", :controller=>"forums"}, :class=>"newTopic" %>
+		  <% end %>
 
-            </li>
-
-        <% end %>
-      </ul>
-    </div>
-    <div class="board-pager" style="float:right;">
-      <%= render :partial => "pager", :locals => { :page => @page, :board => board}%>
-    </div>
+		</li>
+		 <li><b><%=flash[:message]%></b></li>
+	  </ul>
+	</div>
+	<div class="board-pager" style="float:right;">
+	  <%= render :partial => "pager"%>
+	</div>
   </div>
 
   <div class="forum-inside">
-    <div id="dialog-confirm" style="display:none;" title="Hide Post">
-        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This post will be hidden. Are you sure?</p>
-    </div>
+	<div id="dialog-confirm">
+	  <%=flash[:notice]%>
+	</div>
 
-    <%
-       boardId = (board.nil?)? 0: board.board_id
-       boardTitle = (board.nil?)? '': board.title
-    %>
-
-    <%
-       has_bans=(ban_list && ban_list.length>0) || false
-       for item in threads
-           page_num = item.post_count>@pp? 1+((item.post_count-1)/@pp).floor : 1
-           next if (has_bans && item.monologue_flag==1 && ban_list.has_key?(item.user_id))
-    %>
-
-        <div class="forumThreadBox">
-          <div class="forumAvatarBox">
-            <div class="forumListPic">
-              <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
-            </div>
-
-          </div>
-          <div class= "bigForumLink">
-            <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=@page%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
-            <div class="forumPostTime">
-              <% if !item.user.nil? %>
-                  <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
-              <% end %>
-               <% if @admin_mode %>
-                  <br/><div class="hider"><%=item.thread_id%></div>
-              <% end %>
-            </div>
-          </div>
-        </div>
-
-    <% end %>
-
-    <div class="hspacer"></div>
-    <span style="font-size:0.8em;padding-left:10px;">
-     <%=number_with_delimiter(@totalPosts)%> forum posts and still going...
-    </span>
-    <div class="hspacer"></div>
+	<div id="dialog-confirm" style="display:none;" title="Hide Post">
+	  <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>This post will be hidden. Are you sure?</p>
+	</div>
+	<%
+	   has_bans=(page_vars[:ban_list] && page_vars[:ban_list].length>0) || false
+	   per_page = page_vars[:per_page]
+	   for item in topic_list
+		 page_num = (item.post_count>per_page)? 1 + ((item.post_count-1)/per_page).floor : 1
+		 next if (has_bans && item.monologue_flag==1 && page_vars[:ban_list].has_key?(item.user_id))
+	     next if board.status != 2
+	%>
+	  <div class="forumThreadBox">
+		<div class="forumAvatarBox">
+		  <div class="forumListPic">
+			<%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
+		  </div>
+		</div>
+		<div class= "bigForumLink">
+		  <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=page_vars[:page_number]%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
+		  <div class="forumPostTime">
+			<% if !item.user.nil? %>
+			  <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+			<% end %>
+			<% if board.admin_mode %>
+			  <br/><div class="hider"><%=item.thread_id%></div>
+			<% end %>
+		  </div>
+		</div>
+	  </div>
+	<% end %>
+	<div class="hspacer"></div>
   </div>
 </div>

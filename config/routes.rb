@@ -70,8 +70,14 @@ resources :articles
 match 'events/:year/:month/:day' => 'events#day'
 #resources :events
 
-match 'forums' => 'forums#index'
+match 'forums' => 'forums#index', :via => :get
 match 'forum' => 'forums#index'
+
+match 'forums/new' => 'forums#new'
+match 'forums' => 'forums#create', :via => :post
+match 'forums/vote' => 'forums#vote', :format => false  , :via => :get
+
+#match 'forums/messages' => 'forums#update', :via => :post
 
 match 'members/challenge_image'  => 'members#challenge_image'
 match 'members/logout'  => 'members#logout'

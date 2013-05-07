@@ -2,52 +2,47 @@
 
   <div class="forum-inside">
 
-    <div class="forumNewTopicLink">
-      <% if logged_in? %>
-          <% if @board.nil? %>
-              <%= link_to "+new topic", {:action => "new", :controller=>"forums", :class=>"newTopic"} %>
-          <% else %>
-              <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=> @board.board_id}, :class=>"newTopic" %>
-          <% end %>
-      <% end %>
-    </div>
+	<div class="forumNewTopicLink">
+	  <% if logged_in? %>
+		<% if @board.nil? %>
+		  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :class=>"newTopic"} %>
+		<% else %>
+		  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=> board.board_id}, :class=>"newTopic" %>
+		<% end %>
+	  <% end %>
+	</div>
+	<%
+	   has_bans=(page_vars[:ban_list] && page_vars[:ban_list].length>0) || false
+	   per_page = page_vars[:per_page]
+	   for item in topic_list
+		 page_num = (item.post_count>per_page)? 1 + ((item.post_count-1)/per_page).floor : 1
+		 next if (has_bans && item.monologue_flag==1 && page_vars[:ban_list].has_key?(item.user_id))
+		 next if board.status != 2
+	%>
+	  <div class="forumThreadBox">
+		<div class="forumAvatarBox">
+		  <div class="forumListPic">
+			<%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
+		  </div>
 
-    <%
-       has_bans=(@ban_list && @ban_list.length>0) || false
-       for item in @threads
-           page_num = item.post_count>@pp? 1+((item.post_count-1)/@pp).floor : 1
-           next if (has_bans && item.monologue_flag==1 && @ban_list.has_key?(item.user_id))
-    %>
-        <div class="forumThreadBox">
-          <div class="forumAvatarBox">
-            <div class="forumListPic">
-              <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
-            </div>
+		</div>
+		<div class= "bigForumLink">
+		  <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=page_vars[:page_number]%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
 
-          </div>
-          <div class= "bigForumLink">
-            <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=@page%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
+		  <div class="forumPostTime">
+			<a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+		  </div>
+		</div>
+	  </div>
 
-            <div class="forumPostTime">
-              <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
-            </div>
-          </div>
-        </div>
-
-    <% end %>
-    <div class="hspacer"></div>
-    <div class="board-pager">
-      <div  style="float:left;padding: 0 25px;">
-        Page <%= @page %>
-      </div>
-      <div style="float:right;">
-        <% if @page > 1 %>
-            <%= link_to "previous", {:action => "index", :controller=>"forums", :page=>(@page-1)} %> |
-        <% end %>
-        <%= link_to "next", {:action => "index", :controller=>"forums", :page=>(@page+1)} %>
-      </div>
-    </div>
-    <div class="hspacer"></div>
+	<% end %>
+	<div class="hspacer"></div>
+	<div class="board-pager">
+	  <div  style="float:left;padding: 0 25px;">
+		<%= render :partial => "pager"%>
+	  </div>
+	</div>
+	<div class="hspacer"></div>
 
   </div>
 </div>
