@@ -42,7 +42,7 @@ class ForumsController < ApplicationController
 	  # for RSS feed
 	  format.xml {render :template => "forums/rss.erb"}
 	  # .json is used by mobile web service/REST calls (iOS in particular)
-	  format.json {render :json => @forum_board.topic_list.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
+	  format.json {render :json => topic_list.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
 	end
   end
 
