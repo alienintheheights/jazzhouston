@@ -284,7 +284,11 @@ class ForumsController < ApplicationController
   end
 
   def board
-	@board ||= ForumBoard.find(params[:id])
+	id = params[:id].to_i
+	if id==0 || id.nil?
+	 @board = create_recent()
+	end
+	@board ||= ForumBoard.find(id)
   end
 
   def topic_list
@@ -325,6 +329,7 @@ class ForumsController < ApplicationController
 	@board[:board_id] = 0
 	@board[:title] = "Recent"
 	@board[:status] = 2
+	@board
   end
 
 
