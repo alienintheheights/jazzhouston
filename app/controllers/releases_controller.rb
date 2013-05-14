@@ -16,9 +16,7 @@ class ReleasesController < ApplicationController
 
   def index
 
-    @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"release_date desc", :limit=>15)
-    @page_title="Local Recordings"
+   @page_title="Local Recordings"
 
     respond_to do |format|
       format.html # index..erb
@@ -29,8 +27,7 @@ class ReleasesController < ApplicationController
   def bygenre
     genre=Genre.find(params[:id])
     @genre_name=genre.genre_name
-    @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"release_date desc",:conditions => ["genres.genre_id=?",params[:id]])
+
     @page_title="By Genre: "+genre.genre_name
     respond_to do |format|
       format.html # index..erb
@@ -39,13 +36,12 @@ class ReleasesController < ApplicationController
   end
 
   def about
-    @album=Album.find(params[:id], :joins=>:genre, :select=>"genres.genre_name, albums.*")
-    @page_title="Local Recordings | #{@album.artist_name}: #{@album.title}"
+	album #fetch. Ruby is so weird...
+    @page_title="Local Recordings | #{album.artist_name}: #{album.title}"
   end
 
   def browse
-    @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"artist_name, release_date ")
+
     @page_title="Browse Local Recordings"
     respond_to do |format|
       format.html # index..erb
@@ -125,6 +121,33 @@ class ReleasesController < ApplicationController
     end
   end
 
+  private
+
+  helper_method :genres,  :albums, :album, :albums_by_genre, :albums_all
+
+  def genres
+	@genres ||= Genre.find(:all, :order => "genre_id")
+  end
+
+
+  def albums
+	@albums ||= Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
+					   :order=>"release_date desc", :limit=>12)
+  end
+
+  def album
+	 @album=Album.find(params[:id], :joins=>:genre, :select=>"genres.genre_name, albums.*")
+  end
+
+  def albums_by_genre
+	 @albums_by_genre=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
+                       :order=>"release_date desc",:conditions => ["genres.genre_id=?",params[:id]])
+  end
+
+  def albums_all
+	 @albums_all=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
+                       :order=>"artist_name, release_date ")
+  end
 
 
 end

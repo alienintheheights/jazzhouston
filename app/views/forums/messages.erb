@@ -14,12 +14,11 @@
 
   <div class="cd-inside">
 
-	<%= render :partial => "messages_pager", :locals => {:wrap=>true} %>
-
-
 	<div class="StoryHeader">
 	  <%=topic.title%>
+	  <%= render :partial => "messages_pager", :locals => {:wrap=>true} %>
 	</div>
+
 
 	<div class="messageList">
 	  <ul >
@@ -49,16 +48,17 @@
 				<div class="messageDate">
 				  <% if item.user %>
 					<b><%=item.user.first_name%> <%=item.user.last_name%></b>
-					<br/><i><%=item.user.username%></i>
+
 				  <% else %>
 					<b><%=item.author%></b>
 					<br/><i>legacy account</i>
 				  <% end %>
-				  <br/>  <br/>
-
-				  <%=distance_of_time_in_words(Time.now, item.pdate)%> ago
 
 				</div>
+
+				  <div class="message-timestamp">
+				  <%=distance_of_time_in_words(Time.now, item.pdate)%> ago
+				  </div>
 			  </div>
 
 			  <div class="<% if (item.rating>rating_threshold) %>messageRating<% else %>messageRatingBlock<% end%>" >
@@ -82,9 +82,9 @@
 	</div>
 	<div  class="board-pager">
 	  <%= render :partial => "messages_pager", :locals => {:wrap=>true} %>
-	  <div class="hspacer"></div>
-	  <%= render :partial => "reply" %>
 	</div>
+	<div class="hspacer"></div>
+	<%= render :partial => "reply" %>
   </div>
 </div>
 

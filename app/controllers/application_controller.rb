@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
   before_filter :redirect_to_mobile_if_applicable
 
   ##  evolving array of mobile UA strings
-  MOBILE_BROWSERS = ["Android","android", "iphone", "iPhone", "ipod", "opera mini", "blackberry", "palm","hiptop","avantgo","plucker", "xiino","blazer","elaine", "windows ce; ppc;", "windows ce; smartphone;","windows ce; iemobile", "up.browser","up.link","mmp","symbian","smartphone", "midp","wap","vodafone","o2","pocket","kindle","pda","psp","treo"]
+  MOBILE_BROWSERS = ["android", "iphone", "IEMobile"]
 
   ########################################
   ##  detect mobile based on USER_AGENT,
@@ -82,7 +82,7 @@ class ApplicationController < ActionController::Base
       return (session["layout"] == "mobile") ?
           "mobile_application" : "application"
     end
-    return nil
+    nil
   end
 
   #def rescue_404

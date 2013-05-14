@@ -1,6 +1,13 @@
 <script type="text/javascript">
   $(function() {
-
+	$('table.phone-list tr').not(':first').hover( function(){
+			  $(this).css('background-color', '#eee');
+			  $(this).css('font-size', '1.0em');
+			},
+			function(){
+			  $(this).css('background-color', '#fff');
+			  $(this).css('font-size', '1.0em');
+			});
   });
 </script>
 <div id="StageNarrow">
@@ -32,21 +39,21 @@
 		   item.url = "http://#{item.url}"
 		 end
 
-		 if count%3==0
+		 if count%2==0
 		   if count>0 %>
 		  </div>
 		<% end %>
 		<div class="player-row row-fluid" >
 	  <% end %>
 
-	  <div class="span4">
+	  <div class="span6">
 		<div class="span3 player-pic-column">
 		  <%= render :partial => "common/renderpic", :locals => { :user => item, :size =>"70"} %>
 		</div>
 		<div class="span9 player-data">
 
 		  <div class="player-name">
-			<strong><a class="" href="/members/profile/<%=item.username%>"><%= truncate(fullname.titleize, :length => 30) %></a></strong>
+			<strong><a class="" href="/members/profile/<%=item.username%>"><%= truncate(fullname.titleize, :length => 20) %></a></strong>
 		  </div>
 
 		  <div class="player-phone">
@@ -63,7 +70,7 @@
 		  %>
 			<div class="player-url">
 
-			  <i class="icon-globe" style="padding-right:5px;"></i><a href="<%= item.url %>">personal website</a>
+			  <i class="icon-globe" style="padding-right:5px;"></i><a href="<%= item.url %>">website</a>
 			</div>
 		  <% end %>
 		</div>

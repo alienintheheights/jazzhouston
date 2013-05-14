@@ -1,29 +1,41 @@
-<ul class="board-pager">
-  <% page_number = page_vars[:page_number]
-	 number_of_pages_before_ellipse = 6
-	 minimum_number_of_page_links = 2
-	 if page_number > number_of_pages_before_ellipse  && number_of_pages_before_ellipse >= minimum_number_of_page_links
-	   start_from_page = page_number - number_of_pages_before_ellipse + 1
-	 else
-	   start_from_page = minimum_number_of_page_links
-	 end
-  %>
-  <li> page <%= link_to "1", {:action => "index", :controller=>"forums", :id => board.board_id, :page=>1} %>
-	<% if (start_from_page > minimum_number_of_page_links ) %>...<% end %></li>
-  <%
-	 start_from_page.upto(page_number) { |i|
-  %>
-	<% if i == page_number  %>
-	  <li class="jh_forum_current_page"><%= link_to i, {:action => "index", :controller=>"forums", :id => board.board_id, :page=>i}, :class=>"selected" %></li>
-	<% else %>
-	  <li><%= link_to i, {:action => "index", :controller=>"forums", :id => board.board_id, :page=>i} %></li>
-	<% end  %>
-  <% } %>
-  <li>
-	<% if board.board_id == 0 %>
-	  <%= link_to "more", {:action => "index", :controller=>"forums", :page=>(page_number+1)} %>
-	<% else %>
-	  <%= link_to "more", {:action => "index", :controller=>"forums", :id=>board.board_id, :page=>(page_number+1)} %>
-	<% end %>
-  </li>
-</ul>
+<%
+   page_number = page_vars[:page_number]
+   number_of_pages_before_ellipse = 4
+   minimum_number_of_page_links = 2
+   if page_number > number_of_pages_before_ellipse  && number_of_pages_before_ellipse >= minimum_number_of_page_links
+	 start_from_page = page_number - number_of_pages_before_ellipse + 1
+   else
+	 start_from_page = minimum_number_of_page_links
+   end
+%>
+<div class="pagination">
+  <ul>
+	<li>
+	  <%
+		 first_link =  (start_from_page > minimum_number_of_page_links) ? "1..." : "1"
+	  %>
+	  <%= link_to first_link, {:action => "index", :controller=>"forums", :id => board.board_id, :page=>1} %>
+
+	</li>
+	<%
+	   start_from_page.upto(page_number) { |i|
+	%>
+
+	  <% if i == page_number  %>
+		<li class="active">
+		  <%= link_to i, {:action => "index", :controller=>"forums", :id => board.board_id, :page=>i} %>
+	  <% else %>
+		<li >
+		  <%= link_to i, {:action => "index", :controller=>"forums", :id => board.board_id, :page=>i} %>
+	  <% end  %>
+	  </li>
+	<% } %>
+	<li>
+	  <% if board.board_id == 0 %>
+		<%= link_to "more", {:action => "index", :controller=>"forums", :page=>(page_number+1)} %>
+	  <% else %>
+		<%= link_to "more", {:action => "index", :controller=>"forums", :id=>board.board_id, :page=>(page_number+1)} %>
+	  <% end %>
+	</li>
+  </ul>
+</div>

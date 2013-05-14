@@ -15,8 +15,11 @@
 
   <div class="ProfileHeader">
     <%=@member.first_name%> <%=@member.last_name%>
+	  <% if logged_in? && (current_user.user_id==params[:id].to_i || current_user.admin_flag==1) -%>
+            <a href="/members/edit/<%=@member.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a>
+        <% end -%>
   </div>
-  <% if (logged_in? && current_user.user_id==@member.user_id && (!@member.image || @member.image=="")) %>
+  <% if logged_in? && current_user.user_id==@member.user_id && (@member.image.nil? && @member.image_url.nil?) %>
       <div id="fastLinks">
         Enhance your profile by uploading a photo. Click <a class="blueLink" href="/members/edit/<%=@member.user_id%>">here</a>
       </div>
@@ -38,7 +41,7 @@
     <div id="jh_infocol">
 
 
-      <table width="90%" cellspacing="6" cellpadding="0" align="left">
+      <table width="90%" class="table table-hover">
         <% if @isaplaya %>
             <tr>
               <td align="left">Instrument(s)</td>
@@ -75,11 +78,7 @@
               <td><a href="<%=@member.url%>" target="_new"><%=@member.url%></a></td>
             </tr>
         <% end %>
-        <% if logged_in? && (current_user.user_id==params[:id].to_i || current_user.admin_flag==1) -%>
-            <tr>
-              <td align="left" colspan="2"><a href="/members/edit/<%=@member.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a></td>
-            </tr>
-        <% end -%>
+
       </table>
     </div>
 

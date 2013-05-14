@@ -98,10 +98,7 @@ h2 {
 
 h3 {
   font-family:Helvetica,Arial,Sans-Serif;
-  font-size:1.2em;
   margin:0;
-  background-color:#2A2A2A;
-  color: #55CCFF;
 }
 
 p {
@@ -819,17 +816,17 @@ table.index-three-column-small  {
 }
 
 table.index-three-column-small td {
-  background-color:#eee;
+  background-color:#fcfcfc;
   padding:2px 0;
   width:100px;
   height: 100px;
   vertical-align: top;
-  text-align: left;
+  text-align: center;
   color:#1a1a1a;
   font-size:0.9em;
   border:1px solid #B3B3B3;
-  -moz-border-radius-bottomleft: 2px;
-  -webkit-border-bottom-left-radius: 2px;
+  -moz-border-radius-bottomleft: 5px;
+  -webkit-border-bottom-left-radius: 5px;
 }
 
 

@@ -17,7 +17,6 @@ class Topic < ActiveRecord::Base
 
   accepts_nested_attributes_for :posts
 
-
   validates_presence_of :board_id, :title
 
   before_save :prep_topic
@@ -35,11 +34,12 @@ class Topic < ActiveRecord::Base
   @@max_per_page  = 50
 
 
+  # gets the topic with its posts (action=messages)
   def self.fetch_thread(thread_id)
 	Topic.where("threads.thread_id=? and messages.status=2", thread_id).includes(:posts, :user).first # only one row for threads
   end
 
-  # fetches most recent posts
+  # fetches most recent posts (action=index)
   def self.recent_posts(page_number, per_page = @@max_per_page, sort_by =  "threads.modified_date desc")
 
 	page = page_number.to_i || 1
@@ -48,7 +48,7 @@ class Topic < ActiveRecord::Base
 
   end
 
-  # fetches most recent posts by board
+  # fetches most recent posts by board id
   def self.recent_posts_by_id(board_id, page_number, per_page = @@max_per_page, sort_by =  "threads.modified_date desc")
 
 	page = page_number.to_i || 1

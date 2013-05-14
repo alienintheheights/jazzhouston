@@ -11,14 +11,14 @@
   <div class="cd-inside">
 
     <%= render :partial => "common/socialrow", :locals => {
-            :title=>@album.title,
+            :title=>album.title,
             :url=>request.url
     }
     %>
     <div class="StoryHeader">
-      <%=@album.artist_name%>: <%=@album.title%>
+      <%=album.artist_name%>: <%=album.title%>
       <% if (logged_in? && (current_user.editor_flag==1)) %>
-          <a href="/releases/edit/<%=@album.album_id%>"><img src="/images/icons/reply.png" border="0" alt="edit"></a>
+          <a href="/releases/edit/<%=album.album_id%>"><img src="/images/icons/reply.png" border="0" alt="edit"></a>
       <% end %>
     </div>
 
@@ -28,19 +28,19 @@
     <table align="center" class="index-two-column-small">
       <tr>
         <td valign="top" style="border-right: 1px solid;" width="200">
-          <div id="panel-inside">
-            <% if @album.image_url != ""  %>
-                <img src="<%=@album.image_url%>" align="left" width="180" hspace="3" vspace="2">
+          <div class="panel-inside">
+            <% if album.image_url != ""  %>
+                <img src="<%=album.image_url%>" align="left" width="180" hspace="3" vspace="2">
             <% end %>
           </div>
         </td>
         <td valign="top">
-          <div id="panel-inside">
-            <a href="<%=@album.buy_url%>"><img src="/images/b_buy.gif" align="left" width="60" hspace="2"></a><a href="<%= @album.buy_url %>" target="_new">Click to Buy</a>
-            <br/><br/> Artist Site: <a href="<%= @album.related_url %>" target="_new"><%=@album.related_url%></a>
-            <br/><br/>Style: <a href="/releases/bygenre/<%=@album.genre.genre_id%>"><%=@album.genre.genre_name %></a>
-            <% if @album.release_date %>
-                <br/><br/>Release Date: <%= @album.release_date.strftime("%B %d %Y") %>
+          <div class="panel-inside">
+            <a href="<%=album.buy_url%>"><img src="/images/b_buy.gif" align="left" width="60" hspace="2"></a><a href="<%= album.buy_url %>" target="_new">Click to Buy</a>
+            <br/><br/> Artist Site: <a href="<%= album.related_url %>" target="_new"><%=album.related_url%></a>
+            <br/><br/>Style: <a href="/releases/bygenre/<%=album.genre.genre_id%>"><%=album.genre.genre_name %></a>
+            <% if album.release_date %>
+                <br/><br/>Release Date: <%= album.release_date.strftime("%B %d %Y") %>
             <% end %>
 
           </div>
@@ -48,7 +48,7 @@
       </tr>
       <tr>
         <td colspan="2">
-          <%=@album.about.html_safe%>
+          <%=album.about.html_safe%>
           <div class="hspacer"></div>
         </td>
       </tr>

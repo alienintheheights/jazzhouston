@@ -1,61 +1,134 @@
+<script>
+  $(function ()
+  {
+	$('[rel=tooltip]').tooltip()
+  });
+</script>
 </head>
 <body>
-
-<div id="Masthead">
-  <div id="MastheadCenter">
-    <div id="logoText"><a href="/home">Jazz/Houston</a></div>
-    <br/><div id="subLogoText">since 1995</div>
+<!-- Modal -->
+<div id="modal-login" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-login-Label" aria-hidden="true">
+  <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<div id="modal-login-Label">Login to JazzHouston.com</div>
   </div>
-  <div id="MastheadRight">
-      <div id="MemberBox">
-      <% if logged_in? -%>
+  <div class="modal-body">
+	<div class="row-fluid">
+	  <%= form_tag "/members/login", :html=>{:class=>"form-inline"} do -%>
+		<div class="control-group">
+		  <label class="control-label" for="inputEmail">Username</label>
+		  <div class="controls">
+			<input type="text" id="login" name="login" placeholder="username">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <label class="control-label" for="inputPassword">Password</label>
+		  <div class="controls">
+			<input type="password" id="password" name="password" placeholder="Password">
+		  </div>
+		</div>
+		<div class="control-group">
+		  <div class="controls">
+			<label class="checkbox">
+			  <input type="checkbox" name="remember_me" checked> Remember me (for auto-login on new visits)
+			</label>
+			<%= submit_tag 'Sign In', :class=>"btn" %>
+		  </div>
+		  <br/><br/>
+		  <a href="/members/sendlostpasswordemail">Forgot your password?</a>  |
+		  <a href="/members/new">Register</a>
 
-          <a  href="/members/profile/<%= current_user.username %>">profile</a> |
-          <a href="/members/edit/<%= current_user.user_id %>">settings</a>  |
-          <a href="/members/logout/">logout</a>
+		</div>
 
-
-      <% else -%>
-          <div id="jh_login_form" class="login">
-            <%= form_tag "/members/login" do -%>
-                <table>
-                  <tr>
-                    <td align="left"><input class="textfield" placeholder="Username" type="text" maxlength="26" size="10" id="login" name="login"/></td>
-                    <td align="left"><input class="textfield" placeholder="Password" type="password" name="password" id="password" maxlength="26" size="10"/></td>
-                    <td align="left"><%= submit_tag 'Go' %></td>
-                  </tr>
-                  <tr>
-                    <td align="left">
-                      Remember me<input type="checkbox" name="remember_me" value="1" checked="yes" > </td>
-                    <td align="left" colspan="2">
-                      <a href="/members/sendlostpasswordemail">Forgot your password?</a>
-                    </td>
-                  </tr>
-                </table>
-
-            <% end -%>
-          </div>
-
-      <% end -%>
-
-    </div>
-
+	  <% end -%>
+	</div>
   </div>
-  <div id="nav-links">
-
-    <ul>
-      <li> <a <% if current_page?(:controller => 'home') %>class='selected'<% end %> href="/home">Home</a></li>
-      <li><a <% if current_page?(:controller => 'events') %>class='selected'<% end %> href="/events">Shows</a></li>
-      <li><a <% if current_page?(:controller => 'news') || current_page?(:controller => 'articles') %>class='selected'<% end %> href="/news">Articles</a></li>
-      <li><a <% if current_page?(:controller => 'forums') %>class='selected'<% end %> href="/forums">Forums</a></li>
-      <li><a <% if current_page?(:controller => 'releases') %>class='selected'<% end %> href="/releases">CDs</a></li>
-      <li><a <% if current_page?(:controller => 'musicians') %>class='selected'<% end %> href="/musicians">Players</a></li>
-      <li><a <% if current_page?(:controller => 'education') %>class='selected'<% end %> href="/education">Schools</a></li>
-      <li><a <% if current_page?(:controller => 'members') %>class='selected'<% end %> href="/members">Members</a></li>
-      <li><a <% if current_page?(:controller => 'site', :action=>'feedback') %>class='selected'<% end %> href="/site/feedback">Contact</a></li>
-    </ul>
-  </div>
-
 </div>
-<div id="Wrapper">
+<!-- END Modal-->
 
+<%if logged_in? && current_user.editor_flag==1 -%>
+  <!-- Modal Admin-->
+  <div id="modal-admin" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-admin-Label" aria-hidden="true">
+	<div class="modal-header">
+	  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	  <div id="modal-admin-Label">Site Editor</div>
+	</div>
+	<div class="modal-body EditorTools">
+
+	  <div class="">
+		<a href="/events/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a new SHOW</a>
+		<div class="hspacer"></div>
+		<a href="/venues/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a new VENUE</a>
+		<div class="hspacer"></div>
+		<a href="/articles/new"><img src="/images/icons/reply.png" border="0" alt="edit">Write a new STORY</a>
+		<div class="hspacer"></div>
+		<a href="/articles/workflow"><img src="/images/icons/reply.png" border="0" alt="edit">See story workflows</a>
+		<div class="hspacer"></div>
+		<a href="/releases/new"><img src="/images/icons/reply.png" border="0" alt="edit">Add a new local CD/Recording</a>
+		<div class="hspacer"></div>
+	  </div>
+	</div>
+
+  </div>
+<% end -%>
+
+<div class="container">
+  <div class="row-fluid">
+	<div class="span12" id="Masthead">
+	  <div class="row-fluid">
+		<div class="span4" id="MastheadCenter">
+		  <div id="logoText"><a href="/home">Jazz/Houston</a></div>
+		  <br/><div id="subLogoText">since 1995</div>
+		</div>
+		<div class="span4 offset4" id="MastheadRight">
+		  <div id="social-links">
+			<a href="http://www.facebook.com/pages/JazzHouston/193080346744"><img width="40" align="bottom" src="/images/icon_hopout_facebook.png" border="0"></a>
+			<a href="http://twitter.com/#!/jazzhouston"><img width="40" align="top" src="/images/icon_hopout_twitter.png" border="0"></a>
+			<a href="http://jazzhouston.com/events/rss"><img width="40" align="top" src="/images/icon_hopout_rss.png" border="0"></a>
+		  </div>
+		  <div id="MemberBox">
+			<% if logged_in? -%>
+			  <a  href="/members/profile/<%= current_user.username %>">profile</a> |
+			  <a href="/members/edit/<%= current_user.user_id %>">settings</a>  |
+			  <%if logged_in? && current_user.editor_flag==1 -%>
+				<a href="#modal-admin" role="button" data-toggle="modal">editor</a>  |
+			  <% end %>
+			  <a href="/members/logout/">logout</a>
+			<% else -%>
+			  <a href="#modal-login" role="button" data-toggle="modal">login</a>  |
+			  <a href="/members/new">register</a> |
+			  <a href="/members/sendlostpasswordemail">lost password</a>
+			<% end -%>
+		  </div>
+		</div>
+	  </div>
+
+	  <div class="row-fluid" >
+		<div class="span12" >
+		  <div id="menu-bar" class="navbar navbar-inverse">
+			<div class="navbar-inner">
+			  <ul class="nav">
+				<li> <a <% if current_page?(:controller => 'home') %>class='selected'<% end %> href="/home">Home</a></li>
+				<li><a <% if current_page?(:controller => 'events') %>class='selected'<% end %> href="/events">Shows</a></li>
+				<li><a <% if current_page?(:controller => 'news') || current_page?(:controller => 'articles') %>class='selected'<% end %> href="/news">News</a></li>
+				<li><a <% if current_page?(:controller => 'forums') %>class='selected'<% end %> href="/forums">Forums</a></li>
+				<li><a <% if current_page?(:controller => 'releases') %>class='selected'<% end %> href="/releases">Recordings</a></li>
+				<li><a <% if current_page?(:controller => 'musicians') %>class='selected'<% end %> href="/musicians">Players</a></li>
+				<li><a <% if current_page?(:controller => 'education') %>class='selected'<% end %> href="/education">Schools</a></li>
+				<li><a <% if current_page?(:controller => 'site', :action=>'feedback') %>class='selected'<% end %> href="/site/feedback">Contact</a></li>
+			  </ul>
+			</div>
+		  </div>
+
+
+		</div>
+	  </div>
+
+	</div>
+
+  </div>
+
+  <div class="row-fluid">
+	<!-- leftside empty -->
+	<div class="span11">
+	  <!-- Insert Dynamic Content Page Here -->

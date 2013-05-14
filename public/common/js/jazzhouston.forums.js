@@ -57,7 +57,7 @@ jh.forums = function() {
         },
 
         validateThread: function() {
-            if (document.forms[0].title.value=="") {
+            if (document.forms[0].topic_title.value=="") {
                 alert("You must enter a title!");
                 return false;
             }

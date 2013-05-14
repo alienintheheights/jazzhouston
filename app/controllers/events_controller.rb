@@ -40,9 +40,15 @@ class EventsController < ApplicationController
 
     @onenighters = Event.getOneNightShowsToday(@curTime)
     @steadies = Event.getSteadiesToday(@curTime)
-
+	all_data = @onenighters + @steadies
     # for use in the View
     @page_title =  @curTime.strftime("%A, %B %d %Y")
+
+
+    respond_to do |format|
+      format.html {render :template => "events/day.erb"}
+      format.json {render :json => all_data.to_json(:include =>:venue  )  }
+    end
   end
 
   # index page

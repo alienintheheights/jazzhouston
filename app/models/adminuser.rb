@@ -61,6 +61,7 @@ class AdminUser < ActiveRecord::Base
     end
     
     def password_required?
+	  puts "password required"
       crypted_password.blank? || !password.blank?
     end
 end

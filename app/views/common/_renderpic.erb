@@ -1,29 +1,29 @@
 <%
+   base_path = "/members/profile/"
+   name = ""
+   src="/images/forum-icon-blue.png"
    if !user.nil?
-       name = user.username.downcase
-       # deal with users who use domain names for usernames, else getting rails routing error
-       profile_id = (user.username =~ /(\.)+/)  ? user.user_id.to_s : user.username
-       basePath = "/members/profile/" + profile_id
-       # fix bad user data
-       if user.image_url && user.image_url !~/(.*)\.(jpeg|bmp|png|gif|jpg)$/i
-           user.image_url=""
-       end
-       # set user image URL
-       if user.image && user.image!=""
-           #src = "/images/forum-icon-blue.png"  #TODO hack until i fix format
-           src = url_for_image_column(user, 'image', :name=>'avatar')
-       elsif user.image_url && user.image_url!="" && user.image!=""
-           src = user.image_url
-       else
-           src="/images/forum-icon-blue.png"
-       end
-   else
-       name = ""
-       src="/images/forum-icon-blue.png"
+	 name = user.username.downcase
+	 # deal with users who use domain names for usernames, else getting rails routing error
+	 profile_id = (user.username =~ /(\.)+/)  ? user.user_id.to_s : user.username
+	 base_path = base_path + profile_id
+	 # fix bad user data
+	 if user.image_url && user.image_url !~/(.*)\.(jpeg|bmp|png|gif|jpg)$/i
+	   user.image_url=""
+	 end
+	 # set user image URL
+	 if user.image && user.image!=""
+	   #src = "/images/forum-icon-blue.png"  #TODO hack until i fix format
+	   src = url_for_image_column(user, 'image', :name=>'avatar')
+	 elsif user.image_url && user.image_url!="" && user.image!=""
+	   src = user.image_url
+	 end
+
    end
 %>
-    <div class="forumPic">
-      <a href="<%=basePath%>"><img src="<%=src%>" align="left" width="<%=size%>" height="<%=size%>"
-                                   alt="<%=name%>" border="0" hspace="0" vspace="0"></a>
-    </div>
+<div class="forumPic">
+  <!--<%=user.image%>-->
+  <a href="<%=base_path%>"><img src="<%=src%>" align="left" width="<%=size%>" height="<%=size%>"
+								title="<%=name%>" style="height: <%=size%>px;" class="img-polaroid"></a>
+</div>
 

@@ -2,7 +2,7 @@
 *
 * Master CSS for JazzHouston
 *
-* Andrew Lienhard, 2008-2013
+* Andrew Lienhard, 2008-2012
 **/
 
 
@@ -13,18 +13,25 @@
   padding: 0;
   margin: 0;
   color: #3c3c3c;
+  -webkit-text-size-adjust: none;
 }
+
+
 
 body
 {
   font-family:"HelveticaNeue","Helvetica Neue",Helvetica,Arial,sans-serif;/**"frutiger lt std","frutiger std",frutiger,arial,helvetica,sans-serif;**/
-  font-size : 0.9em;
+  font-size : 1em;
   text-align: left;
   margin:0;
   padding:0;
-  background-color: #ccc;
+  background-color: #fff;
 }
 
+
+img {
+  max-width: 250px;
+}
 
 ul, li
 {
@@ -37,48 +44,29 @@ ul, li
 
 
 
-input {
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
-input:focus {
-  background-color: #fff;
-}
-
-
-::-webkit-input-placeholder {
-  color: #555;
-  padding-left: 3px;
-}
-
-:-moz-placeholder {
-  color: #555;
-  padding-left: 3px;
-}
-
-input:-webkit-autofill {
-  background-color: #fff !important;
-}
-
 a  {
-  color: #2A89C5;
-  font-size: 1.0em;
+  color: black;
+  font-size: 12px;
   text-decoration:none;
 }
 
 
 a:visited  {
-  color: #2A89C5;
-  font-size: 1.0em;
+  color: black;
+  font-size: 12px;
   text-decoration:none;
 }
 
 
+.alert a:visited  {
+  color: black;
+  font-size: 12px;
+  text-decoration:none;
+}
+
 a:hover {
   color: #2A89C5;
-  font-size: 1.0em;
+  font-size: 12px;
   text-decoration:none;
 }
 
@@ -86,10 +74,13 @@ em {
   font-style: italic;
 }
 
+img {
+  border: 0 none;
+}
 
 h2 {
   display:block;
-  font-size:1.4em;
+  font-size:16px;
   padding:0 0 4px 1px;
   text-align: left;
   color: #2A89C5;
@@ -98,7 +89,7 @@ h2 {
 
 h3 {
   font-family:Helvetica,Arial,Sans-Serif;
-  font-size:1.2em;
+  font-size:14px;
   margin:0;
   background-color:#2A2A2A;
   color: #55CCFF;
@@ -120,7 +111,7 @@ a.boldLink, a.boldLink:visited {
   border:none;
   text-decoration: none;
   color: #1a1a1a;
-  font-size: 1.1em;
+  font-size: 13px;
   font-weight: bold;
 
 }
@@ -129,8 +120,8 @@ a.boldLink, a.boldLink:visited {
 a.boldLink:hover {
   border:none;
   text-decoration: none;
-  color: #ddee00;
-  font-size: 1.1em;
+  color: #ddeeee110;
+  font-size: 13px;
   font-weight: bold;
 }
 
@@ -144,19 +135,46 @@ a.boldLink:hover {
 #Masthead  {
   background-color: #fff;
   text-align: center;
-  font-size: 1.0em;
-  min-height:102px;
-  height:116px;
+  font-size: 12px;
+  width: 100% !important;
+  height:84px;
+  margin: 0 auto;
   padding: 0 0 0 0;
-  -moz-border-radius: 15px;
-  border-radius: 15px;
+}
+
+#Masthead #MastheadSpan {
+  background-color: #eee;
+  text-align: left;
+  padding: 7px 0 5px 5px;
+  border-bottom: 1px solid #ccc;
+  height: 30px;
+  font-size:10px;
+  color:#333;
+}
+
+
+#Masthead #MastheadSpan #MemberBox {
+  float:left;
+}
+
+#Masthead #MastheadSpan #MemberMeta {
+  float:right;
+  padding: 3px 3px 0 0;
+  font-size: 12px;
+  color:#333;
+}
+
+#Masthead #MastheadSpan #MemberMeta a, #Masthead #MastheadSpan #MemberMeta a:visited {
+  font-size: 10px;
+  color:#333;
 }
 
 
 #Masthead #logoText {
   float: left;
-  padding: 12px 0 2px 8px;
+  padding: 4px 0 2px 8px;
   letter-spacing: 0.5em;
+  width: auto;
 
 }
 
@@ -164,16 +182,16 @@ a.boldLink:hover {
 {
   text-decoration: none;
   border:none;
-  font-size: 32px;
-  color: #1a1a1a;
+  font-size: 24px;
+  color: #2a2a2a;
 }
 
 #Masthead #logoText a:hover
 {
   text-decoration: none;
   border:none;
-  font-size: 32px;
-  color: #1a1a1a;
+  font-size: 24px;
+  color: #2a2a2a;
 }
 
 #Masthead #MastheadCenter  {
@@ -187,76 +205,65 @@ a.boldLink:hover {
   padding: 2px 0 5px 15px;
   letter-spacing: 0.4em;
   color: #1a1a1a;
-  font-size: 0.8em;
+  font-size: 0.7em;
   float:left;
 }
 
-#social-links {
-  padding-right: 90px;
-}
 
 #Masthead #MastheadRight {
-  color: #fff;
-  text-align:center;
-  font-size: 0.8em;
+  float: right;
+  color: #666;
+  padding: 5px 5px 0 0;
+  font-size: 0.7em;
 }
 
 
-#MastheadRight #MemberBox {
-  border: 1px solid #999;
-  background-color: #fcfcfc;
-  width: 80%;
-}
-#MastheadRight #MemberBox h2 {
-  font-size: 1.2em;
+#Masthead #MastheadSpan #MemberBox h2 {
+  font-size: 14px;
   font-weight: bold;
 }
 
-#MastheadRight #MemberBox a, #MastheadCenter #MemberBox a:visited {
-  color: #333;
+#Masthead #MastheadSpan #MemberBox a, #Masthead #MastheadSpan #MemberBox a:visited {
+  color: #1a1a1a;
   text-decoration: none;
 }
 
 
-#MastheadRight #MemberBox a:hover {
+#Masthead #MastheadSpan #MemberBox a:hover {
   color: #333;
   text-decoration: none;
 }
 
 #nav-links {
   clear:both;
+  width: 100% !important;
   padding: 0 0 0 0;
   margin-bottom: 1em;
   font-family:  tahoma, Verdana,sans-serif;
   font-weight: bold;
   list-style: none;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 
 #nav-links li {
+  border-bottom: 1px solid #656565; /*#2A89C5;*/
   float: left;
   padding: 0 0;
+  background-color:#eeee11;
   text-align:center;
-  width: 12.5%;
-}
-
-#nav-links li:last-child {
-  float: left;
-  padding: 0 0;
-  text-align:center;
-  width: 12%;
+  width: 20%;
 }
 
 #nav-links li a, #nav-links li a:visited {
   display: block;
-  padding: 5px 16px 5px 5px;
-  background-color: #ccc;
+  padding: 5px;
+    background-color: #eeee11;
   color: #1a1a1a;
   text-decoration: none;
-  height: 24px;
+  height: 20px;
   border-right: 1px solid #999;
-  font-size: 1.1em;
+  font-size: 12px;
   font-weight: normal;
 }
 
@@ -267,9 +274,9 @@ html>body #nav-links li a {
 
 #nav-links li a.selected, #nav-links li a.selected:visited {
   text-decoration: none;
-  color: #333;
-  background-color: #EEE;
-  font-size: 1.1em;
+  color: #2a2a2a;
+    background-color: #eeee11;
+  font-size: 12px;
   font-weight: normal;
 }
 
@@ -282,12 +289,12 @@ html>body #nav-links li a {
 
 
 #jh_change_password {
-  font-size: 0.9em;
+  font-size: 10px;
   padding: 0;
 }
 
 #jh_change_password a, #jh_change_password a:visited {
-  font-size: 0.9em;
+  font-size: 10px;
 }
 
 
@@ -297,27 +304,77 @@ html>body #nav-links li a {
 ******************/
 
 #Wrapper {
+  overflow: auto;
   margin: 0 auto;
   padding: 0;
-  max-width:972px;
-  width:972px;
+  width: 100% !important;
+  background-color: #fff;
 }
 
 
 #CurtainLeft {
   float: left;
-  width: 120px;
+  width: 3%;
   vertical-align:top;
   text-align: center;
   margin: 0 0 0 0;
-  background-color: #DDD;
+  background-color: #DDD;/**#2A89C5;**/
   height:auto !important;
 }
 
+#leftside-links {
+  width: 100%;
+  border-right: 1px solid #000;
+  padding: 0 0 1em 0;
+  margin-bottom: 1em;
+  font-family:  tahoma, Verdana,sans-serif;
+  background-color: #eeee11 /**#90bade**/;
+  color: #333;
+  font-weight: bold;
+  font-size: 18px;
+  line-spacing: 0.5em;
+}
+
+
+#leftside-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+#leftside-links li {
+  border-bottom: 1px solid #ccc; /*#2A89C5;*/
+  margin: 0;
+}
+
+#leftside-links li a {
+  display: block;
+  padding: 5px 5px 5px 0.5em;
+  border-left: 10px solid #1a1a1a;
+  border-right: 10px solid #1a1a1a;
+  background-color: #eee;
+  color: #1a1a1a;
+  text-decoration: none;
+  width: 100%;
+}
+
+html>body #leftside-links li a {
+  width: auto;
+}
+
+#leftside-links li a:hover {
+  color: #666;
+}
 
 #CurtainRight {
+  background-color: #eee;
+  float: left;
+  width: 3%;
   vertical-align:top;
+  font-size: 13px;
   color: black;
+  padding: 0 0 0 0;
   text-align:center;
 
 }
@@ -327,27 +384,31 @@ html>body #nav-links li a {
 
 #Stage {
   text-align: center;
-  margin: 0 20px;
+  float:left;
+  width: 100% !important;
   padding: 0;
-  overflow-x: hidden;
+  color: #555;
   background-color: white;
 
 }
 
 #StageHome {
   text-align: center;
-  margin: 0 20px;
-  overflow-x: hidden;
+  float:left;
+  width: 100% !important;
   padding: 0;
+  color: #555;
   background-color: white;
 }
 
 
+
 #StageNarrow {
   text-align: left;
-  margin: 0 20px;
-  overflow-x: hidden;
+  width: 100% !important;
+  color: #555;
   padding: 0;
+  overflow-x:hidden;
   background-color: white;
 }
 
@@ -355,7 +416,9 @@ html>body #nav-links li a {
 
 #StageMedium {
   text-align: center;
-  margin: 0 20px;
+  float:left;
+  width: 100% !important;
+  color: #555;
   background-color: white;
 }
 
@@ -363,7 +426,7 @@ html>body #nav-links li a {
 
 
 #Stage h3 {
-  font-size: 1.2em;
+  font-size: 14px;
 }
 
 #StageColumnLeft {
@@ -398,12 +461,48 @@ html>body #nav-links li a {
 }
 
 
+
+
+.cd-inside
+{
+  background-color: white;
+  padding: 0 0 0 8px;
+  text-align:left;
+  line-height:22px;
+  height: auto;
+  min-height: 600px;
+  overflow-x: hidden;
+  float:left;
+}
+
+.forum-inside
+{
+  background-color: white;
+  padding: 0 0 0 3px;
+  text-align:left;
+  line-height:16px;
+  height: auto;
+  min-height: 600px;
+}
+
+
+
+.cd-inside h2 {
+  font-size:14px;
+  color: #2a2a2a;
+  background-color:white;
+  padding: 5px 0 1px 0;
+  text-align: left;
+  font-family:Georgia,"Century Schoolbook","Times New Roman",Times,serif;
+}
+
+
 .profile-inside
 {
   background-color: white;
   padding: 0 ;
   text-align:left;
-  line-height:1.4em;
+  line-height:16px;
   width:auto;
 }
 
@@ -413,62 +512,27 @@ html>body #nav-links li a {
   background-color: white;
   padding: 0 ;
   text-align:left;
-  line-height:1.4em;
+  line-height:16px;
   height: auto;
+  min-height: 841px !important;
 }
 
 
-
-
-.cd-inside
-{
-  background-color: white;
-  padding: 0 8px;
-  text-align:left;
-  line-height:1.6em;
-  height: auto;
-  min-height: 800px;
-  overflow: hidden;
-}
-
-
-
-.cd-inside h2 {
-  font-size:1.2em;
-  color: #2a2a2a;
-  background-color:white;
-  padding: 5px 0 1px 0;
-  text-align: left;
-}
-
-
-.cd-inside a, .cd-inside  a:visited {
-  color: #033;
-  text-decoration: none;
-  font-size: 1.0em;
-  cursor: pointer;
-}
-
-.cd-inside a:hover {
-  color: #2A89C5;
-  font-size: 1.0em;
-}
 
 
 .inside
 {
   background-color: white;
-  padding: 0 0 0 8px;
+  padding: 0 2px;
   text-align:left;
-  line-height:1.6em;
+  line-height:18px;
   height: auto;
-  overflow: hidden;
 }
 
 .inside .newslist  a, .inside .newslist  a:visited {
-  color: #2A89C5;
+  color: black /** #2A89C5 **/;
   text-decoration: none;
-  font-size: 1.0em;
+  font-size: 12px;
   cursor: pointer;
   border: none;
 }
@@ -476,45 +540,46 @@ html>body #nav-links li a {
 .inside a, .inside  a:visited {
   color: #033;
   text-decoration: none;
-  font-size: 1.0em;
+  font-size: 12px;
   cursor: pointer;
   border: none;
 }
 
 .inside a:hover {
   color: #2A89C5;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 .inside p {
   margin: 0 0 1em;
-  line-height: 1.6em;
+  line-height: 18px;
   font-size: 100%;
   font-family: "Lucida Grande", Lucida, Verdana, sans-serif ; /*verdana, tahoma, arial, sans-serif; */
 }
 
-.cd-inside .wordText, wordText p {
+.inside .wordText, wordText p {
   line-height: 1.467em;
-  font-size: 1.1em;
+  font-size: 13px;
   font-family: Georgia, arial, sans-serif;
 
 }
 
-.cd-inside .wordText a, .inside .wordText a:visited {
-  color: #2A89C5;
+.inside .wordText a, .inside .wordText a:visited {
+  color: blue;
 }
 
 
 .inside h2 {
-  font-size:1.2em;
+  font-size:14px;
   color: #2a2a2a;
   background-color:white;
   padding: 5px 0 1px 0;
   text-align: left;
+  font-family:Georgia,"Century Schoolbook","Times New Roman",Times,serif;
 }
 
 .forum-inside h2 {
-  font-size:1.2em;
+  font-size:14px;
   color: #2A89C5;
   background-color:white;
   padding: 5px 0 1px 0;
@@ -531,11 +596,12 @@ html>body #nav-links li a {
   padding: 0;
   text-align:left;
   line-height:1.25em;
+  width: 100%;
 
 }
 
 .home-inside h2 {
-  font-size:1.2em;
+  font-size:14px;
   color: #2A2A2A;
   background-color:#CCCCCC;
 }
@@ -544,7 +610,7 @@ html>body #nav-links li a {
   color: black;
   text-decoration: none;
   border-bottom: none;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 
@@ -552,18 +618,18 @@ html>body #nav-links li a {
   color: black;
   text-decoration: none;
   border-bottom: 1px dotted #333333;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 .home-inside a:hover {
   color: #2A89C5;
   border-bottom: 1px dotted #333333;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 
 p.home-inside {
-  font-size: 1.1em;
+  font-size: 13px;
 }
 
 
@@ -577,10 +643,11 @@ p.home-inside {
   padding: 0;
   text-align:left;
   line-height:1.45em;
+  width: 100%;
 }
 
 .alt-inside h2 {
-  font-size:1.2em;
+  font-size:14px;
   color: #2A2A2A;
   background-color:#CCCCCC;
 }
@@ -589,34 +656,36 @@ p.home-inside {
   color: black;
   text-decoration: none;
   border-bottom: 1px dotted #333333;
-  font-size: 0.9em;
+  font-size: 10px;
 }
 
 
 .alt-inside  a:hover{
   color: black;
   border-bottom: 1px dotted #333333;
-  font-size: 0.9em;
+  font-size: 10px;
 }
 
 
 li.newslist-feature {
-  padding: 5px 5px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
+  padding: 3px 5px;
   margin-top: 10px;
   margin-bottom: 15px;
   overflow: auto;
-  font-size: 1.0em;
+  font-size: 12px;
   color:#555;
 }
 
+
 a.venueLink, a:visited.venueLink {
   color:  #2A89C5;
-  padding-bottom: 10px;
 }
 
 .admin-panel {
   background-color: white;
-  font-size: 1.0em;
+  font-size: 12px;
   text-align:left;
   padding: 15px 2px;
   text-align:left;
@@ -625,12 +694,12 @@ a.venueLink, a:visited.venueLink {
 .admin-inside a, .admin-inside a:visited {
   color: black;
   border-bottom: 1px dotted #333333;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 .admin-inside a:hover  {
   color: #16B31E;
-  font-size: 1.0em;
+  font-size: 12px;
   border-bottom: 1px dotted #333333;
 }
 
@@ -645,7 +714,7 @@ a.venueLink, a:visited.venueLink {
   padding: 10px;
   text-align:left;
   background-color: white;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 .panel-inside-rotate
@@ -655,7 +724,7 @@ a.venueLink, a:visited.venueLink {
   padding: 10px;
   text-align:left;
   background-color: white;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 
@@ -665,41 +734,24 @@ a.venueLink, a:visited.venueLink {
   /**border-bottom: 1px dotted #333333;**/
   cursor: pointer;
   border: none;
-  font-size: 1.0em;
+  font-size: 12px;
 
 }
 
 
-.panel-inside a:hover {                                                                                                        ƒplay
+.panel-inside a:hover {
   text-decoration: none;
   color: #2A89C5;
-  font-size: 1.0em;
+  font-size: 12px;
   border-bottom: 1px dotted #333333;
 }
 
-.home_forum_list_item a , .home_forum_list_item a:visited, .home_forum_list_item a:hover{
-  font-size: 0.9em;
-   padding-left: 4px;
-}
 
 
-#news-carousel {
-  max-width: 300px;
-}
-
-.home_news_pic {
-  margin-right: 5px;
-}
-
-
-#news-carousel-div {
-  height: 450px;
-  max-height: 450px!important;
-}
 
 #jh_login_form  {
-  color:#fff;
-  font-size:0.8em;
+  color:#111;
+  font-size:9px;
 }
 
 #jh_login_form td a, #jh_login_form td a:visited   {
@@ -707,7 +759,7 @@ a.venueLink, a:visited.venueLink {
 }
 
 #jh_toolbar {
-  width:115px;
+  width:25%;
   text-align: left;
   float:left;
 }
@@ -716,13 +768,13 @@ a.venueLink, a:visited.venueLink {
 .newslist {
   margin: 0;
   padding-left: 5px;
-  width: 300px;
+  width: auto;
 }
 
 
 #fastLinks {
   padding: 4px 0 5px 0;
-  background-color: #F0EC05;
+  background-color: #eeee11;
   letter-spacing: 0.3em;
   text-align: center;
 }
@@ -739,18 +791,17 @@ a.venueLink, a:visited.venueLink {
   margin-top:0;
   text-indent:0px;
   border-top: none;
-  width:100%;
+  padding: 0 15% 0 1%;
 }
 
 #homegrid table td {
   background-color:white;
   height: 200px;
   vertical-align: top;
-  line-height: 1.5em;
+  line-height: 17px;
   width:auto;
   padding-left: 15px;
   overflow: auto;
-
   border-bottom: 1px solid #ccc;
 }
 
@@ -758,19 +809,17 @@ a.venueLink, a:visited.venueLink {
   background-color:white;
   height: 200px;
   vertical-align: top;
-  line-height: 1.5em;
-  width:340px;
-  border-right: 1px solid #CCC;
-  padding: 0 25px 0 15px;
+  line-height: 17px;
+  padding-left: 15px;
 }
 
 #homegrid table b {
-  font-size: 1.1em;
+  font-size: 13px;
   margin-bottom: 5px;
 }
 
 #homegrid table td a a:hover a:visited{
-  font-size: 0.9em;
+  font-size: 10px;
 }
 
 .showListMain li {
@@ -783,7 +832,7 @@ li.showListMainDOW {
 
 
 #showgrid {
-  margin-left: 25px;
+  margin-left: 10px;
   float:left;
 
 }
@@ -819,18 +868,18 @@ table.index-three-column-small  {
 }
 
 table.index-three-column-small td {
-  background-color:#eee;
+  background-color:white;
   padding:2px 0;
-  width:100px;
+  width:33%;
   height: 100px;
   vertical-align: top;
   text-align: left;
   color:#1a1a1a;
-  font-size:0.9em;
+  font-size:10px;
   border:1px solid #B3B3B3;
-  -moz-border-radius-bottomleft: 2px;
-  -webkit-border-bottom-left-radius: 2px;
 }
+
+
 
 
 table.index-three-column  {
@@ -846,7 +895,7 @@ table.index-three-column  {
 }
 
 table.index-three-column td {
-  background-color:#eee;
+  background-color:white;
   border:1px solid #B3B3B3;
   padding:5px;
   width:33%;
@@ -855,15 +904,9 @@ table.index-three-column td {
   vertical-align: top;
   text-align: center;
   color:#1a1a1a;
-  font-size:1.0em;
+  font-size:12px;
   -moz-border-radius: 15px;
   border-radius: 15px;
-}
-
-
-a.index-three-column a.index-three-column:hover a.index-three-column:visited {
-  font-size: 1.0em;
-  text-decoration:none;
 }
 
 
@@ -881,24 +924,22 @@ table.index-two-column  {
 }
 
 table.index-two-column td {
-  background-color: #fff;
-  border:2px solid #ccc;
-  padding: 5px 8px 5px 8px;
+  background-color:#eee;
+  color:#555;
+  border:1px solid #B3B3B3;
+  padding:5px;
   width:50%;
-  line-height: 1.6em;
-  min-height:100px;
-  height:100px;
+  height: 150px;
   vertical-align: top;
   text-align: left;
-  color:#1a1a1a;
-  font-size:1.0em;
-  -moz-border-radius-bottomleft: 15px;
-  -webkit-border-bottom-left-radius: 15px;
+  font-size:12px;
+  -moz-border-radius: 15px;
+  border-radius: 15px;
 }
 
 
 table.index-two-column td a a:hover a:visited{
-  font-size: 1.0em;
+  font-size: 12px;
   text-decoration:none;
 }
 
@@ -931,7 +972,7 @@ table.index-two-column-small td {
 
 
 table.index-two-column-small td a a:hover a:visited{
-  font-size: 0.9em;
+  font-size: 10px;
 }
 
 
@@ -954,9 +995,7 @@ table.index-single-column td {
   vertical-align: top;
   text-align: left;
   color:#555;
-  font-size:0.9em;
 }
-
 
 
 
@@ -986,7 +1025,7 @@ table.phone-list tr.alt {
 
 
 table.phone-list tr.noalt {
-  background-color:#F0EC05;
+  background-color:#EEEEEE;
   border:1px solid black;
   padding:3px;
   border-spacing:5px;
@@ -999,7 +1038,7 @@ table.phone-list th {
   padding:2px 0;
   vertical-align: top;
   text-align: left;
-  font-size: 1.1em;
+  font-size: 13px;
   color: black;
 }
 
@@ -1014,18 +1053,6 @@ table.phone-list td {
 table.phone-list a, table.phone-list a:visited {
   text-decoration: none;
   border: none;
-}
-
-#musician_instrument_header {
-  float:left;
-  font-family: tahoma, sans-serif;
-  padding: 5px 10px;
-  background-color: #fff;
-  color: #2A2A2A;
-  font-size: 1.2em;
-  font-weight: bold;
-  line-height: 25px;
-  text-align: left;
 }
 
 
@@ -1055,31 +1082,30 @@ table.phone-list a, table.phone-list a:visited {
 .cd_listing {
   clear:both;
   padding: 20px 10px;
-  font-size: 1.2em;
+  font-size: 14px;
 }
 
 .none_entered {
   color: #ccc;
   font-style: italic;
 }
+
 #jh_editor {
   color: red;
   padding: 0 0 0 5px ;
-  font-size: 1.1em;
+  font-size: 9px;
   text-align: left;
 }
 #jh_pic_column {
   float:left;
-  width: 100px;
-  min-width: 100px;
-  width: auto !important;
-  padding-top: 5px;
+  width: 105px;
 }
 #jh_infocol {
   float:left;
-  padding: 10px 0 0 0 ;
+  padding: 3px 0 0 10px ;
   overflow-x: auto;
-  width:600px;
+  width:70%;
+  font-size:10px;
 }
 
 #jh_detailcol {
@@ -1113,72 +1139,27 @@ table.phone-list a, table.phone-list a:visited {
   padding-top:10px;
   height: 650px;
 }
-
 #jh_shows {
-
+  float:left;
+  overflow: auto;
+  padding-top:10px;
+  height: 650px;
 }
-
-#show_listing {
-
-
-}
-
-#show_listing a, #show_listing a.visited {
-  color:#000;
-}
-
-#jh_cds {
-  border-right: 1px solid #eee;
-  padding: 0 10px 0 0;
-}
-
-#jh_shows h2, #jh_cds h2, #forum_listing h2, #news-carousel h2 {
-  font-family: tahoma, sans-serif;
-  padding: 5px 0 5px 3px;
-  background-color: #fafafa;
-  color: #2A2A2A;
-  font-size: 1.2em;
-  font-weight: bold;
-  width:100%;
-  line-height: 25px;
-}
-
-
-h2#more_shows {
+#jh_profile h2, #jh_interests h2, #jh_shows h2, #jh_blogs h2 {
   font-family: tahoma, sans-serif;
   padding: 5px 0;
-  background-color: #fff;
-  color: #2A2A2A;
-  font-size: 1.2em;
-  font-weight: bold;
-  width:100%;
-  line-height: 25px;
-  text-align: left;
-}
-
-
-
-#jh_profile h2, #jh_interests h2 {
-  font-family: tahoma, sans-serif;
-  padding: 5px 0;
-  background-color: #ccc;
-  color: #2A2A2A;
-  font-size: 1.2em;
-  font-weight: bold;
-  width:100%;
-  line-height: 25px;
-  text-align: left;
+  background-color: #EEE;
+  color: #2a2a2a;
   border: none;
-}
-
-#jh_shows a:hover {
-  color:#2A89C5;
+  font-size: 14px;
+  font-weight: bold;
+  width:100%;
 }
 
 
 dl.jh_profile_summary dt{
   color: #2a2a2a;
-  font-size: 1.1em;
+  font-size: 13px;
   padding: 3px 0;
 }
 
@@ -1192,53 +1173,50 @@ dl.jh_profile_summary dd {
 
 .vertical-listing {
   display:block;
-  font-size: 1.1em;
+  font-size: 13px;
   letter-spacing: 0.1em;
   padding: 15px 0;
   clear:both;
 }
 
-.forumBoardSelect {
-  display:block;
-  letter-spacing: 0.1em;
-  font-weight: normal;
-  background-color:#fff;
+.flash-alert {
+  font-size: 14px;
+  color: red;
+  background-color: white;
+  padding: 10px;
   text-align: left;
-  padding-left: 5px;
-  font-size:0.9em;
-  text-transform: lowercase;
 }
 
 .contentTypeList {
   display:block;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.1em;
   font-weight: normal;
   background-color:#eee;
   text-align: center;
-  font-size:0.9em;
+  padding: 2px 0;
+  border: 1px solid #111;
   text-transform: lowercase;
-  padding-bottom: 2px;
+  font-size:12px;
+  height: 18px;
 }
 
 .contentTypeList a, .contentTypeList a:visited {
-  font-size: 1.1em;
+  text-decoration: none;
+  font-size: 12px;
 }
 
 
 .contentTypeList a:hover {
-  color: #333;
-  border: none;
-  font-size: 1.1em;
+  font-size: 12px;
 }
-
 
 
 .ProfileLinks {
   display:block;
   letter-spacing: 0.2em;
   font-weight: normal;
-  font-size: 1.1em;
-  background-color: #2A89C5;
+  font-size: 13px;
+  background-color: #2a2a2a;
   color: white;
   text-align: center;
   padding: 2px 0;
@@ -1249,7 +1227,7 @@ dl.jh_profile_summary dd {
 .ProfileLinks a, .ProfileLinks a:visited, .ProfileLinks a:hover {
   color: white;
   border: none;
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 
@@ -1259,7 +1237,7 @@ dl.jh_profile_summary dd {
 }
 
 .jh_search_results  {
-  font-size: 1.1em;
+  font-size: 13px;
   font-family: tahoma, sans-serif;
   background-color:white;
   color: #2A89C5;
@@ -1273,7 +1251,7 @@ dl.jh_profile_summary dd {
 }
 
 .jh_search_item  {
-  font-size: 1.1em;
+  font-size: 13px;
   font-family: Verdana, sans-serif;
   background-color:#EEFFFF;
   color: #2A89C5;
@@ -1293,7 +1271,7 @@ a.jh_search_item ,a.jh_search_item:hover,a.jh_search_item:visited {
 /** Utility classes **/
 .bulletList
 {
-  font-size: 1.1em;
+  font-size: 13px;
 
 }
 
@@ -1330,47 +1308,134 @@ a.imageLink:visited {
 }
 
 
+#SearchBar {
+  padding:0;
+  background-color: #fff;
+  height: 25px;
+  clear: both;
+}
+
+#EventSwitcher {
+  padding: 5px 0 0 0;
+  background-color: #ee1;
+  height: 25px;
+}
+
+.ItemHSpacer {
+  float: left;
+  padding: 0 5px 0 0;
+  height:20px;
+  color:#fff;
+}
+
+.ItemHSpacer ul {
+  font-size: 12px;
+  color:#fff;
+  list-style: none outside;
+  display: block;
+  background: #777;
+  padding: 2px 10px;
+  border: 1px solid #DDD;
+  border-radius: 2px;
+  overflow: auto;
+  width: auto;
+}
+
+.ItemHSpacer ul li {
+  float:left;
+  padding: 0 10px 0 0 ;
+  color:#fff;
+}
+
+.ItemHSpacer ul li:before {
+  content:" ";
+  color:#eee;
+}
+
+.ItemHSpacer ul li a, .ItemHSpacer ul li a:visited,  .ItemHSpacer ul li a:hover  {
+  color: #fff;
+  text-decoration: none;
+  border: none;
+}
+
+ul.breadcrumbs {
+  font-size: 12px;
+  color:#aaa;
+  list-style: none outside;
+  display: block;
+  background: #F4F4F4;
+  padding: 7px 10px;
+  border: 1px solid #DDD;
+  border-radius: 2px;
+  overflow: auto;
+  width: auto;
+}
+
+ul.breadcrumbs li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+  padding: 0 12px 0 0;
+  float: left;
+  color:#88a;
+}
+
+ul.breadcrumbs li:after {
+  content:"/";
+  color:#aaa;
+}
+
+ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
+  color: #333;
+  padding-left: 12px;
+  text-decoration: none;
+}
+
+
+
+
+
 .EditorTools {
+  background-color:#ee1;
+  padding: 10px 0;
   clear:both;
+  width:100%;
   text-align:left;
-  padding: 10px 5px 25px 0;
 }
 
 .EditorTools h2 {
   text-align: center;
-  font-size:1.0em;
+  font-size:12px;
   padding: 0 0 4px 0;
-  background-color: #F0EC05;
+  margin: 0;
+  background-color: #ee1;
   color:black;
 }
 
 .EditorTools a, .EditorTools a:visited{
-  font-size: 1.1em;
-  padding: 15px 5px;
-
+  font-size: 9px;
+  padding-left:8px;
 }
 
 
 .Header
 {
-  font-size: 1.4em;
+  font-size: 18px;
   letter-spacing: 0.2em;
-  background-color: #eee;
+  background-color: #fff;
   color: black;
   text-align: center;
-  padding: 5px 0 5px 0;
+  padding: 9px 0 5px 0;
   height: auto;
   overflow: auto;
 }
 
-
 .CalendarHeader
 {
-  padding: 5px 0 5px 30px;
+  padding: 5px 0 5px 10px;
   text-align:left;
-  font-size: 1.6em;
+  font-size: 18px;
   letter-spacing: 0.2em;
-  background-color: #eee;
+  background-color: #fff;
   color: black;
 }
 
@@ -1378,20 +1443,20 @@ a.imageLink:visited {
 
 .ProfileHeader
 {
-  font-size: 1.6em;
+  font-size: 16px;
   letter-spacing: 0.4em;
   background-color: #eee;
   color: #1a1a1a;
   text-align: center;
-  padding: 10px 0;
-  height: 30px;
+  padding: 15px 0 0 0;
+  height: 40px;
   overflow: auto;
 }
 
 
 .StoryHeader
 {
-  font-size: 1.4em;
+  font-size: 16px;
   letter-spacing: 0.0em;
   text-align: left;
   padding: 15px 0 15px 0;
@@ -1402,7 +1467,7 @@ a.imageLink:visited {
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  font-size: 1.4em;
+  font-size: 16px;
   letter-spacing: 0.3em;
   background-color: #3A3A3A;
   color: #eee;
@@ -1417,10 +1482,10 @@ a.imageLink:visited {
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  font-size: 1.4em;
+  font-size: 16px;
   letter-spacing: 0.5em;
   color: black;
-  background-color: #DDee00;
+  background-color: #DDeeee110;
   text-align: center;
   padding: 20px 0 2px 0;
   height: 50px;
@@ -1434,7 +1499,7 @@ a.imageLink:visited {
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  font-size: 1.4em;
+  font-size: 14px;
   letter-spacing: 0.3em;
   background-color: #ccc;
   color: #000;
@@ -1447,11 +1512,11 @@ a.imageLink:visited {
 
 .WordsTitle
 {
-  background-color:#FF0EC0591;
+  background-color:#FFF091;
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  font-size: 1.1em;
+  font-size: 13px;
   letter-spacing: 0.1em;
   color: #1A1A1A;
   text-align: center;
@@ -1467,9 +1532,9 @@ a.imageLink:visited {
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  font-size: 1.1em;
+  font-size: 13px;
   letter-spacing: 0.2em;
-  background-color:#FF0EC0591;
+  background-color:#FFF091;
   color: #2A2A2A;
   text-align: center;
   padding: 25px 0 5px 0;
@@ -1485,7 +1550,7 @@ a.imageLink:visited {
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  font-size: 1.2em;
+  font-size: 14px;
   letter-spacing: 0.3em;
   background-color:#666;
   color: #FFF;
@@ -1501,10 +1566,10 @@ a.imageLink:visited {
   border-width: 1px;
   border-style: solid;
   border-color: black;
-  font-size: 1.2em;
+  font-size: 14px;
   letter-spacing: 0.3em;
   background-color: #1A1A1A;
-  color: #DDee00;
+  color: #DDeeee110;
   text-align: center;
   padding: 25px 0 5px 0;
   height: 50px;
@@ -1582,7 +1647,7 @@ a.imageLink:visited {
   background: transparent url("../images/submit.gif") no-repeat;
   height:20px;
   border:solid 0 #fff;
-  font:1.1em Palatino Linotype,Book Antiqua,Palatino,serif;
+  font:13px Palatino Linotype,Book Antiqua,Palatino,serif;
   color:#666;
   text-transform:uppercase;
 
@@ -1591,15 +1656,12 @@ a.imageLink:visited {
 
 .textfield
 {
-
+  width: 100px;
+  height: 27px;
+  margin-bottom: 0;
 }
 
 
-
-.textfield:hover
-{
-  background-color: #DDee00;
-}
 
 .left-column-list {
   float: left;
@@ -1635,7 +1697,7 @@ a.imageLink:visited {
   margin: 0 5px;
   vertical-align:top;
   text-align: left;
-  font-size: 1.0em;
+  font-size: 12px;
   min-height:200px;
   height:auto !important;
   height:200px;
@@ -1649,7 +1711,7 @@ a.imageLink:visited {
   margin: 0 5px;
   vertical-align:top;
   text-align: left;
-  font-size: 1.0em;
+  font-size: 12px;
   height:auto !important;
   height:200px;
 }
@@ -1662,7 +1724,8 @@ a.imageLink:visited {
 }
 
 #AdRight {
-  margin-left: -35px;
+  padding: 0 0 0 0;
+
 }
 
 
@@ -1679,7 +1742,7 @@ a.imageLink:visited {
 
 #footer div.block h2 {
   display:block;
-  font-size:1.2em;
+  font-size:14px;
   font-weight:bold;
   margin: 1px 0 0 0 ;
   padding:0 0 4px 0;
@@ -1693,11 +1756,11 @@ a.imageLink:visited {
 #footer div.block {
   color:#CCCCCC;
   float:left;
-  font-size:1.0em;
+  font-size:12px;
   line-height:140%;
   margin:10px 15px 30px;
   padding:0;
-  width:160px;
+  width:15%;
   display:block;
 }
 
@@ -1708,7 +1771,7 @@ a.imageLink:visited {
 
 #footer div.block ul li a {
   text-decoration: none;
-  font-size: 1.0em;
+  font-size: 12px;
   color:white;
 }
 
@@ -1737,26 +1800,26 @@ a.imageLink:visited {
 .error {font-size : 18px; color : red; }
 
 .tinyText {
-  font-size : 0.8em;
+  font-size : 9px;
   color : black;
 }
 
 .smallText {
-  font-size : 0.8em;
+  font-size : 9px;
   color : black;
   margin: 0 2px;
 }
 
 a.smallText {
-  font-size : 0.8em;
+  font-size : 9px;
 }
 
 a.smallText:visited {
-  font-size : 0.8em;
+  font-size : 9px;
 }
 
 a.smallText:hover {
-  font-size : 0.8em;
+  font-size : 9px;
 }
 
 
@@ -1764,7 +1827,7 @@ a.smallText:hover {
 
 
 .smallTextItalics {
-  font-size : 0.8em;
+  font-size : 9px;
   margin: 0 2px;
   font-style: italic;
 }
@@ -1772,18 +1835,18 @@ a.smallText:hover {
 .mediumText {
   color : black;
   margin: 10px 0;
-  font-size :1.0em;
+  font-size :12px;
 }
 
 
-.largeText {font-size : 1.4em; ; color : black; }
+.largeText {font-size : 16px; ; color : black; }
 
-.titleText { font-size : 1.6em   ; font-weight: bold; color : black; }
+.titleText { font-size : 18px   ; font-weight: bold; color : black; }
 
 .headerText { font-size : 2.0em;  ; font-weight: bold; color : black; }
 
 
-.redText {font-size : 1.4em;   ; color : red; font-weight : bold; }
+.redText {font-size : 16px;   ; color : red; font-weight : bold; }
 
 .nobreak { display:inline; margin: 0; padding: 0; width: 10px;}
 
@@ -1797,41 +1860,33 @@ a.smallText:hover {
   float: right;
 }
 
-select#board-select {
-  width: 200px;
-  height: 27px;
-  margin-bottom: 0;
-}
-
 
 .boardList {
   display:block;
   letter-spacing: 0.1em;
   font-weight: normal;
-  font-size: 0.9em;
+  font-size: 10px;
   background-color:#fff;
   color: #1a1a1a;
   text-align: center;
 }
 
 .boardList a, .boardList a:visited, .boardList a:hover {
-  font-size: 0.9em;
+  font-size: 10px;
 }
 
-
 .topic-list {
-  background-color: white;
+  background-color: #fff;
   margin-bottom:2em;
   width:100%;
-  font-weight:bold;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-  font-size:1.2em;
+  font-size:12px;
   float:left;
   clear:both;
 }
 
 .topic-list th {
-  background:#fff  none repeat scroll 0;
+  background:#eee  none repeat scroll 0;
   color: #999;
   font-size:1em;
   font-style:normal;
@@ -1843,7 +1898,7 @@ select#board-select {
 }
 
 .topic-list th a a:visited {
-  font-size:1.1em;
+  font-size:12px;
   color:white;
   text-decoration:none;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
@@ -1852,7 +1907,7 @@ select#board-select {
 .topic-list th a:hover  {
   color: white;
   text-decoration:none;
-  font-size:1.1em;
+  font-size:12px;
 }
 
 .topic-list td {
@@ -1863,6 +1918,9 @@ select#board-select {
   text-align: left;
 }
 
+.forumPic {
+  padding: 0;
+}
 
 .softPad {
   padding: 5px;
@@ -1874,7 +1932,7 @@ select#board-select {
   padding: 0 0 0 0 ;
 }
 .commentCountLink a, .commentCountLink a:visited, .commentCountLink a:hover {
-  font-size: 0.8em;
+  font-size: 9px;
   padding: 0;
 }
 
@@ -1882,22 +1940,20 @@ select#board-select {
 
 a.blueLink, a.blueLink:visited, a.blueLink:hover {
   color: #2A89C5;
-  font-size: 1.1em;
+  font-size: 13px;
 }
 
 
 
 .messageList {
-  clear: left;
+
 }
 
-.messageList ul, .messageList li{
+.messageList ul, .messageList li {
   list-style-type: none;
-  min-height: 180px;
-  height: 180px;
   height: auto !important;
   margin: 0;
-  padding: 0;
+  padding: 5px 0;
 }
 
 .messageList li {
@@ -1912,10 +1968,6 @@ a.blueLink, a.blueLink:visited, a.blueLink:hover {
 
 .messageList li ul {
   display: none;
-  margin-left: -150px;
-  margin-bottom: -10px;
-  padding-left: 50px;
-  margin-top: 5px;
   background: #fff;
 }
 
@@ -1963,41 +2015,29 @@ li.post-ban-row  {
   margin: 5px 0;
 }
 
+.messageBlock {
+
+}
 .messageAuthor {
-  position: absolute;
-  left: 5px;
-  top: 5px;
-  min-height: 178px;
-  height: auto !important;
-  height: 178px;
+  padding-top: 5px;
   padding-left: 5px;
-  width: 130px;
-  font-size: 0.9em;
+  font-size: 10px;
+  font-style: normal;
   overflow: hidden;
   text-overflow: ellipsis;
-
-
 } * html .messageAuthor { overflow: visible; }
 
 
 .messageAuthor a , .messageAuthor a:visited, .messageAuthor a:hover {
   border:none;
   color: black;
-  line-height: 1.2em;
-  font-size: 1.1em;
+  line-height: 14px;
+  font-size: 13px;
   font-weight: bold;
   padding: 2px 0 0 0;
 }
 
 
-
-.messageAuthor img {
-  left: 5px;
-  top: 10px;
-  border: 1px solid #ccc;
-  display:block;
-
-}
 
 
 a.messageImg, a.messageImg:hover, a.messageImg:visited {
@@ -2005,41 +2045,28 @@ a.messageImg, a.messageImg:hover, a.messageImg:visited {
   text-decoration: none;
 
 }
-.modal-body {
-  max-height: 800px;
-}
-.pagination {
-  margin: 5px 0 ;
-}
 
 div.messageDate {
-  font-size: 0.9em;
+  position: absolute;
+  top: 110px;
+  font-size: 10px;
   border:none;
   color: #777;
-  line-height: 1.2em;
-  text-align: left;
-  padding: 5px 0;
-  clear: both;
-}
-
-.message-timestamp {
-  clear:both;
-  font-size: 0.9em;
-  color: #777;
+  line-height: 14px;
 }
 
 .messageBody {
-  padding-right: 5px;
+  float:left;
   padding-bottom: 10px;
-  padding-left: 150px;
   padding-top: 5px;
+  padding-left: 4px;
   min-height: 178px;
   height: auto !important;
   height: 178px;
-  font-size:1.1em;
-  line-height: 1.4em;
+  font-size:1em;
+  line-height: 22px;
   word-wrap:break-word;
-  width:70%;
+  color:#000000;
 }
 
 .messageBody a, .messageBody a:visited {
@@ -2051,7 +2078,7 @@ div.messageDate {
 
 .messageRating {
   float: right;
-  width: 105px;
+  width: auto;
   text-align: right;
   padding: 2px 0 2px 8px;
 }
@@ -2061,7 +2088,7 @@ div.messageDate {
   float: right;
   background: #F6F6F6 none repeat scroll 0 0;
   color: #777777;
-  width: 105px;
+  width: auto;
   text-align: right;
   padding: 2px 0 2px 8px;
 }
@@ -2092,19 +2119,20 @@ div.messageDate {
   background: #fff;
   color: #474A51;
   font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
-  height:77px;
+  height:85px;
   border: 1px solid #eee;
+  width:100%;
 }
 
 .forumAvatarBox {
   float:left;
-  width:91px;
+  width:85px;
   overflow-x: hidden;
 }
 
 .forumMetaInfo {
   float:left;
-  font-size: 0.9em;
+  font-size: 10px;
   overflow-x: hidden;
   width:105px;
 }
@@ -2116,11 +2144,11 @@ div.messageDate {
 
 .forumPostTime {
   padding: 7px 0 0 0;
-  font-size: 0.8em;
+  font-size: 9px;
 }
 
 .forumPostTime a, .forumPostTime a:visited {
-  font-size: 0.8em;
+  font-size: 9px;
   padding-right: 0;
 }
 
@@ -2128,10 +2156,10 @@ div.messageDate {
 .bigForumLink   {
   text-align: left;
   vertical-align: text-top;
-  font-size:1.0em;
+  font-size:12px;
   color:#2a2a2a;
   text-decoration:none;
-  padding: 10px 0 0 0;
+  padding: 10px 0 0 4px;
   width:auto;
   overflow-x: hidden;
 }
@@ -2139,7 +2167,7 @@ div.messageDate {
 
 .bigForumLink a, bigForumLink a:visited {
   text-align: left;
-  font-size:1.0em;
+  font-size:12px;
   font-weight: normal;
   color:#2a2a2a;
   text-decoration:none;
@@ -2147,14 +2175,14 @@ div.messageDate {
 
 .bigForumLink a:hover {
   text-align: left;
-  font-size:1.0em;
+  font-size:12px;
   font-weight: normal;
   color:#2A89C5;
 }
 .smallForumLink   {
   text-align: left;
   float:left;
-  font-size:0.5em;
+  font-size:0.8em;
   color:#333;
   text-decoration:none;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
@@ -2168,7 +2196,7 @@ a.smallForumLink, a.smallForumLink:visited {
   text-decoration:none;
   border:none;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-  font-size:0.9em;
+  font-size:1.0em;
 }
 
 a.smallForumLink:hover  {
@@ -2178,17 +2206,19 @@ a.smallForumLink:hover  {
   text-decoration:none;
   border:none;
   font-family:"lucida grande",tahoma,verdana,arial,sans-serif;
-  font-size:0.9em;
+  font-size:10px;
 }
 
 .tableHeader {
-  background-color:#F0EC05;
+  background-color:#ffe;
 }
 
-
+#show_listing {
+  font-size: 0.9em;
+}
 
 .num {
-  font-size:1.0em;
+  font-size:12px;
 }
 
 .forumNewTopicLink  {
@@ -2199,24 +2229,35 @@ a.smallForumLink:hover  {
 
 .forumNewTopicLink a, .forumNewTopicLink a:visited {
   color:red;
-  font-size:1.2em;
+  font-size:14px;
+}
+
+
+select#board-select {
+  width: 200px;
+  height: 27px;
+  margin-bottom: 0;
 }
 
 .board-pager {
   padding: 0;
   text-decoration: none;
+  float: left;
+  padding-left: 8px;
+  font-size: 0.9em;
 }
 
 .board-pager a, .board-pager a:visited{
   text-decoration: none;
-  padding-left: 3px;
+  color:#333;
+  padding-left: 2px;
 }
 
 
 .board-pager ul li {
   float: left;
+  background-color: #fff;
 }
-
 
 a.newTopic, a.newTopic:visited {
   color: red;
@@ -2226,18 +2267,14 @@ a.newTopic, a.newTopic:visited {
   color: #2A89C5;
 }
 
-.color4 {
+.color2 {
   background-color: #fff;
   padding: 10px 5px;
 }
 
-.color2 {
+.color4 {
   background-color: #eee;
   padding: 10px 5px;
-}
-
-.sub_title_validate {
-  float: left;
 }
 
 .valid {
@@ -2256,21 +2293,21 @@ EXTJS IE7 Combo box bug hack
 **/
 
 #jh_venue_about, #jh_venue_about a, #jh_venue_about a:visited {
-  font-size: 1.0em;
+  font-size: 12px;
 }
 
 .jh_search_item {
-  font-size: 1.3em;
+  font-size: 15px;
   background-color: white;
 }
 
 .jh_search_item a, .jh_search_item a:visited {
-  font-size: 1.3em;
+  font-size: 15px;
 }
 
 
 .jh_search_item a:hover {
-  font-size: 1.3em;
+  font-size: 15px;
   color: red;
 }
 
@@ -2278,23 +2315,19 @@ EXTJS IE7 Combo box bug hack
   background-color: #c3c3c3;
   padding: 5px;
   color:blue;
-  width:500px;
+  width:45%;
   height: 25px;
 
 }
 
 #jh_about {
   padding: 5px;
-  line-height: 1.6em;
+  letter-spacing: 0;
 }
 
 .x-combo-list .x-combo-selected {
 
 
-}
-
-.x-toolbar {
-  background: none;
 }
 
 
@@ -2316,155 +2349,11 @@ EXTJS IE7 Combo box bug hack
   margin:0 14px 10px 0;
 }
 
-#SearchBar {
-  padding: 5px 0 0 5px;
-  background-color: #fff;
-  height: 25px;
+
+.breadcrumbs {
+  font-size: 9px;
+  color:#000000;
 }
-
-#EventSwitcher {
-  padding: 5px 0 0 0;
-  background-color: #F0EC05;
-  height: 25px;
-}
-
-.ItemHSpacer {
-  float: left;
-  padding: 0 5px;
-  height:15px;
-  color:#fff;
-}
-
-.ItemHSpacer ul {
-  font-size: 0.9em;
-  color:#fff;
-  list-style: none outside;
-  display: block;
-  background: #2A89C5;
-  border: 1px solid #DDD;
-  border-radius: 2px;
-  overflow: auto;
-  width: auto;
-}
-
-.ItemHSpacer ul li {
-  float:left;
-  padding: 0 10px 2px 10px ;
-  color:#fff;
-}
-
-.ItemHSpacer ul li:before {
-  content:" ";
-  color:#eee;
-}
-
-.ItemHSpacer ul li a, .ItemHSpacer ul li a:visited,  .ItemHSpacer ul li a:hover  {
-  color: #fff;
-  text-decoration: none;
-  border: none;
-}
-
-
-.new-topic, .new-topic a, .new-topic a:visited {
-  font-size: 1.0em;
-  color: #2A89C5;
-  float: right;
-  width: 80px;
-  text-align: center;
-}
-
-div.breadcrumb-wrapper {
-  color:#aaa;
-  background: #F4F4F4;
-  padding: 7px 0 2px 10px;
-  border: 1px solid #DDD;
-  border-radius: 2px;
-  overflow: auto;
-  width: auto;
-}
-
-div.breadcrumb-right {
-  text-align: right;
-  color:#aaa;
-  background: #F4F4F4;
-  padding: 7px 0 2px 10px;
-  overflow: auto;
-  width: auto;
-}
-
-
-ul.breadcrumbs {
-  font-size: 0.8em;
-  color:#aaa;
-  list-style: none outside;
-  display: block;
-  background-color: #eee;
-  padding: 7px 10px 8px 10px;
-  overflow: auto;
-  width: auto;
-}
-
-ul.breadcrumbs li {
-  display: list-item;
-  text-align: -webkit-match-parent;
-  padding: 0 4px 0 0;
-  float: left;
-  color:#999;
-}
-
-ul.breadcrumbs li:after {
-  content:"/";
-  color:#aaa;
-}
-
-ul.breadcrumbs li:last-child:after {
-  content:"";
-  color:#aaa;
-}
-
-ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
-  color: #333;
-  text-decoration: none;
-}
-
-
-ul.forum-breadcrumbs {
-  font-size: 1.1em;
-  color:#aaa;
-  list-style: none outside;
-  display: block;
-  background: #F4F4F4;
-  padding: 7px 10px 10px 10px;
-  overflow: auto;
-  width: auto;
-
-}
-
-ul.forum-breadcrumbs li {
-  display: list-item;
-  text-align: -webkit-match-parent;
-  padding: 0 4px 0 0;
-  float: left;
-  color:#999;
-
-  font-size: 1.1em;
-}
-
-ul.forum-breadcrumbs li:after {
-  content:"/";
-  color:#aaa;
-}
-
-ul.forum-breadcrumbs li:last-child:after {
-  content:"";
-  color:#aaa;
-}
-
-ul.breadcrumbs li a, ul.breadcrumbs li a:visited {
-  color: #333;
-  text-decoration: none;
-}
-
 
 .socialrow {
   padding-top:5px;
@@ -2538,27 +2427,69 @@ ul.storytools li.right a.print {
   margin-top:-1px;
 }
 #custom-tweet-button a {
-  background:url(/images/icon_storytools.gif) 0 -256px no-repeat;
+  background:url(http://media.npr.org/chrome/news/icon_storytools.gif) 0 -256px no-repeat;
   padding:0 0 0 19px;
   cursor:pointer;
 }
-.jh_forum_current_page {
-  font-size: 16px;
-  font-weight: bold;
+
+
+input[type="button"], input[type="submit"], input[type="reset"], input[type="file"]::-webkit-file-upload-button, button {
+  -webkit-box-align: center;
+  text-align: center;
+  cursor: default;
+  color: buttontext;
+  padding: 1px 2px 3px;
+  border: 1px outset buttonface;
+  border-image: initial;
+  background-color: buttonface;
+  box-sizing: border-box;
 }
+input[type="radio"], input[type="checkbox"] {
+  margin: 1px 0.5ex;
+  padding: initial;
+  background-color: initial;
+  border: initial;
+}
+
+.pagination {
+  margin: 5px 0;
+}
+
+.pagination ul {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-left: 0;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.pagination ul > li {
+  display: inline;
+}
+
+.pagination ul > li > a, .pagination ul > li > span {
+  float: left;
+  padding: 4px 12px;
+  line-height: 20px;
+  text-decoration: none;
+  background-color:
+	#fff;
+  border: 1px solid
+  #ddd;
+  border-left-width: 0;
+}
+
 
 /** Bootstrap overrides **/
 .player-row {
   padding-top: 17px;
 }
 .player-pic-column {
-  padding-right: 2px;
-}
-.player-data {
-  padding-left: 5px;
-}
-.home-cd-thumb {
-  font-size: 0.8em;
+  padding-right: 100px;
 }
 
 .carousel-caption a, carousel-caption a.visited {
@@ -2579,10 +2510,6 @@ ul.storytools li.right a.print {
 
 .carousel-control.left {
   background-color: white;
-}
-
-.home_middle_column {
- border-right: 1px solid #eee;
 }
 
 

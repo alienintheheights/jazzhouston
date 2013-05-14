@@ -18,7 +18,7 @@ class ForumsController < ApplicationController
   # H-TOWN Timezone
   @@time_zone = 'Central Time (US & Canada)'
   @@moderation_mode = false
-  @@per_page = 20
+  @@per_page = 10
   @@message_threshold = -6
 
   ################################
@@ -92,13 +92,13 @@ class ForumsController < ApplicationController
   def messages
 
 	if params[:id].nil?
-	  flash[:message] = "Bad URL. Try again from a working link."
+	  flash[:notice] = "Bad URL. Try again from a working link."
 	  redirect_to :action=>"index"
 	  return
 	end
 
 	if topic.nil?
-	  flash[:message] = "Sorry, this topic has either been removed or the link that got you here is incorrect."
+	  flash[:notice] = "Sorry, this topic has either been removed or the link that got you here is incorrect."
 	  redirect_to :action=>"index"
 	  return
 	end
@@ -106,7 +106,7 @@ class ForumsController < ApplicationController
 	# board
 	@board = ForumBoard.find(topic.board_id)
 	if @board.nil?
-	  flash[:message] = "Sorry, that post is from a forum that has been removed."
+	  flash[:notice] = "Sorry, that post is from a forum that has been removed."
 	  redirect_to :action=>"index"
 	  return
 	end
@@ -115,11 +115,11 @@ class ForumsController < ApplicationController
 	  format.html {render :template => "forums/messages.erb"}
 	  format.mobile {render :template => "forums/messages_mobile.erb"}
 	  # .json is used by mobile web service/REST calls (iOS in particular)
-	  format.json {render :json => @topic.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
+	  format.json {render :json => @topic.posts.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
 	end
 
   rescue Exception => exception
-	flash[:message] = "Sorry, that post is from a forum that has been removed."
+	flash[:notice] = "Sorry, that post is from a forum that has been removed."
 	redirect_to :action=>"index"
 
   end

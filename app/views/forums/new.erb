@@ -1,32 +1,46 @@
 <%= render :partial => "common/extjs", :locals=>{:jsonly=>true} %>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <div id="StageNarrow">
-
   <ul class="breadcrumbs">
 	<li>
 	  <a href="/forums">Forums</a>
 	</li>
 	<li>
-	  New Topic
+	  Post a New Topic
 	</li>
   </ul>
 
   <div class="cd-inside">
-	<%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
-	  <%= f.label :title %>
-	  <%= f.text_field :title, :size=>60 %> <br/>
-
-	  Forum Board
-	  <%= f.collection_select :board_id, ForumBoard.where("status=2").all, :board_id, :title, {:selected => "Local Scene"} %>
-
-	  <br/>
-	  <%= f.fields_for :posts do |message_form| %>
-		<%= message_form.label :message_text %> <br/>
-		<%= message_form.text_area :message_text, :rows=>20, :cols=>80 %>
-		<br/>(drag bottom right corner to expand editor)
-	  <% end %>
-
-	  <%= f.submit "Post New Topic" %>
-	<% end %>
+	<div class="row-fluid">
+	  <div class="span10 well">
+		<%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
+		  <fieldset>
+			 <legend>Post a new topic</legend>
+			<div class="control-group">
+			  <label class="control-label" for="topic_title">Title</label>
+			  <div class="controls" >
+				<%= f.text_field :title, :size=>60, :class=>"span10" %>
+			  </div>
+			</div>
+			<div class="control-group">
+			  <label class="control-label" for="topic_board_id">Select Forum</label>
+			  <div class="controls" >
+				<%= f.collection_select :board_id, ForumBoard.where("status=2").all, :board_id, :title, {:selected => "Local Scene"} %>
+			  </div>
+			</div>
+			<div class="control-group">
+			  <div class="controls" >
+				<%= f.fields_for :posts do |message_form| %>
+				  <%= message_form.text_area :message_text, :rows=>20, :class=>"span10" %>
+				<% end %>
+			  </div>
+			</div>
+			<div class="form-actions">
+			  <%= f.submit "Post New Topic", :class=>"btn" %>
+			</div>
+		  </fieldset>
+		<% end %>
+	  </div>
+	</div>
   </div>
 </div>

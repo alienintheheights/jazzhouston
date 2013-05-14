@@ -24,20 +24,22 @@
 
     <table class="index-three-column-small">
       <% counter=0
-         for item in @albums %>
+         for item in albums %>
           <% if counter%3==0 %><tr><% end %>
-          <td>
+          <td width="33%">
             <% if item.image_url != ""  %>
-                <%= link_to image_tag(item.image_url,:width=>'150',:hspace=>'5', :align=>'left'), {:action => "about", :controller=>"releases", :id=>item.album_id} %>
+                <%= link_to image_tag(item.image_url,:width=>'150', :height=>"150",:hspace=>'5', :class=>"img-polaroid", :style=>"height:150px;"), {:action => "about", :controller=>"releases", :id=>item.album_id} %>
             <% end %>
-            <%= item.artist_name %><br/>
-            <%= link_to item.title, {:action => "about", :controller=>"releases", :id=>item.album_id} %>
-            <br/><br/>
+			<p>
+            <h3><%= item.artist_name %></h3>
+            <h4><%= link_to item.title, {:action => "about", :controller=>"releases", :id=>item.album_id} %></h4>
+            <small>
             <% if item.release_date %>
-                <br/><%= item.release_date.strftime("%B %Y") %>
+                <br/>Released <%= item.release_date.strftime("%B %Y") %>
             <% end %>
             <br/> <a href="/releases/bygenre/<%=item.genre.genre_id%>"><%=item.genre.genre_name %></a>
-
+			  </small>
+			</p>
           </td>
           <% counter=counter+1
              if counter%3==0 %>

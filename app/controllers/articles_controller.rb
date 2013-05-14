@@ -179,17 +179,20 @@ class ArticlesController < ApplicationController
   # PUT /contents/1
   # PUT /contents/1.xml
   def update
-    @content = Content.find(params[:id])
-
+   @content = Content.find(params[:id])
+   @content.update_attributes(params[:content])
+   # cleanup
+    if !@content.image_url.nil? && !@content.image_url.blank?
+      @content.photo=nil
+    elsif !@content.photo.nil? && !@content.photo.blank?
+      @content.image_url=nil
+	end
+   @content.save
     respond_to do |format|
-      if @content.update_attributes(params[:content])
+
         #flash[:notice] = 'Article was successfully updated.'
-        format.html { redirect_to :content=>@content, :action=>"edit", :id=>@content.content_id   }
+        format.html { redirect_to :content=>@content, :action=>"edit"   }
         format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @content.errors, :status => :unprocessable_entity }
-      end
     end
   end
 

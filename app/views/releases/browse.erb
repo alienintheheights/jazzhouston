@@ -22,7 +22,7 @@
 
     <table class="index-three-column">
       <% counter=0
-         for item in @albums %>
+         for item in albums_all %>
           <% if counter%3==0 %><tr><% end %>
           <td>
             <% if item.image_url != ""  %>

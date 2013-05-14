@@ -15,40 +15,45 @@ class HomeController < ApplicationController
   ################################
 
   def index
-    if mobile_request?
-      redirect_to :action=>"mobile"
-    end
-    # get all shows for today
-    @curTime = Time.now.in_time_zone(@@time_zone)
+	if mobile_request?
+	  redirect_to :action=>"mobile"
+	end
 
-    @showsToday = Event.getShowsToday(@curTime)
-    @showsThisWeek = Event.getShowsThisWeek(@curTime)
 
-    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>7)
-
-    @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"release_date desc", :limit=>5)
-
-    @page_title="News, Events Calendar, Musician Resources, Local Releases"
+	@page_title="News, Events Calendar, Musician Resources, Local Releases"
 
   end
 
   # the mobile index page
   def mobile
 
-    # get all shows for today
-    @curTime = Time.now.in_time_zone(@@time_zone)
+	@page_title="News, Events Calendar, Musician Resources, Local Releases | Mobile Edition"
 
-    @showsToday = Event.getShowsToday(@curTime)
-    @showsThisWeek = Event.getShowsThisWeek(@curTime)
+  end
 
-    @articles=Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>5)
+  private
 
-    @albums=Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
-                       :order=>"release_date desc", :limit=>5)
+  helper_method :topic_list, :shows_today, :shows_this_week, :articles, :albums
 
-    @page_title="News, Events Calendar, Musician Resources, Local Releases"
+  def topic_list
+	@topic_list ||= Topic.recent_posts(1, 6)
+  end
 
+  def shows_this_week
+	@shows_this_week ||= Event.getShowsThisWeek()
+  end
+
+  def shows_today
+	@shows_today ||= Event.getShowsToday()
+  end
+
+  def articles
+	@articles ||= Content.find(:all, :order=>"display_date desc", :conditions => "status_id=2", :limit=>4)
+  end
+
+  def albums
+	@albums ||= Album.find(:all, :joins=>:genre, :select=>"genres.genre_name, albums.*",
+					   :order=>"release_date desc", :limit=>4)
   end
 
 end

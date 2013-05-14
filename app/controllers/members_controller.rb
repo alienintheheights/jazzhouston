@@ -8,10 +8,8 @@ class MembersController < ApplicationController
 
   include AuthenticatedSystem
   include ExtjsRails
-  if Rails.env.production?
-	require "RMagick"
-	include UserChallenge
-  end
+  require "RMagick"
+  include UserChallenge
 
   #rescue_from (ActiveRecord::RecordNotFound) { |e| render :file => 'public/404.html' }
   #rescue_from (ActiveRecord::RecordInvalid) { |e| render :file => 'public/404.html' }
@@ -61,7 +59,7 @@ class MembersController < ApplicationController
 		end
 		session[:user_bans]=ban_list
 	  end
-	  flash[:notice] = "Logged in successfully"
+	  flash[:message] = "Logged in successfully"
 	  redirect_to :back,  :notice=>flash[:notice]
 	end
   end
@@ -75,8 +73,8 @@ class MembersController < ApplicationController
 	self.current_user.forget_me if logged_in?
 	cookies.delete :auth_token
 	reset_session
-	flash[:notice] = "You have been logged out."
-	redirect_to :back,  :notice=>flash[:notice]
+	flash[:message] = "You have been logged out."
+	redirect_to :back,  :message=>flash[:message]
   end
 
 
@@ -416,7 +414,7 @@ class MembersController < ApplicationController
 	@user = User.find(params[:id])
 	# prevent spoofs
 	if !request.post? || !logged_in? || !(self.current_user.user_id == params[:id].to_i || self.current_user.admin_flag == 1)
-	  puts "Invalid request for update"
+	  puts "ERROR: Invalid request for update"
 	  return
 	end
 
@@ -478,9 +476,9 @@ class MembersController < ApplicationController
 	@user.update_attributes(params[:user])
 
     # cleanup
-    if (@user.image_url && @user.image_url != "")
+    if !@user.image_url.nil? && !@user.image_url.blank?
       @user.image=nil
-    elsif (@user.image && @user.image != "")
+    elsif !@user.image.nil? && !@user.image.blank?
       @user.image_url=nil
 	end
 

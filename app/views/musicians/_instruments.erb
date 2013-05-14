@@ -1,0 +1,25 @@
+<script type="text/javascript">
+  $(function() {
+
+
+	$("select#board-select").change(function () {
+	  var str = "/musicians/";
+	  $("select option:selected").each(function () {
+		if (this.value === "0") {
+		  window.location  =   str;
+		} else {
+		  window.location = str + "/byinst/" + this.value;
+		}
+	  });
+
+	});
+
+
+  });
+</script>
+<select id="board-select">
+  <option value="0" disabled="disabled">Select an instrument
+	<%for item in instruments%>
+	<option value="<%=item.instrument_name%>" <% if @instrument==item.instrument_name %>selected<% end %>><%=item.instrument_name%>
+  <% end %>
+</select>

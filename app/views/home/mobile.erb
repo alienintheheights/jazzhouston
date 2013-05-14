@@ -1,18 +1,19 @@
 <!-- Stage for mobile home page -->
 <div id="StageHome" >
-  <div class="HeaderTitle">Mobile-Tablet Edition</div>
+  <div class="HeaderTitle">Mobile Edition</div>
   <div class="inside">
     <div id="homegrid">
       <div class="hspacer"></div>
       <table >
         <tr>
-          <td class="leftcol">
+          <td class="leftcol" id="show_listing">
+
             <h2>Playing Today</h2>
             <div class="hspacer"></div>
-            <% for item in @showsToday %>
+            <% for item in shows_today %>
                 <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
                 <% if item.venue %>
-                    @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
+                    at <%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
                 <% end %>
                 <%= item.show_time %>
                 <div class="hspacer"></div>
@@ -21,7 +22,7 @@
             <h2>More Shows This Week</h2>
             <ul class="showListMain">
               <%  currentDOW=""
-                  for item in @showsThisWeek
+                  for item in shows_this_week
                       dow=item.show_date.to_datetime.strftime("%A")
                       if (dow!=currentDOW)
               %>
@@ -41,9 +42,9 @@
             <div class="newslist">
               <ul>
                 <% counter=0
-                   if @articles.length==0 %>
+                   if articles.length==0 %>
                 <% end %>
-                <% for item in @articles
+                <% for item in articles
                        current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
                 %>
                     <li class="newslist-feature">

@@ -11,9 +11,9 @@ class User < ActiveRecord::Base
   has_many :user_bans
 
   # Virtual attribute for the unencrypted password
-  attr_accessible :username, :email, :password, :password_confirmation,  :first_name, :last_name, :about_me,
+  attr_accessible :username, :email,  :password_confirmation,  :first_name, :last_name, :about_me,
 				  :occupation, :location, :url, :favorite_music, :favorite_films, :home_phone,
-				  :cell_phone, :remember_token, :remember_token_expires_at, :image
+				  :cell_phone, :remember_token, :remember_token_expires_at, :image, :image_url
 
 
   validates_presence_of     :username, :email
@@ -94,9 +94,8 @@ class User < ActiveRecord::Base
 
   def authenticated?(inpwd)
 	false
-	if (!salt &&(password==inpwd))
-	  puts "encrypting password, legacy mode"
-	  save(false)
+	if (!salt && password==inpwd)
+	  save
 	  true
 	elsif (encrypt(inpwd)==crypted_password)
 	  true
@@ -153,6 +152,7 @@ class User < ActiveRecord::Base
 
   def password_required?
 	crypted_password.blank? || !password.blank?
+	false
   end
 
 

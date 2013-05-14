@@ -109,33 +109,42 @@
         <% if @mode=="Edit" %>
             <div class="hspacer"></div>
             Preview: <a href="/articles/words/<%=@content.content_id%>"><%=@content.title%></a><br/>
+            <% if @content.status_id != 2 %>
+               <b> Note: your article is not yet LIVE on the site. </b>
+                <br/>When you're ready, change the status at the bottom of the page to "Live"
+                and click "Edit". You may preview it at any time with the above link.
+
+            <% end %>
             <input type="hidden" id="id" name="id" value="<%=@content.content_id%>" >
         <% end %>
         <table width="100%">
           <tr>
             <td class="color4">
-              *<%= f.label :title %><br />
-              <%= f.text_field :title, :size=>40 %>
+              <%= f.text_field :title, :size=>40, :placeholder=>"Required: Story Title" %>
+			  <br/>
+			  <small>This is what appears on the top of the article. Keep it concise and grammatically correct. </small>
             </td>
           </tr>
 
           <tr>
             <td class="color2">
-              <% if @content.photo.exists? then %>
+              <% if !@content.photo.nil? && @content.photo.exists? then %>
                   <%= image_tag @content.photo.url(:small), :align=>"left", :width=>"100" %>
               <% end %>
-              <b>Upload photo</b> for article
+              <h4>Set the article photo</h4>
               <%= f.file_field :photo %>
-              <br/>Or, assign a remote <%= f.label :image_url %>
+			  <br/>
+              You may instead provide the URL of a hosted image<br/>
               <%= f.text_field :image_url, :size=>25, :placeholder=>"http://" %>
-              <br/>This photo will be displayed on the teaser and inside the article
+              <br/>
+			  <small>This photo will be displayed on the teaser and inside the article.</small>
             </td>
           </tr>
 
           <tr>
             <td class="color4">
 
-              *Author Byline<br />
+
               <% if @mode=="Edit" %>
                   <input type="hidden" id="content_author" name="content[author]" value="<%=@content.author%>"/>
               <% else %>
@@ -144,31 +153,32 @@
 
               <%= f.hidden_field :author_id %>
               <div class="ui-widget">
-                <input id="content_author_search" size="30" placeholder="auto-search: type away!"/>
+                <input id="content_author_search" size="30" placeholder="Author Search"/>
                 <div id="content_author_result" ><% if @content && @content.author_id  %>
                       Existing author <b><a href="/members/profile/<%= @content.author_id %>">profile link</a> </b>
                   <% end %></div>
               </div>
+
+				<small>The author must be a registered JazzHouston user.</small>
             </td>
           </tr>
           <tr>
             <td class="color2">
-              *<%= f.label :display_date %>
+              <%= f.label :display_date %>
               <%= f.text_field :display_date, :size=>10, :placeholder=>"Click to set" %>
             </td>
           </tr>
           <tr>
             <td class="color4">
-              Optional: The unique URL for the story (e.g., www.jazzhouston.com/words/<b>your_title_here</b>)
-              <br/>
-              <%= f.text_field :sub_title, :placeholder=>"your_title_here"%>
+
+			   <small>Optional: The unique URL for the story (e.g., www.jazzhouston.com/words/<b>your_title_here</b>) </small><br/>
+              <%= f.text_field :sub_title, :placeholder=>"url_name_no_spaces"%>
               <div id="sub_title_validate"></div>
             </td>
           </tr>
           <tr>
             <td class="color2">
-              <%= f.label :teaser %><br />
-              <%= f.text_area :teaser, :cols=>50, :rows=>5, :class =>"mceNoEditor"%>
+              <%= f.text_area :teaser, :cols=>50, :rows=>5, :class =>"mceNoEditor", :placeholder=>"Required: Teaser Text"%>
             </td>
           </tr>
           <tr>
@@ -184,7 +194,7 @@
           <tr>
             <td class="color2">
               <%= f.label :body_text %><br />
-              <%= f.text_area :body_text.gsub(/\n\r/, '</p><p>') %> (drag bottom right corner to expand editor)
+              <%= f.text_area :body_text %> (drag bottom right corner to expand editor)
             </td>
           </tr>
           <tr>

@@ -1,13 +1,18 @@
-page: <%= link_to "1", {:action => "byinst", :controller=>"musicians", :page=>1} %>
-<% if page>10 %>..<% end %>
-<%
-   sidx = (page>9)?page-8:2
-   total_pages = (total/page_size).to_i  + 1
-   for i in (sidx..total_pages)
-%>
-    <% if (i==page)  %>
-        <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i}, :class=>"selected" %>
-    <% else %>
-        <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i} %>
-    <% end  %>
-<% end %>
+
+<div class="pagination ">
+    <div id="musician_instrument_header"><%=@instrument.titleize%></div>
+  <ul>
+
+	<%
+	   total_pages = (total/page_size).to_i  + 1
+	   for i in (1..total_pages)
+	%>
+	  <% if i==page  %>
+		<li class="disabled">  <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i} %> </li>
+	  <% else %>
+		<li>  <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i} %> </li>
+	  <% end  %>
+
+	<% end %>
+  </ul>
+</div>

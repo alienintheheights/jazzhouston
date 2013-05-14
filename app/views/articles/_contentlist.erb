@@ -20,9 +20,9 @@
         <% if counter%2==0 %><tr><% end %>
         <td>
           <% if item.image_url && !item.image_url.blank?  %>
-              <%= link_to image_tag(item.image_url, :width=>'70', :height=>'70',:align=>'left',:hspace=>'2', :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@section_id, :page=>@page} %>
+              <%= link_to image_tag(item.image_url, :width=>'120', :height=>'120',:align=>'left',:hspace=>'2', :style=>"height:120px;", :class=>"img-polaroid", :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@section_id, :page=>@page} %>
           <% elsif item.photo.exists? then %>
-              <%= image_tag item.photo.url(:thumb), :align=>"left", :width=>'70',:hspace=>'2' %>
+              <%= image_tag item.photo.url(:large), :class=>"img-polaroid", :align=>"left",:width=>'120', :height=>'120',:hspace=>'2', :style=>"height:120px;width:120px;" %>
           <% end %>
 
           <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@section_id, :page=>@page}, :class=>"blueLink"%>

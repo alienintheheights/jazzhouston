@@ -11,7 +11,7 @@ class Event < ActiveRecord::Base
     end
 
     # method to get shows
-    def self.getOneNightShowsToday(curTime)
+    def self.getOneNightShowsToday(curTime=Time.now.in_time_zone(@@time_zone))
 
         show_date = curTime.strftime("%Y-%m-%d")
         dow = curTime.strftime("%w")
@@ -22,7 +22,7 @@ class Event < ActiveRecord::Base
     end
 
     # method to get shows
-    def self.getSteadiesToday(curTime)
+    def self.getSteadiesToday(curTime=Time.now.in_time_zone(@@time_zone))
 
         show_date = curTime.strftime("%Y-%m-%d")
         dow = curTime.strftime("%w")
@@ -33,7 +33,7 @@ class Event < ActiveRecord::Base
     end
 
     # method to get shows
-    def self.getShowsToday(curTime)
+    def self.getShowsToday(curTime=Time.now.in_time_zone(@@time_zone))
 
         show_date = curTime.strftime("%Y-%m-%d")
         dow = curTime.strftime("%w")
@@ -47,7 +47,7 @@ class Event < ActiveRecord::Base
 	return @onenighters + @steadies
     end
 
-    def self.getShowsThisWeek(curTime)
+    def self.getShowsThisWeek(curTime=Time.now.in_time_zone(@@time_zone))
 
         t = Time.now
         @todayDate = t.in_time_zone(@@time_zone).strftime("%Y/%m/%d")

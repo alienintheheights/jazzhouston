@@ -1,12 +1,24 @@
 <% if logged_in? -%>
-  <b>Reply</b><br>
   <%  topic.posts.build %>
-  <%= form_for [topic, topic.posts.build], :method=>"post", :url => { :action => "update"}, :html => {:onsubmit=>"return jh.forums.validatePost();"} do |f| %>
-	  <%= f.text_area :message_text, :cols => 40, :rows => 20 %>
-	  <%= f.hidden_field :thread_id %>
-	<%= f.submit "Reply" %>
-  <% end %>
-
+  <div class="row-fluid">
+	<div class="span10 well">
+	  <%= form_for [topic, topic.posts.build], :method=>"post", :url => { :action => "update"}, :html => { :onsubmit=>"return jh.forums.validatePost();"} do |f| %>
+		<fieldset>
+		  <legend>Post a response</legend>
+		  <div class="control-group">
+			<label class="control-label" for="post_message_text">Reply</label>
+			<div class="controls" >
+			  <%= f.text_area  :message_text, :rows => 10, :class=>"span10" %>
+			</div>
+		  </div>
+		  <div class="form-actions">
+			<%= f.hidden_field :thread_id %>
+			<%= f.submit "Reply", :class=>"btn" %>
+		  </div>
+		</fieldset>
+	  <% end %>
+	</div>
+  </div>
 <% else%>
   <div id="forum-login">
 	<b>Login to reply to this and other topics.</b>

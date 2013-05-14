@@ -11,7 +11,7 @@
 	<%= render :partial => "genre"%>
 
         <div class="hspacer"></div>
-               <% for item in @albums %>
+               <% for item in albums_by_genre %>
 	<div class="cd_listing">
                     <% if item.image_url != ""  %>
                         <%= link_to image_tag(item.image_url,:width=>'50',:hspace=>'2', :align=>"left"), {:action => "about", :controller=>"releases", :id=>item.album_id} %>
