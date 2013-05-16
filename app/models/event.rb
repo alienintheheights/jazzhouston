@@ -18,10 +18,7 @@ class Event < ActiveRecord::Base
 	dow = current_time.strftime("%w")
 
 	# one-night shows (event_type_id=1)
-	puts "getting today's shows'"
-	puts show_date
 	shows = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date=?",show_date], :order=>"performer, show_time")
-	puts "getting steadies"
 	# steady gigs (event_type_id=2)
 	steadies = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=2 and day_of_week=?",dow], :order=>"performer, show_time")
 
@@ -30,12 +27,9 @@ class Event < ActiveRecord::Base
 
   # method to get remaining shows this week
   def self.remaining_shows_this_week()
-	puts "getting shows this week"
 	t = Time.now
 	tomorrow_time = t + 1.days
 	tomorrow_date = tomorrow_time.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
-	puts "for tomorrow's date'"
-	puts tomorrow_date
 	# get shows thru Sun (i.e., saturday+1)
 	dow = 6 - t.wday
 	t += (24*60*60)*(dow+1)

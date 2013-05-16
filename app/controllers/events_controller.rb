@@ -40,8 +40,6 @@ class EventsController < ApplicationController
 	@cur_time = get_requested_date
 	# for use in the View
 	@page_title =  @cur_time.strftime("%A, %B %d %Y")
-	puts "time is"
-	puts @cur_time
 
 	respond_to do |format|
 	  format.html {render :template => "events/day.erb"}
@@ -213,8 +211,7 @@ class EventsController < ApplicationController
   end
 
   def get_requested_date
-	puts @cur_time
-    # pattern = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/
+	# pattern = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/
 	# setup the date math based on the custom route URL: /events/year/month/day
 	if !params[:year].nil?  && !params[:month].nil? && !params[:day].nil?
 	  @cur_time = Time.local(params[:year],params[:month],params[:day])
