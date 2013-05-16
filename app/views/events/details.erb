@@ -93,7 +93,7 @@
               <%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %> <br/>
           <% end %>
           <% if @show.day_of_week && !@show.show_date %>
-              <b><%= @dow[@show.day_of_week] %>s</b> <br/>
+              <b><%= dow[@show.day_of_week] %>s</b> <br/>
           <% end %>
           <% if @show.venue  %>
               <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a>, <%=@show.show_time%><br/>

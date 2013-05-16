@@ -1,67 +1,49 @@
 class Event < ActiveRecord::Base
-    set_primary_key "event_id"
-    belongs_to :venue
+  set_primary_key "event_id"
+  belongs_to :venue
 
-    @@time_zone='Central Time (US & Canada)'
+  @@time_zone='Central Time (US & Canada)'
 
-    # Exclude password info from json output.
-    def as_json(options={})
-        options[:except] ||= :password
-        super(options)
-    end
 
-    # method to get shows
-    def self.getOneNightShowsToday(curTime=Time.now.in_time_zone(@@time_zone))
+  # Exclude password info from json output.
+  def as_json(options={})
+	options[:except] ||= :password
+	super(options)
+  end
 
-        show_date = curTime.strftime("%Y-%m-%d")
-        dow = curTime.strftime("%w")
+  # method to get ALL shows & steadies this week
+  def self.get_shows_today(current_time=Time.now.in_time_zone(@@time_zone))
 
-        # one-nighters (event_type_id=1)
-        @onenighters = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date=?",show_date], :order=>"performer, show_time")
+	show_date = current_time.strftime("%Y-%m-%d")
+	dow = current_time.strftime("%w")
 
-    end
+	# one-night shows (event_type_id=1)
+	puts "getting today's shows'"
+	puts show_date
+	shows = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date=?",show_date], :order=>"performer, show_time")
+	puts "getting steadies"
+	# steady gigs (event_type_id=2)
+	steadies = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=2 and day_of_week=?",dow], :order=>"performer, show_time")
 
-    # method to get shows
-    def self.getSteadiesToday(curTime=Time.now.in_time_zone(@@time_zone))
+	return shows + steadies
+  end
 
-        show_date = curTime.strftime("%Y-%m-%d")
-        dow = curTime.strftime("%w")
+  # method to get remaining shows this week
+  def self.remaining_shows_this_week()
+	puts "getting shows this week"
+	t = Time.now
+	tomorrow_time = t + 1.days
+	tomorrow_date = tomorrow_time.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
+	puts "for tomorrow's date'"
+	puts tomorrow_date
+	# get shows thru Sun (i.e., saturday+1)
+	dow = 6 - t.wday
+	t += (24*60*60)*(dow+1)
+	saturday_date = t.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
 
-        # steady gigs (event_type_id=2)
-        @steadies = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=2 and day_of_week=?",dow], :order=>"performer, show_time")
+	Event.find(:all, :conditions=>["event_type_id=1 and show_date between ? and ?",tomorrow_date, saturday_date], :order=>"show_date")
 
-    end
-
-    # method to get shows
-    def self.getShowsToday(curTime=Time.now.in_time_zone(@@time_zone))
-
-        show_date = curTime.strftime("%Y-%m-%d")
-        dow = curTime.strftime("%w")
-
-        # one-nighters (event_type_id=1)
-        @onenighters = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date=?",show_date], :order=>"performer, show_time")
-
-        # steady gigs (event_type_id=2)
-        @steadies = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=2 and day_of_week=?",dow], :order=>"performer, show_time")
-
-	return @onenighters + @steadies
-    end
-
-    def self.getShowsThisWeek(curTime=Time.now.in_time_zone(@@time_zone))
-
-        t = Time.now
-        @todayDate = t.in_time_zone(@@time_zone).strftime("%Y/%m/%d")
-        tomorrow_time = t + 1.days
-        tomorrow_date = tomorrow_time.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
-
-        # get shows thru Sun (i.e., saturday+1)
-        dow = 6 - t.wday
-        t += (24*60*60)*(dow+1)
-        saturday_date = t.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
-
-        @weekendShows = Event.find(:all, :conditions=>["event_type_id=1 and show_date between ? and ?",tomorrow_date, saturday_date], :order=>"show_date")
-
-    end
+  end
 
 end
 

@@ -7,22 +7,22 @@
     <description>Houston Jazz Event Listings for <%=  @curTime.strftime("%A %B %d %Y") %></description>
     <language>en-us</language>
     <ttl>90</ttl>
-    <pubDate><%= @curTime.strftime("%a, %d %b %Y %H:%M:%S") %> CST</pubDate>
+    <pubDate><%= display_date.strftime("%a, %d %b %Y %H:%M:%S") %> CST</pubDate>
     <copyright>Copyright(c) 1996- JazzHouston.com</copyright>
-    <lastBuildDate><%= @curTime.strftime("%a, %d %b %Y %H:%M:%S %Z") %></lastBuildDate>
+    <lastBuildDate><%= display_date.strftime("%a, %d %b %Y %H:%M:%S %Z") %></lastBuildDate>
 
     <%
        count=0
-       adjTime = @curTime-1.hour
-       unless @showlist.nil?
-           for item in @showlist
+       adjusted_time = display_date-1.hour
+       unless shows_today.nil?
+           for item in shows_today
     %>
                 <item>
                   <title><![CDATA[<%= item.performer%>]]></title>
                   <link>http://www.jazzhouston.com/events/details/<%=item.event_id%></link>
                   <description><![CDATA[<%= item.show_time %> at <%=item.venue.title%>
                     ]]></description>
-                  <pubDate><%= (adjTime+count.minute).strftime("%a, %d %b %Y %H:%M:%S")%> CST</pubDate>
+                  <pubDate><%= (adjusted_time+count.minute).strftime("%a, %d %b %Y %H:%M:%S")%> CST</pubDate>
                   <guid><![CDATA[http://www.jazzhouston.com/events/rss/<%=item.event_id%>]]></guid>
                 </item>
      <%	end

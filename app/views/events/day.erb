@@ -1,48 +1,40 @@
 
-  <div id="StageMedium">
-    <ul class="breadcrumbs">
-      <li>
-        <a href="/events">Events</a>
-      </li>
-      <li>
-        By Date
-      </li>
-    </ul>
+<div id="StageMedium">
+  <ul class="breadcrumbs">
+	<li>
+	  <a href="/events">Events</a>
+	</li>
+	<li>
+	  By Date
+	</li>
+  </ul>
 
   <%= render :partial => "/events/calendar"%>
 
   <div class="cd-inside">
-    <div class="hspacer"></div>
-    <h2>Shows for <%=  @curTime.strftime("%A, %B #{@curTime.day.ordinalize}") %></h2>
-    <% if @onenighters.length==0 %>
-        <br/>No shows scheduled for this date:
-        see <a href="/events/shows">upcoming shows</a>
+	<div class="hspacer"></div>
+	<h2>Shows for <%=  display_date.strftime("%A, %B #{display_date.day.ordinalize}") %></h2>
+	<% if remaining_shows_this_week.length==0 %>
+	  <br/>No shows scheduled for this date:
+	  see <a href="/events/shows">upcoming shows</a>
 
-    <% end %>
-    <br/>
-    <% for item in @onenighters %>
-        <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %>
+	<% end %>
+	<br/>
+	<% for item in shows_today %>
+	  <% if item.event_type_id==1 %>
+		<i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
+	  <% else %>
+		<i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
+	  <% end %>
+	  <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %>
 
-        <% if item.venue %>
-            @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
+	  <% if item.venue %>
+		@<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
 
-        <% end %>
-        <%= item.show_time %>
-        <div class="hspacer"></div>
-    <% end %>
+	  <% end %>
+	  <%= item.show_time %>
+	  <div class="hspacer"></div>
+	<% end %>
 
-    <div class="hspacer"></div>
-    <h2>Appearing Every <%=  @curTime.strftime("%A") %></h2>
-    <div class="hspacer"></div>
-    <% for item in @steadies %>
-        <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id}, {:remote => true} %>
-        <% if item.venue %>
-            @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
-
-        <% end %>
-        <%= item.show_time %>
-
-        <div class="hspacer"></div>
-    <% end %>
   </div>
 </div>

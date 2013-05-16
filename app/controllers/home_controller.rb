@@ -33,18 +33,18 @@ class HomeController < ApplicationController
 
   private
 
-  helper_method :topic_list, :shows_today, :shows_this_week, :articles, :albums
+  helper_method :topic_list, :shows_today, :remaining_shows_this_week, :articles, :albums
 
   def topic_list
 	@topic_list ||= Topic.recent_posts(1, 6)
   end
 
-  def shows_this_week
-	@shows_this_week ||= Event.getShowsThisWeek()
+  def remaining_shows_this_week
+	@remaining_shows_this_week ||= Event.remaining_shows_this_week()
   end
 
   def shows_today
-	@shows_today ||= Event.getShowsToday()
+	@shows_today ||= Event.get_shows_today()
   end
 
   def articles
