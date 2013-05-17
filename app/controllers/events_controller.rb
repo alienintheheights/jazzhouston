@@ -29,8 +29,8 @@ class EventsController < ApplicationController
 
 	respond_to do |format|
 	  format.html {render :template => "events/index.erb"}
-	  format.html {render :template => "events/index_mobile.erb"}
-	  format.json {render :json => all_data.to_json(:include =>:venue  )  }
+	  format.mobile {render :template => "events/index_mobile.erb"}
+	  format.json {render :json => shows_on_date.to_json(:include =>:venue  )  }
 	end
   end
 
@@ -43,7 +43,7 @@ class EventsController < ApplicationController
 
 	respond_to do |format|
 	  format.html {render :template => "events/day.erb"}
-	  format.json {render :json =>  shows_today.to_json(:include =>:venue  )  }
+	  format.json {render :json =>  shows_on_date.to_json(:include =>:venue  )  }
 	end
   end
 
@@ -59,17 +59,16 @@ class EventsController < ApplicationController
 
   # details pages
   def details
-	# Google API Key
-	@key = (mobile_request?)? "ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxRu0WNbvnfuRTApAt3p9akP7mvt_BSueC6b0kgIIhtGFn0Ree50gx-z7g" : "ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxQhxxKw40N0I53x6-l4Z3M-dBKQbxTvKrXL8khco-2AjQvIHGVcigFIsQ"
+
 
 	@show = Event.find(params[:id])
 
 	if (@show && @show.artist_id && @show.artist_id>0 && User.exists?(@show.artist_id))
-	  @player= User.find(@show.artist_id)
+	  @player = User.find(@show.artist_id)
 	end
 
 	if (@show && @show.venue_id)
-	  @venue=Venue.find(@show.venue_id)
+	  @venue = Venue.find(@show.venue_id)
 	end
 
 	# for use in the View
@@ -77,6 +76,7 @@ class EventsController < ApplicationController
 
 	respond_to do |format|
 	  format.html {render :template => "events/details.erb"}
+	  format.mobile {render :template => "events/details_mobile.erb"}
 	  format.json {render :json => @show.to_json(:include =>:venue  )  }
 	end
   end
@@ -179,37 +179,36 @@ class EventsController < ApplicationController
 
   private
 
-  helper_method  :shows_today, :remaining_shows_this_week, :jams, :all_data, :display_date, :dow
+  helper_method  :shows_on_date, :remaining_shows_this_week, :jams, :display_date, :dow, :google_map_key
 
   def display_date
 	@cur_time = Time.now.in_time_zone(@@time_zone)
   end
 
-  def all_data
-	if (remaining_shows_this_week.nil?)
-	  return nil
-	end
-	all_data = remaining_shows_this_week + shows_today
-  end
 
   def remaining_shows_this_week
-	@remaining_shows_this_week = Event.remaining_shows_this_week()
+	@remaining_shows_this_week ||= Event.remaining_shows_this_week()
   end
 
-  def shows_today(show_date = get_requested_date)
-	@shows_today = Event.get_shows_today(show_date)
+  # gets ALL shows (steadies + one-nighters) for the request day
+  def shows_on_date(show_date = get_requested_date)
+	@shows_on_date ||= Event.shows_on_date(show_date)
   end
 
-
+  # jam sessions
   def jams
 	# Jam Sessions
-	@jams = Event.find(:all, :include => [:venue], :conditions=>"jam_flag=1", :order=>"day_of_week, show_time")
+	@jams ||= Event.find(:all, :include => [:venue], :conditions=>"jam_flag=1", :order=>"day_of_week, show_time")
   end
 
+  # list of Days of the Week
   def dow
-	@dow = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+	@dow = []
+	Date::DAYNAMES.each_with_index { |x, i| @dow << [x, i] }
+	@dow
   end
 
+  # determines the show date based on the request.
   def get_requested_date
 	# pattern = /^(\d{4})\/(\d{1,2})\/(\d{1,2})$/
 	# setup the date math based on the custom route URL: /events/year/month/day
@@ -218,6 +217,12 @@ class EventsController < ApplicationController
 	else
 	  @cur_time = Time.now.in_time_zone(@@time_zone)
 	end
+  end
+
+  # This is the API key for jazzhouston.com and m.jazzhouston.com
+  def google_map_key
+	# Google API Key
+	@google_map_key = (mobile_request?)? "ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxRu0WNbvnfuRTApAt3p9akP7mvt_BSueC6b0kgIIhtGFn0Ree50gx-z7g" : "ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxQhxxKw40N0I53x6-l4Z3M-dBKQbxTvKrXL8khco-2AjQvIHGVcigFIsQ"
   end
 
 

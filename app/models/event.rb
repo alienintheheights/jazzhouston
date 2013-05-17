@@ -1,6 +1,8 @@
 class Event < ActiveRecord::Base
   set_primary_key "event_id"
   belongs_to :venue
+  has_one :user, :foreign_key => "user_id"
+
 
   @@time_zone='Central Time (US & Canada)'
 
@@ -12,7 +14,7 @@ class Event < ActiveRecord::Base
   end
 
   # method to get ALL shows & steadies this week
-  def self.get_shows_today(current_time=Time.now.in_time_zone(@@time_zone))
+  def self.shows_on_date(current_time=Time.now.in_time_zone(@@time_zone))
 
 	show_date = current_time.strftime("%Y-%m-%d")
 	dow = current_time.strftime("%w")
@@ -26,6 +28,7 @@ class Event < ActiveRecord::Base
   end
 
   # method to get remaining shows this week
+  # the IDE is complaining about the length of this function name: whatever!
   def self.remaining_shows_this_week()
 	t = Time.now
 	tomorrow_time = t + 1.days

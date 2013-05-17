@@ -14,8 +14,8 @@
     <%
        count=0
        adjusted_time = display_date-1.hour
-       unless shows_today.nil?
-           for item in shows_today
+       unless shows_on_date.nil?
+           for item in shows_on_date
     %>
                 <item>
                   <title><![CDATA[<%= item.performer%>]]></title>
