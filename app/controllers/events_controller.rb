@@ -24,8 +24,8 @@ class EventsController < ApplicationController
   # index page
   def index
 
+	@page_title = (mobile_request?) ? "Shows" : "Local Music Calendar"
 
-	@page_title = "Local Music Calendar"
 
 	respond_to do |format|
 	  format.html {render :template => "events/index.erb"}
@@ -140,7 +140,6 @@ class EventsController < ApplicationController
 	respond_to do |format|
 	  format.mobile { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
 	  format.html { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
-	  format.xml  { head :ok }
 	end
   end
 
@@ -160,7 +159,6 @@ class EventsController < ApplicationController
 	respond_to do |format|
 	  format.mobile {redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id  }
 	  format.html {redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id  }
-	  format.xml  { render :xml => @event, :status => :created, :location => @event }
 	end
   end
 
@@ -173,7 +171,6 @@ class EventsController < ApplicationController
 	  flash[:notice]="Event Deleted"
 	  format.mobile { redirect_to :event=>@event, :action=>"index"   }
 	  format.html { redirect_to :event=>@event, :action=>"index"   }
-	  format.xml  { head :ok }
 	end
   end
 
