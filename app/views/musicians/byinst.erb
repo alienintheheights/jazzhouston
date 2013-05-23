@@ -3,18 +3,24 @@
   $(function() {
 	var sugList = $("#suggestions");
 	var toggler = $("#toggle");
+	var titlebar = $("#musician_instrument_header");
+	var pagerbar = $("#musician_pager");
 	toggler.hide();
 	var byinst_list =  $("#byinst_list");
 	toggler.on("click", function(){
 	  toggler.hide();
 	  sugList.html("");
 	  byinst_list.show();
+	  titlebar.show();
+	  pagerbar.show();
 	});
 	var defaultImage = "/images/forum-icon-blue.png";
 	$("#searchField").on("input", function(e) {
 	  var text = $(this).val();
 	  if (text.length >= 4) {
 		byinst_list.hide();
+		titlebar.hide();
+		pagerbar.hide();
 		sugList.html("searching for " + text + "...");
 		var count = 0;
 		$.getJSON("/musicians/search_ext?query="+text).done(function( res ) {
@@ -60,7 +66,7 @@
 <div id="StageNarrow">
   <ul class="breadcrumbs">
 	<li>
-	  <a href="/musicians">Musician Roll-a-dex</a>
+	  <a href="/musicians">Musician Roll-A-Dex</a>
 	</li>
 	<li>
 	  <%= render :partial => "instruments", :locals => { :instruments => instruments} %>
@@ -68,7 +74,7 @@
   </ul>
   <%= render :partial => "pager", :locals => { :page => @page,  :total =>@total_players, :page_size=>@page_size}%>
 
-  <div id="toggle">Hide Search Results</div>
+  <div id="toggle" style="clear:both;">Hide Search Results</div>
   <div id="suggestions"></div>
   <div class="cd-inside">
 	<div id="byinst_list">

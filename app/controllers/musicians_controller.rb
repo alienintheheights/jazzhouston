@@ -65,7 +65,7 @@ class MusiciansController < ApplicationController
   # extjs happy json search
   def search_ext
 	@search_term = "%#{params[:query].downcase}%"
-	@musicians = User.where("local_player_flag=1 and status_id=2 and (lower(username) like ? or lower(first_name) like ? or lower(last_name) like ? )", @search_term, @search_term, @search_term).order("last_name").select("username, first_name, last_name, user_id, cell_phone, url, home_phone, image, image_url")
+	@musicians = User.where("local_player_flag=1 and status_id<>1 and (lower(username) like ? or lower(first_name) like ? or lower(last_name) like ? )", @search_term, @search_term, @search_term).order("last_name").select("username, first_name, last_name, user_id, cell_phone, url, home_phone, image, image_url")
 
 	render :json => to_ext_json(@musicians)
 
