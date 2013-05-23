@@ -1,3 +1,4 @@
+<script src="/common/js/jsrender.js"></script>
 <script type="text/javascript">
   /**
    * On-Ready jQuery block
@@ -15,21 +16,12 @@
 		$("#show_listing_header").html("Appearing " + dateStringNice);
 		$("#show_listing").html("Loading...");
 		$.getJSON( eventURL).done(function( data ) {
-		  var divBuffer = "";
-		  var baseLink = "<a href='/events/details/";
-		  var venueBaseLink = "<a href='/venues/about/";
+		  $("#show_listing").html("");
 		  $.each( data, function( i, item ) {
-			if (i==7) {
-			  divBuffer+="<a href='/events/"+dateString+"'>See Even More Shows...</a>";
-			  $("#show_listing" ).html(divBuffer);
-			  return false;
-			}
 			var show = item.event;
-			divBuffer+= baseLink+show.event_id+"'>"+show.performer+"</a> at ";
-			divBuffer+=venueBaseLink+show.venue.venue_id+"'>"+show.venue.title ;
-			divBuffer+="</a><br/><div class='hspacer'></div>";
+			var snippet =  $( "#show_listing_tmpl" ).render( show );
+			 $( "#show_listing" ).append(snippet);
 		  });
-		  $("#show_listing" ).html(divBuffer);
 		});
 	  }
 	}).show();
@@ -86,7 +78,6 @@
 		  Playing Today: <%=  display_date.strftime("%A, %B #{display_date.day.ordinalize}") %>
 		</h2>
 		<div id="show_listing">
-
 		  <div class="hspacer"></div>
 		  <% for item in shows_on_date %>
 			<% if item.event_type_id==1 %>
@@ -97,7 +88,7 @@
 
 			<%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
 			<% if item.venue %>
-			  @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
+			  at <%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
 
 			<% end %>
 			<%= item.show_time %>
@@ -106,10 +97,6 @@
 		  <div class="hspacer"></div>
 		  <a class="blueLink" href="/events/shows">see more upcoming shows</a>
 		</div>
-
-
-
-
 	  </div>
 	</div>
 	<div class="row-fluid">
@@ -128,11 +115,19 @@
 		  <br/><br/>
 		</div>
 	  </div>
-
 	</div>
-
-
   </div>
-
-
 </div>
+
+<script id="show_listing_tmpl" type="text/x-jsrender">
+  {{if event_type_id==1 }}
+  <i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
+  {{else}}
+  <i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
+  {{/if}}
+
+  <a href="/events/details/{{:event_id}}">{{:performer}}</a>
+  at <a href="/venues/about/{{:venue.venue_id}}">{{:venue.title}}</a>
+  {{:show_time}}
+  <div class="hspacer"></div>
+</script>
