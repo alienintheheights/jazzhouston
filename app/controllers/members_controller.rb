@@ -33,8 +33,12 @@ class MembersController < ApplicationController
   #########################################
   def login
 	#return unless request.post?
-	u = User.authenticate(params[:login].downcase, params[:password])
-	if !u
+	u = nil
+	if params[:login] && params[:password]
+	  u = User.authenticate(params[:login].downcase, params[:password])
+	end
+
+	if u.nil?
 	  flash[:notice]="Unable to login, check your username and password"
 	  redirect_to(:controller => '/members', :action => 'index')
 	elsif u.status_id == 1
@@ -44,7 +48,6 @@ class MembersController < ApplicationController
 	else
 	  self.current_user=u
 	end
-
 
 	if logged_in?
 	  if params[:remember_me] == "1"
@@ -94,7 +97,7 @@ class MembersController < ApplicationController
 	end
 
 	respond_to do |format|
-	  format.html # index..erb
+	   format.html  {render :template => "members/index.erb"}
 	  format.mobile {render :template => "members/index_mobile.erb"}
 	end
   end
@@ -109,9 +112,16 @@ class MembersController < ApplicationController
 	@member = User.find_by_username(params[:id].downcase)
 	if !@member
 	  @member = User.find(params[:id])
+	  if @member.nil?
+		 flash[:notice] = "This account does not exist."
+	  	 redirect_to :action => 'index'
+	  	 return
+	  end
 	end
-	if !@member || @member.status_id==1
-	  redirect_to(:controller => '/members', :action => 'index')
+	if @member.status_id==1
+	  flash[:notice] = "This account is still awaiting user confirmation."
+	  redirect_to :action => 'index'
+	  return
 	end
 	@instruments = @member.instruments
 	@isaplaya = (@instruments && @instruments.length>0)
@@ -127,10 +137,15 @@ class MembersController < ApplicationController
 	@page_title="Member Profile | #{@member.username}"
 	#end
 	respond_to do |format|
-	  format.html # index..erb
+	  format.html  {render :template => "members/profile.erb"}
 	  format.mobile {render :template => "members/profile_mobile.erb"}
 	  format.json {render :json =>@member}
 	end
+
+
+  rescue Exception => exception
+	flash[:notice] = "Sorry, our servers exploded."
+	redirect_to :action=>"members/index.erb"
 
   end
 
@@ -391,6 +406,12 @@ class MembersController < ApplicationController
 	  redirect_to(:controller => '/members', :action => 'profile', :id=>params[:id])
 	end
 
+
+	respond_to do |format|
+	  format.html # index..erb
+	  format.mobile {render :template => "members/edit_mobile.erb"}
+	end
+
   end
 
 
@@ -475,18 +496,18 @@ class MembersController < ApplicationController
 	@user = User.find(params[:id])
 	@user.update_attributes(params[:user])
 
-    # cleanup
-    if !@user.image_url.nil? && !@user.image_url.blank?
-      @user.image=nil
-    elsif !@user.image.nil? && !@user.image.blank?
-      @user.image_url=nil
+	# cleanup
+	if !@user.image_url.nil? && !@user.image_url.blank?
+	  @user.image=nil
+	elsif !@user.image.nil? && !@user.image.blank?
+	  @user.image_url=nil
 	end
 
-    @user.save!
-    # clear cache, if any
-    expire_user(@user)
+	@user.save!
+	# clear cache, if any
+	expire_user(@user)
 
-    redirect_to :action => "profile", :id => @user.username
+	redirect_to :action => "profile", :id => @user.username
 
   rescue Exception => exception
 	flash[:notice]= exception

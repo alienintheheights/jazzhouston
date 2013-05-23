@@ -2589,3 +2589,17 @@ ul.storytools li.right a.print {
 
 }
 
+
+#toggle {
+  padding: 5px 20px;
+  display: block;
+  text-align: center;
+  box-shadow: inset 0px -45px 30px -40px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  font-size: 1.3em;
+  font-family: "museo-sans", sans-serif;
+  border: 1px solid #ddd;
+  font-weight: bold;
+}
+
+

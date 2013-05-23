@@ -1,8 +1,62 @@
+<script src="/common/js/jsrender.js"></script>
 <script type="text/javascript">
   $(function() {
+	var sugList = $("#suggestions");
+	var toggler = $("#toggle");
+	toggler.hide();
+	var byinst_list =  $("#byinst_list");
+	toggler.on("click", function(){
+	  toggler.hide();
+	  sugList.html("");
+	  byinst_list.show();
+	});
+	var defaultImage = "/images/forum-icon-blue.png";
+	$("#searchField").on("input", function(e) {
+	  var text = $(this).val();
+	  if (text.length >= 4) {
+		byinst_list.hide();
+		sugList.html("searching for " + text + "...");
+		var count = 0;
+		$.getJSON("/musicians/search_ext?query="+text).done(function( res ) {
+		  var data = res.results;
+		  var column_offset = data.length%3;
+		  var liBlock = "";
+		  $.each( data, function( i, item ) {
+			if (count%3==0) {
+			  if (count>0) {
+				liBlock+=" </div>";
+			  }
+			  liBlock+='<div class="player-row row-fluid" >';
+			}
+
+			var image_url = "";
+			if (item.image_url) {
+			  image_url = item.image_url;
+			} else if (item.image) {
+			  image_url = "/user/image/"+item.user_id+"/avatar/"+item.image;
+			} else {
+			  image_url = defaultImage;
+			}
+			item.image_path = image_url;
+			if (item.url && item.url.indexOf("http:") == 0 ) {
+			  item.url = "http://"+item.url;
+			}
+			liBlock +=  $( "#musicians_listing_tmpl" ).render( item );
+			count++;
+		  });
+		  if (column_offset>0) {
+			liBlock += ('<div class="span'+ (12-column_offset*4) +'">&nbsp;</div>');
+		  }
+		  sugList.html(liBlock);
+		  toggler.show();
+
+		});
+	  }
+	});
 
   });
 </script>
+
 <div id="StageNarrow">
   <ul class="breadcrumbs">
 	<li>
@@ -14,74 +68,100 @@
   </ul>
   <%= render :partial => "pager", :locals => { :page => @page,  :total =>@total_players, :page_size=>@page_size}%>
 
+  <div id="toggle">Hide Search Results</div>
+  <div id="suggestions"></div>
   <div class="cd-inside">
+	<div id="byinst_list">
+	  <% count=0
+		 for item in players %>
+		<%
+		   fullname = item.first_name.gsub( %r{</?[^>]+?>}, '' ) + " " + item.last_name.gsub( %r{</?[^>]+?>}, '' )
+		   if (item.cell_phone && item.cell_phone!="" && !item.cell_phone.nil?)
+			 item.cell_phone.gsub!(/[^\d]/,'')
+			 item.cell_phone = number_to_phone(item.cell_phone)
+		   end
+		   if (item.home_phone && item.home_phone!="" && !item.home_phone.nil?)
+			 item.home_phone.gsub!(/[^\d]/,'')
+			 item.home_phone = number_to_phone(item.home_phone)
+		   end
+		   if !item.url.nil? && !item.url.blank? && item.url !~/^http:\/\//
+			 item.url = "http://#{item.url}"
+		   end
 
-	<% count=0
-	   for item in players %>
-	  <%
-		 fullname = item.first_name.gsub( %r{</?[^>]+?>}, '' ) + " " + item.last_name.gsub( %r{</?[^>]+?>}, '' )
-		 if (item.cell_phone && item.cell_phone!="" && !item.cell_phone.nil?)
-		   item.cell_phone.gsub!(/[^\d]/,'')
-		   item.cell_phone = number_to_phone(item.cell_phone)
-		 end
-		 if (item.home_phone && item.home_phone!="" && !item.home_phone.nil?)
-		   item.home_phone.gsub!(/[^\d]/,'')
-		   item.home_phone = number_to_phone(item.home_phone)
-		 end
-		 if !item.url.nil? && !item.url.blank? && item.url !~/^http:\/\//
-		   item.url = "http://#{item.url}"
-		 end
-
-		 if count%3==0
-		   if count>0 %>
-		  </div>
-		<% end %>
-		<div class="player-row row-fluid" >
-	  <% end %>
-
-	  <div class="span4">
-		<div class="span3 player-pic-column">
-		  <%= render :partial => "common/renderpic", :locals => { :user => item, :size =>"70"} %>
-		</div>
-		<div class="span9 player-data">
-
-		  <div class="player-name">
-			<strong><a class="" href="/members/profile/<%=item.username%>"><%= truncate(fullname.titleize, :length => 30) %></a></strong>
-		  </div>
-
-		  <div class="player-phone">
-			<% if !item.cell_phone.nil? && !item.cell_phone.blank? %>
-			  <i class="icon-signal" style="padding-right:5px;"></i><%= item.cell_phone || "--" %> <br/>
-			<% end %>
-			<% if !item.home_phone.nil? && !item.home_phone.blank? %>
-			  <i class="icon-home" style="padding-right:5px;"></i><%= item.home_phone || "--" %>
-			<% end %>
-		  </div>
-
-		  <%
-			 if !item.url.nil? && !item.url.blank?
-		  %>
-			<div class="player-url">
-
-			  <i class="icon-globe" style="padding-right:5px;"></i><a href="<%= item.url %>">personal website</a>
+		   if count%3==0
+			 if count>0 %>
 			</div>
-		  <% end %>
+		  <% end # end count>0%>
+		  <div class="player-row row-fluid" >
+		<% end # end count%3==0%>
+		<div class="span4">
+		  <div class="span3 player-pic-column">
+			<%= render :partial => "common/renderpic", :locals => { :user => item, :size =>"70"} %>
+		  </div>
+		  <div class="span9 player-data">
+			<div class="player-name">
+			  <strong><a class="" href="/members/profile/<%=item.username%>"><%= truncate(fullname.titleize, :length => 30) %></a></strong>
+			</div>
+			<div class="player-phone">
+			  <% if !item.cell_phone.nil? && !item.cell_phone.blank? %>
+				<i class="icon-signal" style="padding-right:5px;"></i><%= item.cell_phone || "--" %> <br/>
+			  <% end %>
+			  <% if !item.home_phone.nil? && !item.home_phone.blank? %>
+				<i class="icon-home" style="padding-right:5px;"></i><%= item.home_phone || "--" %>
+			  <% end %>
+			</div>
+			<div class="player-url">
+			  <% if !item.url.nil? && !item.url.blank? %>
+				<i class="icon-globe" style="padding-right:5px;"></i><a href="<%= item.url %>">personal website</a>
+			  <% end %>
+			</div>
+		  </div>
 		</div>
+	  <%count=count+1
+		end %>
+
+	  </div><!-- //end of last mod 3 div -->
+
+	  </div>
+  <div class="hspacer"></div>
+  <div class="alert" >
+	Musicians: to be listed on these pages, ensure your account is set to "musician" with a photo, phone number(s) and/or website.
+  </div>
+</div> <!-- //end of cd-inside -->
+</div><!-- //end of StageNarrow -->
+
+
+<script id="musicians_listing_tmpl" type="text/x-jsrender">
+  <div class="span4">
+	<div class="span3 player-pic-column">
+	  <div class="forumPic">
+		<a class="" href="/members/profile/{{:user_id}}"><img
+		src="{{:image_path}}"
+		align="left" width="75" height="75"
+		style="height:75px;" class="img-polaroid"></a>
+	  </div>
+	</div>
+
+	<div class="span9 player-data">
+	  <div class="player-name">
+		<strong><a class="" href="/members/profile/{{:username}}">{{:first_name}} {{:last_name}}</a></strong>
 	  </div>
 
+	  <div class="player-phone">
+		{{if cell_phone!=null}}
+		<i class="icon-signal" style="padding-right:5px;"></i>{{:cell_phone}}<br/>
+		{{/if}}
+		{{if home_phone!=null}}
+		<i class="icon-home" style="padding-right:5px;"></i>{{:home_phone}}
+		{{/if}}
+	  </div>
 
-	<%
-	   count=count+1
-	   end %>
-
-
+	  <div class="player-url">
+		{{if url!=""}}
+		<i class="icon-globe" style="padding-right:5px;"></i><a href="{{:url}}">website</a>
+		{{/if}}
+	  </div>
 	</div>
-	<div class="hspacer"></div>
-	<%= render :partial => "pager", :locals => { :page => @page,  :total =>@total_players, :page_size=>@page_size}%>
 
-
-	<div class="alert">
-	  Musicians: to be listed on these pages, ensure your account is set to "musician" with a photo, phone number(s) and/or website.
-	</div>
-	</div>
-</div>
+  </div>
+</script>
