@@ -101,7 +101,7 @@
 			  %>
 				<div>
 				  <h4><%= link_to item.title, {:action => "words", :controller=>"articles",  :id=>current_id} %></h4>
-				 <%= link_to image_tag(item.photo.url(:thumb), :width=>"120", :align=>"left", :class=>"img-polaroid home_news_pic", :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles",  :id=>current_id} %>
+				 <%= link_to image_tag(item.photo.url(:thumb), :width=>"110",:height=>"110", :style=>"height:110px;width:110px;", :align=>"left", :class=>"img-polaroid home_news_pic", :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles",  :id=>current_id} %>
 				  <div class="home_news_teaser">
 					<%= item.teaser %>
 				  </div>
