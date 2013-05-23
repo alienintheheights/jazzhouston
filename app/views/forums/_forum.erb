@@ -1,3 +1,4 @@
+
 <script type="text/javascript">
   $(function() {
 	$('.forumThreadBox').hover( function(){
@@ -18,6 +19,29 @@
 	  });
 
 	});
+
+	// VALIDATE message
+	$('#new_topic_submit').attr("disabled", "disabled");
+	var validate = function() {
+	  var isValid = false;
+	  if ( $("#topic_posts_attributes_0_message_text").val() &&  $("#topic_title").val() ) {
+		$('#new_topic_submit').removeAttr("disabled");
+		isValid = true;
+	  } else {
+		$("#new_topic_validation_note").text("Please fill in both a title and a message");
+	  }
+	  return isValid;
+
+	};
+	// check title
+	$("#topic_posts_attributes_0_message_text").blur(function(){
+	  validate();
+	});
+	// check message
+	$("#topic_title").blur(function() {
+	  validate();
+	});
+
 
 	<% if page_vars[:admin_mode] %>
 	$(".hider").click(function(){
@@ -54,9 +78,10 @@
 		 @topic = Topic.new
 		 @topic.posts.build
 	  %>
-	  <%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
+	  <%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return validate();"} do |f| %>
 		<fieldset>
 		  <div class="control-group">
+			<div id="new_topic_validation_note"></div>
 			<label class="control-label" for="topic_title">Title</label>
 			<div class="controls" >
 			  <%= f.text_field :title, :size=>60, :class=>"span10", :placeholder=>"post topic" %>
@@ -80,7 +105,7 @@
 		</div>
 		<div class="modal-footer">
 		  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		  <%= f.submit "Post New Topic", :class=>"btn btn-primary" %>
+		  <%= f.submit "Post New Topic", :id=>"new_topic_submit", :class=>"btn btn-primary" %>
 	  <% end %>
 	  </div>
 	  </div>

@@ -115,7 +115,7 @@ class ForumsController < ApplicationController
 	  format.html {render :template => "forums/messages.erb"}
 	  format.mobile {render :template => "forums/messages_mobile.erb"}
 	  # .json is used by mobile web service/REST calls (iOS in particular)
-	  format.json {render :json => @topic.posts.to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
+	  format.json {render :json => @topic.posts.page(page_vars[:per_page], page_vars[:per_page] * (page_vars[:page_number]-1)).to_json(:include =>{ :user => { :only => [:user_id, :url, :first_name, :last_name, :username, :image, :image_url] } })  }
 	end
 
   rescue Exception => exception

@@ -1,8 +1,41 @@
+
+<script type="text/javascript">
+  $(function() {
+
+	// VALIDATE message
+	$('#message_reply_button').attr("disabled", "disabled");
+	var validate = function() {
+	  var isValid = false;
+	  if ( $("#post_message_text").val()  ) {
+		$('#message_reply_button').removeAttr("disabled");
+		isValid = true;
+	  } else {
+		$("#new_topic_validation_note").text("Please fill in both a title and a message");
+	  }
+	  return isValid;
+
+	};
+	// check title
+	$("#post_message_text").keydown(function(){
+	  validate();
+	});
+	$("#post_message_text").blur(function(){
+	  validate();
+	});
+
+
+
+
+
+
+  });
+</script>
+
 <% if logged_in? -%>
   <%  topic.posts.build %>
   <div class="row-fluid">
 	<div class="span10 well">
-	  <%= form_for [topic, topic.posts.build], :method=>"post", :url => { :action => "update"}, :html => { :onsubmit=>"return jh.forums.validatePost();"} do |f| %>
+	  <%= form_for [topic, topic.posts.build], :id=>"message_reply_form", :method=>"post", :url => { :action => "update"} do |f| %>
 		<fieldset>
 		  <legend>Post a response</legend>
 		  <div class="control-group">
@@ -13,7 +46,7 @@
 		  </div>
 		  <div class="form-actions">
 			<%= f.hidden_field :thread_id %>
-			<%= f.submit "Reply", :class=>"btn" %>
+			<%= f.submit "Reply", :id=>"message_reply_button", :class=>"btn" %>
 		  </div>
 		</fieldset>
 	  <% end %>
