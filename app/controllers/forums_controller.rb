@@ -8,6 +8,8 @@
 
 class ForumsController < ApplicationController
 
+  #require 'rails_autolink' # for Rails >3.1 ONLY!! Don't upload this to DreamHost
+
   before_filter :login_required, :only =>[:hidepost]
   before_filter :forum_member, :only =>[:create, :update]
 
@@ -34,7 +36,7 @@ class ForumsController < ApplicationController
 	if params[:id].nil? || params[:id]==0
 	  create_recent()
 	end
-
+	@page_title="JH/Forums"
 	# respond
 	respond_to do |format|
 	  format.html {render :template => "forums/index.erb"}
@@ -64,7 +66,15 @@ class ForumsController < ApplicationController
 	@page_title="Forum | New Post"
 	@topic = Topic.new
 	@topic.posts.build
+
+	# respond
+	respond_to do |format|
+	  format.html {render :template => "forums/new.erb"}
+	  format.mobile {render :template => "forums/new_mobile.erb"}
+	 end
   end
+
+
 
   ################################
   # POST /forums/create
@@ -80,7 +90,11 @@ class ForumsController < ApplicationController
 	  post.ip_address = request.remote_ip()
 	end
 	@topic.save
+	flash[:message] = "Your message has been posted"
+	redirect_to :action=>"index"
 
+  rescue Exception => exception
+	flash[:notice] = "Oops! We had a problem posting your message. If this happens again, please contact the site administrators."
 	redirect_to :action=>"index"
 
   end
@@ -90,14 +104,14 @@ class ForumsController < ApplicationController
   # GET /forums/messages/<THREAD_ID>
   ##################################
   def messages
-
+	@page_title="Forum Topic"
 	if params[:id].nil?
 	  flash[:notice] = "Bad URL. Try again from a working link."
 	  redirect_to :action=>"index"
 	  return
 	end
 
-	if topic.nil?
+	if topic.nil?  || topic.status != 2
 	  flash[:notice] = "Sorry, this topic has either been removed or the link that got you here is incorrect."
 	  redirect_to :action=>"index"
 	  return
@@ -110,6 +124,9 @@ class ForumsController < ApplicationController
 	  redirect_to :action=>"index"
 	  return
 	end
+
+	#jquery mobile
+	@page_id ="message-#{topic.thread_id}"
 
 	respond_to do |format|
 	  format.html {render :template => "forums/messages.erb"}

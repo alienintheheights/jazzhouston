@@ -1,16 +1,16 @@
-<div id="StageNarrow">
-
-  <div class="forum-inside">
-
-	<div class="forumNewTopicLink">
+<% content_for :head do %>
+<% end %>
+<div data-role="content">
+  <ul data-role="listview">
+	<li>
 	  <% if logged_in? %>
 		<% if @board.nil? %>
-		  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :class=>"newTopic"} %>
+		  <%= link_to "+new topic", {:action => "new", :controller=>"forums"} %>
 		<% else %>
-		  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=> board.board_id}, :class=>"newTopic" %>
+		  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=> board.board_id} %>
 		<% end %>
 	  <% end %>
-	</div>
+	</li>
 	<%
 	   has_bans=(page_vars[:ban_list] && page_vars[:ban_list].length>0) || false
 	   per_page = page_vars[:per_page]
@@ -19,30 +19,34 @@
 		 next if (has_bans && item.monologue_flag==1 && page_vars[:ban_list].has_key?(item.user_id))
 		 next if board.status != 2
 	%>
-	  <div class="forumThreadBox">
-		<div class="forumAvatarBox">
-		  <div class="forumListPic">
-			<%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"75"} %>
+	  <li class="forum_row_li">
+		<div class="forumThreadBox">
+		  <div class="forumAvatarBox">
+			<div class="forumListPic">
+			  <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"83"} %>
+			</div>
 		  </div>
-
-		</div>
-		<div class= "bigForumLink">
-		  <a href="/forums/messages/<%=item.thread_id%>?page=<%=page_num%>&fpage=<%=page_vars[:page_number]%>"><%= truncate(item.title, :length => 60) %> (<%= item.post_count-1 %>)</a>
-
-		  <div class="forumPostTime">
-			<a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a> commented <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+		  <div>
+			<div class="forumAuthor">
+			  <a href="/members/profile/<%=item.user.user_id%>"><%=item.user.username%></a>
+			</div>
+			<div class="forumPostTime">
+			  <%=distance_of_time_in_words(Time.now, item.modified_date)%> ago
+			</div>
+			<br/>
+			<div class="forumTitle">
+			  <a data-ajax="false" href="/forums/messages/<%=item.thread_id%>?fpage=<%=page_vars[:page_number]%>"><%= truncate(item.title, :length => 30) %>
+				<span class="ui-li-count"><%= item.post_count-1 %></span></a>
+			</div>
 		  </div>
 		</div>
-	  </div>
-
+	  </li>
 	<% end %>
-	<div class="hspacer"></div>
-	<div class="board-pager">
-	  <div  style="float:left;padding: 0 25px;">
-		<%= render :partial => "pager"%>
-	  </div>
+  </ul>
+  <div class="board-pager">
+	<div  style="float:left;padding: 0 25px;">
+	  <%= render :partial => "pager"%>
 	</div>
-	<div class="hspacer"></div>
-
   </div>
 </div>
+

@@ -1,0 +1,205 @@
+<% content_for :head do %>
+<script>
+
+  $(document).ready(function() {
+
+	var submit_button = $("#submit_button");
+
+	var email_group = $("#email_group");
+	var email = $("#user_email");
+	var email_info = $("#email_info");
+
+	var username_group = $("#username_group");
+	var username = $("#user_username");
+	var username_info = $("#username_info");
+
+
+	var pass_group = $("#password_group");
+	var pass = $("#user_password");
+	var pass_info = $("#pass_info");
+
+
+	var last_name_group = $("#last_name_group");
+	var last_name = $("#user_last_name");
+	var last_name_info = $("#last_name_info");
+
+	var form = $("#jh_register");
+
+
+	var checkUsername = function(name) {
+	  $.ajax({
+		type: "GET",
+		url: '/members/verify_username',
+		data: 'username='+ name,
+		contentType: "application/json; charset=utf-8",
+		async: true,
+		dataType: "json",
+		success: function (data, msg, j) {
+		  if (data===false) {  // false means the name does not exist yet!
+			username_group.removeClass("error");
+			username_group.addClass("success");
+			username_info.text(name + " is available");
+			submit_button.attr("disabled", false);
+		  } else {
+			username_info.text("That username is already taken");
+			username_group.removeClass("success");
+			username_group.addClass("error");
+			submit_button.attr("disabled", true);
+		  }
+		}
+	  });
+	};
+
+	var validateUsername = function(){
+	  var name = username.val();
+	  if (name && name!="") {
+		checkUsername(name);
+	  }
+	  //if it's NOT valid
+	  if(!name){
+		username_group.addClass("error");
+		username_info.text("A username is required");
+		return false;
+	  }
+	  else if(/^[ ]+$/.test(username)){
+		username_group.addClass("error");
+		username_info.text("No spaces in a username");
+		return false;
+	  }
+	  //if it's valid
+	  else{
+		username_group.removeClass("error");
+		username_info.text("");
+		return true;
+	  }
+	};
+
+	var validatePass = function(){
+	  //it's NOT valid
+	  if(!pass || pass.val().length <7){
+		pass_group.addClass("error");
+		pass_info.text("passwords should be at least 7 characters");
+		return false;
+	  }
+	  //it's valid
+	  else{
+		pass_group.removeClass("error");
+		pass_info.text("");
+		return true;
+	  }
+	};
+
+	//validation functions
+	var validateEmail = function(){
+
+	  //testing regular expression
+	  var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+	  //if it's valid email
+	  if(filter.test(email.val())){
+		email_group.removeClass("error");
+		email_info.text("");
+		return true;
+	  }
+	  //if it's NOT valid
+	  else{
+		email_group.addClass("error");
+		email_info.text("Invalid email address.");
+		return false;
+	  }
+	};
+
+	var validateLastName = function(){
+	  //if it's NOT valid
+	  var name = last_name.val();
+	  if(!name || name.length < 3){
+		last_name_group.addClass("error");
+		last_name_info.text("At least two letters in a last name?");
+		return false;
+	  }
+	  //if it's valid
+	  else{
+		last_name_group.removeClass("error");
+		last_name_info.text("");
+		return true;
+	  }
+	};
+
+	// validate
+	email.focusout(validateEmail);
+	username.focusout(validateUsername);
+	pass.focusout(validatePass);
+	last_name.focusout(validateLastName);
+
+	form.submit(function(){
+	  // we want them all to execute
+	  var v1 = validateLastName();
+	  var v2 = validateEmail();
+	  var v3 = validatePass();
+	  return (v1 && v2 && v3 );
+	});
+
+
+  });
+</script>
+<% end %>
+<div data-role="content">
+
+	<%= render :partial => "common/notice" %>
+	<a name="edit"></a>
+	<h3>Register</h3>
+	<%= form_for @user, :method => :post, :url => { :action => "create"}, :html => {:id=>"jh_register", :class => "form-horizontal well" }     do |f| %>
+	  <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token() %>"/>
+	  <input name="_method" type="hidden" value="post" />
+	  <div id="email_group" class="control-group">
+		  <label for="email">Email:</label>
+		 <div data-role="fieldcontain">
+
+		   <%= f.text_field :email, :size=>30, :placeholder=>"Email Address" ,:value =>escape_javascript(@user.email) %>
+		 <br/>  <span id="email_info" class="help-inline"></span>
+		</div>
+	  </div>
+	  <div id="username_group" class="control-group">
+		 <label for="username">Username:</label>
+		<div data-role="fieldcontain">
+
+		 <%= f.text_field :username, :size=>30, :placeholder=>"Username" ,:value =>escape_javascript(@user.username) %>
+		 <br/>  <span id="username_info" class="help-inline"></span>
+		</div>
+	  </div>
+	  <div id="password_group" class="control-group">
+		<label for="password">Password:</label>
+		 <div data-role="fieldcontain">
+
+		   <%= f.password_field :password, :size=>30  %>
+		 <br/> <span id="pass_info" class="help-inline"></span>
+		</div>
+	  </div>
+	  <div id="first_name_group" class="control-group">
+		  <label for="first_name">First Name:</label>
+		 <div data-role="fieldcontain">
+
+		   <%= f.text_field :first_name, :size=>30, :placeholder=>"First Name" ,:value =>escape_javascript(@user.first_name) %>
+		</div>
+	  </div>
+	  <div id="last_name_group" class="control-group">
+		 <label for="last_name">Last Name:</label>
+		 <div data-role="fieldcontain">
+
+		   <%= f.text_field :last_name, :size=>30, :placeholder=>"Last Name" ,:value =>escape_javascript(@user.last_name) %>
+		 <br/>  <span id="last_name_info" class="help-inline"></span>
+		</div>
+	  </div>
+
+	  <div class="control-group">
+		<div data-role="fieldcontain">
+		  Solve this difficult math equation  <img src="/members/challenge_image"> <br/>
+		 <input type="range" id="imageChallenge" name="imageChallenge" value="0" min="0" max="25" data-highlight="true" data-mini="true" />  <br/>
+			</div>
+		 <div data-role="fieldcontain">
+		  <button type="submit" id="submit_button" style="text-align:center;" class="btn">Click to Join!</button>
+		</div>
+	  </div>
+	<% end %>
+
+
+  </div>

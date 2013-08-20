@@ -3,14 +3,8 @@
        flash[:notice]="Welcome #{current_user.first_name}"
    end
 %>
-
-<div id="StageNarrow">
-  <div class="Header">Member Center</div>
-
-  <div class="inside">
-    <div class="flash-alert"><%= flash[:notice] %></div>
-
-
+<div data-role="content">
+   <%= render :partial => "common/notice" %>
     <%if logged_in? -%>
         <div id="StageColumnLeft">
           <b>Account Options</b>
@@ -53,7 +47,7 @@
             <li>Listings in the musicians directory</li>
             <li>Access to the Jazzhouston Forums</li>
             <li>Optional access to Jazzhouston newsletters</li>
-            <br/>
+
             <li>Did we mention that it's free? And we will never send you spam or sell your info. Just saying... </li>
           </ul>
         </div>
@@ -92,6 +86,6 @@
         </div>
     <% end %>
   </div>
-</div>
+
 
 

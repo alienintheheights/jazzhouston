@@ -1,0 +1,17 @@
+<div data-role="content">
+
+  <% if @article.display_date %>
+	<%= @article.display_date.strftime("%B #{@article.display_date.day.ordinalize} %Y") %>
+  <% end %>
+  <% if @article.author_id %>
+	by <a href="/members/profile/<%= @article.author_id%>"><%=@article.author%></a>
+  <% else %>
+	by <b><%=@article.author%></b>
+  <% end %>
+
+  <% if @article.photo.exists? then %>
+	<%= image_tag @article.photo.url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
+  <% end %>
+  <%=raw @article.body_text.gsub(/\n\r/, '</p><p>') %>
+</div>
+

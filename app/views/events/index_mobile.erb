@@ -1,138 +1,43 @@
-<script type="text/javascript">
-  /**
-   * On-Ready jQuery block
-   */
-  $(function() {
+<div data-role="content">
+  <h3 id="show_listing_header">
+	<%= display_date.strftime("%A, %B #{display_date.day.ordinalize}") %>
+  </h3>
 
-	// calendar
-	$( "#datepicker" ).datepicker({
-	  dateFormat: 'yy-mm-dd',
-	  onSelect : function(date){
-		var dateArray = date.split("-");
-		var dateString = dateArray[0]+'/'+dateArray[1]+'/'+dateArray[2];
-		var dateStringNice = dateArray[1]+'/'+dateArray[2];
-		var eventURL = '/events/'+dateString+'.json';
-		$("#show_listing_header").html("Appearing " + dateStringNice);
-		$("#show_listing").html("Loading...");
-		$.getJSON( eventURL).done(function( data ) {
-		  var divBuffer = "";
-		  var baseLink = "<a href='/events/details/";
-		  var venueBaseLink = "<a href='/venues/about/";
-		  $.each( data, function( i, item ) {
-			if (i==7) {
-			  divBuffer+="<a href='/events/"+dateString+"'>See Even More Shows...</a>";
-			  $("#show_listing" ).html(divBuffer);
-			  return false;
-			}
-			var show = item.event;
-			divBuffer+= baseLink+show.event_id+"'>"+show.performer+"</a> at ";
-			divBuffer+=venueBaseLink+show.venue.venue_id+"'>"+show.venue.title ;
-			divBuffer+="</a><br/><div class='hspacer'></div>";
-		  });
-		  $("#show_listing" ).html(divBuffer);
-		});
-	  }
-	}).show();
-  });
+  <ul data-role="listview">
 
-</script>
-
-<div id="StageMedium">
-  <ul class="breadcrumbs">
-	<li>
-	  <a href="/events">Events</a>
-	</li>
-	<li>
-	  Today
-	</li>
+	<%
+	   # assumes sorted by event_type_id asc, 1=>shows, 2=>steadies
+	   group_names = ["Shows" ,"Steadies"]
+	   group_str = ""
+	   for item in shows_on_date
+	%>
+	  <% if group_str != group_names[item.event_type_id - 1]%>
+		<% group_str = group_names[item.event_type_id - 1] %>
+		<li data-role="list-divider" data-dividertheme="a"><%=group_str%></li>
+	  <% end %>
+	  <li><%= link_to "#{item.performer} at #{item.venue.title}, #{item.show_time}", {:action => "details", :controller=>"events", :id=>item.event_id} %></li>
+	<%
+	   end %>
   </ul>
 
-
-  <div class="cd-inside">
-	<div class="row-fluid">
-	  <!-- Calendar & Jams -->
-	  <div class="span5">
-		<div class="row-fluid">
-		  <div id="datepicker"></div>
-		</div>
-		<div class="row-fluid">
-
-		  <h2>Jam Sessions</h2>
-		  <% if !jams.nil?  %>
-			<% for item in jams %>
-			  <% if item.event_type_id==1 && item.show_date %>
-				<a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=item.show_date.to_datetime.strftime('%A')%></a>,
-			  <% else %>
-				<b><%= Date::DAYNAMES[item.day_of_week] %></b>
-			  <% end %>
-			  <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>:
-			  <% if item.venue %>
-                   <span class="smallText">
-                    <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>
-                   </span>
-			  <% end %>
-			  <div class="hspacer"></div>
-			<% end %>
-		  <% else %>
-			<p class="smallText">None scheduled</p>
-		  <% end %>
-		</div>
-
-	  </div>
-
-	  <!-- Show Listing -->
-	  <div class="span7">
-		<h2 id="show_listing_header">
-		  Playing Today: <%= display_date.strftime("%A, %B #{display_date.day.ordinalize}") %>
-		</h2>
-		<div id="show_listing">
-
-		  <div class="hspacer"></div>
-		  <% for item in shows_today %>
-			<% if item.event_type_id==1 %>
-			  <i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
-			<% else %>
-			  <i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
-			<% end %>
-
-			<%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
-			<% if item.venue %>
-			  @<%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>,
-
-			<% end %>
-			<%= item.show_time %>
-			<div class="hspacer"></div>
-		  <% end %>
-		  <div class="hspacer"></div>
-		  <a class="blueLink" href="/events/shows">see more upcoming shows</a>
-		</div>
-
-
-
-
-	  </div>
-	</div>
-	<div class="row-fluid">
-	  <div class="span12">
-		<div class="hspacer"></div>
-		<div class="alert">
-		  Would you like to list your show on JazzHouston.com? Simply fill out our gig request form found <a href="/site/feedback">here</a>. Be sure to follow our guidelines to
-		  ensure we get it listed quickly.
-		  <div class="hspacer"></div>
-		  <b>Show Guidelines</b>:
-		  <br/>Artist or Band name:
-		  <br/>Event Date or Day-of-Week if recurring:
-		  <br/>Venue Name:
-		  <br/>Basic Description (one paragraph):
-		  <br/>Artist Web Site:
-		  <br/><br/>
-		</div>
-	  </div>
-
-	</div>
-
-
-  </div>
-
-
+  <div class="hspacer"></div>
+  <!-- Calendar & Jams -->
+  <h3>Jam Sessions</h3>
+  <% if !jams.nil?  %>
+	<% for item in jams %>
+	  <% if item.event_type_id==1 && item.show_date %>
+		<a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=item.show_date.to_datetime.strftime('%A')%></a>,
+	  <% else %>
+		<b><%= Date::DAYNAMES[item.day_of_week] %></b>
+	  <% end %>
+	  <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>
+	  <% if item.venue %>
+		at <%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id} %>
+	  <% end %>
+	  <div class="hspacer"></div>
+	<% end %>
+  <% else %>
+	<p class="smallText">None scheduled</p>
+  <% end %>
 </div>
+

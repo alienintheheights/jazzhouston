@@ -25,14 +25,23 @@ class MembersController < ApplicationController
   @@msg[2]="Password changed! Please login."
 
   def loginpage
-	@page_title = "Log In Page"
+	@page_title = "Login Page"
   end
+
+  def session_dump
+	render :json => session
+  end
+
 
   #########################################
   # Login
   #########################################
   def login
-	#return unless request.post?
+	#TODO put this in a filter, or apply to the entire site.
+	#if !request.ssl?
+	#  flash[:notice]="Please login from a secure page"
+	#redirect_to :protocol => 'https://', :controller =>"home", :action=>"index"
+	#end
 	u = nil
 	if params[:login] && params[:password]
 	  u = User.authenticate(params[:login].downcase, params[:password])
@@ -40,30 +49,32 @@ class MembersController < ApplicationController
 
 	if u.nil?
 	  flash[:notice]="Unable to login, check your username and password"
-	  redirect_to(:controller => '/members', :action => 'index')
+
+	  respond_to do |format|
+		format.html  {redirect_to :back,  :notice=>flash[:notice]}
+		format.mobile  {redirect_to :back,  :notice=>flash[:notice]}
+		format.json {render :json => {:error => flash[:notice]}.to_json, :status => 404 }
+	  end
 	elsif u.status_id == 1
 	  # unconfirmed user
-	  u=nil # a logout
+	  u = nil # a logout
 	  redirect_to(:controller => '/members', :action => 'confirmform', :id=>params[:username])
 	else
 	  self.current_user=u
 	end
-
 	if logged_in?
-	  if params[:remember_me] == "1"
+	  if params[:remember_me] == "on"
 		self.current_user.remember_me
 		cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
 	  end
-	  user_bans=UserBan.find(:all, :conditions=>["victim_id=?",current_user.user_id])
-	  if user_bans
-		ban_list={}
-		for victim in user_bans
-		  ban_list[victim.pariah_id]={}
-		end
-		session[:user_bans]=ban_list
-	  end
+
 	  flash[:message] = "Logged in successfully"
-	  redirect_to :back,  :notice=>flash[:notice]
+	  respond_to do |format|
+		format.html  {redirect_to :back,  :notice=>flash[:notice]}
+		format.mobile  {redirect_to :back,  :notice=>flash[:notice]}
+		format.json {render :json => cookies[:auth_token]  }
+	  end
+
 	end
   end
 
@@ -77,7 +88,7 @@ class MembersController < ApplicationController
 	cookies.delete :auth_token
 	reset_session
 	flash[:message] = "You have been logged out."
-	redirect_to :back,  :message=>flash[:message]
+	redirect_to :controller => 'home', :action=>"index",  :message=>flash[:message]
   end
 
 
@@ -97,7 +108,7 @@ class MembersController < ApplicationController
 	end
 
 	respond_to do |format|
-	   format.html  {render :template => "members/index.erb"}
+	  format.html  {render :template => "members/index.erb"}
 	  format.mobile {render :template => "members/index_mobile.erb"}
 	end
   end
@@ -113,9 +124,9 @@ class MembersController < ApplicationController
 	if !@member
 	  @member = User.find(params[:id])
 	  if @member.nil?
-		 flash[:notice] = "This account does not exist."
-	  	 redirect_to :action => 'index'
-	  	 return
+		flash[:notice] = "This account does not exist."
+		redirect_to :action => 'index'
+		return
 	  end
 	end
 	if @member.status_id==1
@@ -177,6 +188,10 @@ class MembersController < ApplicationController
 	  @username=params[:username]
 	end
 	@page_title="Members | Resend Confirmation E-mail"
+	respond_to do |format|
+	  format.html  {render :template => "members/confirm.erb"}
+	  format.mobile {render :template => "members/confirm_mobile.erb"}
+	end
 
   end
 
@@ -238,6 +253,10 @@ class MembersController < ApplicationController
 	  flash[:notice]="Please enter your username."
 	end
 
+	respond_to do |format|
+	  format.html  {render :template => "members/sendlostpasswordemail.erb"}
+	  format.mobile {render :template => "members/sendlostpasswordemail_mobile.erb"}
+	end
   end
 
 
@@ -256,7 +275,7 @@ class MembersController < ApplicationController
 		return
 	  end
 
-	  if key == @user.hash_key
+	  if @key != @user.hash_key
 		flash[:notice]="Check your email link. The key is incorrect."
 		return
 	  end
@@ -275,12 +294,14 @@ class MembersController < ApplicationController
 		flash[:notice]="Password mismatch, please try again"
 	  end
 
-
 	else
-	  flash[:notice]="Invalid request. Security check rule failure."
-	  @username=params[:username]
+	  flash[:notice]="Enter a new password"
 	end
 
+	respond_to do |format|
+	  format.html  {render :template => "members/resetpassword.erb"}
+	  format.mobile {render :template => "members/resetpassword_mobile.erb"}
+	end
 
   end
 
@@ -288,28 +309,44 @@ class MembersController < ApplicationController
   # Change Password Form
   #########################################
   def changepassword
+	if !logged_in?
+	  flash[:notice] = "Please Login."
+	  redirect_to(:controller => '/members', :action => 'index')
+	  return
+	else
+	  flash[:message]="Welcome, " + self.current_user.first_name
+	end
+
+	# prevent hi-jacking
+	## only process post requests
 	if request.post?
-	  if params[:new_password] != params[:confirm_password]
-		flash[:notice]="The new passwords don't match. Try again."
+	  if self.current_user.username != params[:login]
+		flash[:notice] = "You can only change the password for YOUR account."
+	  elsif params[:new_password] != params[:confirm_password]
+		flash[:notice] = "The new password does not match. Try again."
 	  else
-		u = User.change_password(params[:login], params[:old_password], params[:new_password])
-		if !u
-		  flash[:notice]="Invalid old password. Try again."
+		was_changed = self.current_user.change_password(params[:login], params[:old_password], params[:new_password])
+		if !was_changed
+		  flash[:notice]="That's not the password we have. Try again, or use the Lost Password form."
 		else
-		  flash[:notice]="Password updated!"
+
 		  if Rails.env.production?
-			Notifier.deliver_updated_password(u, "Password reset for jazzhouston")
+			Notifier.deliver_updated_password(self.current_user, "Password Reset for Jazzhouston")
 		  end
+		  cookies.delete :auth_token
+		  reset_session
+		  flash[:notice]="Thanks, your password has been updated! Please login again"
+		  redirect_to(:controller => '/members', :action => 'index')
 		end
 	  end
 	end
 
 	@page_title="Members | Change Your Password"
-  rescue Exception => exception
 
-	data = { :failure => 'true', :message=>exception.message}
-	render :text => data.to_json, :layout => false
-
+	respond_to do |format|
+	  format.html  {render :template => "members/changepassword.erb"}
+	  format.mobile {render :template => "members/changepassword_mobile.erb"}
+	end
   end
 
 
@@ -317,14 +354,23 @@ class MembersController < ApplicationController
   # Registration/Account Mgmt Methods
   ####################################
 
-
+  def verify_username
+	user = User.find_by_username(params[:username])
+	valid_user = (user) ? true : false
+	render :json => valid_user
+  end
 
   #########################################
   # GET /members/new
   #########################################
   def new
 	@instruments = Instrument.all(:order=>"instrument_group, instrument_name")
-	@page_title="Member Profile | Sign Up!"
+	@page_title="Register!"
+	@user = User.new()
+	respond_to do |format|
+	  format.html  {render :template => "members/new.erb"}
+	  format.mobile {render :template => "members/new_mobile.erb"}
+	end
   end
 
 
@@ -332,26 +378,26 @@ class MembersController < ApplicationController
   # Called by the sign-up form
   #########################################
   def create
-	headers["Content-Type"] = "text/plain; charset=utf-8"
 	return unless request.post?
-
-	challenge = session["uc"]
-	session["uc"] = nil
-
-	# image challenge check
-	if Rails.env.production?
-	  test = challenge.checkResponse(params[:imageChallenge])
-	else
-	  test = true
-	end
-	if !test
-	  data = { :failure => 'true', :message=>"Invalid Image challenge response. Try again" }
-	  render :text => data.to_json, :layout => false
-	  return
-	end
 
 	@user = User.new(params[:user])
 	@user.status_id = 1 # requires confirmation
+
+	# image challenge check
+	challenge = session["uc"]
+	session["uc"] = nil
+	verify_image = false
+	if challenge && params[:imageChallenge] && Rails.env.production?
+	  verify_image = challenge.checkResponse(params[:imageChallenge])
+	end
+	if !verify_image
+	  flash[:notice]="Please try adding those two numbers again"
+	  respond_to do |format|
+		format.html  {render :template => "members/new.erb"}
+		format.mobile {render :template => "members/new_mobile.erb"}
+	  end
+	  return
+	end
 	# get the instruments
 	user_instruments=params[:instrument]
 	if user_instruments
@@ -370,18 +416,15 @@ class MembersController < ApplicationController
 	end
 
 	@user.save!
-	flash[:success] = "Thanks for signing up!"
 
 	# email confirmation
 	sendconfirmation(@user)
 
-	data = { :success => 'true', :message=>"Success", :user => @user.username}
-	render :text => data.to_json, :layout => false
-
-  rescue Exception => exception
-
-	data = { :failure => 'true', :message=>exception.message}
-	render :text => data.to_json, :layout => false
+	flash[:notice]="Check your email for a confirmation. Click it and off you go!"
+	respond_to do |format|
+	  format.html  {render :template => "members/create.erb"}
+	  format.mobile {render :template => "members/create_mobile.erb"}
+	end
 
   end
 
@@ -403,7 +446,9 @@ class MembersController < ApplicationController
 	  end
 	end
 	if !valid_user
-	  redirect_to(:controller => '/members', :action => 'profile', :id=>params[:id])
+	  flash[:notice] = "Oops. Snafu.  " + valid_user.to_s + " and id is " + params[:id]
+	  redirect_to(:controller => '/members', :action => 'index', :id=>params[:id])
+	  return
 	end
 
 
@@ -434,8 +479,9 @@ class MembersController < ApplicationController
   def update
 	@user = User.find(params[:id])
 	# prevent spoofs
-	if !request.post? || !logged_in? || !(self.current_user.user_id == params[:id].to_i || self.current_user.admin_flag == 1)
-	  puts "ERROR: Invalid request for update"
+	if !(request.post? || request.put?) || !logged_in? || !(self.current_user.user_id == params[:id].to_i || self.current_user.admin_flag == 1)
+	  flash[:notice] = "EPIC FAIL. You're not logged in or you're trying to update the wrong account."
+	  redirect_to(:controller => '/members', :action => 'index', :id=>params[:id])
 	  return
 	end
 
@@ -443,38 +489,33 @@ class MembersController < ApplicationController
 	if @user.password
 	  @user = User.authenticate(@user.username, @user.password)
 	end
-	@user.update_attributes!(params[:user])
+	@user.update_attributes(params[:user])
 
 	# get the instruments
-	user_instruments=params[:instrument]
+	user_instruments = params[:instrument]
 	if user_instruments
-	  instruments=[]
+	  instruments = []
 	  for item in user_instruments
-		axe=Instrument.find(item[0])
-		instruments.push(axe)
+		axe = Instrument.find(item[0])
+		if (axe)
+		  instruments.push(axe)
+		end
 	  end
-	  @user.instruments=instruments
-	  @user.local_player_flag=1
+	  @user.instruments = instruments
+	  @user.local_player_flag = 1
 	else
-	  @user.instruments=[]
-	  @user.local_player_flag=0
+	  @user.instruments = []
+	  @user.local_player_flag = 0
 	end
 
-	@user.save!
-	expire_user(@user)
-	render :json => {:success=>true, :message=>"Successfully updated your account", :user=>@user}
-
-
-  rescue Exception => exception
-
-	data = { :failure => 'true', :message=>exception.message}
-	render :text => data.to_json, :layout => false
+	flash[:message]="Account Updated."
+	redirect_to(:controller => '/members', :action => 'profile', :id=>params[:id])
 
   end
 
-  #####################
-  # DELETE account
-  #####################
+#####################
+# DELETE account
+#####################
   def destroy
 	member = User.find(params[:id])
 	if member
@@ -487,9 +528,9 @@ class MembersController < ApplicationController
   end
 
 
-  #####################
-  # image upload method
-  #####################
+#####################
+# image upload method
+#####################
   def upload
 
 	#if request.post?
@@ -516,18 +557,18 @@ class MembersController < ApplicationController
 
 
 
-  #########################################
-  # EXT-JS JSON Happy AJAX Search
-  #########################################
+#########################################
+# EXT-JS JSON Happy AJAX Search
+#########################################
   def search_ext
 	@search_term = "%#{params[:query].downcase}%"
 	@users = User.search_users(@search_term)
 	render :json => to_ext_json(@users)
   end
 
-  ##############################################
-  # Image: the challenge image for registration
-  ##############################################
+##############################################
+# Image: the challenge image for registration
+##############################################
   def challenge_image
 	if Rails.env.production?
 	  store_path = "/home/jazzhouston/rails/jazzhouston/public/images"
@@ -546,9 +587,9 @@ class MembersController < ApplicationController
   private
 
 
-  #########################################
-  # Send Email
-  #########################################
+#########################################
+# Send Email
+#########################################
   def sendconfirmation(user)
 	if !Rails.env.production?
 	  return
@@ -559,9 +600,9 @@ class MembersController < ApplicationController
   end
 
 
-  #########################################
-  # Cache control
-  #########################################
+#########################################
+# Cache control
+#########################################
   def expire_user(user)
 	# no caching for now
 	#expire_fragment(:action => 'profile')

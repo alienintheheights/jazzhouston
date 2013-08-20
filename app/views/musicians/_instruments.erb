@@ -8,7 +8,7 @@
 		if (this.value === "0") {
 		  window.location  =   str;
 		} else {
-		  window.location = str + "/byinst/" + this.value;
+		  window.location = str + "byinst/" + this.value;
 		}
 	  });
 
@@ -20,6 +20,6 @@
 <select id="board-select">
   <option value="0" disabled="disabled">Select an instrument
 	<%for item in instruments%>
-	<option value="<%=item.instrument_name%>" <% if @instrument==item.instrument_name %>selected<% end %>><%=item.instrument_name%>
+	<option value="<%=item.instrument_id%>" <% if instrument.instrument_name==item.instrument_name %>selected<% end %>><%=item.instrument_name%></option>
   <% end %>
 </select>

@@ -1,0 +1,36 @@
+<div data-role="content">
+
+  <div class="ui-body ui-body-d">
+	<h3><%=@show.performer%></h3>
+	<p>
+	  Date: <% if @show.show_date %>
+		<%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %>
+	  <% end %>
+	  <% if @show.day_of_week && !@show.show_date %>
+		<b><%= dow[@show.day_of_week] %>s</b>
+	  <% end %>
+	  <br/>
+	  Time: <%=@show.show_time%>
+	  <br/>
+	  <% if @show.venue  %>
+		Venue:  <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a><br/>
+	  <% end %>
+	</p>
+	<p>
+	  <%= @show.about.html_safe %>
+	</p>
+  </div>
+  <div class="ui-body">
+	<p>
+	  <% if @show.related_url && @show.related_url!=""%>
+		Event Website: <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
+	  <% end %>
+	</p>
+	<p>
+	  <% if @player%>
+		Musician Profile: <a href="/members/profile/<%= @player.user_id %>"><%=@player.first_name%> <%=@player.last_name%></a>   <br/>
+	  <% end %>
+	</p>
+  </div>
+</div>
+

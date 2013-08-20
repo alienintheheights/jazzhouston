@@ -1,0 +1,125 @@
+<%
+   about_me =  (@user.about_me.nil?)? "" :  @user.about_me.html_safe
+%>
+
+<script>
+  function delete_confirm() {
+	var answer=confirm("Are you sure you want to DELETE this account?");
+	return !!answer;
+  }
+
+  function upgrade_confirm() {
+	var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
+	return !!answer
+  }
+</script>
+<style>
+  textarea {
+	width: 500px;
+  }
+  .inside h3 {
+	background-color: #ccc;
+	height: 40px;
+  }
+</style>
+<div data-role="content">
+
+  <%= render :partial => "common/notice" %>
+  <%= form_for @user, :url=>{:action=>"upload"}, :html => { :multipart => true, :class => "form-horizontal well"  } do |f| %>
+
+	<div class="control-group">
+	  <div class="controls">
+		<h3>Photo</h3>
+		<%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"150"} %>
+				 <div class="hspacer"></div>
+
+		<%= file_column_field("user", "image") %>
+		<%= f.submit "Submit New Photo", :class=>"btn"%>
+		<input type="hidden" id="id" name="id" value="<%=@user.user_id%>" >
+		<input type="hidden" id="local_player_flag" name="local_player_flag" value="<%=@user.local_player_flag%>" >
+
+	  </div>
+
+	</div>
+  <% end %>
+  <%= form_for @user, :method => :post, :url => { :action => "update"}, :html => { :class => "form-horizontal well" }     do |f| %>
+	<input type="hidden" id="authenticity_token" value="<%= form_authenticity_token() %>"/>
+	<input type="hidden" id="id" name="id" value="<%= @user.user_id %>"/>
+	<input name="_method" type="hidden" value="post" />
+	<div class="control-group">
+	  <h3>Essentials</h3>
+	  <label class="control-label" for="user[first_name]">First Name</label>
+	  <div class="controls">
+		<div data-role="fieldcontain">
+		  <%= f.text_field :first_name, :size=>30, :placeholder=>"First Name" ,:value =>escape_javascript(@user.first_name) %>
+		</div>
+	  </div>
+	  <label class="control-label" for="user[last_name]">Last Name</label>
+	  <div class="controls">
+		<%= f.text_field :last_name, :size=>30, :placeholder=>"Last Name" ,:value =>escape_javascript(@user.last_name) %>
+	  </div>
+	  <label class="control-label" for="user[email]">Email</label>
+	  <div class="controls">
+		<%= f.text_field :email, :size=>30, :placeholder=>"Email Address" ,:value =>escape_javascript(@user.email) %>  <a class="blueLink" href="/members/changepassword">Change Password</a></br>
+	  </div>
+	</div>
+	<div class="control-group">
+	  <h3>Contact Info</h3>
+	  <label class="control-label" for="user[cell_phone]">Cell Phone</label>
+	  <div class="controls">
+		<%= f.text_field :cell_phone, :size=>30, :placeholder=>"Cell Phone" ,:value =>escape_javascript(@user.cell_phone) %>
+	  </div>
+	  <label class="control-label" for="user[home_phone]">Home Phone</label>
+	  <div class="controls">
+		<%= f.text_field :home_phone, :size=>30, :placeholder=>"Home Phone" ,:value =>escape_javascript(@user.home_phone) %>
+	  </div>
+	  <label class="control-label" for="user[url]">Website</label>
+	  <div class="controls">
+		<%= f.text_field :url, :size=>30, :placeholder=>"http://" ,:value =>escape_javascript(@user.url) %>
+	  </div>
+
+	  <label class="control-label" for="user[location]">Location</label>
+	  <div class="controls">
+		<%= f.text_field :location, :size=>30, :placeholder=>"Location" ,:value =>escape_javascript(@user.location) %>
+	  </div>
+
+	</div>
+	<div class="control-group">
+	  <h3>Instruments Played, if any</h3>
+	  <div data-role="fieldcontain">
+		<fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
+		  <% for item in @instruments %>
+			<label class="checkbox inline">
+			  <input type="checkbox" name="instrument[<%=item.instrument_id%>]" value="<%=item.instrument_id%>"  <% if @myinstruments && @myinstruments[item.instrument_id] %>checked<% end %>><%=item.instrument_name%>
+			</label>
+		  <% end %>
+		</fieldset>
+	  </div>
+	</div>
+	<div class="control-group">
+	  <h3>About You</h3>
+	  <label class="control-label" for="user[occupation]">Occupation</label>
+	  <div class="controls">
+		<%= f.text_field :occupation, :size=>30, :placeholder=>"Location" ,:value =>escape_javascript(@user.occupation) %>
+	  </div>
+	  <label class="control-label" for="user[about_me]">Bio</label>
+	  <div class="controls">
+
+		<%= f.text_area :about_me, :rows=>9 ,:value =>escape_javascript(raw about_me) %>
+	  </div>
+	  <label class="control-label" for="user[favorite_music]">Favorite Music</label>
+	  <div class="controls">
+		<%= f.text_area :favorite_music, :rows=>3 ,:value =>escape_javascript(@user.favorite_music) %>
+	  </div>
+	  <label class="control-label" for="user[favorite_films]">Favorite Movies</label>
+	  <div class="controls">
+		<%= f.text_area :favorite_films, :rows=>3 ,:value =>escape_javascript(@user.favorite_films) %>
+	  </div>
+	</div>
+
+	<div class="control-group">
+	  <button type="submit" style="text-align:center;" class="btn">Update</button>
+	</div>
+  <% end %>
+
+</div><!--/content-primary -->

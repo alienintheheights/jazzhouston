@@ -2545,6 +2545,11 @@ ul.storytools li.right a.print {
 }
 
 /** Bootstrap overrides **/
+.navbar-inverse .brand, .navbar-inverse .nav>li>a {
+	color: #EEE;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+}
+
 .player-row {
   padding-top: 17px;
 }
@@ -2601,5 +2606,3 @@ ul.storytools li.right a.print {
   border: 1px solid #ddd;
   font-weight: bold;
 }
-
-

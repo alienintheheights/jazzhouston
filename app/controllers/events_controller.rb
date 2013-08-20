@@ -130,6 +130,10 @@ class EventsController < ApplicationController
 	  @player = User.find(@event.artist_id)
 	end
 
+	respond_to do |format|
+	  format.mobile { render :template => "events/edit_mobile.erb"   }
+	  format.html { render :template => "events/edit.erb"   }
+	end
   end
 
   # EDIT WRITE
@@ -138,7 +142,7 @@ class EventsController < ApplicationController
 	@event.update_attributes(params[:event])
 
 	respond_to do |format|
-	  format.mobile { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
+	  format.mobile { redirect_to :event=>@event, :action=>"edit_mobile", :id=>@event.event_id   }
 	  format.html { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
 	end
   end
@@ -201,7 +205,7 @@ class EventsController < ApplicationController
   # list of Days of the Week
   def dow
 	@dow = []
-	Date::DAYNAMES.each_with_index { |x, i| @dow << [x, i] }
+	Date::DAYNAMES.each_with_index { |x, i| @dow << [x] }
 	@dow
   end
 

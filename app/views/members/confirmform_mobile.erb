@@ -1,0 +1,15 @@
+<div data-role="content">
+
+	<%= render :partial => "common/notice" %>
+
+        <form action="/members/confirmform" method="post">
+            <p><label for="login">Username</label><br/>
+                <%= text_field_tag 'username', @username %></p>
+            <input type="hidden" name='authenticity_token' value= '<%= form_authenticity_token() %>'/>
+                          
+            <p><%= submit_tag 'Submit' %></p>
+        </form>
+
+
+
+</div>

@@ -1,0 +1,135 @@
+<% content_for :head do %>
+<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
+<script src="/common/js/Ext.ux.GMapPanel.js"></script>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%=@key%>"
+        type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    Ext.onReady(function(){
+
+        var mapwin;
+        var button = Ext.get('show-btn');
+
+        button.on('click', function(){
+            // create the window on the first click and reuse on subsequent clicks
+            if(!mapwin){
+
+                mapwin = new Ext.Window({
+                    layout: 'fit',
+                    title: "<%=@venue.title%>",
+                    closeAction: 'hide',
+                    width:400,
+                    height:400,
+                    items: {
+                        xtype: 'gmappanel',
+                        region: 'center',
+                        zoomLevel: 14,
+                        gmapType: 'map',
+                        mapConfOpts: ['enableScrollWheelZoom','enableDoubleClickZoom','enableDragging'],
+                        mapControls: ['GSmallMapControl','GMapTypeControl','NonExistantControl'],
+                        setCenter: {
+                            geoCodeAddr: '<%=@venue.address%>,  USA',
+                            marker: {title: "<%=@venue.title%>"}
+                        },
+                        markers: [{
+                            lat: 42.339641,
+                            lng: -71.094224,
+                            marker: {title: 'venue'},
+                            listeners: {
+                                click: function(e){
+                                    Ext.Msg.alert('JazzHouston.com Google Map window', 'and its art.');
+                                }
+                            }
+                        },{
+                            lat: 42.339419,
+                            lng: -71.09077,
+                            marker: {title: "<%=@venue.title%>"}
+                        }]
+                    }
+                });
+
+            }
+
+            mapwin.show();
+
+        });
+
+    });
+
+</script>
+<% end %>
+
+  <div data-role="content">
+
+
+    <%if logged_in? && current_user.editor_flag==1 -%>
+        <div style="float:right;">
+          <a href="/venues/edit/<%=@venue.venue_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
+
+        </div>
+    <% end -%>
+    <div class="hspacer"></div>
+    <!-- Place this tag where you want the +1 button to render -->
+    <% if @venue.image_url && @venue.image_url!="" %>
+        <img src="<%=@venue.image_url%>" align="left" hspace="2" width="150">
+    <% elsif @venue.photo.exists? then %>
+        <%= image_tag @venue.photo.url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
+    <% end %>
+    <%= @venue.about.html_safe %>
+
+    <div class="hspacer"></div>
+
+    <b>Address:</b> <%=@venue.address%>
+    <input type="button" id="show-btn" value="Google Map" />
+
+    <br/><b>Phone:</b> <%=@venue.phone%>
+
+    <% if @venue.related_url %>
+        <br/><b>Web Site:</b> <a href="<%=@venue.related_url%>"><%=@venue.related_url%></a>
+    <% end %>
+
+    <br/>
+
+    <div class="hspacer"></div>
+    <a name="shows"></a>
+    <div class="HeaderTitle">Upcoming Shows at <%= @venue.title %></div>
+    <div class="hspacer"></div>
+    <% if @onenighters.length==0 %>
+        <p class="smallText">None scheduled:
+          see <a href="/events/">upcoming shows</a>
+
+    <% end %>
+    <% for item in @onenighters %>
+        <%=item.show_date.to_datetime.strftime("%B %d, %Y")%>:
+        <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></b>
+        <%= item.show_time %>
+        <br/>
+        <%= raw item.about %>
+        <div class="hspacer"></div>
+    <% end %>
+
+    <div class="hspacer"></div>
+    <div class="HeaderTitle">Every Week at <%= @venue.title %></div>
+    <br/>
+    <% if @steadies.length==0 %>
+        <p class="smallText">None scheduled:
+          see <a href="/events/shows">upcoming shows</a>
+
+    <% end %>
+    <% for item in @steadies
+           @dayName= @dow[item.day_of_week]
+    %>
+        <%= @dayName%>s: <b><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></b>
+        <%= item.show_time %>
+        <br/>
+        <%= item.about.html_safe %>
+
+        <div class="hspacer"></div>
+    <% end %>
+
+    <div class="hspacer"></div>
+
+
+</div><!--/content-primary -->
+

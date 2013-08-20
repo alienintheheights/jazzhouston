@@ -16,26 +16,22 @@
 		<%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
 		  <fieldset>
 			 <legend>Post a new topic</legend>
-			<div class="control-group">
+			<div data-role="fieldcontain">
 			  <label class="control-label" for="topic_title">Title</label>
-			  <div class="controls" >
-				<%= f.text_field :title, :size=>60, :class=>"span10" %>
+			  <%= f.text_field :title, :size=>60, :class=>"span10" %>
 			  </div>
-			</div>
-			<div class="control-group">
+			<div data-role="fieldcontain">
 			  <label class="control-label" for="topic_board_id">Select Forum</label>
-			  <div class="controls" >
-				<%= f.collection_select :board_id, ForumBoard.where("status=2").all, :board_id, :title, {:selected => "Local Scene"} %>
+			  <%= f.collection_select :board_id, ForumBoard.where("status=2").all, :board_id, :title, {:selected => "Local Scene"} %>
 			  </div>
-			</div>
-			<div class="control-group">
-			  <div class="controls" >
+
+<div data-role="fieldcontain">
 				<%= f.fields_for :posts do |message_form| %>
-				  <%= message_form.text_area :message_text, :rows=>20, :class=>"span10" %>
+				  <%= message_form.text_area :message_text, :rows=>20 %>
 				<% end %>
 			  </div>
-			</div>
-			<div class="form-actions">
+
+<div data-role="fieldcontain">
 			  <%= f.submit "Post New Topic", :class=>"btn" %>
 			</div>
 		  </fieldset>

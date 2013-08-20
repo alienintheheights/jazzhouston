@@ -1,259 +1,218 @@
-<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
-<script type="text/javascript">
+<script>
 
-    Ext.onReady(function(){
+  $(document).ready(function() {
 
-        var msg = function(title, msg){
-            Ext.Msg.show({
-                title: title,
-                msg: msg,
-                minWidth: 200,
-                modal: true,
-                icon: Ext.Msg.INFO,
-                buttons: Ext.Msg.OK
-            });
-        };
+	var submit_button = $("#submit_button");
+
+	var email_group = $("#email_group");
+	var email = $("#user_email");
+	var email_info = $("#email_info");
+
+	var username_group = $("#username_group");
+	var username = $("#user_username");
+	var username_info = $("#username_info");
 
 
-        var regform = new Ext.FormPanel({
-            labelWidth: 75, // label settings here cascade unless overridden
-            frame:true,
-            title: 'Register',
-            labelAlign: 'top',
-            bodyStyle:'padding:5px',
-            width: 700,
-            items: [{
-                layout:'column',
-                border:false,
-                items:[{
-                    columnWidth:.5,
-                    layout: 'form',
-                    border:false,
-                    items: [{
-                        xtype:'textfield',
-                        fieldLabel: 'Username',
-                        name: 'user[username]',
-                        anchor:'95%',
-                        vtype: 'alphanum'
-                    }, {
-                        xtype:'textfield',
-                        fieldLabel: 'Password',
-                        inputType:'password',
-                        name: 'user[password]',
-                        anchor:'95%'
-                    },{
-                        xtype:'textfield',
-                        fieldLabel: 'First Name',
-                        name: 'user[first_name]',
-                        allowBlank: false,
-                        anchor:'95%'
-
-                    },{
-                        xtype:'textfield',
-                        fieldLabel: 'Add the numbers in the challenge image',
-                        name: 'imageChallenge',
-
-                        maxLength:10,
-                        width:50
-                    }]
-                },{
-                    columnWidth:.5,
-                    layout: 'form',
-                    border:false,
-                    items: [{
-                        xtype:'textfield',
-                        fieldLabel: 'Email',
-                        name: 'user[email]',
-                        anchor:'95%' ,
-                        vtype:'email'
-                    },{
-                        xtype:'textfield',
-                        fieldLabel: 'Confirm Password',
-                        inputType:'password',
-                        name: 'user[password_confirmation]',
-                        anchor:'95%'
-                    },{
-                        xtype:'textfield',
-                        fieldLabel: 'Last Name',
-                        name: 'user[last_name]',
-                        anchor:'95%',
-                        allowBlank: false
-                    },{
-                        xtype:'panel',
-                        name:'challengeImage',
-                        html:'<div id="challengeImageDiv"><img src="/members/challenge_image"></div>',
-                        anchor: '95%'
-                    }, {
-                        xtype: 'hidden',
-                        name: 'authenticity_token',
-                        value: '<%= form_authenticity_token() %>',
-                        height: 0
-                    }]
-                }]
-            },{
-                xtype:'tabpanel',
-                plain:true,
-                activeTab: 0,
-                height:600,
-                defaults:{bodyStyle:'padding:10px'},
-                items:[{
-                    cls:'x-plain',
-                    title:'About You',
-                    layout:'form',
-                    items: [{
-                        xtype:'textfield',
-                        width: 300,
-                        fieldLabel: 'Web Site',
-                        name: 'user[url]'
-                    }, {
-                        xtype:'textfield',
-                        width: 300,
-                        fieldLabel: 'Occupation',
-                        name: 'user[occupation]'
-                    }, {
-                        xtype:'textfield',
-                        width: 300,
-                        fieldLabel: 'Location',
-                        name: 'user[location]'
-                    },{
-                        xtype:'htmleditor',
-                        width: 600,
-                        height: 300,
-                        id:'user[about_me]',
-                        fieldLabel:'Biography'
-                    }]
-                },{
-                    title:'Interests',
-                    layout:'form',
-                    defaults: {width: 230},
-                    defaultType: 'textfield',
-
-                    items: [{
-                        xtype:'textarea',
-                        fieldLabel: 'Music that inspires you',
-                        name: 'user[favorite_music]',
-                        anchor:'95%'
-                    }, {
-                        xtype:'textarea',
-                        fieldLabel: 'Films that you\'ll watch more than once',
-                        name: 'user[favorite_films]',
-                        anchor:'95%'
-                    }]
-                },{
-                    title:'Phone Numbers',
-                    layout:'form',
-                    defaults: {width: 230},
-                    defaultType: 'textfield',
-
-                    items: [{
-                        fieldLabel: 'Home',
-                        name: 'user[home_phone]'
-                    },{
-                        fieldLabel: 'Mobile',
-                        name: 'user[cell_phone]'
-                    }]
-                },{
-                    cls:'x-plain',
-                    title:'Musician Directory Listing (optional)',
-                    layout:'fit',
-                    items: [{
-                        title: "List Me in the Musician's Directory",
-                        name: 'user[local_player_flag]',
-                        xtype:'fieldset',
-                        checkboxToggle:false,
-                        autoHeight:true,
-                        defaults: {width: 500},
-                        defaultType: 'checkbox',
-                        collapsed: false,
-                        items :[{
-                            xtype: 'checkboxgroup',
-                            fieldLabel: 'Select as many as you play!',
-                            columns: 5,
-                            vertical: true,
-                            items: [
-                                <% counter=1
-                            for item in @instruments %>
-                                <% if counter>1 %>,<%end%>
-                                {
-                                    boxLabel: '<%=item.instrument_name%>',
-                                    name: 'instrument[<%=item.instrument_id%>]'
-                                }
-                                <% counter=counter+1
-                               end %>
-                            ]
-                        }]
-                    }]
-                }]
-            }],
-            buttons: [{
-                text: 'Create',
-                name: 'commit',
-                handler: function(){
-                    regform.form.submit({
-                        url:'/members/create',
-                        method:'POST',
-                        waitMsg:'Creating Your Account...',
-                        success: function(fp, msg){
-
-                            window.location=jh.util.HOST_NAME+"/members/newuser";
-                            /**
-                             var urlId = document.getElementById("jh_linkto_profile");
-                             urlId.href="/members/profile/"+msg.result.user;
-
-                             var linkDiv = document.getElementById("jh_linkto_profile_div");
-                             linkDiv.style.display="block";
-                             Ext.Msg.alert('Success!',"Your account has been created." );
-                             **/
-
-                        },
-                        failure: function(fp,msg){
-
-                            Ext.Msg.alert('Error',(msg.result)?msg.result.message:'Please check the form for errors (in red)', function(btn) {
-
-                                if (btn == 'ok'){
-                                    var cid = document.getElementById("challengeImageDiv");
-                                    cid.innerHTML = "" ;
-                                    var rand = Math.random()*50;
-                                    cid.innerHTML = '<img src="/members/challenge_image?rand='+rand+'">';
-                                }
-                            });
-                        }
-                    });
-                }
-
-            },{
-                text: 'Cancel'
-            }]
-
-        });
-
-        regform.render("jh_form");
+	var pass_group = $("#password_group");
+	var pass = $("#user_password");
+	var pass_info = $("#pass_info");
 
 
-    });
+	var last_name_group = $("#last_name_group");
+	var last_name = $("#user_last_name");
+	var last_name_info = $("#last_name_info");
+
+	var form = $("#jh_register");
+
+
+	var checkUsername = function(name) {
+	  $.ajax({
+		type: "GET",
+		url: '/members/verify_username',
+		data: 'username='+ name,
+		contentType: "application/json; charset=utf-8",
+		async: true,
+		dataType: "json",
+		success: function (data, msg, j) {
+		  if (data===false) {  // false means the name does not exist yet!
+			username_group.removeClass("error");
+			username_group.addClass("success");
+			username_info.text(name + " is available");
+			submit_button.attr("disabled", false);
+		  } else {
+			username_info.text("That username is already taken");
+			username_group.removeClass("success");
+			username_group.addClass("error");
+			submit_button.attr("disabled", true);
+		  }
+		}
+	  });
+	};
+
+	var validateUsername = function(){
+	  var name = username.val();
+	  if (name && name!="") {
+		checkUsername(name);
+	  }
+	  //if it's NOT valid
+	  if(!name){
+		username_group.addClass("error");
+		username_info.text("A username is required");
+		return false;
+	  }
+	  else if(/^[ ]+$/.test(username)){
+		username_group.addClass("error");
+		username_info.text("No spaces in a username");
+		return false;
+	  }
+	  //if it's valid
+	  else{
+		username_group.removeClass("error");
+		username_info.text("");
+		return true;
+	  }
+	};
+
+	var validatePass = function(){
+	  //it's NOT valid
+	  if(!pass || pass.val().length <7){
+		pass_group.addClass("error");
+		pass_info.text("passwords should be at least 7 characters");
+		return false;
+	  }
+	  //it's valid
+	  else{
+		pass_group.removeClass("error");
+		pass_info.text("");
+		return true;
+	  }
+	};
+
+	//validation functions
+	var validateEmail = function(){
+
+	  //testing regular expression
+	  var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+	  //if it's valid email
+	  if(filter.test(email.val())){
+		email_group.removeClass("error");
+		email_info.text("");
+		return true;
+	  }
+	  //if it's NOT valid
+	  else{
+		email_group.addClass("error");
+		email_info.text("Invalid email address.");
+		return false;
+	  }
+	};
+
+	var validateLastName = function(){
+	  //if it's NOT valid
+	  var name = last_name.val();
+	  if(!name || name.length < 3){
+		last_name_group.addClass("error");
+		last_name_info.text("At least two letters in a last name?");
+		return false;
+	  }
+	  //if it's valid
+	  else{
+		last_name_group.removeClass("error");
+		last_name_info.text("");
+		return true;
+	  }
+	};
+
+	// validate
+	email.focusout(validateEmail);
+	username.focusout(validateUsername);
+	pass.focusout(validatePass);
+	last_name.focusout(validateLastName);
+
+	form.submit(function(){
+	  // we want them all to execute
+	  var v1 = validateLastName();
+	  var v2 = validateEmail();
+	  var v3 = validatePass();
+	  return (v1 && v2 && v3 );
+	});
+
+
+  });
 </script>
 <div id="StageNarrow">
 
   <ul class="breadcrumbs">
-    <li>
-      <a href="/members">Members</a>
-    </li>
-    <li>
-     Create Account
-    </li>
+	<li>
+	  <a href="/members">Members</a>
+	</li>
+	<li>
+	  Create Account
+	</li>
   </ul>
   <div class="inside">
 
-    <div class="hspacer"></div>
-    <div id="jh_linkto_profile_div" style="display:none">
-      <a id="jh_linkto_profile" href="">Your Profile</a>
-      <br/>
-    </div>
+	<div class="hspacer"></div>
+	<div id="jh_linkto_profile_div" style="display:none">
+	  <a id="jh_linkto_profile" href="">Your Profile</a>
+	  <br/>
+	</div>
 
-    <div id="jh_form">
 
-    </div>
-    <div class="hspacer"></div>
+	<%= render :partial => "common/notice" %>
+	<a name="edit"></a>
+	<h3>Register</h3>
+	<%= form_for @user, :method => :post, :url => { :action => "create"}, :html => {:id=>"jh_register", :class => "form-horizontal well" }     do |f| %>
+	  <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token() %>"/>
+	  <input name="_method" type="hidden" value="post" />
+	  <div id="email_group" class="control-group">
+		<label class="control-label" for="user[email]">Email</label>
+		<div class="controls">
+		  <%= f.text_field :email, :size=>30, :placeholder=>"Email Address" ,:value =>escape_javascript(@user.email) %>
+		  <span id="email_info" class="help-inline"></span>
+		</div>
+	  </div>
+	  <div id="username_group" class="control-group">
+		<label class="control-label" for="user[username]">Username</label>
+		<div class="controls">
+		  <%= f.text_field :username, :size=>30, :placeholder=>"Username" ,:value =>escape_javascript(@user.username) %>
+		  <span id="username_info" class="help-inline"></span>
+		</div>
+	  </div>
+	  <div id="password_group" class="control-group">
+		<label class="control-label" for="user[password]">Password</label>
+		<div class="controls">
+		  <%= f.password_field :password, :size=>30  %>
+		  <span id="pass_info" class="help-inline"></span>
+		</div>
+	  </div>
+	  <div id="first_name_group" class="control-group">
+		<label class="control-label" for="user[first_name]">First Name</label>
+		<div class="controls">
+		  <%= f.text_field :first_name, :size=>30, :placeholder=>"First Name" ,:value =>escape_javascript(@user.first_name) %>
+		</div>
+	  </div>
+	  <div id="last_name_group" class="control-group">
+		<label class="control-label" for="user[last_name]">Last Name</label>
+		<div class="controls">
+		  <%= f.text_field :last_name, :size=>30, :placeholder=>"Last Name" ,:value =>escape_javascript(@user.last_name) %>
+		  <span id="last_name_info" class="help-inline"></span>
+		</div>
+	  </div>
+
+	  <div class="control-group">
+		<label class="control-label" for="imageChallenge">Do some Math</label>
+		<div class="controls">
+		  <input type="text" name="imageChallenge" style="width:20px;"><img src="/members/challenge_image">
+		  <br/>
+		</div>
+		<label class="control-label" for="imageChallenge"></label>
+		<div class="controls">
+		  <button type="submit" id="submit_button" style="text-align:center;" class="btn">Click to Join!</button>
+		</div>
+	  </div>
+	<% end %>
+
 
   </div>
 </div>

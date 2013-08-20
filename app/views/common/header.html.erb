@@ -14,7 +14,7 @@
   </div>
   <div class="modal-body">
 	<div class="row-fluid">
-	  <%= form_tag "/members/login", :html=>{:class=>"form-inline"} do -%>
+	  <%= form_tag "/members/login", :method=>"post" do -%>
 		<div class="control-group">
 		  <label class="control-label" for="inputEmail">Username</label>
 		  <div class="controls">
@@ -108,6 +108,9 @@
 		  <div id="menu-bar" class="navbar navbar-inverse">
 			<div class="navbar-inner">
 			  <ul class="nav">
+				<% if !cookies[:prefer_full_site].blank? && mobile_request? %>
+				<li><a href="/site/togglemobile">Mobile Site</a> </li>
+	 	 		<% end %>
 				<li> <a <% if current_page?(:controller => 'home') %>class='selected'<% end %> href="/home">Home</a></li>
 				<li><a <% if current_page?(:controller => 'events') %>class='selected'<% end %> href="/events">Shows</a></li>
 				<li><a <% if current_page?(:controller => 'news') || current_page?(:controller => 'articles') %>class='selected'<% end %> href="/news">News</a></li>
@@ -116,6 +119,7 @@
 				<li><a <% if current_page?(:controller => 'musicians') %>class='selected'<% end %> href="/musicians">Players</a></li>
 				<li><a <% if current_page?(:controller => 'education') %>class='selected'<% end %> href="/education">Schools</a></li>
 				<li><a <% if current_page?(:controller => 'site', :action=>'feedback') %>class='selected'<% end %> href="/site/feedback">Contact</a></li>
+
 			  </ul>
 			</div>
 		  </div>

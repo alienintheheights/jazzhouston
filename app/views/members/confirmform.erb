@@ -4,9 +4,8 @@
             Resend your confirmation email
         </div>
 
-          <div class="flash-alert">
-            <%= flash[:notice] %>
-        </div>
+
+	<%= render :partial => "common/notice" %>
 
         <form action="/members/confirmform" method="post">
             <p><label for="login">Username</label><br/>

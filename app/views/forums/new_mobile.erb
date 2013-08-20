@@ -1,0 +1,26 @@
+<% content_for :head do %>
+<% end %>
+<div data-role="content">
+   <h1>Post a new topic</h1>
+  <%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
+	<fieldset>
+	  <div data-role="fieldcontain">
+
+		<%= f.text_field :title, :placeholder=>"Topic Title", :size=>60 %>
+	  </div>
+	  <div data-role="fieldcontain">
+		<%= f.collection_select :board_id, ForumBoard.where("status=2").all, :board_id, :title, {:selected => "Local Scene"} %>
+	  </div>
+
+	  <div data-role="fieldcontain">
+		<%= f.fields_for :posts do |message_form| %>
+		  <%= message_form.text_area :message_text, :rows=>20, :placeholder=>"Type your message" %>
+		<% end %>
+	  </div>
+
+	  <div data-role="fieldcontain">
+		<%= f.submit "Post Your Topic" %>
+	  </div>
+	</fieldset>
+  <% end %>
+</div>

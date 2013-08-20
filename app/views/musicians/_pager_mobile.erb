@@ -1,0 +1,19 @@
+
+<div class="pagination ">
+    <div id="musician_instrument_header"><%=instrument.instrument_name.titleize%></div>
+  <ul id="musician_pager">
+
+	<%
+	   total_pages = (total/page_size).to_i  + 1
+	   for i in (1..total_pages)
+	%>
+	  <% if i==page  %>
+		<li class="disabled">  <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i} %> </li>
+	  <% else %>
+		<li>  <%= link_to i, {:action => "byinst", :controller=>"musicians", :page=>i} %> </li>
+	  <% end  %>
+
+	<% end %>
+  </ul>
+
+</div>

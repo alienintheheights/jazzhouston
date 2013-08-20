@@ -1,312 +1,161 @@
-<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
+
 <%
    about_me =  (@user.about_me.nil?)? "" :  @user.about_me.html_safe
 %>
-<script type="text/javascript">
-    Ext.onReady(function(){
 
-        var msg = function(title, msg){
-            Ext.Msg.show({
-                title: title,
-                msg: msg,
-                minWidth: 200,
-                modal: true,
-                icon: Ext.Msg.INFO,
-                buttons: Ext.Msg.OK
-            });
-        };
+<script>
+  function delete_confirm() {
+	var answer=confirm("Are you sure you want to DELETE this account?");
+	return !!answer;
+  }
 
-        var regform = new Ext.FormPanel({
-            labelWidth: 75, // label settings here cascade unless overridden
-            frame:true,
-            title: 'Register',
-            labelAlign: 'top',
-            bodyStyle:'padding:5px',
-            width: 700,
-            items: [{
-                layout:'column',
-                border:false,
-                items:[{
-                    columnWidth:.5,
-                    layout: 'form',
-                    border:false,
-                    items: [{
-                        xtype:'textfield',
-                        fieldLabel: 'Username',
-                        name: 'user[username]',
-                        anchor:'95%',
-                        value: "<%= @user.username%>",
-                        disabled: true
-
-                    } ,{
-                        xtype:'textfield',
-                        fieldLabel: 'First Name',
-                        name: 'user[first_name]',
-                        anchor:'95%',
-                        allowBlank: false,
-                        value: "<%=  escape_javascript(@user.first_name)%>"
-
-
-                    }]
-                },{
-                    columnWidth:.5,
-                    layout: 'form',
-                    border:false,
-                    items: [{
-                        xtype:'textfield',
-                        fieldLabel: 'Email',
-                        name: 'user[email]',
-                        anchor:'95%',
-                        vtype: 'email',
-                        value: "<%=  escape_javascript(@user.email)%>"
-                    },{
-                        xtype:'textfield',
-                        fieldLabel: 'Last Name',
-                        name: 'user[last_name]',
-                        anchor:'95%',
-                        allowBlank: false,
-                        value: "<%= escape_javascript(@user.last_name)%>"
-                    },{
-                        xtype: 'hidden',
-                        name: 'authenticity_token',
-                        value: '<%= form_authenticity_token() %>',
-                        height: 0
-                    },{
-                        xtype: 'hidden',
-                        name: 'id',
-                        height: 0,
-                        value: "<%= @user.user_id%>"
-
-                    }]
-                }]
-            },{
-                xtype:'tabpanel',
-                plain:true,
-                activeTab: 0,
-                height:250,
-                defaults:{bodyStyle:'padding:10px'},
-                items:[
-                    {
-                        cls:'x-plain',
-                        title:'About You',
-                        layout:'form',
-                        defaults: {width: 230},
-                        items: {
-                            xtype:'htmleditor',
-                            id:'user[about_me]',
-                            width: 600,
-                            fieldLabel:'Biography',
-                            value: "<%= escape_javascript(raw about_me)%>"
-                        }
-                    }, {
-                        cls:'x-plain',
-                        title:'Basic Info',
-                        layout:'form',
-                        defaults: {width: 230},
-                        defaultType: 'textfield',
-                        items: [{
-                            fieldLabel: 'Web Site',
-                            name: 'user[url]',
-                            value: "<%= escape_javascript(@user.url)%>"
-                        },{
-                            fieldLabel: 'Occupation',
-                            name: 'user[occupation]',
-                            value: "<%= escape_javascript(@user.occupation)%>"
-                        }, {
-                            fieldLabel: 'Location',
-                            name: 'user[location]',
-                            value: "<%= escape_javascript(@user.location)%>"
-                        }]
-                    },{
-                        title:'Interests',
-                        layout:'form',
-                        defaults: {width: 230},
-                        defaultType: 'textfield',
-
-                        items: [{
-                            xtype:'textarea',
-                            fieldLabel: 'Music that inspires you',
-                            name: 'user[favorite_music]',
-                            anchor:'95%',
-                            value: "<%= escape_javascript(@user.favorite_music)%>"
-                        }, {
-                            xtype:'textarea',
-                            fieldLabel: 'Films that you\'ll watch more than once',
-                            name: 'user[favorite_films]',
-                            anchor:'95%',
-                            value: "<%= escape_javascript(@user.favorite_films)%>"
-                        }]
-                    },{
-                        title:'Phone Numbers',
-                        layout:'form',
-                        defaults: {width: 230},
-                        defaultType: 'textfield',
-
-                        items: [{
-                            fieldLabel: 'Home',
-                            name: 'user[home_phone]',
-                            value: "<%=escape_javascript( @user.home_phone)%>"
-                        },{
-                            fieldLabel: 'Mobile',
-                            name: 'user[cell_phone]',
-                            value: "<%= escape_javascript(@user.cell_phone)%>"
-                        }]
-                    }]
-            },{
-                cls:'x-plain',
-                title:'Musician Directory Listing (optional)',
-                layout:'fit',
-                items: [{
-                    title: "List Me in the Musician Directory",
-                    xtype:'fieldset',
-                    checkboxToggle:false,
-                    autoHeight:true,
-                    defaults: {width: 500},
-                    defaultType: 'checkbox',
-                    checked:true,
-                    collapsed:false,
-                    items :[{
-                        xtype: 'checkboxgroup',
-                        fieldLabel: 'Select as many as you play!',
-                        id: 'checkboxgroup',
-                        columns: 5,
-                        vertical: true,
-                        items: [
-                            <% counter=1
-                                for item in @instruments %>
-                            <% if counter>1 %>,<%end%>
-                            {
-                                boxLabel: '<%=item.instrument_name%>',
-                                name: 'instrument[<%=item.instrument_id%>]'
-                                <% if @myinstruments && @myinstruments[item.instrument_id] %>
-                                ,checked: true
-                                <% end %>
-                            }
-                            <% counter=counter+1
-                            end %>
-                        ]
-                    }]
-                }]
-            }],
-
-            buttons: [{
-                text: 'Update',
-                name: 'commit',
-                handler: function(){
-                    regform.form.submit({
-                        url:'/members/update',
-                        method:'POST',
-                        waitMsg:'Updating Your Account...',
-                        success: function(fp, msg){
-                            Ext.Msg.alert('Success' ,msg.result.message);
-                        },
-                        failure: function(fp,msg){
-                            Ext.Msg.alert('Error',msg.result.message)}
-                    });
-                }
-
-            },{
-                text: 'Cancel'
-            }]
-
-        });
-
-        regform.render("jh_form");
-
-
-
-
-    });
-
-    function delete_confirm() {
-        var answer=confirm("Are you sure you want to DELETE this account?");
-        if (answer) {
-            return true;
-        }
-        return false;
-    }
-
-    function upgrade_confirm() {
-        var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
-        if (answer) {
-            return true;
-        }
-        return false;
-    }
-
-
-    function swap_fields(obj) {
-        var url=Ext.get("user_image_url");
-        var file=Ext.get("user_image");
-        if (file.getValue()!="") {
-            document.forms[1].elements['user_image_url'].value ="";
-        } else if (url.getValue()!="") {
-            document.forms[1].elements['user_image_temp'].value ="";
-            document.forms[1].elements['user_image'].value ="";
-        }
-        document.forms[1].submit();
-    }
-
+  function upgrade_confirm() {
+	var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
+	return !!answer
+  }
 </script>
+<style>
+  textarea {
+	width: 500px;
+  }
+  .inside h3 {
+	background-color: #ccc;
+	height: 40px;
+  }
+</style>
 <div id="StageNarrow">
-  <div class="Header">Edit Your Profile</div>
 
   <div class="inside">
-    <div class="flash-alert">
-      <%= flash[:notice] %>
-      <%= flash[:error] %>
-    </div>
-    <a name="edit"></a>
-    <div id="jh_form">
 
-    </div>
-    <div class="hspacer"></div>
-    <div class="Header">Upload Photo</div>
-    <div class="hspacer"></div>
-    <a name="photo"></a>
-    <%= form_for @user, :url=>{:action=>"upload"}, :html => { :multipart => true } do |f| %>
-        <p>
-          <%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"100"} %>
-          <% if @user.image %>
-                Replace current image? Either upload or set a remote URL<br/>
-          <% end %>
-          Browse File <%= file_column_field("user", "image") %>
-          <br/>Or enter the URL of an image hosted elsewhere <%= f.text_field :image_url  %>
-        </p>
-        <input type="hidden" id="id" name="id" value="<%=@user.user_id%>" >
-        <input type="hidden" id="local_player_flag" name="local_player_flag" value="<%=@user.local_player_flag%>" >
-        <p>
-          <%= f.submit "Submit", :onclick=>"swap_fields(this)"%>
-        </p>
-    <% end %>
-    <div class="hspacer"></div>
-    <div class="Header">Delete Account</div>
-    <div class="hspacer"></div>
-    <%= form_for @user, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
-        <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
-        If you'd like to delete your account, click this button. This isn't Facebook, your account will be removed immediately and for good.
-        <%= f.submit "Delete Account" %>
-        <div class="hspacer"></div>
-    <% end %>
-    <% if logged_in? && (current_user.id==1) -%>
-        <div class="hspacer"></div>
-        <div class="Header">Super Power!!</div>
-        <%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();" }     do |f| %>
-            <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
-            <% if @user.editor_flag==1 %>
-                User is currently an editor
-                <input type="hidden" id="editor_flag" name="editor_flag" value=0 >
-                <%= f.submit "Remove Editor" %>
-            <% else %>
-                User is not currently an editor
-                <input type="hidden" id="editor_flag" name="editor_flag" value=1 >
-                <%= f.submit "Upgrade to Editor" %>
-            <% end %>
-            <div class="hspacer"></div>
-        <% end %>
-        <div class="hspacer"></div>
-        <div class="hspacer"></div>
-    <% end -%>
 
+	<%= render :partial => "common/notice" %>
+	<a name="edit"></a>
+	<h3>Edit Your Profile</h3>
+	<br/>
+	<a name="photo"></a>
+	<%= form_for @user, :url=>{:action=>"upload"}, :html => { :multipart => true, :class => "form-horizontal well"  } do |f| %>
+	  <%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"150"} %>
+
+	   <div class="control-group">
+		<div class="controls">
+		  <h3>Photo</h3>
+		  <h4>Select an image to upload</h4>
+		  <%= file_column_field("user", "image") %> <br/><br/>
+		  <%= f.submit "Submit", :class=>"btn"%>
+		  <input type="hidden" id="id" name="id" value="<%=@user.user_id%>" >
+		  <input type="hidden" id="local_player_flag" name="local_player_flag" value="<%=@user.local_player_flag%>" >
+
+		</div>
+	  </div>
+	<% end %>
+	<%= form_for @user, :method => :post, :url => { :action => "update"}, :html => { :class => "form-horizontal well" }     do |f| %>
+	  <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token() %>"/>
+	  <input type="hidden" id="id" name="id" value="<%= @user.user_id %>"/>
+	  <input name="_method" type="hidden" value="post" />
+	  <div class="control-group">
+		<h3>Essentials</h3>
+		<label class="control-label" for="user[first_name]">First Name</label>
+		<div class="controls">
+		  <%= f.text_field :first_name, :size=>30, :placeholder=>"First Name" ,:value =>escape_javascript(@user.first_name) %>
+		</div>
+		<label class="control-label" for="user[last_name]">Last Name</label>
+		<div class="controls">
+		  <%= f.text_field :last_name, :size=>30, :placeholder=>"Last Name" ,:value =>escape_javascript(@user.last_name) %>
+		</div>
+		<label class="control-label" for="user[email]">Email</label>
+		<div class="controls">
+		  <%= f.text_field :email, :size=>30, :placeholder=>"Email Address" ,:value =>escape_javascript(@user.email) %>  <a class="blueLink" href="/members/changepassword">Change Password</a></br>
+		</div>
+	  </div>
+	  <div class="control-group">
+		<h3>Contact Info</h3>
+		<label class="control-label" for="user[cell_phone]">Cell Phone</label>
+		<div class="controls">
+		  <%= f.text_field :cell_phone, :size=>30, :placeholder=>"Cell Phone" ,:value =>escape_javascript(@user.cell_phone) %>
+		</div>
+		<label class="control-label" for="user[home_phone]">Home Phone</label>
+		<div class="controls">
+		  <%= f.text_field :home_phone, :size=>30, :placeholder=>"Home Phone" ,:value =>escape_javascript(@user.home_phone) %>
+		</div>
+		<label class="control-label" for="user[url]">Website</label>
+		<div class="controls">
+		  <%= f.text_field :url, :size=>30, :placeholder=>"http://" ,:value =>escape_javascript(@user.url) %>
+		</div>
+
+		<label class="control-label" for="user[location]">Location</label>
+		<div class="controls">
+		  <%= f.text_field :location, :size=>30, :placeholder=>"Location" ,:value =>escape_javascript(@user.location) %>
+		</div>
+
+	  </div>
+	   <div class="control-group">
+		<h3>Instruments Played, if any</h3>
+		<% for item in @instruments %>
+		  <label class="checkbox inline">
+			<input type="checkbox" name="instrument[<%=item.instrument_id%>]" value="<%=item.instrument_id%>"  <% if @myinstruments && @myinstruments[item.instrument_id] %>checked<% end %>><%=item.instrument_name%>
+		  </label>
+		<% end %>
+	  </div>
+	  <div class="control-group">
+		<h3>About You</h3>
+		<label class="control-label" for="user[occupation]">Occupation</label>
+		<div class="controls">
+		  <%= f.text_field :occupation, :size=>30, :placeholder=>"Location" ,:value =>escape_javascript(@user.occupation) %>
+		</div>
+		<label class="control-label" for="user[about_me]">Bio</label>
+		<div class="controls">
+
+		  <%= f.text_area :about_me, :rows=>9 ,:value =>escape_javascript(raw about_me) %>
+		</div>
+		<label class="control-label" for="user[favorite_music]">Favorite Music</label>
+		<div class="controls">
+		  <%= f.text_area :favorite_music, :rows=>3 ,:value =>escape_javascript(@user.favorite_music) %>
+		</div>
+		<label class="control-label" for="user[favorite_films]">Favorite Movies</label>
+		<div class="controls">
+		  <%= f.text_area :favorite_films, :rows=>3 ,:value =>escape_javascript(@user.favorite_films) %>
+		</div>
+	  </div>
+
+	  <div class="control-group">
+			<h3>Finish</h3>
+		<br/>
+		<button type="submit" style="text-align:center;" class="btn">Now Save Your Work By Clicking This Button. Yes THIS one.</button>
+	  </div>
+	<% end %>
   </div>
+
+  <div class="hspacer"></div>
+
+  <div class="Header">Delete Account</div>
+  <div class="hspacer"></div>
+  <%= form_for @user, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
+	<input type="hidden" id="id" name="id" value="<%=@user.id%>" >
+	If you'd like to delete your account, click this button.
+	<%= f.submit "Delete Account" , :class => "btn" %>
+	<br/>This isn't Facebook, your account will be removed immediately and for good.
+
+
+	<div class="hspacer"></div>
+  <% end %>
+  <% if logged_in? && (current_user.id==1) -%>
+	<div class="hspacer"></div>
+	<div class="Header">Super Power!!</div>
+	<%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();" }     do |f| %>
+	  <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
+	  <% if @user.editor_flag==1 %>
+		User is currently an editor
+		<input type="hidden" id="editor_flag" name="editor_flag" value=0 >
+		<%= f.submit "Remove Editor" %>
+	  <% else %>
+		User is not currently an editor
+		<input type="hidden" id="editor_flag" name="editor_flag" value=1 >
+		<%= f.submit "Upgrade to Editor" %>
+	  <% end %>
+	  <div class="hspacer"></div>
+	<% end %>
+  <% end -%>
+
+
 </div>
+

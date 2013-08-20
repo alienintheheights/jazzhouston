@@ -1,80 +1,34 @@
-<!-- Stage for mobile home page -->
-<div id="StageHome" >
-  <div class="HeaderTitle">Mobile Edition</div>
-  <div class="inside">
-    <div id="homegrid">
-      <div class="hspacer"></div>
-      <table >
-        <tr>
-          <td class="leftcol" id="show_listing">
+<div data-role="content">
 
-            <h2>Playing Today</h2>
-            <div class="hspacer"></div>
-            <% for item in shows_today %>
-                <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
-                <% if item.venue %>
-                    at <%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
-                <% end %>
-                <%= item.show_time %>
-                <div class="hspacer"></div>
-            <% end %>
+  <h3>Playing Today</h3>
+  <ul data-role="listview" data-inset="true">
+	<% for item in shows_on_date %>
+	  <li><%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %></li>
+	<% end %>
+  </ul>
 
-            <h2>More Shows This Week</h2>
-            <ul class="showListMain">
-              <%  currentDOW=""
-                  for item in shows_this_week
-                      dow=item.show_date.to_datetime.strftime("%A")
-                      if (dow!=currentDOW)
-              %>
-                      <li class="showListMainDOW"><b><a href="/events/<%=item.show_date.to_datetime.strftime("%Y")%>/<%=item.show_date.to_datetime.strftime("%m")%>/<%=item.show_date.to_datetime.strftime("%d")%>"><%=dow%></a></b></li>
-                  <% end %>
-                  <li>
-                    <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>
-                  </li>
-              <%  currentDOW=item.show_date.to_datetime.strftime("%A")
-                  end %>
-
-            </ul>
-            <div class="hspacer"></div>
-            <a class="blueLink" href="/events/shows">see more upcoming shows</a>
-            <div class="hspacer"></div>
-            <h2>News and Reviews </h2>
-            <div class="newslist">
-              <ul>
-                <% counter=0
-                   if articles.length==0 %>
-                <% end %>
-                <% for item in articles
-                       current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
-                %>
-                    <li class="newslist-feature">
-                       <% if item.image_url && !item.image_url.blank?  %>
-                          <%= link_to image_tag(item.image_url, :width=>'50', :height=>'50',:align=>'left',:hspace=>'2', :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@section_id, :page=>@page} %>
-                      <% elsif item.photo.exists? then %>
-                          <%= image_tag item.photo.url(:thumb), :align=>"left", :width=>'50',:hspace=>'2' %>
-                      <% end %>
-                      <%= link_to item.title, {:action => "words", :controller=>"articles",  :id=>current_id} %>
-                      <br/>
-                      <%= item.teaser %>
-                    </li>
-                <% end %>
-              </ul>
-              <div class="hspacer"></div>
-            </div>
-
-          </td>
-
-        </tr>
+  <h3>News</h3>
+  <ul data-role="listview" data-inset="true">
+	<% for item in articles
+		 current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
+	%>
+	  <li class="newslist-feature">
+		<% if item.photo.exists? then %>
+		  <%= image_tag item.photo.url(:thumb), :align=>"left", :width=>'35', :height=>'35', :hspace=>'2' %>
+		<% end %>
+		<%= link_to item.title, {:action => "words", :controller=>"articles",  :id=>current_id}, 'data-transition'=>"flip" %>
+	  </li>
+	<% end %>
+  </ul>
+</div>
 
 
 
 
 
-      </table>
-    </div>
-  </div>
 
-</div> <!-- end Stage -->
+
+
 
 
 

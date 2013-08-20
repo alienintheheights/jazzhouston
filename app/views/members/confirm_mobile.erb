@@ -1,0 +1,14 @@
+<div data-role="content">
+
+  <%= render :partial => "common/notice" %>
+  <div class="hspacer"></div>
+  Thanks for signing up on Jazzhouston.com!
+  <div class="hspacer"></div>
+  <% if @user -%>
+	<a href="/members/profile/<%=@user.username%>">Visit Your Profile</a>
+	<div class="hspacer"></div>
+	To edit your profile and upload a profile photo,
+	<a href="/members/profile/<%=@user.username%>">Edit Your Profile</a><br/>
+  <% end -%>
+  <div class="hspacer"></div>
+</div>

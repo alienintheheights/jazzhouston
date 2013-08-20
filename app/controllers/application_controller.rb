@@ -24,26 +24,44 @@ class ApplicationController < ActionController::Base
 
   # mobile considerations
   layout :detect_browser
+  #before_filter :redir_to_ssl
   before_filter :adjust_format_for_mobile
-  before_filter :redirect_to_mobile_if_applicable
+
+  # keep things save
+  def redir_to_ssl
+	if !request.ssl?
+	  redirect_to 'https://'+request.host_with_port+request.path
+	end
+  end
+  ### FLOW
+  # before_filter :adjust_format_for_mobile
+  #     checks if mobile_request?
+  #        checks subdomain or format parameter
+  #        else scans USER_AGENT and tests against MOBILE_BROWSERS
+  #
+  # request.format gets the value set by rails from params[:format]
 
   ##  evolving array of mobile UA strings
-  MOBILE_BROWSERS = ["android", "iphone", "IEMobile"]
+  MOBILE_BROWSERS = ["android", "iphone", "iemobile", "blackberry"]
 
   ########################################
   ##  detect mobile based on USER_AGENT,
   ##   request header, or subdomain
   #########################################
   def mobile_request?
-    if (request.subdomains.first == "m" || params[:format] == "mobile")
-      return true
-    end
+	if (cookies[:prefer_full_site])
+	  return false
+	elsif (cookies[:prefer_mobile_site] || params[:format] == "mobile")
+	 return true
+	end
 
-    agent = request.headers["HTTP_USER_AGENT"].downcase
-    MOBILE_BROWSERS.each do |m|
-      return true if agent.match(m)
-    end
-    false
+	agent = request.headers["HTTP_USER_AGENT"].downcase
+	MOBILE_BROWSERS.each do |m|
+	  if agent.match(m)
+		return true
+	  end
+	end
+	false
   end
 
   private
@@ -53,7 +71,10 @@ class ApplicationController < ActionController::Base
   ##   header if mobile
   #########################################
   def adjust_format_for_mobile
-    request.format = :mobile if mobile_request?
+	request.format = :mobile if mobile_request?
+	if cookies[:prefer_mobile_site].blank?
+	  cookies[:prefer_mobile_site] = "true"
+	end
   end
 
   ########################################
@@ -61,47 +82,18 @@ class ApplicationController < ActionController::Base
   ##    respond based on mobile_request?
   #########################################
   def detect_browser
-    return false if (request.xhr?)
-    (mobile_request?)?  "mobile_application" : "application"
+	# return false if (request.xhr?)
+	(mobile_request?)?  "jqm_application" : "application"
   end
 
-  def mobile_subdomain?
-    request.subdomains.first == 'm'
-  end
-
-  def redirect_to_mobile_if_applicable
-    unless mobile_subdomain? || !mobile_request? || cookies[:prefer_full_site]
-      redirect_to request.protocol + "m." + request.host_with_port.gsub(/^www\./, '') +
-                      request.request_uri and return
-    end
-  end
 
   def selected_layout
-    session.inspect # force session load
-    if session[:layout]
-      return (session["layout"] == "mobile") ?
-          "mobile_application" : "application"
-    end
-    nil
+	session.inspect # force session load
+	if session[:layout]
+	  return (session["layout"] == "mobile") ? "jqm_application" : "application"
+	end
+	nil
   end
-
-  #def rescue_404
-  #   rescue_action_in_public CustomNotFoundError.new
-  # end
-
-  # def rescue_action_in_public(exception)
-  #   case exception
-  #     when CustomNotFoundError, ::ActionController::UnknownAction then
-  #       #render_with_layout "shared/error404", 404, "standard"
-  #       render :template => "site/errorpage", :exception => "404"
-  #     else
-  #       @message = exception
-  #       render :template => "site/errorpage",  :exception => "500"
-  #   end
-  # end
-
-  #    rescue_from ActionView::TemplateError do { render :template => 'site/errorpage' }
-
 
 
 end

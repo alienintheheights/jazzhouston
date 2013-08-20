@@ -46,7 +46,7 @@ jh.forums = function() {
 
         validatePost: function() {
 
-            if (document.forms[0].message_message_text.value=="") {
+            if (!$("#post_message_text").val()) {
                 alert("This post is blank. Please try again. ");
                 return false;
             }
@@ -57,12 +57,12 @@ jh.forums = function() {
         },
 
         validateThread: function() {
-            if (document.forms[0].topic_title.value=="") {
+            if ($("#topic_title").val()) {
                 alert("You must enter a title!");
                 return false;
             }
 
-            if (!Ext.get("message_message_text").getValue()) {
+            if (!$("#topic_posts_attributes_0_message_text").val()) {
                 alert("This post is blank. Please try again. ");
                 return false;
             }

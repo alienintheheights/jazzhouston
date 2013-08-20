@@ -3,9 +3,13 @@ class Event < ActiveRecord::Base
   belongs_to :venue
   has_one :user, :foreign_key => "user_id"
 
-
   @@time_zone='Central Time (US & Canada)'
 
+  define_index do
+	indexes performer, :sortable => true
+	indexes show_date
+	indexes about
+  end
 
   # Exclude password info from json output.
   def as_json(options={})

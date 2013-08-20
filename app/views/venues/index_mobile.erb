@@ -1,0 +1,26 @@
+<% content_for :head do %>
+
+<% end %>
+<div data-role="content">
+  ><a href="/">Home</a>>Venues
+  <%if logged_in? && current_user.editor_flag==1 -%>
+	<div style="float:right;">
+	  <a href="/venues/new"><img src="/images/icons/reply.png" border="0" alt="edit"></a> <br/>
+	</div>
+  <% end -%>
+
+  <div class="hspacer"></div>
+
+  <div class="Header">
+	Houston Jazz Venues
+  </div>
+  <div class="hspacer"></div>
+  <div id="jh_venue_about">
+	<img src="/images/clubs/sambuca.jpg" alt="Sambuca" hspace="2" align="left">
+	There are a rotating multitude of places to find Jazz in Houston. Search by name here or visit the calendar.
+  </div>
+  <br/><br/>
+  <b>Venue Finder:</b><br/>
+  <input type="text" id="event_venue_search" size="30"/>
+</div>
+

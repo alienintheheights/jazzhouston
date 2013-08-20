@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JazzHouston Mobile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/common/js/jquery-mobile-1.3.2/jquery.mobile-1.3.2.min.css" type="text/css"/>
+  <link rel="stylesheet" href="/style/theme/grayblack-jqm.css" type="text/css"/>
+  <link rel="stylesheet" href="/style/jquery-mobile-theme/themes/grayblack.min.css" type="text/css"/>
+
+  <script src="/common/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+  <script src="/common/js/jquery-mobile-1.3.2/jquery.mobile-1.3.2.min.js" type="text/javascript"></script>
+  <script>
+	$( document ).bind( "mobileinit", function() {
+	  $.mobile.defaultPageTransition = "flow";
+	  $.mobile.transitionFallbacks.flow = "flow";
+	});
+	$(document).bind("pageload", function (event, data) {
+	  if ($("div[data-role=\"content\"]", data.xhr.responseText).length < 1) {
+		window.location = data.url;
+	  }
+	});
+
+  </script>
+</head>
+<body>
+
+<div data-role="page" data-dom-cache="true" data-theme="d" <% if @page_id %>id="<%=@page_id%>"<% end %> >
+
+  <div data-role="header">
+	<h1><%=@page_title%></h1>
+	<a href="#left-panel" data-icon="bars" data-iconpos="notext" data-shadow="false" data-iconshadow="false">Menu</a>
+	<a href="/" data-icon="home" data-iconpos="notext" >Home</a>
+	<%= yield :head %>
+
+  </div>
+  <%= yield %>
+  <%= render :partial => "common/footer_mobile" %>
+</div>
+
+
+<!-- Google Tracker -->
+<script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+  var pageTracker = _gat._getTracker("UA-997481-1");
+  pageTracker._trackPageview();
+</script>
+
+
+<div data-role="page" id="modal-login">
+  <div data-role="header">
+	<h1>Login to Jazz/Houston</h1>
+  </div>
+  <div data-role="content">
+	<%= form_tag "/members/login", :html=>{:class=>"form-inline"} do -%>
+	  <div data-role="fieldcontain" class="ui-hide-label">
+		<label for="login">Username:</label>
+		<input type="text" name="login" id="login" value="" placeholder="Username"/>
+	  </div>
+	  <div data-role="fieldcontain" class="ui-hide-label">
+		<label for="password">Password:</label>
+		<input type="password" id="password" name="password" placeholder="Password">
+	  </div>
+
+	  <label class="checkbox">
+		<input type="checkbox" name="remember_me" checked> Remember me (for auto-login on new visits)
+	  </label>
+	  <%= submit_tag 'Sign In', :class=>"btn" %>
+
+	  <br/><br/>
+	  <a href="/members/sendlostpasswordemail">Forgot your password?</a>
+	  <br/>
+	  <a href="/members/new">Register</a>
+
+
+
+	<% end -%>
+
+
+  </div>
+</div>
+
+
+</body>
+</html>

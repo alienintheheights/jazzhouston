@@ -89,17 +89,5 @@ match 'members/resetpassword/:username/:key'  => 'members#resetpassword'
 
 match '/:controller(/:action(/:id))'
 
-  # Want the 404 header for Google!
-  #map.connect "*anything", :controller => "site", :action => "errorpage", :exception=>"404", :status =>  "404 Not Found" 
-
-  #map.words404 "news/words.jsp", :controller=>"articles", :action=>'index', :status =>  "404 Not Found" 
-  #map.messages404 'forum/messages.jsp', :controller=>"forums", :action=>'index', :status =>  "404 Not Found" 
-  #map.threads404 'forum/threads.jsp', :controller=>"forums", :action=>'index', :status =>  "404 Not Found" 
-  #map.events404 'events/about.jsp', :controller=>"events", :action=>'index', :status =>  "404 Not Found" 
-  #map.profile404 'artists/profile.jsp', :controller=>"musicians", :action=>'index', :status =>  "404 Not Found" 
-  #map.home404 'home.jsp', :controller=>"home", :action=>'index', :status =>  "404 Not Found" 
-  ##map.erss404 'events/rss.jsp', :controller=>"events", :action=>'rss', :status =>  "404 Not Found" 
-  #map.nrss404 'news/news_rss.jsp', :controller=>"articles", :action=>'rss', :status =>  "404 Not Found" 
-
 
 end

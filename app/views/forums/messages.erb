@@ -1,4 +1,4 @@
-<%= render :partial => "common/extjs", :locals=>{:jsonly=>true} %>
+<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <% rating_threshold=-6 %>
 <!-- updated -->
@@ -72,7 +72,7 @@
 			  </div>
 
 			  <div class="messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
-				<%= raw item.message_text.gsub(/\n/, '<br/>') %>
+				<%=  raw auto_link(item.message_text).gsub(/\n/, '<br/>') %>
 			  </div>
 
 			</li>

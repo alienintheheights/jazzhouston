@@ -45,25 +45,20 @@
     <li>
       <a href="/members">Member Center</a>
     </li>
-    <%
-       welcome_message = flash[:notice] || "Sign In or Sign Up! "
-       if logged_in? && (!flash[:notice] || flash[:notice]=="")
-           welcome_message = "Welcome #{current_user.first_name}"
-       end
-    %>
-    <li><%=welcome_message%></li>
   </ul>
 
   <div class="inside">
+
+	<%= render :partial => "common/notice" %>
 
     <%if logged_in? -%>
         <div id="StageColumnLeft">
           <b>Account Options</b>
           <div class="hspacer"></div>
-          Profile: <a href="/members/edit/<%=current_user.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a> |
+          Profile: <a  class="blueLink" href="/members/edit/<%=current_user.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a> |
           <a href="/members/profile/<%=current_user.username%>">View</a>
           <div class="hspacer"></div>
-          <a href="/members/changepassword/<%=current_user.user_id%>">Change</a> your password
+          <a href="/members/changepassword/<%=current_user.user_id%>" class="blueLink">Change your password</a>
           <div class="hspacer"></div>
           <a href="/members/logout">Sign Out</a>
 

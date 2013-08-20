@@ -26,6 +26,13 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :username, :case_sensitive => false
   before_save :encrypt_password
 
+  #define_index do
+  #	indexes first_name
+  #	indexes last_name, :sortable => true
+  #	indexes username
+  #	indexes user_id
+  #	indexes local_player_flag
+  # end
 
   # This is the image magick rendering. It will be replaced by paperclip one day.
   file_column :image, :magick => {
@@ -36,19 +43,21 @@ class User < ActiveRecord::Base
 		  }
   }
 
+
   # Search class method
   def self.search_users(search_term)
 	  User.where("lower(username) like ? or lower(first_name) like ? or lower(last_name) like ? ", search_term, search_term, search_term).order("last_name").select("username, first_name, last_name, user_id")
   end
 
-
   # change password class method
-  def self.change_password(username, old_password, new_password)
+  def change_password(username, old_password, new_password)
 	u = User.authenticate(username, old_password)
 	if (u)
-	  u.password=new_password
+	  u.password = new_password
 	  u.save(:validate => false)
-	  self.current_user=u
+	  true
+	else
+	  false
 	end
   end
 
@@ -59,7 +68,7 @@ class User < ActiveRecord::Base
 
   # checks a reset key hash
   def hash_key
-	  Digest::SHA1.hexdigest("--#{self.email}--#{self.username}--")
+	Digest::SHA1.hexdigest("--#{self.email}--#{self.username}--")
   end
 
   # simple delete account

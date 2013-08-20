@@ -21,6 +21,7 @@ class Topic < ActiveRecord::Base
 
   before_save :prep_topic
 
+
   # to_string method
   def to_s
 	"Topic: board_id=>#{board_id}, title=>#{title}, thread_id=>#{thread_id}, posts=>#{posts}"
@@ -77,8 +78,11 @@ class Topic < ActiveRecord::Base
   # before_save method
   def prep_topic
 	self.modified_date = Time.now
+	if (self.post_count==0)
+	  self.status = 2
+	end
 	self.post_count = self.post_count + 1
-	self.status = 2
+
   end
 
 

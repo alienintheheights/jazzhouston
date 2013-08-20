@@ -1,46 +1,148 @@
-<%= render :partial => "common/extjs", :locals=>{:jsonly=>true} %>
-<script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
-<% rating_threshold=-6 %>
-<div id="StageNarrow">
-  <ul class="breadcrumbs">
-	<li>
-	  <a href="/forums/">Forums</a>
-	</li>
-	<li>
-	  <a href="/forums/index/<%=topic.board_id%>?page=<%=page_vars[:orig_page_number]%>"><%=page_vars[:board_title]%></a>
-	</li>
-  </ul>
+<%
+   total_pages = (page_vars[:total_posts]/page_vars[:per_page]).round + 1
+   rating_threshold=-6
+   next_page = page_vars[:page_number]+1
+%>
 
-  <div class="forum-inside">
+<% content_for :head do %>
 
-	<div>
-	  <%= render :partial => "messages_pager", :locals => {:wrap=>false} %>
-	</div>
+<script type="text/javascript">
+  $(function() {
 
-	<div class="StoryHeader">
-	  <%=topic.title%>
-	</div>
+	// VALIDATE message
+	$('#message_reply_button').attr("disabled", "disabled");
+	var validate = function() {
+	  var isValid = false;
+	  if ( $("#post_message_text").val()  ) {
+		$('#message_reply_button').removeAttr("disabled");
+		isValid = true;
+	  } else {
+		$("#new_topic_validation_note").text("Please fill in both a title and a message");
+	  }
+	  return isValid;
 
-	<div class="messageList">
-	  <ul >
-		<%
-		   post_count = page_vars[:per_page] * (page_vars[:page_number]-1)
-		   has_bans = (page_vars[:ban_list] && page_vars[:ban_list].length>0) || false
-		   topic.posts.page(page_vars[:per_page], post_count).each do |item|
-			 post_count=post_count+1
-		%>
-		   <% if (!has_bans.nil? && item.user && page_vars[:ban_list].has_key?(item.user.user_id))  %>
-			<li class="messageRow post-ban-row" >      <a name="<%=post_count%>"></a>
-			  message ignored: <%= item.user.username %> is on your ban list (<a href="/forums/ban_list">change this</a>)
-			</li>
-		  <% else %>
+	};
+	// check title
+	$("#post_message_text").keydown(function(){
+	  validate();
+	});
+	$("#post_message_text").blur(function(){
+	  validate();
+	});
 
 
-			<li class="<% if (item.rating>rating_threshold) %>messageRow<% else %>blockedMessage<% end%>" id="row_<%=item.message_id%>" style="display: list-item;">
+
+
+
+	  // track whether it's loading
+	  var busy = false;
+	  // paging variables
+	  var next_page = <%=next_page%>;
+	  var total_pages = <%=total_pages%>;
+
+	  // async data fetch function
+	  var getData = function(urlObj, options, thread_id) {
+
+		// quit when finished
+		if (next_page > total_pages) {
+		  $(document).find('.loading-bar').html('');
+		  return;
+		}
+
+		// make POST to get next page
+		$.post('/forums/messages/'+thread_id,{page: next_page}, function(serverResponse) {
+
+		  // If there is no data returned, there are no more posts to be shown. Show error
+		  if (!serverResponse) {
+			$this.find('.loading-bar').html("error");
+		  } else {
+
+			var responseContentDom = $(serverResponse).children( ":jqmData(role=content)" ).find(".messageList-"+thread_id).children();
+			var sourceContentDom = $.mobile.pageContainer.find(".messageList-"+thread_id);
+			$(responseContentDom).appendTo(sourceContentDom);
+			busy = false;
+			$(document).find('#message_well').html('');
+			//$.mobile.pageLoading(true);
+
+		  }
+		}).fail(function( jqxhr, textStatus, error ) {
+				  var err = textStatus + ', ' + error;
+				  alert( "Request Failed: " + err);
+				});
+	  };
+
+
+	  // .. and the user is scrolling
+	  $(window).scroll(function() {
+
+		var lessThan = $(document).height() - $(window).height() - 350;
+		if (next_page<=total_pages && $(window).scrollTop() > lessThan && !busy ) {
+
+		  // Now we are working, so busy is true
+		  busy = true;
+
+		  // Tell the user we're loading posts
+		  var well = $(document).find('#message_well');
+		  if (well) {
+			// $.mobile.pageLoading();
+			well.html('loading...');
+		  }
+
+		  // Run the function to fetch the data inside a delay
+		  // This is useful if you have content in a footer you
+		  // want the user to see.
+		  setTimeout(function() {
+			$("#load_more_link").trigger('click');
+		  }, 100);
+		}
+
+	  });
+
+	  // Listen for any attempts to call changePage().
+	  $(document).bind( "pagebeforechange", function( e, data ) {
+
+		// We only want to handle changePage() calls where the caller is
+		// asking us to load a page by URL.
+		if ( typeof data.toPage === "string" ) {
+
+		  // We are being asked to load a page by URL, but we only
+		  // want to handle URLs that request the data for a specific
+		  // category.
+		  var u = $.mobile.path.parseUrl( data.toPage ),
+				  re = /^#scroll-load/;
+
+		  if ( u.hash.search(re) !== -1 ) {
+
+			getData(u, data.options, '<%=topic.thread_id%>');
+			next_page++;
+
+			// Make sure to tell changePage() we've handled this call so it doesn't
+			// have to do anything.
+			e.preventDefault();
+		  }
+		}
+	  });
+
+	});
+  </script>
+<% end %>
+<div data-role="content">
+
+  <h3><%=topic.title%></h3>
+
+	<div class="messageList-<%=topic.thread_id%>" >
+	  <%
+		 post_count = page_vars[:per_page] * (page_vars[:page_number]-1)
+		 has_bans = (page_vars[:ban_list] && page_vars[:ban_list].length>0) || false
+		 topic.posts.page(page_vars[:per_page], post_count).each do |item|
+		   post_count = post_count + 1
+	  %>
+		<div class="forum_row_li" id="row_<%=item.message_id%>" class="<% if (item.rating<=rating_threshold) %>blockedMessage<% end%>">
+		  <% if (!has_bans.nil? && item.user && page_vars[:ban_list].has_key?(item.user.user_id))  %>
+		 <% else %>
 
 			  <a name="<%=post_count%>"> </a>
-			  <div class="messageBlock"
-				   style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"
+			  <div style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"
 				   id="messageAuthor_<%=item.message_id%>">
 
 				<%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"40"} %>
@@ -67,22 +169,49 @@
 				  <div class="forumAlert" style="<% if (item.rating>rating_threshold) %>display:none;<% end%>" id="rowAlert_<%=item.message_id%>">
 					message by <%= (item.user) ? item.user.username.downcase : item.author %> voted inappropriate (<a href="javascript:void(0)" onclick="jh.forums.show_post(<%=item.message_id%>)">view anyway</a>)
 				  </div>
-				  <%= raw item.message_text.gsub(/\n/, '<br/>') %>
+				 <%=  raw auto_link(item.message_text).gsub(/\n/, '<br/>') %>
 				</div>
 			  </div>
 
-			</li>
+
 		  <% end %>
-		<% end %>
-	  </ul>
+		</div>
+	  <% end %>
 	</div>
-	<div  class="board-pager">
-	  <%= render :partial => "messages_pager", :locals => {:wrap=>true} %>
-	  <div class="hspacer"></div>
-	  <%= render :partial => "reply" %>
+  <% if total_pages >= next_page %>
+	<div class="loading-bar">
+	  <div id="message_well"></div>
+	  <a id="load_more_link" href="#scroll-load">more</a></div>
+  <% end %>
+
+
+<% if logged_in? -%>
+  <%  topic.posts.build %>
+  <div class="row-fluid">
+	<div class="span10 well">
+	  <%= form_for [topic, topic.posts.build], :id=>"message_reply_form", :method=>"post", :url => { :action => "update"} do |f| %>
+		<fieldset>
+		  <legend>Post a response</legend>
+		  <div class="control-group">
+			<label class="control-label" for="post_message_text">Reply</label>
+			<div class="controls" >
+			  <%= f.text_area  :message_text, :rows => 10, :class=>"span10" %>
+			</div>
+		  </div>
+		  <div class="form-actions">
+			<%= f.hidden_field :thread_id %>
+			<%= f.submit "Reply", :id=>"message_reply_button", :class=>"btn" %>
+		  </div>
+		</fieldset>
+	  <% end %>
 	</div>
   </div>
-</div>
+<% else%>
+  <div id="forum-login">
+	<b>Login to reply to this and other topics.</b>
+  </div>
+<% end -%>
 
+  </div>
 
 

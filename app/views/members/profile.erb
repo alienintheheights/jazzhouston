@@ -25,7 +25,7 @@
       </div>
   <% end %>
 
-  <%=flash[:notice]%>
+ <%= render :partial => "common/notice" %>
   <div class="cd-inside">
     <div id="jh_pic_column">
 
@@ -42,7 +42,7 @@
 
 
       <table width="90%" class="table table-hover">
-        <% if @isaplaya %>
+        <% if !@isaplaya.nil? %>
             <tr>
               <td align="left">Instrument(s)</td>
               <td>
