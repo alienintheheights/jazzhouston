@@ -49,7 +49,6 @@
 	</div>
 	<div id="jh_infocol">
 
-
 	  <table width="90%" cellspacing="6" cellpadding="0" align="left">
 		<% if @isaplaya %>
 		  <tr>
@@ -65,20 +64,20 @@
 		<% end %>
 		<% if @member.cell_phone && @member.cell_phone != "" %>
 		  <tr>
-			<td align="left">Phone</td>
-			<td><%=@member.cell_phone%></td>
+			<td align="left">Cell Phone</td>
+			<td><a href="tel:<%= @member.cell_phone %>"><%= @member.cell_phone %></a></td>
 		  </tr>
 		<% end %>
 		<% if @member.home_phone && @member.home_phone != "" %>
 		  <tr>
-			<td align="left">Phone (alt)</td>
-			<td><%=@member.home_phone%></td>
+			<td align="left">Home Phone</td>
+			<td><a href="tel:<%= @member.home_phone %>"><%= @member.home_phone %></a></td>
 		  </tr>
 		<% end %>
-		<% if @member.email %>
+		<% if @member.email && @member.hide_email != '1' %>
 		  <tr>
 			<td align="left">Email</td>
-			<td><%=@member.email%></td>
+			<td><a href="mailto:<%= @member.email %>"><%=@member.email%></a></td>
 		  </tr>
 		<% end %>
 		<% if @member.url %>
@@ -87,7 +86,12 @@
 			<td><a href="<%=@member.url%>" target="_new"><%=@member.url%></a></td>
 		  </tr>
 		<% end %>
-
+		 <% if @member.twitter_name %>
+            <tr>
+              <td align="left">Twitter</td>
+              <td><a href="https://twitter.com/<%=@member.twitter_name%>" target="_new"><%=@member.twitter_name%></a></td>
+            </tr>
+        <% end %>
 
 	  </table>
 	</div>

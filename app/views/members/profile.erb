@@ -66,7 +66,7 @@
               <td><%=number_to_phone @member.home_phone%></td>
             </tr>
         <% end %>
-        <% if @member.email %>
+       <% if @member.email && @member.hide_email != '1' %>
             <tr>
               <td align="left">Email</td>
               <td><%=@member.email%></td>
@@ -76,6 +76,12 @@
             <tr>
               <td align="left">Website</td>
               <td><a href="<%=@member.url%>" target="_new"><%=@member.url%></a></td>
+            </tr>
+        <% end %>
+		 <% if @member.twitter_name %>
+            <tr>
+              <td align="left">Twitter</td>
+              <td><a href="https://twitter.com/<%=@member.twitter_name%>" target="_new"><%=@member.twitter_name%></a></td>
             </tr>
         <% end %>
 

@@ -13,7 +13,8 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessible :username, :email,  :password_confirmation,  :first_name, :last_name, :about_me,
 				  :occupation, :location, :url, :favorite_music, :favorite_films, :home_phone,
-				  :cell_phone, :remember_token, :remember_token_expires_at, :image, :image_url
+				  :cell_phone, :remember_token, :remember_token_expires_at, :image,
+				  :image_url, :hide_email, :twitter_name
 
 
   validates_presence_of     :username, :email

@@ -2,16 +2,52 @@
    about_me =  (@user.about_me.nil?)? "" :  @user.about_me.html_safe
 %>
 
-<script>
-  function delete_confirm() {
-	var answer=confirm("Are you sure you want to DELETE this account?");
-	return !!answer;
-  }
 
-  function upgrade_confirm() {
-	var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
-	return !!answer
-  }
+<script type="text/javascript">
+  $(document).ready(function() {
+	function delete_confirm() {
+	  var answer=confirm("Are you sure you want to DELETE this account?");
+	  return !!answer;
+	}
+
+	function upgrade_confirm() {
+	  var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
+	  return !!answer
+	}
+
+	var email_group = $("#email_group");
+	var email = $("#user_email");
+	var email_info = $("#email_info");
+
+	var profile_form = $("#jh_profile_edit_form");
+
+	//validation functions
+	var validateEmail = function() {
+
+	  //testing regular expression
+	  var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+	  //if it's valid email
+	  if(filter.test(email.val())){
+		email_group.removeClass("error");
+		email_info.text("");
+		return true;
+	  }
+	  //if it's NOT valid
+	  else{
+		email_group.addClass("error");
+		email_info.text("Invalid email address.");
+		return false;
+	  }
+	};
+
+	email.focusout(validateEmail);
+
+	profile_form.submit(function(){
+	  // we want them all to execute
+	  return validateEmail();
+	});
+
+  });
 </script>
 <style>
   textarea {
@@ -25,13 +61,13 @@
 <div data-role="content">
 
   <%= render :partial => "common/notice" %>
-  <%= form_for @user, :url=>{:action=>"upload"}, :html => { :multipart => true, :class => "form-horizontal well"  } do |f| %>
+  <%= form_for @user, :url=>{:action=>"upload"}, :html => {:multipart => true, "data-ajax" => "false",  :class => "form-horizontal well"  } do |f| %>
 
 	<div class="control-group">
 	  <div class="controls">
 		<h3>Photo</h3>
 		<%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"150"} %>
-				 <div class="hspacer"></div>
+		<div class="hspacer"></div>
 
 		<%= file_column_field("user", "image") %>
 		<%= f.submit "Submit New Photo", :class=>"btn"%>
@@ -42,12 +78,31 @@
 
 	</div>
   <% end %>
-  <%= form_for @user, :method => :post, :url => { :action => "update"}, :html => { :class => "form-horizontal well" }     do |f| %>
+  <%= form_for @user, :method => :post, :url => { :action => "update"}, :html => {:id=>"jh_profile_edit_form",  :class => "form-horizontal well" }     do |f| %>
 	<input type="hidden" id="authenticity_token" value="<%= form_authenticity_token() %>"/>
 	<input type="hidden" id="id" name="id" value="<%= @user.user_id %>"/>
 	<input name="_method" type="hidden" value="post" />
-	<div class="control-group">
-	  <h3>Essentials</h3>
+	<h3>Essentials</h3>
+	<label class="control-label" for="user[last_name]">Password</label>
+	<div class="controls">
+	  <a class="blueLink" href="/members/changepassword" data-role="button">Change Password</a>
+	</div>
+	<div class="control-group" id="email_group">
+	  <label class="control-label" for="user[email]">Email</label>
+	  <div data-role="fieldcontain">
+		<%= f.text_field :email, :size=>30, :placeholder=>"Email Address" ,:value =>escape_javascript(@user.email) %>
+	  </div>
+	  <span id="email_info" class="help-inline"></span>
+	  <fieldset data-role="controlgroup" data-type="horizontal" data-role="fieldcontain">
+		<label class="checkbox inline">
+		  <label class="control-label" for="user[hide_email]">Hide Email?</label>
+
+		  <%=f.check_box :hide_email, :value=>@user.hide_email %>
+		</label>
+	  </fieldset>
+	</div>
+	<br/>
+	<div class="control-group" >
 	  <label class="control-label" for="user[first_name]">First Name</label>
 	  <div class="controls">
 		<div data-role="fieldcontain">
@@ -58,10 +113,7 @@
 	  <div class="controls">
 		<%= f.text_field :last_name, :size=>30, :placeholder=>"Last Name" ,:value =>escape_javascript(@user.last_name) %>
 	  </div>
-	  <label class="control-label" for="user[email]">Email</label>
-	  <div class="controls">
-		<%= f.text_field :email, :size=>30, :placeholder=>"Email Address" ,:value =>escape_javascript(@user.email) %>  <a class="blueLink" href="/members/changepassword">Change Password</a></br>
-	  </div>
+
 	</div>
 	<div class="control-group">
 	  <h3>Contact Info</h3>
@@ -76,6 +128,10 @@
 	  <label class="control-label" for="user[url]">Website</label>
 	  <div class="controls">
 		<%= f.text_field :url, :size=>30, :placeholder=>"http://" ,:value =>escape_javascript(@user.url) %>
+	  </div>
+	  <label class="control-label" for="user[twitter_name]">Twitter</label>
+	  <div class="controls">
+		<%= f.text_field :twitter_name, :size=>30, :placeholder=>"@" ,:value =>escape_javascript(@user.twitter_name) %>
 	  </div>
 
 	  <label class="control-label" for="user[location]">Location</label>
@@ -100,20 +156,15 @@
 	  <h3>About You</h3>
 	  <label class="control-label" for="user[occupation]">Occupation</label>
 	  <div class="controls">
-		<%= f.text_field :occupation, :size=>30, :placeholder=>"Location" ,:value =>escape_javascript(@user.occupation) %>
-	  </div>
-	  <label class="control-label" for="user[about_me]">Bio</label>
-	  <div class="controls">
-
-		<%= f.text_area :about_me, :rows=>9 ,:value =>escape_javascript(raw about_me) %>
+		<%= f.text_area :about_me, :rows=>9 ,:value => about_me %>
 	  </div>
 	  <label class="control-label" for="user[favorite_music]">Favorite Music</label>
 	  <div class="controls">
-		<%= f.text_area :favorite_music, :rows=>3 ,:value =>escape_javascript(@user.favorite_music) %>
+		<%= f.text_area :favorite_music, :rows=>3 ,:value =>@user.favorite_music %>
 	  </div>
 	  <label class="control-label" for="user[favorite_films]">Favorite Movies</label>
 	  <div class="controls">
-		<%= f.text_area :favorite_films, :rows=>3 ,:value =>escape_javascript(@user.favorite_films) %>
+		<%= f.text_area :favorite_films, :rows=>3 ,:value =>@user.favorite_films %>
 	  </div>
 	</div>
 
