@@ -17,13 +17,9 @@ class HomeController < ApplicationController
   def index
 	if mobile_request?
 	  @page_title="Jazz/Houston"
-	   redirect_to :action=>"mobile"
-	  return
 	else
 	  @page_title="News, Events Calendar, Musician Resources, Local Releases"
 	end
-
-
 
 	respond_to do |format|
 	  format.html  {render :template => "/home/index.erb"}
