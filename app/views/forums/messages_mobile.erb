@@ -6,29 +6,29 @@
 
 <% content_for :head do %>
 
-<script type="text/javascript">
-  $(function() {
+  <script type="text/javascript">
+	$(function() {
 
-	// VALIDATE message
-	$('#message_reply_button').attr("disabled", "disabled");
-	var validate = function() {
-	  var isValid = false;
-	  if ( $("#post_message_text").val()  ) {
-		$('#message_reply_button').removeAttr("disabled");
-		isValid = true;
-	  } else {
-		$("#new_topic_validation_note").text("Please fill in both a title and a message");
-	  }
-	  return isValid;
+	  // VALIDATE message
+	  $('#message_reply_button').attr("disabled", "disabled");
+	  var validate = function() {
+		var isValid = false;
+		if ( $("#post_message_text").val()  ) {
+		  $('#message_reply_button').removeAttr("disabled");
+		  isValid = true;
+		} else {
+		  $("#new_topic_validation_note").text("Please fill in both a title and a message");
+		}
+		return isValid;
 
-	};
-	// check title
-	$("#post_message_text").keydown(function(){
-	  validate();
-	});
-	$("#post_message_text").blur(function(){
-	  validate();
-	});
+	  };
+	  // check title
+	  $("#post_message_text").keydown(function(){
+		validate();
+	  });
+	  $("#post_message_text").blur(function(){
+		validate();
+	  });
 
 
 
@@ -130,54 +130,68 @@
 
   <h3><%=topic.title%></h3>
 
-	<div class="messageList-<%=topic.thread_id%>" >
+  <div class="messageList">
+	<ul >
+
 	  <%
 		 post_count = page_vars[:per_page] * (page_vars[:page_number]-1)
 		 has_bans = (page_vars[:ban_list] && page_vars[:ban_list].length>0) || false
 		 topic.posts.page(page_vars[:per_page], post_count).each do |item|
-		   post_count = post_count + 1
+		   post_count=post_count+1
 	  %>
-		<div class="forum_row_li" id="row_<%=item.message_id%>" class="<% if (item.rating<=rating_threshold) %>blockedMessage<% end%>">
-		  <% if (!has_bans.nil? && item.user && page_vars[:ban_list].has_key?(item.user.user_id))  %>
-		 <% else %>
+		<% if (!has_bans.nil? && item.user && page_vars[:ban_list].has_key?(item.user.user_id))  %>
+		  <li class="messageRow post-ban-row" >      <a name="<%=post_count%>"></a>
+			message ignored: <%= item.user.username %> is on your ban list (<a href="/forums/ban_list">change this</a>)
+		  </li>
+		<% else %>
 
-			  <a name="<%=post_count%>"> </a>
-			  <div style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"
-				   id="messageAuthor_<%=item.message_id%>">
+		  <li class="<% if (item.rating>rating_threshold) %>messageRow<% else %>blockedMessage<% end%>" id="row_<%=item.message_id%>" style="display: list-item;">
 
-				<%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"40"} %>
 
-				<div class="<% if (item.rating>rating_threshold) %>messageRating<% else %>messageRatingBlock<% end%>" >
-				  <div style="display:inline;font-size:0.8em;" id="score_<%=item.message_id%>">rating: <% if (item.rating>0) %>+<%end%><%= item.rating %></div>
-				  <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'NO', <%=logged_in?%>)"><img src="/images/icons/vote_no3.png" border="0" style="vertical-align:middle;cursor:pointer;" alt="thumbs down" vspace="0" hspace="3"/></a>
-				  <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'UP', <%=logged_in?%>)"><img src="/images/icons/vote_yes3.png" style="vertical-align:middle;cursor:pointer;" alt="thumbs up" vspace="0" /></a>
-				</div>
+			<a name="<%=post_count%>"> </a>
+			<div class="messageAuthor"
+				 style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"
+				 id="messageAuthor_<%=item.message_id%>">
 
-				<div class="messageAuthor">
+			  <div class="hspacer"></div>
+			  <%= render :partial => "common/renderpic", :locals => { :user => item.user, :size =>"60"} %>
+			  <div class="authorMeta">
+				<div class="messageDate">
 				  <% if item.user %>
 					<b><%=item.user.first_name%> <%=item.user.last_name%></b>
-					<br/><i><%=item.user.username%></i>
+
 				  <% else %>
 					<b><%=item.author%></b>
 					<br/><i>legacy account</i>
 				  <% end %>
-				  <br/><%=distance_of_time_in_words(Time.now, item.pdate)%> ago
 				</div>
 
-				<div class="messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
-
-				  <div class="forumAlert" style="<% if (item.rating>rating_threshold) %>display:none;<% end%>" id="rowAlert_<%=item.message_id%>">
-					message by <%= (item.user) ? item.user.username.downcase : item.author %> voted inappropriate (<a href="javascript:void(0)" onclick="jh.forums.show_post(<%=item.message_id%>)">view anyway</a>)
-				  </div>
-				 <%=  raw auto_link(item.message_text).gsub(/\n/, '<br/>') %>
+				<div class="forumAlert" style="<% if (item.rating>rating_threshold) %>display:none;<% end%>" id="rowAlert_<%=item.message_id%>">
+				  message by <%= (item.user) ? item.user.username.downcase : item.author %> voted inappropriate (<a href="javascript:void(0)" onclick="jh.forums.show_post(<%=item.message_id%>)">view anyway</a>)
 				</div>
 			  </div>
+			</div>
 
 
-		  <% end %>
-		</div>
+			<div class="triangle-isosceles top messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
+			  <div class="voting-block">
+				<div id="score_<%=item.message_id%>">
+				  <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post('<%=item.message_id%>', 'UP', '<%=logged_in?%>')"><img title="vote UP" src="/images/icons/vote_yes3.png" style="vertical-align:middle;cursor:pointer;" alt="thumbs up" vspace="0" /></a>
+				  <% if item.rating != 0 %><div class="ratingValue"><%= item.rating %></div> <% end %>
+				  <a class="messageImg"  href="javascript:void(0)"onclick="jh.forums.rate_post('<%=item.message_id%>', 'NO', '<%=logged_in?%>')"><img title="vote DOWN" src="/images/icons/vote_no3.png" border="0" style="vertical-align:middle;cursor:pointer;" alt="thumbs down" vspace="0" hspace="3"/></a>
+				</div>
+				<div class="message-timestamp">
+				  <%=distance_of_time_in_words(Time.now, item.pdate)%> ago
+				</div>
+			  </div>
+			  <%=  raw auto_link(item.message_text).gsub(/\n/, '<br/>') %>
+			</div>
+
+		  </li>
+		<% end %>
 	  <% end %>
-	</div>
+	</ul>
+  </div>
   <% if total_pages >= next_page %>
 	<div class="loading-bar">
 	  <div id="message_well"></div>
@@ -185,33 +199,33 @@
   <% end %>
 
 
-<% if logged_in? -%>
-  <%  topic.posts.build %>
-  <div class="row-fluid">
-	<div class="span10 well">
-	  <%= form_for [topic, topic.posts.build], :id=>"message_reply_form", :method=>"post", :url => { :action => "update"} do |f| %>
-		<fieldset>
-		  <legend>Post a response</legend>
-		  <div class="control-group">
-			<label class="control-label" for="post_message_text">Reply</label>
-			<div class="controls" >
-			  <%= f.text_area  :message_text, :rows => 10, :class=>"span10" %>
+  <% if logged_in? -%>
+	<%  topic.posts.build %>
+	<div class="row-fluid">
+	  <div class="span10 well">
+		<%= form_for [topic, topic.posts.build], :id=>"message_reply_form", :method=>"post", :url => { :action => "update"} do |f| %>
+		  <fieldset>
+			<legend>Post a response</legend>
+			<div class="control-group">
+			  <label class="control-label" for="post_message_text">Reply</label>
+			  <div class="controls" >
+				<%= f.text_area  :message_text, :rows => 10, :class=>"span10" %>
+			  </div>
 			</div>
-		  </div>
-		  <div class="form-actions">
-			<%= f.hidden_field :thread_id %>
-			<%= f.submit "Reply", :id=>"message_reply_button", :class=>"btn" %>
-		  </div>
-		</fieldset>
-	  <% end %>
+			<div class="form-actions">
+			  <%= f.hidden_field :thread_id %>
+			  <%= f.submit "Reply", :id=>"message_reply_button", :class=>"btn" %>
+			</div>
+		  </fieldset>
+		<% end %>
+	  </div>
 	</div>
-  </div>
-<% else%>
-  <div id="forum-login">
-	<b>Login to reply to this and other topics.</b>
-  </div>
-<% end -%>
+  <% else%>
+	<div id="forum-login">
+	  <b>Login to reply to this and other topics.</b>
+	</div>
+  <% end -%>
 
-  </div>
+</div>
 
 

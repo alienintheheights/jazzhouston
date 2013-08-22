@@ -1,4 +1,13 @@
+<div id="fb-root"></div>
 <script>
+  (function(d, s, id) {
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) return;
+	js = d.createElement(s); js.id = id;
+	js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=221887397966130";
+	fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
   $(function ()
   {
 	$('[rel=tooltip]').tooltip()
@@ -109,8 +118,8 @@
 			<div class="navbar-inner">
 			  <ul class="nav">
 				<% if !cookies[:prefer_full_site].blank? && mobile_request? %>
-				<li><a href="/site/togglemobile">Mobile Site</a> </li>
-	 	 		<% end %>
+				  <li><a href="/site/togglemobile">Mobile Site</a> </li>
+				<% end %>
 				<li> <a <% if current_page?(:controller => 'home') %>class='selected'<% end %> href="/home">Home</a></li>
 				<li><a <% if current_page?(:controller => 'events') %>class='selected'<% end %> href="/events">Shows</a></li>
 				<li><a <% if current_page?(:controller => 'news') || current_page?(:controller => 'articles') %>class='selected'<% end %> href="/news">News</a></li>

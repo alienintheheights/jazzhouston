@@ -74,7 +74,9 @@
   <div class="HeaderShow"><%=@show.performer%></div>
 
   <div class="inside">
-
+	 <%= render :partial => "common/socialrow", :locals => {
+                  :title=>@show.performer,
+                  :url=>request.url}%>
     <div class="hspacer"></div>
     <table class="index-two-column-small">
       <tr>
@@ -108,9 +110,7 @@
               Musician Profile: <a href="/members/profile/<%= @player.user_id %>"><%=@player.first_name%> <%=@player.last_name%></a>   <br/>
           <% end %>
           <br/>
-          <%= render :partial => "common/socialrow", :locals => {
-                  :title=>@show.performer,
-                  :url=>request.url}%>
+
         </td>
       </tr></table>
     <div class="hspacer"></div>

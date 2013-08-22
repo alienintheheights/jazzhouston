@@ -3,9 +3,9 @@
  *
  * @author: Andrew Lienhard
  **************************/
-Ext.namespace('jh.util');
 
-jh.util = function() {
+
+jh.util = (function() {
 
     // private variables
 
@@ -17,7 +17,7 @@ jh.util = function() {
     // public space
     return {
 
-        // auto-detect to make AJAX security happy
+        // auto-detect to handle cross-site AJAX alerts
         HOST_NAME: window.location.protocol + "//" + window.location.host,
 
         // public methods
@@ -44,22 +44,11 @@ jh.util = function() {
 
                 return f.apply(thisObject, copyArgs);
             };
-        },
-
-        /** simple pop-up window **/
-        popup: function(url, height /* optional */, width /* optional */) {
-            height=height||200;
-            width=width||200;
-
-            newwindow=window.open(url,'name','height='+height+',width='+width);
-            if (window.focus) {newwindow.focus()}
-            return false;
-
         }
 
 
     };
-}(); // end of app
+})(); // end of app
 
 
 

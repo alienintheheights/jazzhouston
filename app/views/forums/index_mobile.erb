@@ -9,6 +9,8 @@
 		<% else %>
 		  <%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=> board.board_id} %>
 		<% end %>
+	  <% else %>
+		Login to participate
 	  <% end %>
 	</li>
 	<%

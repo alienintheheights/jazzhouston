@@ -4,163 +4,103 @@
  * @author: Andrew Lienhard
  **************************/
 
-Ext.namespace('jh.forums');
+var jh = {};
+jh.forums = (function() {
 
-jh.forums = function() {
+  var scoreURL = "/forums/vote";
 
-    // default refresh freq in secs
-    var frequency=6;
+  /**
+   * Hides a message row
+   * @param mid
+   */
+  function hide_post(mid) {
+	var row=$("#row_"+mid);
+	row.addClass("blockedMessage");
+	var alertDiv = $("#rowAlert_"+mid);
+	alertDiv.show();
+	var messageDiv = $("#message_"+mid);
+	messageDiv.hide();
+	var authorDiv = $("#messageAuthor_"+mid);
+	authorDiv.hide();
+  }
 
-    var FORUM_MAIN_URL=jh.util.HOST_NAME + '/forums/';
-    var MESSAGE_URL=jh.util.HOST_NAME + '/forums/message';
-
-    // display template for rotator
-    var rotateTemplate = new Ext.Template(
-        '<div class="{cls}">',
-        '<a href="'+FORUM_MAIN_URL+'">See all headlines</a><br/><br/>',
-        '<a href="'+MESSAGE_URL+'{id}">{title}</a> {about:ellipsis(300)}',
-        '</div>'
-    );
-
-
-    // display template for article preview
-    var previewTemplate = new Ext.Template(
-        '<div class="{cls}">',
-        '<b>{title}</b> -- {about:ellipsis(300)}',
-        ': <a href="'+MESSAGE_URL+'{id}">read</a>',
-        '</div>'
-    );
-
-    // simple Ext window for previews
-
-
-    // PUBLIC
-    return {
-
-
-        SCORE_URL:"/forums/vote",
-
-        /** rotate counter **/
-        counter: 0,
+  /**
+   * Shows a message row
+   * @param mid
+   */
+  function show_post(mid) {
+	var row=$("#row_"+mid);
+	row.addClass("blockedMessage");
+	var alertDiv = $("#rowAlert_"+mid);
+	alertDiv.hide();
+	var messageDiv = $("#message_"+mid);
+	messageDiv.show();
+	var authorDiv = $("#messageAuthor_"+mid);
+	authorDiv.show();
+  }
 
 
-        validatePost: function() {
+  // PUBLIC
+  return {
 
-            if (!$("#post_message_text").val()) {
-                alert("This post is blank. Please try again. ");
-                return false;
-            }
+	acceptTerms: function() {
 
+	  return confirm("By clicking OK, you (The User) are agreeing to the Jazzhouston.com posting policy. " +
+			  "This policy strictly prohibits posts that are inflammatory, " +
+			  "rude, hostile, cruel, unlawful, unsuitable for public viewing, and/or deemed offensive in any " +
+			  "manner we, the site editors of Jazzhouston.com, define. Posts in violation of this policy are subject to removal. " +
+			  "Repeat offenders may have their accounts closed. " +
+			  "All decisions on this issue are " +
+			  "final and completely at the discretion of the Jazzhouston.com editors. " +
+			  "Furthermore, The User is solely liable for their " +
+			  "submissions. The User agrees to indemnify and hold harmless Jazzhouston.com, its subsidiaries, affiliates, contractors, " +
+			  "agents and/or employees against any liability, be it civil, criminal, or quasi-criminal, resulting from the use of this website. " +
+			  "If you do not accept these terms, do not post here.");
 
-            return jh.forums.acceptTerms();
+	},
 
-        },
+	/**
+	 * Rates posts and takes action on row as needed.
+	 * @param mid  messageId
+	 * @param mode vote UP or DOWN
+	 * @param lflag logged in or not boolean
+	 */
+	rate_post: function(mid, mode, lflag) {
 
-        validateThread: function() {
-            if ($("#topic_title").val()) {
-                alert("You must enter a title!");
-                return false;
-            }
+	  if (!lflag) {
+		alert("You must be logged in to vote.");
+	  }
 
-            if (!$("#topic_posts_attributes_0_message_text").val()) {
-                alert("This post is blank. Please try again. ");
-                return false;
-            }
+	  $.ajax({
+		type: "GET",
+		url: scoreURL + "/" + mid + "?mode=" + mode,
+		contentType: "application/json; charset=utf-8",
+		async: true,
+		dataType: "json",
+		success: function(response) {
+		  if (response.success==0) {
+			alert(response.alert);
+			return;
+		  }
 
+		  var hide = response.hide;
+		  var open = response.reopen;
 
-            return jh.forums.acceptTerms();
+		  var score_box = $("#score_" + mid);
+		  score_box.text("Thanks for your vote! ");
+		  if (hide) {
+			hide_post(mid);
+		  }  else if (open) {
+			show_post(mid);
+		  }
 
-        },
-
-        acceptTerms: function() {
-
-
-
-            return confirm("By clicking OK, you (The User) are agreeing to the Jazzhouston.com posting policy. " +
-                "This policy strictly prohibits posts that are inflammatory, " +
-                "rude, hostile, cruel, unlawful, unsuitable for public viewing, and/or deemed offensive in any " +
-                "manner we, the site editors of Jazzhouston.com, define. Posts in violation of this policy are subject to removal. " +
-                "Repeat offenders may have their accounts closed. " +
-                "All decisions on this issue are " +
-                "final and completely at the discretion of the Jazzhouston.com editors. " +
-                "Furthermore, The User is solely liable for their " +
-                "submissions. The User agrees to indemnify and hold harmless Jazzhouston.com, its subsidiaries, affiliates, contractors, " +
-                "agents and/or employees against any liability, be it civil, criminal, or quasi-criminal, resulting from the use of this website. " +
-                "If you do not accept these terms, do not post here.");
-
-        },
-
-
-        /**
-         * Hides a message row
-         * @param mid
-         */
-        hide_post: function(mid) {
-            var row=document.getElementById("row_"+mid);
-            row.className = "blockedMessage";
-            var alertDiv = document.getElementById("rowAlert_"+mid);
-            alertDiv.style.display="block";
-            var messageDiv = document.getElementById("message_"+mid);
-            messageDiv.style.display="none";
-            var authorDiv = document.getElementById("messageAuthor_"+mid);
-            authorDiv.style.display="none";
-        },
-
-        /**
-         * Shows a message row
-         * @param mid
-         */
-        show_post: function(mid) {
-            var row=document.getElementById("row_"+mid);
-            row.className = "messageRow";
-            var alertDiv = document.getElementById("rowAlert_"+mid);
-            alertDiv.style.display="none";
-            var messageDiv = document.getElementById("message_"+mid);
-            messageDiv.style.display="block";
-            var authorDiv = document.getElementById("messageAuthor_"+mid);
-            authorDiv.style.display="block";
-        },
-
-        /**
-         * Rates posts and takes action on row as needed.
-         * @param mid
-         * @param mode UP or DOWN
-		 * @param lflag logged in or not boolean
-         */
-        rate_post: function(mid, mode, lflag) {
-
-            if (!lflag) {
-                Ext.Msg.alert("Alert","You must be logged in to vote.");
-            }
-            // AJAX
-            Ext.Ajax.request({
-                url: jh.forums.SCORE_URL+"/"+mid+"?mode="+mode,
-                success: function(response) {
-                    var jsonData = eval('('+ response.responseText +')');
-                    var new_score= jsonData["score"];
-                    var success_flag=jsonData["success"];
-                    if (success_flag && success_flag==1) {
-                        var hide = jsonData["hide"];
-                        var open = jsonData["reopen"];
-
-                        var score_box = document.getElementById("score_"+mid);
-                        score_box.innerHTML=(new_score>0)?"rating: +"+new_score:"rating: "+new_score;
-                        if (hide) {
-                            hide_post(mid);
-                        }  else if (open) {
-                            show_post(mid);
-                        }
-                    } else {
-                        Ext.Msg.alert("Alert",jsonData["alert"]);
-                    }
-                },
-                scope: this
-            });
-        }
+		}
+	  });
+	}
 
 
+  };
 
-    };
-}();
+})();
 
 

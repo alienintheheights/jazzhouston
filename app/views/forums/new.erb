@@ -1,5 +1,36 @@
-<%= render :partial => "common/extjs", :locals=>{:jsonly=>true} %>
-<script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+
+	var message = $("#topic_posts_attributes_0_message_text");
+	var topic = $("#topic_title");
+	var form = $("#forum_post");
+	var form_info = $("#forum_info");
+
+	//validation functions
+	var validatePost = function() {
+
+	  //if it's valid email
+	  if(message.val() && topic.val()){
+		form_info.text("");
+		return true;
+	  }
+	  //if it's NOT valid
+	  else{
+		form_info.text("Please complete your post");
+		return false;
+	  }
+	};
+
+	message.focusout(validatePost);
+
+	form.submit(function(){
+	  // we want them all to execute
+	  return validatePost();
+	});
+
+  });
+</script>
 <div id="StageNarrow">
   <ul class="breadcrumbs">
 	<li>
@@ -13,25 +44,27 @@
   <div class="cd-inside">
 	<div class="row-fluid">
 	  <div class="span10 well">
-		<%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return jh.forums.validateThread();"} do |f| %>
+		<%= form_for @topic, :url=>{:action=>"create"}, :html => {:id=>"forum_post", :onsubmit=>"return jh.forums.validateThread();"} do |f| %>
 		  <fieldset>
-			 <legend>Post a new topic</legend>
+			<legend>Post a new topic</legend>
 			<div data-role="fieldcontain">
 			  <label class="control-label" for="topic_title">Title</label>
 			  <%= f.text_field :title, :size=>60, :class=>"span10" %>
-			  </div>
+			</div>
 			<div data-role="fieldcontain">
 			  <label class="control-label" for="topic_board_id">Select Forum</label>
 			  <%= f.collection_select :board_id, ForumBoard.where("status=2").all, :board_id, :title, {:selected => "Local Scene"} %>
-			  </div>
+			</div>
 
-<div data-role="fieldcontain">
-				<%= f.fields_for :posts do |message_form| %>
-				  <%= message_form.text_area :message_text, :rows=>20 %>
-				<% end %>
-			  </div>
+			<div data-role="fieldcontain">
+			  <%= f.fields_for :posts do |message_form| %>
+				<%= message_form.text_area :message_text, :rows=>20 %>
+			  <% end %>
 
-<div data-role="fieldcontain">
+			  <span id="form_info" class="help-inline"></span>
+			</div>
+
+			<div data-role="fieldcontain">
 			  <%= f.submit "Post New Topic", :class=>"btn" %>
 			</div>
 		  </fieldset>

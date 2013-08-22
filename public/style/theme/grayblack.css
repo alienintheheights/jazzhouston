@@ -668,7 +668,7 @@ a.venueLink, a:visited.venueLink {
 
 
 .panel-inside a:hover {                                                                                                        ƒplay
-  text-decoration: none;
+text-decoration: none;
   color: #2A89C5;
   font-size: 1.0em;
   border-bottom: 1px dotted #333333;
@@ -676,7 +676,7 @@ a.venueLink, a:visited.venueLink {
 
 .home_forum_list_item a , .home_forum_list_item a:visited, .home_forum_list_item a:hover{
   font-size: 0.9em;
-   padding-left: 4px;
+  padding-left: 4px;
 }
 
 
@@ -1386,12 +1386,22 @@ a.imageLink:visited {
 }
 
 
-.StoryHeader
+
+.articleMasthead
 {
-  font-size: 1.4em;
+  font-size: 1.1em;
   letter-spacing: 0.0em;
   text-align: left;
   padding: 15px 0 15px 0;
+}
+
+
+.StoryHeader
+{
+  font-size: 1.7em;
+  letter-spacing: 0.0em;
+  text-align: left;
+  padding: 15px 0;
 }
 
 .HeaderShow
@@ -1684,7 +1694,7 @@ a.imageLink:visited {
 }
 
 #footer .blockwrapper {
-  margin-left:15%;
+  margin-left:5px;
 }
 
 #footer div.block {
@@ -1898,7 +1908,6 @@ a.blueLink, a.blueLink:visited, a.blueLink:hover {
 }
 
 .messageList li {
-  border-top: 1px solid #E0E0E0;
   position: relative;
   padding: 0;
   display: list-item;
@@ -1961,9 +1970,6 @@ li.post-ban-row  {
 }
 
 .messageAuthor {
-  position: absolute;
-  left: 5px;
-  top: 5px;
   min-height: 178px;
   height: auto !important;
   height: 178px;
@@ -1987,14 +1993,38 @@ li.post-ban-row  {
 }
 
 
-
-.messageAuthor img {
+.messageAuthor.left {
+  position: absolute;
   left: 5px;
-  top: 10px;
-  border: 1px solid #ccc;
-  display:block;
+  top: 5px;
+  min-height: 178px;
+  height: auto !important;
+  height: 178px;
+  padding-left: 5px;
+  width: 130px;
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
-}
+
+} * html .messageAuthor { overflow: visible; }
+
+
+.messageAuthor.right {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  min-height: 178px;
+  height: auto !important;
+  height: 178px;
+  padding-left: 5px;
+  width: 130px;
+  font-size: 0.9em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+
+} * html .messageAuthorLeft { overflow: visible; }
 
 
 a.messageImg, a.messageImg:hover, a.messageImg:visited {
@@ -2041,10 +2071,16 @@ div.messageDate {
 
 .messageBody a, .messageBody a:visited {
   color: #2A89C5;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+   -ms-word-break: break-all;
+
+     /* Non standard for webkit */
+     word-break: break-word;
+
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;
 }
+
 
 .messageRating {
   float: right;
@@ -2546,8 +2582,8 @@ ul.storytools li.right a.print {
 
 /** Bootstrap overrides **/
 .navbar-inverse .brand, .navbar-inverse .nav>li>a {
-	color: #EEE;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+  color: #EEE;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 }
 
 .player-row {
@@ -2584,7 +2620,7 @@ ul.storytools li.right a.print {
 }
 
 .home_middle_column {
- border-right: 1px solid #eee;
+  border-right: 1px solid #eee;
 }
 
 
@@ -2605,4 +2641,157 @@ ul.storytools li.right a.print {
   font-family: "museo-sans", sans-serif;
   border: 1px solid #ddd;
   font-weight: bold;
+}
+
+/* ============================================================================================================================
+== BUBBLE WITH AN ISOCELES TRIANGLE
+** ============================================================================================================================ */
+
+/* THE SPEECH BUBBLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+.triangle-isosceles {
+  position:relative;
+  padding:15px;
+  margin:1em 0 3em;
+  color:#000;
+  background:#eee; /* default background for browsers without gradient support */
+  /* css3 */
+  background:-webkit-gradient(linear, 0 0, 0 100%, from(#f9d835), to(#eee));
+  background:-moz-linear-gradient(#f9d835, #eee);
+  background:-o-linear-gradient(#f9d835, #eee);
+  background:linear-gradient(#f9d835, #eee);
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+
+}
+
+/* Variant : for top positioned triangle
+------------------------------------------ */
+
+.triangle-isosceles.top {
+  background:-webkit-gradient(linear, 0 0, 0 100%, from(#eee), to(#eee));
+  background:-moz-linear-gradient(#eee, #eee);
+  background:-o-linear-gradient(#eee, #eee);
+  background:linear-gradient(#eee, #eee);
+}
+
+
+.triangle-isosceles.top-left {
+  background:-webkit-gradient(linear, 0 0, 0 100%, from(#eee), to(#eee));
+  background:-moz-linear-gradient(#eee, #eee);
+  background:-o-linear-gradient(#eee, #eee);
+  background:linear-gradient(#eee, #eee);
+}
+
+
+/* Variant : for left/right positioned triangle
+------------------------------------------ */
+
+.triangle-isosceles.left {
+  margin-left:180px;
+  background:#eee;
+}
+
+/* Variant : for right positioned triangle
+------------------------------------------ */
+
+.triangle-isosceles.right {
+  margin-right:180px;
+  background:#eee;
+}
+
+/* THE TRIANGLE
+------------------------------------------------------------------------------------------------------------------------------- */
+
+/* creates triangle */
+.triangle-isosceles:after {
+  content:"";
+  position:absolute;
+  bottom:-15px; /* value = - border-top-width - border-bottom-width */
+  left:50px; /* controls horizontal position */
+  border-width:15px 15px 0; /* vary these values to change the angle of the vertex */
+  border-style:solid;
+  border-color:#eee transparent;
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+
+/* Variant : top
+------------------------------------------ */
+
+.triangle-isosceles.top:after {
+  top:-15px; /* value = - border-top-width - border-bottom-width */
+  right:50px; /* controls horizontal position */
+  bottom:auto;
+  left:auto;
+  border-width:0 15px 15px; /* vary these values to change the angle of the vertex */
+  border-color:#eee transparent;
+}
+
+
+/* Variant : left
+------------------------------------------ */
+
+.triangle-isosceles.left:after {
+  top:16px; /* controls vertical position */
+  left:-50px; /* value = - border-left-width - border-right-width */
+  bottom:auto;
+  border-width:10px 50px 10px 0;
+  border-color:transparent #eee;
+}
+
+/* Variant : right
+------------------------------------------ */
+
+.triangle-isosceles.right:after {
+  top:16px; /* controls vertical position */
+  right:-50px; /* value = - border-left-width - border-right-width */
+  bottom:auto;
+  left:auto;
+  border-width:10px 0 10px 50px;
+  border-color:transparent #eee;
+}
+
+.voting-control {
+  font-size: 16px;
+  font-weight: 700;
+  -webkit-transition: opacity .2s linear;
+  transition: opacity .2s linear;
+  opacity: .7;
+  filter: alpha(opacity=70);
+}
+
+.icon-arrow-up:before {
+  content: "\25b3";
+}
+.icon-arrow-down:before {
+  content: "\25bd";
+}
+
+[class^=icon-]:before, [class*=" icon-"]:before {
+  font-family: embed-icons;
+  speak: none;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+.voting-block {
+  padding: 5px 0 15px 0;
+}
+
+.ratingValue  {
+  background-color: red;
+  color:#ffffff;
+  font-size: 1.0em;
+  width: 16px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  float: left;
+  text-align: center;
+  margin: 0 5px 0 2px;
 }

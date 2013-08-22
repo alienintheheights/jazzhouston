@@ -1,4 +1,3 @@
-<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
 <script type="text/javascript" src="/common/js/jazzhouston.forums.js"></script>
 <% rating_threshold=-6 %>
 <!-- updated -->
@@ -13,12 +12,13 @@
   </ul>
 
   <div class="cd-inside">
-
+	<div class="socialrow">
+	  <div class="fb-like" data-href="http://jazzhouston.com/forums/messages/<%=topic.thread_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
+	</div>
 	<div class="StoryHeader">
 	  <%=topic.title%>
 	  <%= render :partial => "messages_pager", :locals => {:wrap=>true} %>
 	</div>
-
 
 	<div class="messageList">
 	  <ul >
@@ -38,7 +38,7 @@
 			<li class="<% if (item.rating>rating_threshold) %>messageRow<% else %>blockedMessage<% end%>" id="row_<%=item.message_id%>" style="display: list-item;">
 
 			  <a name="<%=post_count%>"> </a>
-			  <div class="messageAuthor"
+			  <div class="messageAuthor <% if post_count%2 == 0 %>left<% else %>right<%end%>"
 				   style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"
 				   id="messageAuthor_<%=item.message_id%>">
 
@@ -56,23 +56,27 @@
 
 				</div>
 
-				  <div class="message-timestamp">
-				  <%=distance_of_time_in_words(Time.now, item.pdate)%> ago
+
+
+
+				<div class="forumAlert" style="<% if (item.rating>rating_threshold) %>display:none;<% end%>" id="rowAlert_<%=item.message_id%>">
+				  message by <%= (item.user) ? item.user.username.downcase : item.author %> voted inappropriate (<a href="javascript:void(0)" onclick="jh.forums.show_post(<%=item.message_id%>)">view anyway</a>)
+				</div>
+			  </div>
+
+
+			  <div class="triangle-isosceles <% if post_count%2 ==0 %>left<%else%>right<%end%> messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
+				<div class="voting-block">
+				  <div id="score_<%=item.message_id%>">
+					<a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post('<%=item.message_id%>', 'UP', '<%=logged_in?%>')"><i class="icon-thumbs-up" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Like" ></i></a>
+					<% if item.rating != 0 %><div class="ratingValue"><%= item.rating %></div> <% end %>
+					<a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post('<%=item.message_id%>', 'NO', '<%=logged_in?%>')"><i class="icon-thumbs-down" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Dislike" ></i></a>
 				  </div>
-			  </div>
-
-			  <div class="<% if (item.rating>rating_threshold) %>messageRating<% else %>messageRatingBlock<% end%>" >
-				<div style="display:inline;font-size:0.8em;" id="score_<%=item.message_id%>">rating: <% if (item.rating>0) %>+<%end%><%= item.rating %></div>
-				<a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'NO', <%=logged_in?%>)"><img src="/images/icons/vote_no3.png" border="0" style="vertical-align:middle;cursor:pointer;" alt="thumbs down" vspace="0" hspace="3"/></a>
-				<a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post(<%=item.message_id%>, 'UP', <%=logged_in?%>)"><img src="/images/icons/vote_yes3.png" style="vertical-align:middle;cursor:pointer;" alt="thumbs up" vspace="0" /></a>
-			  </div>
-
-			  <div class="forumAlert" style="<% if (item.rating>rating_threshold) %>display:none;<% end%>" id="rowAlert_<%=item.message_id%>">
-				message by <%= (item.user) ? item.user.username.downcase : item.author %> voted inappropriate (<a href="javascript:void(0)" onclick="jh.forums.show_post(<%=item.message_id%>)">view anyway</a>)
-			  </div>
-
-			  <div class="messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
-				<%=  raw auto_link(item.message_text).gsub(/\n/, '<br/>') %>
+				  <div class="message-timestamp">
+					<%=distance_of_time_in_words(Time.now, item.pdate)%> ago
+				  </div>
+				</div>
+				<span><%=  raw auto_link(item.message_text).gsub(/\n/, '<br/>') %></span>
 			  </div>
 
 			</li>
