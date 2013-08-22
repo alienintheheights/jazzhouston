@@ -81,19 +81,16 @@
 		<div class="player-name">
 		  <strong><a class="" href="/members/profile/{{:username}}">{{:fullname}}</a></strong>
 		</div>
+		<br/>
 		<div class="player-phone">
 		  {{if cell_phone != ""}}
-		  <i class="icon-signal" style="padding-right:5px;"></i>{{:cell_phone}}<br/>
+		  <i class="icon-signal" style="padding-right:5px;"></i><a href="tel:{{:cell_phone}}">{{:cell_phone}}</a><br/>
 		  {{/if}}
 		  {{if home_phone != ""}}
-		  <i class="icon-home" style="padding-right:5px;"></i>{{:home_phone}}
+		  <i class="icon-home" style="padding-right:5px;"></i><a href="tel:{{:home_phone}}">{{:home_phone}}</a>
 		  {{/if}}
 		</div>
-		{{if url != ""}}
-		<div class="player-url">
-		  <i class="icon-globe" style="padding-right:5px;"></i><a href="{{:url}}">website</a>
-		</div>
-		{{/if}}
+
 	  </div>
 	</li>
   </script>
@@ -136,22 +133,18 @@
 		<div class="player-data">
 
 		  <div class="player-name">
-			<strong><a class="" href="/members/profile/<%=item.username%>"><%= truncate(fullname.titleize, :length => 20) %></a></strong>
+			<strong><a class="" href="/members/profile/<%=item.username%>"><%= truncate(fullname.titleize, :length => 30) %></a></strong>
 		  </div>
-
+          <br/>
 		  <div class="player-phone">
 			<% if !item.cell_phone.nil? && !item.cell_phone.blank? %>
-			  <i class="icon-signal" style="padding-right:5px;"></i><%= item.cell_phone || "--" %> <br/>
+			  <i class="icon-signal" style="padding-right:5px;"></i><a href="tel:<%= item.cell_phone %>"><%= item.cell_phone %></a> <br/>
 			<% end %>
 			<% if !item.home_phone.nil? && !item.home_phone.blank? %>
-			  <i class="icon-home" style="padding-right:5px;"></i><%= item.home_phone || "--" %>
+			  <i class="icon-home" style="padding-right:5px;"></i><a href="tel:<%= item.home_phone %>"><%= item.home_phone %></a>
 			<% end %>
 		  </div>
-		  <% if !item.url.nil? && !item.url.blank? %>
-			<div class="player-url">
-			  <i class="icon-globe" style="padding-right:5px;"></i><a href="<%= item.url %>">website</a>
-			</div>
-		  <% end %>
+
 		</div>
 	  </li>
 	<% end %>
