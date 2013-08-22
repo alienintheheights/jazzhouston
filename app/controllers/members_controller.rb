@@ -538,9 +538,7 @@ class MembersController < ApplicationController
 	@user.update_attributes(params[:user])
 
 	# cleanup
-	if !@user.image_url.nil? && !@user.image_url.blank?
-	  @user.image=nil
-	elsif !@user.image.nil? && !@user.image.blank?
+	if !@user.image.nil? && !@user.image.blank?
 	  @user.image_url=nil
 	end
 
