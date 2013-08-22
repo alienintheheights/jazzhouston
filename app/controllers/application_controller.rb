@@ -41,9 +41,6 @@ class ApplicationController < ActionController::Base
   #
   # request.format gets the value set by rails from params[:format]
 
-  ##  evolving array of mobile UA strings
-  MOBILE_BROWSERS = ["android", "iphone", "iemobile", "blackberry"]
-
   ########################################
   ##  detect mobile based on USER_AGENT,
   ##   request header, or subdomain
@@ -51,15 +48,13 @@ class ApplicationController < ActionController::Base
   def mobile_request?
 	if (cookies[:prefer_full_site])
 	  return false
-	elsif (cookies[:prefer_mobile_site] || params[:format] == "mobile")
+	elsif (cookies[:prefer_mobile])
 	 return true
 	end
 
-	agent = request.headers["HTTP_USER_AGENT"].downcase
-	MOBILE_BROWSERS.each do |m|
-	  if agent.match(m)
-		return true
-	  end
+	if (request.user_agent =~ /Mobile|webOS/ && !(request.user_agent =~ /iPad/) )
+	  cookies[:prefer_mobile] = "true"
+	  return true
 	end
 	false
   end
@@ -72,9 +67,7 @@ class ApplicationController < ActionController::Base
   #########################################
   def adjust_format_for_mobile
 	request.format = :mobile if mobile_request?
-	if cookies[:prefer_mobile_site].blank?
-	  cookies[:prefer_mobile_site] = "true"
-	end
+
   end
 
   ########################################
