@@ -56,13 +56,13 @@ class SiteController < ApplicationController
 
   def togglemobile
 	cookies.delete :prefer_full_site
-	cookies[:prefer_mobile_site] = "true"
+	cookies[:prefer_mobile] = "true"
 	redirect_to request.protocol + request.host_with_port + '/home'
   end
 
    def toggledesktop
 	cookies[:prefer_full_site] = "true"
-	cookies.delete :prefer_mobile_site
+	cookies.delete :prefer_mobile
 	redirect_to request.protocol + request.host_with_port + '/home'
   end
 
