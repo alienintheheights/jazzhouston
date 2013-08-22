@@ -20,27 +20,35 @@
 
 	});
 
-	// VALIDATE message
-	$('#new_topic_submit').attr("disabled", "disabled");
-	var validate = function() {
-	  var isValid = false;
-	  if ( $("#topic_posts_attributes_0_message_text").val() &&  $("#topic_title").val() ) {
-		$('#new_topic_submit').removeAttr("disabled");
-		isValid = true;
-	  } else {
-		$("#new_topic_validation_note").text("Please fill in both a title and a message");
-	  }
-	  return isValid;
 
+	var message = $("#topic_posts_attributes_0_message_text");
+	var topic = $("#topic_title");
+	var form = $("#forum_post");
+	var form_info = $("#form_info");
+
+	//validation functions
+	var validatePost = function() {
+
+	  //if it's valid email
+	  if(message.val() && topic.val()){
+		form_info.text("");
+		return true;
+	  }
+	  //if it's NOT valid
+	  else{
+		form_info.text("Please complete your post");
+		return false;
+	  }
 	};
-	// check title
-	$("#topic_posts_attributes_0_message_text").blur(function(){
-	  validate();
+
+	message.focusout(validatePost);
+
+	form.submit(function(){
+	  // we want them all to execute
+	  return validatePost();
 	});
-	// check message
-	$("#topic_title").blur(function() {
-	  validate();
-	});
+
+
 
 
 	<% if page_vars[:admin_mode] %>
@@ -78,7 +86,7 @@
 		 @topic = Topic.new
 		 @topic.posts.build
 	  %>
-	  <%= form_for @topic, :url=>{:action=>"create"}, :html => {:onsubmit=>"return validate();"} do |f| %>
+	  <%= form_for @topic, :url=>{:action=>"create"}, :html => {:id=>"forum_post"} do |f| %>
 		<fieldset>
 		  <div class="control-group">
 			<div id="new_topic_validation_note"></div>
@@ -98,7 +106,9 @@
 			  <%= f.fields_for :posts do |message_form| %>
 				<%= message_form.text_area :message_text, :rows=>10, :class=>"span10", :placeholder=>"your insightful ruminations" %>
 			  <% end %>
+			   <span id="form_info" class="help-inline"></span>
 			</div>
+
 		  </div>
 		</fieldset>
 		</div>
