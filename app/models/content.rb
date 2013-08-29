@@ -1,7 +1,6 @@
 class Content < ActiveRecord::Base
   set_table_name "content"
   set_primary_key "content_id"
- attr_accessible :image, :external_image_url
 
   ## Thinking-Sphinx Search gem
   #define_index do
