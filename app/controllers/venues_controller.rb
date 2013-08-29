@@ -44,7 +44,7 @@ class VenuesController < ApplicationController
 
 	@page_title="Jazz/Houston: #{@venue.title}"
 	respond_to do |format|
-	   format.html {render :template => "venues/about.erb"}
+	  format.html {render :template => "venues/about.erb"}
 	  format.mobile {render :template => "venues/about_mobile.erb"}
 	end
   end
@@ -88,17 +88,11 @@ class VenuesController < ApplicationController
   # PUT /comments/1.xml
   def update
 	@venue = Venue.find(params[:id])
-
+	@venue.update_attributes(params[:venue])
 	respond_to do |format|
-	  if @venue.update_attributes(params[:venue])
-		format.mobile { redirect_to :venue=>@venue, :action=>"edit", :id=>@venue.venue_id   }
-		format.html { redirect_to :venue=>@venue, :action=>"edit", :id=>@venue.venue_id   }
-		format.xml  { head :ok }
-	  else
-		format.mobile { render :action => "edit" }
-		format.html { render :action => "edit" }
-		format.xml  { render :xml => @venue.errors, :status => :unprocessable_entity }
-	  end
+	  format.mobile { render :venue=>@venue, :action=>"edit", :id=>@venue.venue_id   }
+	  format.html { render :venue=>@venue, :action=>"edit", :id=>@venue.venue_id   }
+	  format.xml  { head :ok }
 	end
   end
 

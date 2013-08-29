@@ -10,7 +10,7 @@
         $( "#jh_musician_search" ).autocomplete({
             source: function(request, response) {
                 $.ajax({
-                    url:"/members/search_ext",
+                    url:"/members/search",
                     dataType: "json",
                     data: {
                         query: request.term,

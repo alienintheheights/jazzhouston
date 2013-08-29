@@ -13,9 +13,7 @@
 		 current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
 	%>
 	  <li class="newslist-feature">
-		<% if item.photo.exists? then %>
-		  <%= image_tag item.photo.url(:thumb), :align=>"left", :width=>'35', :height=>'35', :hspace=>'2' %>
-		<% end %>
+	 	<%= image_tag item.image_url(:thumb).to_s, :align=>"left", :width=>'35', :height=>'35', :hspace=>'2' %>
 		<%= link_to item.title, {:action => "words", :controller=>"articles",  :id=>current_id}, 'data-transition'=>"flip" %>
 	  </li>
 	<% end %>

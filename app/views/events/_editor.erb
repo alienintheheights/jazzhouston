@@ -14,17 +14,17 @@
         $( "#event_artist_search" ).autocomplete({
             source: function(request, response) {
                 $.ajax({
-                    url:"/members/search_ext",
+                    url:"/members/search",
                     dataType: "json",
                     data: {
                         query: request.term,
                         maxRows: 15
                     },
                     success: function(data) {
-                        response($.map(data.results, function(item) {
+                        response($.map(data, function(item) {
                             return {
-                                label: item.first_name +' '+ item.last_name,
-                                value: item.user_id
+                                label: item.user.first_name +' '+ item.user.last_name,
+                                value: item.user.user_id
                             }
                         }))
                     }

@@ -22,7 +22,7 @@
 	});
 
 	// collection of hide/show methods
-	var redrawForSearch = function() {
+	var redrawForSearch = function(text) {
 	  byinst_list.hide();  // hide by-inst listings
 	  titlebar.hide(); // hide instrument name
 	  pagerbar.hide();  // hide pagination links
@@ -37,7 +37,7 @@
 	$("#searchField").autocomplete({
 	  source: function(req, res) {
 		// run search via AJAX. Expect JSON
-		$.getJSON("/musicians/search_ext?query="+req.term, function( res ) {
+		$.getJSON("/musicians/search?query="+req.term, function( res ) {
 		   if (!res) {
 			return;
 		  }
@@ -47,7 +47,7 @@
 		  var count = 0;
 
 		  // prepare screen
-		  redrawForSearch();
+		  redrawForSearch(req.term);
   			// parse JSON results
 		  $.each( res, function( i, data ) {
 			var item = data.user;
@@ -60,10 +60,9 @@
 			}
 			// construct image URL: default icon, legacy URL, or uploaded Image
 			var image_url = "";
-			if (item.image_url) {
-			  image_url = item.image_url;
-			} else if (item.image) {
-			  image_url = "/user/image/"+item.user_id+"/avatar/"+item.image.substring(item.image.lastIndexOf("/")+1);
+			if (item.image) {
+			  var ip = item.image.avatar.url;
+			  image_url = (ip === defaultImage) ? ip : "/user/image/"+item.user_id+"/avatar/"+ip.substring(ip.lastIndexOf("/")+1);
 			} else {
 			  image_url = defaultImage;
 			}

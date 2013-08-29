@@ -1,5 +1,5 @@
-<% if article.image_url && !article.image_url.blank?  %>
+<% if !article.image_url.blank?  %>
     <%= link_to image_tag(article.image_url,:width=>'70', :height=>'70',:align=>'left',:hspace=>'2', :title=>article.title, :alt=>article.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>section_id, :page=>page} %>
-<% elsif article.photo.exists? then %>
-    <%= image_tag article.photo.url(:thumb), :align=>"left", :width=>'70' %>
+<% else %>
+    <%= image_tag article.image_url(:thumb), :align=>"left", :width=>'70' %>
 <% end %>

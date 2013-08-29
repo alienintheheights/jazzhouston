@@ -68,25 +68,16 @@
 	<h3>Edit Your Profile</h3>
 	<br/>
 	<a name="photo"></a>
-	<%= form_for @user, :url=>{:action=>"upload"}, :html => { :multipart => true, :class => "form-horizontal well"  } do |f| %>
-	  <%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"150"} %>
 
-	  <div class="control-group">
-		<div class="controls">
-		  <h3>Photo</h3>
-		  <h4>Select an image to upload</h4>
-		  <%= file_column_field("user", "image") %> <br/><br/>
-		  <%= f.submit "Submit", :class=>"btn"%>
-		  <input type="hidden" id="id" name="id" value="<%=@user.user_id%>" >
-		  <input type="hidden" id="local_player_flag" name="local_player_flag" value="<%=@user.local_player_flag%>" >
-
-		</div>
-	  </div>
-	<% end %>
-	<%= form_for @user, :method => :post, :url => { :action => "update"}, :html => { :id=>"jh_profile_edit_form", :class => "form-horizontal well" }     do |f| %>
+	<%= form_for @user, :method => :post, :url => { :action => "update"}, :html => {:multipart => true, :id=>"jh_profile_edit_form", :class => "form-horizontal well" }     do |f| %>
 	  <input type="hidden" id="authenticity_token" value="<%= form_authenticity_token() %>"/>
 	  <input type="hidden" id="id" name="id" value="<%= @user.user_id %>"/>
 	  <input name="_method" type="hidden" value="post" />
+	  <h3>Photo</h3>
+	  <%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"150"} %>
+		  <h4>Select an image to upload</h4>
+	 	  <%= f.file_field :image  %>
+	    <div class="hspacer"></div>
 	  <h3>Essentials</h3>
 	  <div class="control-group" id="email_group">
 		<label class="control-label" for="user[email]">Email</label>

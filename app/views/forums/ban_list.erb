@@ -5,7 +5,7 @@
 
         var liveSearchDataStore = new Ext.data.Store({
             proxy: new Ext.data.HttpProxy({
-                url: '/members/search_ext',
+                url: '/members/search',
                 method: 'GET'
             }),
             reader: new Ext.data.JsonReader({

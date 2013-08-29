@@ -20,7 +20,7 @@ class ForumsController < ApplicationController
   # H-TOWN Timezone
   @@time_zone = 'Central Time (US & Canada)'
   @@moderation_mode = false
-  @@per_page = 10
+  @@per_page = 12
   @@message_threshold = -6
 
   ################################

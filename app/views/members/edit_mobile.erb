@@ -69,7 +69,7 @@
 		<%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"150"} %>
 		<div class="hspacer"></div>
 
-		<%= file_column_field("user", "image") %>
+		 <%= f.file_field :image  %>
 		<%= f.submit "Submit New Photo", :class=>"btn"%>
 		<input type="hidden" id="id" name="id" value="<%=@user.user_id%>" >
 		<input type="hidden" id="local_player_flag" name="local_player_flag" value="<%=@user.local_player_flag%>" >

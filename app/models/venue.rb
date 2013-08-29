@@ -1,10 +1,11 @@
 class Venue < ActiveRecord::Base
   set_primary_key "venue_id"
-  has_attached_file :photo,
-                    :styles => {:thumb => '120x120>', :large => '640x480>', :small  => "400x400>" },
-                    :default_style => :thumb,
-                    :url => "/uploads/:class/:attachment/:id/:style/:filename",
-                    :path => ":rails_root/public/uploads/:class/:attachment/:id/:style/:filename"
+  attr_accessible :photo, :external_image_url
+
+  ## CarrierWave gem
+  mount_uploader :photo, AvatarUploader
+
+
 end
 
    

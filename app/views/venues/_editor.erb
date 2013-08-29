@@ -27,7 +27,7 @@
   <div class="inside">
 
     <h2><%= @mode %> Venue</h2>
-    <%= form_for @venue , :url => { :action => @target}, :html => { :onsubmit => "return validate();" } do |f| %>
+    <%= form_for @venue , :url => { :action => @target}, :html => {:multipart=>true, :onsubmit => "return validate();" } do |f| %>
         <% if @mode=="Edit" %>
             <div class="hspacer"></div>
             Preview: <%= link_to @venue.title, {:action => "about", :id=>@venue.venue_id} %><br/>
@@ -53,13 +53,17 @@
         </p>
 
         <p class="color2">
-           <% if @venue.photo.exists? then %>
-                  <%= image_tag @venue.photo.url(:small), :align=>"left", :width=>"100", :hspace=>"3" %>
-              <% end %>
+
+		<% if !@venue.external_image_url.blank? %>
+		  <img src="<%=@venue.external_image_url%>" align="left" hspace="2" width="150">
+		<% elsif !@venue.photo_url.blank? %>
+			<%= image_tag @venue.photo_url.to_s, :align=>"left", :width=>"100", :hspace=>"3" %>
+		<% end %>
+
               <b>Upload photo</b> for venue page
               <%= f.file_field :photo %>
               <br/>Or, assign a remote <%= f.label :image_url %>
-              <%= f.text_field :image_url, :size=>25, :placeholder=>"http://" %>
+              <%= f.text_field :external_image_url, :size=>25, :placeholder=>"http://" %>
               <br/>This photo will be displayed on the venue's page
         </p>
         <p class="color4">

@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   set_table_name "users"
   has_many :musician_instruments, :dependent => :destroy
   has_many :instruments, :through => :musician_instruments
-  has_many :messages
+  has_many :posts
   has_many :user_bans
 
   # Virtual attribute for the unencrypted password
@@ -35,14 +35,8 @@ class User < ActiveRecord::Base
   #	indexes local_player_flag
   # end
 
-  # This is the image magick rendering. It will be replaced by paperclip one day.
-  file_column :image, :magick => {
-		  :versions => {
-				  :thumb => {:crop => "1:1", :geometry => "50x50"},
-				  :profile => {:crop => "1:1", :geometry => "200x200"},
-				  :avatar => {:crop => "1:1", :geometry => "125x125"}
-		  }
-  }
+  ## CarrierWave gem
+  mount_uploader :image, ImageUploader
 
 
   # Search class method

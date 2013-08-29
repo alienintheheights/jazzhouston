@@ -9,9 +9,8 @@
 	by <b><%=@article.author%></b>
   <% end %>
 
-  <% if @article.photo.exists? then %>
-	<%= image_tag @article.photo.url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
-  <% end %>
+  <%= image_tag @article.image_url(:small).to_s, :align=>"left", :width=>"150", :hspace=>"3" %>
+
   <%=raw @article.body_text.gsub(/\n\r/, '</p><p>') %>
 </div>
 

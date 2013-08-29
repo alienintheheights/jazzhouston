@@ -1,10 +1,10 @@
 
 <ul class="breadcrumbs">
   <li>
-    <a href="/articles">Articles</a>
+	<a href="/articles">Articles</a>
   </li>
   <li>
-    <%=@page_title%>
+	<%=@page_title%>
   </li>
 </ul>
 
@@ -13,29 +13,28 @@
 
 
   <table class="index-two-column">
-    <% counter=0
-       for item in @articles
-           current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
-    %>
-        <% if counter%2==0 %><tr><% end %>
-        <td>
-          <% if item.image_url && !item.image_url.blank?  %>
-              <%= link_to image_tag(item.image_url, :width=>'120', :height=>'120',:align=>'left',:hspace=>'2', :style=>"height:120px;", :class=>"img-polaroid", :title=>item.title, :alt=>item.title), {:action => "words", :controller=>"articles", :id=>current_id, :type=>@section_id, :page=>@page} %>
-          <% elsif item.photo.exists? then %>
-              <%= image_tag item.photo.url(:large), :class=>"img-polaroid", :align=>"left",:width=>'120', :height=>'120',:hspace=>'2', :style=>"height:120px;width:120px;" %>
-          <% end %>
+	<% counter=0
+	   for item in @articles
+		 current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
+	%>
+	  <% if counter%2==0 %><tr><% end %>
+	  <td>
+		<% if item.external_image_url%>
+		  <img src="<%=item.external_image_url%>" align="left" hspace="2" width="150">
+		<% elsif !item.image_url.blank? %>
+		  <%= image_tag item.image_url(:small).to_s, :class=>"img-polaroid", :align=>"left",:width=>'120', :height=>'120',:hspace=>'2', :style=>"height:120px;width:120px;" %>
+		<% end %>
+		<%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@section_id, :page=>@page}, :class=>"blueLink"%>
+		<% if item.display_date && item.author && item.author.downcase!="press release" %>
 
-          <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@section_id, :page=>@page}, :class=>"blueLink"%>
-          <% if item.display_date && item.author && item.author.downcase!="press release" %>
-
-          <% end %><%=item.teaser %>
-        </td>
-        <% counter=counter+1
-           if counter%2==0 %>
-            </tr>
-        <% end %>
-    <% end %>
+		  <% end %><%=item.teaser %>
+	  </td>
+	  <% counter=counter+1
+		 if counter%2==0 %>
+		</tr>
+	  <% end %>
+	<% end %>
   </table>
 
-
+</div>
 

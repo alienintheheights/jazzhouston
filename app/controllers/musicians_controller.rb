@@ -40,7 +40,7 @@ class MusiciansController < ApplicationController
 
 
   # JSON XHR Requests from byinst search form
-  def search_ext
+  def search
 	search_term = "%#{params[:query].downcase}%"
 	# if using search engine
 	# musicians = User.search search_term, :conditions => { :local_player_flag => 1 }, :order => :last_name

@@ -102,7 +102,7 @@
           <div class="hspacer"></div>
           <%= @show.about.html_safe %>
           <div class="hspacer"></div>
-          <% if @show.related_url && @show.related_url!=""%>
+          <% if !@show.related_url.blank?%>
               <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
           <% end %>
           <br/>
@@ -128,10 +128,10 @@
         <table class="index-two-column-small">
           <tr>
             <td valign="top" colspan="2">
-              <% if @venue.image_url && @venue.image_url!="" %>
-                  <img src="<%=@venue.image_url%>" align="left" hspace="2" width="150">
-              <% elsif @venue.photo.exists? then %>
-                  <%= image_tag @venue.photo.url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
+              <% if !@venue.external_image_url.blank? %>
+                  <img src="<%=@venue.external_image_url%>" align="left" hspace="2" width="250">
+              <% elsif !@venue.photo_url.blank? %>
+                  <%= image_tag @venue.photo.url(:large).to_s, :align=>"left", :width=>"250", :hspace=>"3" %>
               <% end %>
               <%= @venue.about.html_safe %>
 

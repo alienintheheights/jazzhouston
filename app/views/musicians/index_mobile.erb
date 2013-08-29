@@ -6,7 +6,7 @@
 
         var liveSearchDataStore = new Ext.data.Store({
             proxy: new Ext.data.HttpProxy({
-                url: '/musicians/search_ext',
+                url: '/musicians/search',
                 method: 'GET'
             }),
             reader: new Ext.data.JsonReader({

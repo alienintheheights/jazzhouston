@@ -7,7 +7,6 @@ class MembersController < ApplicationController
 
 
   include AuthenticatedSystem
-  include ExtjsRails
   require "RMagick"
   include UserChallenge
 
@@ -118,7 +117,6 @@ class MembersController < ApplicationController
   # Profile Page
   #########################################
   def profile
-	#unless read_fragment({})
 
 	@member = User.find_by_username(params[:id].downcase)
 	if !@member
@@ -153,10 +151,6 @@ class MembersController < ApplicationController
 	  format.json {render :json =>@member}
 	end
 
-
-  rescue Exception => exception
-	flash[:notice] = "Sorry, our servers exploded."
-	redirect_to :action=>"members/index.erb"
 
   end
 
@@ -437,12 +431,12 @@ class MembersController < ApplicationController
 	valid_user = false
 	if logged_in? && (self.current_user.user_id==params[:id].to_i || self.current_user.admin_flag==1)
 	  @user = User.find(params[:id])
-	  @page_title = "Member Profile | Editing for #{@user.username}"
+	  @page_title = "Member Profile Settings"
 	  valid_user = true
 	  @instruments = Instrument.all(:order=>"instrument_group, instrument_name")
 	  @myinstruments = []
 	  for item in @user.instruments
-		@myinstruments[item.instrument_id]=item.instrument_name
+		@myinstruments[item.instrument_id] = item.instrument_name
 	  end
 	end
 	if !valid_user
@@ -480,7 +474,7 @@ class MembersController < ApplicationController
 	@user = User.find(params[:id])
 	# prevent spoofs
 	if !(request.post? || request.put?) || !logged_in? || !(self.current_user.user_id == params[:id].to_i || self.current_user.admin_flag == 1)
-	  flash[:notice] = "EPIC FAIL. You're not logged in or you're trying to update the wrong account."
+	  flash[:notice] = "EPIC FAIL. You're not logged in or you're trying to update someone else's account."
 	  redirect_to(:controller => '/members', :action => 'index', :id=>params[:id])
 	  return
 	end
@@ -538,13 +532,9 @@ class MembersController < ApplicationController
 	@user.update_attributes(params[:user])
 
 	# cleanup
-	if !@user.image.nil? && !@user.image.blank?
+	if !@user.image.blank?
 	  @user.image_url=nil
 	end
-
-	@user.save!
-	# clear cache, if any
-	expire_user(@user)
 
 	redirect_to :action => "profile", :id => @user.username
 
@@ -556,12 +546,12 @@ class MembersController < ApplicationController
 
 
 #########################################
-# EXT-JS JSON Happy AJAX Search
+# User Search
 #########################################
-  def search_ext
+  def search
 	@search_term = "%#{params[:query].downcase}%"
 	@users = User.search_users(@search_term)
-	render :json => to_ext_json(@users)
+	render :json => @users
   end
 
 ##############################################

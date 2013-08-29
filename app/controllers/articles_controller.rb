@@ -11,7 +11,7 @@ class ArticlesController < ApplicationController
   include AuthenticatedSystem
   include ExtjsRails
 
-  before_filter :login_required, :only =>[:update, :create, :destroy, :update_featured, :workflow, :new, :edit, :workflow]
+  before_filter :login_required, :only =>[:update, :create, :destroy, :workflow, :new, :edit, :workflow]
 
   @@sections = {
 		  1=>"Headlines",
@@ -28,14 +28,14 @@ class ArticlesController < ApplicationController
 
   # the index page
   def index
-	@section_id = (params[:type].nil?)? 1 : params[:type].to_i
+	@section_id = (params[:type].nil?) ? 1 : params[:type].to_i
 	@page_title = @@sections[@section_id]
 	if (@page_title.nil?)
 	  @section_id = 1 # default value
 	  @page_title = @@sections[@section_id]
 	end
 	@page =       (params[:page].nil?) ? 1 : params[:page].to_i
-	offset =      getOffset(@page) || 0
+	offset =      get_offset(@page) || 0
 	total_posts = Content.count(:all, :conditions => ["content_type_id=? and status_id=2",@section_id])
 	@total_pages= (total_posts/@@per_page).to_i  + 1
 
@@ -103,7 +103,6 @@ class ArticlesController < ApplicationController
 	@live=Content.find(:all, :order=>"content_id desc", :conditions => ["status_id=2"],:limit=>10)
 	@working=Content.find(:all, :order=>"content_id desc", :conditions => ["status_id=1"])
 
-
   end
 
 
@@ -112,34 +111,6 @@ class ArticlesController < ApplicationController
 	# featured
 	@words=Content.find(:first, :conditions => { :featured_flag => 1 })
 	render :layout=>false
-  end
-
-
-  # sets featured show
-  def update_featured
-
-	if request.post?
-
-	  if (params[:feature_id])
-
-		cur_featured=Content.find(:first,:conditions=>"featured_flag=1")
-		cur_featured.featured_flag=0
-		cur_featured.save!
-
-		@fwords=Content.find(params[:feature_id])
-		@fwords.featured_flag=1
-		@fwords.save!
-
-		flash[:notice]="feature updated"
-
-	  end
-
-
-	else
-	  @fwords=Content.find(:first, :conditions => { :featured_flag => 1 })
-	end
-
-	@page_title = "Set Article Feature"
   end
 
 
@@ -155,9 +126,9 @@ class ArticlesController < ApplicationController
   # ajax rotate call
   def rotate
 	@articles=Content.find(:all, :conditions=>"status_id=2",:order=>"display_date desc", :limit=>10)
-	headlineData =  Hash[:success=>true, :items=>@articles.length, :articles=>@articles]
+	headline_data =  Hash[:success=>true, :items=>@articles.length, :articles=>@articles]
 	list = []
-	list << headlineData
+	list << headline_data
 
 	response = {}
 	response["data"] = list
@@ -169,10 +140,7 @@ class ArticlesController < ApplicationController
 
   ################################
   # Write Methods
-
   ################################
-
-
 
   # GET /news/1/edit
   def edit
@@ -221,18 +189,8 @@ class ArticlesController < ApplicationController
   # UTILITIES
   ################################
 
-  # a utility to setup the auto-break articles
-  def autoBreaks(str, autoOn)
-	if autoOn==1
-	  str = str.sub(/^\r?\n/,"<br/><br/>")
-	  return str.sub(/^[ \t]*$\r?\n/,"<br/><br/>")
-	else
-	  return str
-	end
-  end
-
-  def getOffset(pageNumber)
-	offset=@@per_page  * (pageNumber-1)
+  def get_offset(page_number)
+	@@per_page  * (page_number-1)
   end
 
 end

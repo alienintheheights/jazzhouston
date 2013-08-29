@@ -1,41 +1,41 @@
 <link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
 <script src="/common/js/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    /**
-     * On-Ready jQuery block
-     */
-    $(function() {
+  /**
+   * On-Ready jQuery block
+   */
+  $(function() {
 
 
-        // artist search
-        $( "#article_search" ).autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url:"/search/search_articles_ext",
-                    dataType: "json",
-                    data: {
-                        query: request.term,
-                        maxRows: 15
-                    },
-                    success: function(data) {
-                        response($.map(data.results, function(item) {
-                            return {
-                                label: item.title,
-                                value: item.content_id
-                            }
-                        }))
-                    }
-                })
-            },
-            dataType: 'json',
-            minLength: 3,
-            select: function( event, ui ) {
-                event.preventDefault();
-                window.location = '/articles/words/'+ui.item.value;
-            }
-        });
+	// artist search
+	$( "#article_search" ).autocomplete({
+	  source: function(request, response) {
+		$.ajax({
+		  url:"/search/search_articles_ext",
+		  dataType: "json",
+		  data: {
+			query: request.term,
+			maxRows: 15
+		  },
+		  success: function(data) {
+			response($.map(data.results, function(item) {
+			  return {
+				label: item.title,
+				value: item.content_id
+			  }
+			}))
+		  }
+		})
+	  },
+	  dataType: 'json',
+	  minLength: 3,
+	  select: function( event, ui ) {
+		event.preventDefault();
+		window.location = '/articles/words/'+ui.item.value;
+	  }
+	});
 
-    });
+  });
 
 
 
@@ -43,7 +43,42 @@
 <div id="StageNarrow">
 
 
+  <ul class="breadcrumbs">
+	<li>
+	  <a href="/articles">Articles</a>
+	</li>
+	<li>
+	  <%=@page_title%>
+	</li>
+  </ul>
 
-    <%= render :partial => "contentlist" %>
+  <div class="home-inside">
+	<%= render :partial => "header", :locals => {:section_id =>@section_id, :skip_pager=>false}%>
+
+
+	<table class="index-two-column">
+	  <% counter=0
+		 for item in @articles
+		   current_id= (item.sub_title && item.sub_title.length>0)? item.sub_title : item.content_id
+	  %>
+		<% if counter%2==0 %><tr><% end %>
+		<td>
+		  <% if !item.external_image_url.blank? %>
+			<img src="<%=item.external_image_url%>" align="left" hspace="2" width="150">
+		  <% elsif item.image_url %>
+			<%= image_tag item.image_url(:small).to_s, :class=>"img-polaroid", :align=>"left",:width=>'120', :height=>'120',:hspace=>'2', :style=>"height:120px;width:120px;" %>
+		  <% end %>
+		  <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@section_id, :page=>@page}, :class=>"blueLink"%>
+		  <% if item.display_date && item.author && item.author.downcase!="press release" %>
+
+			<% end %><%=item.teaser %>
+		</td>
+		<% counter=counter+1
+		   if counter%2==0 %>
+		  </tr>
+		<% end %>
+	  <% end %>
+	</table>
+
   </div>
 </div>
