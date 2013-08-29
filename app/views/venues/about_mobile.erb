@@ -13,11 +13,11 @@
     <% end -%>
     <div class="hspacer"></div>
     <!-- Place this tag where you want the +1 button to render -->
-    <% if @venue.image_url && @venue.image_url!="" %>
-        <img src="<%=@venue.image_url%>" align="left" hspace="2" width="150">
-    <% else %>
-        <%= image_tag @venue.image_url(:small), :align=>"left", :width=>"150", :hspace=>"3" %>
-    <% end %>
+    <% if !@venue.external_image_url.blank? %>
+	  <img src="<%=@venue.external_image_url%>" align="left" hspace="2" width="250">
+	<% elsif !@venue.photo_url.blank? %>
+	  <%= image_tag @venue.photo.url(:large).to_s, :align=>"left", :width=>"250", :hspace=>"3" %>
+	<% end %>
     <%= @venue.about.html_safe %>
 
     <div class="hspacer"></div>
