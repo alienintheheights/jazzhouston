@@ -43,61 +43,133 @@ img {
 }
 
 
-#jh_editor {
-  color: red;
-  padding: 0 0 0 5px ;
-  font-size: 9px;
-  text-align: left;
-}
 #jh_pic_column {
-  float:left;
-  width: 105px;
+   padding: 0 0 0 0;
+  float: left;
 }
-#jh_infocol {
+
+
+#jh_card_wrapper {
+}
+
+#jh_member_box {
+  padding: 3px 0 0 5px ;
   float:left;
-  padding: 3px 0 0 10px ;
+}
+
+#jh_name_column {
+  font-size: 1.2em;
+  font-weight: bold;
+    -ms-word-break: break-all;
+     /* Non standard for webkit */
+     word-break: break-word;
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;
+  text-decoration: none;
+}
+
+
+
+#jh_infocol {
   overflow-x: auto;
-  width:70%;
-  font-size:10px;
+
+}
+
+
+.instrument_list {
+  clear: both;
+   font-size: 0.9em;
+ padding-top: 5px ;
+}
+
+.instrument_list a, .instrument_list a:visited {
+
+  text-decoration: none;
+}
+
+.phone_list {
+    clear: both;
+  font-size: 0.9em;
+ padding-top: 5px;
+}
+
+.email_list {
+    clear: both;
+  font-size: 0.9em;
+ padding-top: 5px;
+}
+
+.email_list a, .email_list a:visited {
+  font-size: 0.9em;
+  text-decoration: none;
+}
+
+.url_list {
+    clear: both;
+  padding-top: 5px;
+}
+
+
+.url_list a, .url_list a:visited {
+
+  font-size: 0.9em;
+    -ms-word-break: break-all;
+     /* Non standard for webkit */
+     word-break: break-word;
+-webkit-hyphens: auto;
+   -moz-hyphens: auto;
+        hyphens: auto;
+  text-decoration: none;
+}
+
+
+.twitter_list {
+    clear: both;
+    padding-top: 5px;
+}
+
+.twitter_list a, .twitter_list a:visited {
+  font-size: 0.9em;
+  text-decoration: none;
 }
 
 #jh_detailcol {
   float:left;
-  padding: 0;
+  padding: 5px 0 0 0;
   overflow-y:auto;
   width:100%;
 }
 
 
 #jh_profile {
-  float:left;
   overflow-y:auto;
-  width:95%;
-  padding: 10px 0 0 10px ;
+  padding: 10px 0 0 0 ;
 }
 
 #jh_interests {
-  float:left;
-  padding:10px 0 0 10px;
-  width:95%;
+  padding:10px 0 0 0;
 
 }
 #jh_contact_info {
   float:left;
   padding-top:10px;
 }
+
 #jh_blogs {
   float:left;
   overflow: auto;
   padding-top:10px;
   height: 650px;
 }
+
 #jh_shows {
   float:left;
   overflow: auto;
   padding-top:10px;
   height: 650px;
 }
+
 #jh_profile h2, #jh_interests h2, #jh_shows h2, #jh_blogs h2 {
   font-family: tahoma, sans-serif;
   padding: 5px 0;
@@ -349,6 +421,7 @@ div.messageDate {
 .forumTitle a, .forumTitle a:visited {
   font-size: 12px;
   padding-right: 0;
+  color: #333;
 }
 
 
@@ -419,7 +492,6 @@ a.smallForumLink:hover  {
   font-size:14px;
 }
 
-
 select#board-select {
   width: 200px;
   height: 27px;
@@ -455,8 +527,20 @@ a.newTopic, a.newTopic:visited {
 }
 
 .forum_row_li {
-  border-top: 1px solid #333;
+  border-top: 1px solid #ccc;
+  padding: 0!important;
 }
+
+.player_row_li {
+  border: none;
+  padding: 0!important;
+}
+
+
+.player_row_li_wrapper {
+ padding: 5px 0 5px 100px;
+}
+
 
 .pagination {
   margin: 5px 0;
@@ -499,13 +583,12 @@ a.newTopic, a.newTopic:visited {
   padding: 5px;
 }
 
-.forum_row_li {
-  padding: 0!important;
-}
 
 .player-data {
-  height: 78px;
+  clear:both;
+  padding: 2px 0 5px 1px;
 }
+
 
 #toggle {
   padding: 5px 20px;
