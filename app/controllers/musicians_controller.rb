@@ -25,7 +25,7 @@ class MusiciansController < ApplicationController
 	end
 
 	@total_players = total_players_by_instrument()
-
+	@page = (params[:page])? params[:page].to_i : 1
 	@page_title=(mobile_request?) ? instrument.instrument_name : "Players by Instrument | #{instrument.instrument_name}"
 	@page_size = @@per_page
 
@@ -93,8 +93,6 @@ class MusiciansController < ApplicationController
   end
 
   def players
-	page_number = params[:page]
-	@page = (page_number)? page_number.to_i : 1
 	offset = @@per_page  * (@page-1)
 
 	@players ||= User.includes(:instruments).select("user_id, first_name, last_name, username, image, home_phone, cell_phone, url, email").where("(last_name is not null and last_name <>'') and (cell_phone <>'' || home_phone <>'' || url <>'') and (image is not null and image<>'') and instruments.instrument_id=?",params[:id]).order("last_name").limit(@@per_page).offset(offset)

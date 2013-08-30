@@ -1,10 +1,11 @@
 <% content_for :head do %>
-  <script src="/common/js/jsrender.js"></script>
+  <script src="/common/js/libs/jsrender.js"></script>
   <script>
 
 	$("#musicianSearch").on("pageshow", function(e) {
 	  var sugList = $("#suggestions");
 	  var toggler = $("#toggle");
+	  var pagerbar = $("#musician_pager");
 	  toggler.hide();
 	  var byinst_list =  $("#byinst_list");
 	  toggler.on("click", function(){
@@ -12,12 +13,14 @@
 		sugList.html("");
 		sugList.listview("refresh");
 		byinst_list.show();
+		pagerbar.show();
 	  });
 	  var defaultImage = "/images/forum-icon-blue.png";
 	  $("#searchField").on("input", function(e) {
 		var text = $(this).val();
 		if (text.length >= 4) {
 		  byinst_list.hide();
+		  pagerbar.hide();
 		  $.getJSON("/musicians/search?query="+text).done(function( res ) {
 			if (!res) {
 			  return;
