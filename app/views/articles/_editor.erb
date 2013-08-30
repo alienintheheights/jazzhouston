@@ -1,6 +1,6 @@
 <%= render :partial => "common/tinymce" %>
 <link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
-<script src="/common/js/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/common/js/libs/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript">
   /**
    * On-Ready jQuery block
@@ -113,8 +113,7 @@
 		  <b> Note: your article is not yet LIVE on the site. </b>
 		  <br/>When you're ready, change the status at the bottom of the page to "Live"
 		  and click "Edit". You may preview it at any time with the above link.
-
-		<% end %>                                                                   `
+		<% end %>
 		<input type="hidden" id="id" name="id" value="<%=@content.content_id%>" >
 	  <% end %>
 	  <table width="100%">
@@ -136,7 +135,7 @@
 			<% end %>
 
 			<h4>Set the article photo</h4>
-			<%= f.file_field :photo %>
+			<%= f.file_field :image %>
 			<br/>
 			You may instead provide the URL of a hosted image<br/>
 			<%= f.text_field :external_image_url, :size=>25, :placeholder=>"http://" %>
