@@ -1,5 +1,5 @@
-
 <%
+   #TODO: fix validation for email (allows ..com)
    about_me =  (@user.about_me.nil?)? "" :  @user.about_me.html_safe
 %>
 
@@ -25,7 +25,7 @@
 	var validateEmail = function() {
 
 	  //testing regular expression
-	  var filter = /^[a-zA-Z0-9]+[a-zA-Z0-9_.-]+[a-zA-Z0-9_-]+@[a-zA-Z0-9]+[a-zA-Z0-9.-]+[a-zA-Z0-9]+.[a-z]{2,4}$/;
+	  var filter = /^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9\.-]+)\.([a-z]{2,5})$/;
 	  //if it's valid email
 	  if(filter.test(email.val())){
 		email_group.removeClass("error");
