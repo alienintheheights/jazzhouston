@@ -148,7 +148,6 @@ a.blueLink, a.blueLink:visited, a.blueLink:hover {
 }
 
 .messageList li {
-  border-top: 1px solid #E0E0E0;
   position: relative;
   padding: 0;
   display: list-item;
@@ -529,4 +528,3 @@ a.newTopic, a.newTopic:visited {
   padding: 15px 0;
   clear:both;
 }
-
