@@ -1,251 +1,256 @@
+<%= render :partial => "common/tinymce" %>
 <link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
 <script src="/common/js/libs/jquery-ui.min.js" type="text/javascript"></script>
+
+<script src="/common/js/libs/moment.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    /**
-     * On-Ready jQuery block
-     */
-    $(function() {
-        // calendar
-        $( "#event_show_date" ).datepicker({
-            dateFormat: 'yy-mm-dd'
-        });
+  /**
+   * On-Ready jQuery block
+   */
+  $(function() {
+	// calendar
 
-        // artist search
-        $( "#event_artist_search" ).autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url:"/members/search",
-                    dataType: "json",
-                    data: {
-                        query: request.term,
-                        maxRows: 15
-                    },
-                    success: function(data) {
-                        response($.map(data, function(item) {
-                            return {
-                                label: item.user.first_name +' '+ item.user.last_name,
-                                value: item.user.user_id
-                            }
-                        }))
-                    }
-                })
-            },
-            dataType: 'json',
-            minLength: 3,
-            select: function( event, ui ) {
-                event.preventDefault();
-                var message = "You selected: <b><a href='/members/profile/"+ui.item.value+"'>"+ui.item.label+"</a></b>";
-                $( "#event_artist_search" ).val( ui.item.label );
-                $( "<div/>" ).html( message ).prependTo( "#event_artist_result" );
-                $( "#event_artist_result" ).scrollTop( 0 );
-                $( "#event_artist_id" ).val( ui.item.value );
-            }
-        });
+	var dp = $( "#event_show_date" );
+	dp.datepicker({dateFormat: 'yy-mm-dd'});
+	dp.datepicker('setDate', moment().format("YYYY-MM-DD"));
 
-        $("#selected_artist_remove").click(function() {
-            $( "#event_artist_id" ).val("");
-            $( "#selected_artist" ).text("artist removed");
-        });
+	// artist search
+	$( "#event_artist_search" ).autocomplete({
+	  source: function(request, response) {
+		$.ajax({
+		  url:"/members/search",
+		  dataType: "json",
+		  data: {
+			query: request.term,
+			maxRows: 15
+		  },
+		  success: function(data) {
+			response($.map(data, function(item) {
+			  return {
+				label: item.user.first_name +' '+ item.user.last_name,
+				value: item.user.user_id
+			  }
+			}))
+		  }
+		})
+	  },
+	  dataType: 'json',
+	  minLength: 3,
+	  select: function( event, ui ) {
+		event.preventDefault();
+		var message = "You selected: <b><a href='/members/profile/"+ui.item.value+"'>"+ui.item.label+"</a></b>";
+		$( "#event_artist_search" ).val( ui.item.label );
+		$( "<div/>" ).html( message ).prependTo( "#event_artist_result" );
+		$( "#event_artist_result" ).scrollTop( 0 );
+		$( "#event_artist_id" ).val( ui.item.value );
+	  }
+	});
 
-
-        // venue search
-        $( "#event_venue_search" ).autocomplete({
-            selectFirst: false,
-            source: function(request, response) {
-                $.ajax({
-                    url:"/venues/search_ext",
-                    dataType: "json",
-                    data: {
-                        query: request.term,
-                        maxRows: 15
-                    },
-                    success: function(data) {
-                        response($.map(data.results, function(item) {
-                            return {
-                                label: item.title,
-                                value: item.venue_id
-                            }
-                        }))
-                    }
-                })
-            },
-            dataType: 'json',
-            minLength: 3,
-            select: function( event, ui ) {
-                event.preventDefault();
-                var message =  "You selected: <b><a href='/venues/about/"+ui.item.value+"'>"+ui.item.label+"</a></b>";
-                $( "<div/>" ).html( message ).prependTo( "#event_venue_result" );
-                $( "#event_venue_result" ).scrollTop( 0 );
-                $( "#event_venue_search" ).val( ui.item.label );
-                $( "#event_venue_id" ).val( ui.item.value );
-            }
-        });
-    });
+	$("#selected_artist_remove").click(function() {
+	  $( "#event_artist_id" ).val("");
+	  $( "#selected_artist" ).text("artist removed");
+	});
 
 
+	// venue search
+	$( "#event_venue_search" ).autocomplete({
+	  selectFirst: false,
+	  source: function(request, response) {
+		$.ajax({
+		  url:"/venues/search_ext",
+		  dataType: "json",
+		  data: {
+			query: request.term,
+			maxRows: 15
+		  },
+		  success: function(data) {
+			response($.map(data.results, function(item) {
+			  return {
+				label: item.title,
+				value: item.venue_id
+			  }
+			}))
+		  }
+		})
+	  },
+	  dataType: 'json',
+	  minLength: 3,
+	  select: function( event, ui ) {
+		event.preventDefault();
+		var message =  "You selected: <b><a href='/venues/about/"+ui.item.value+"'>"+ui.item.label+"</a></b>";
+		$( "<div/>" ).html( message ).prependTo( "#event_venue_result" );
+		$( "#event_venue_result" ).scrollTop( 0 );
+		$( "#event_venue_search" ).val( ui.item.label );
+		$( "#event_venue_id" ).val( ui.item.value );
+	  }
+	});
 
-    /**
-     * Validation
-     */
-    function validate() {
-
-        if ( !$("input[id=event_venue_id]").val()) {
-            alert("You must enter a venue!");
-            return false;
-        }
-
-        if (!$("textarea#event_about").val() || $("textarea#event_about").val().length <= 5) {
-            alert("Please enter information ABOUT the show!");
-            return false;
-        }
-
-        if (!$("input[id=event_performer]").val()) {
-            alert("Performer info missing.");
-            return false;
-        }
-
-        if ($("input[id=event_performer]").val() && $("input[id=event_performer]").val().length > 59) {
-            alert("Performer too long! Please shorten performer info or move show details into the about section");
-            return false;
-        }
 
 
-        if ($("#event_event_type_id").val() === "1" && !$("input[id=event_show_date]").val()) {
-            alert("The show needs a date!");
-            return false;
-        }
+	var form = $("#jh_event_form");
+	form.submit(function(){
 
-        return true;
-    }
+	  if ( !$("input[id=event_venue_id]").val()) {
+		alert("You must enter a venue!");
+		return false;
+	  }
 
-    /**
-     * Confirms delete request
-     */
-    function delete_confirm() {
+	  if (!tinymce.get("event_about").getContent()) {
+		alert("Please enter information ABOUT the show!");
+		return false;
+	  }
 
-        var answer = confirm("Are you sure you want to DELETE this event?");
+	  if (!$("input[id=event_performer]").val()) {
+		alert("Performer info missing.");
+		return false;
+	  }
 
-        return (answer);
-    }
+	  if ($("input[id=event_performer]").val() && $("input[id=event_performer]").val().length > 59) {
+		alert("Performer too long! Please shorten performer info or move show details into the about section");
+		return false;
+	  }
 
+
+	  if ($("#event_event_type_id").val() === "1" && !$("input[id=event_show_date]").val()) {
+		alert("The show needs a date!");
+		return false;
+	  }
+
+	  return true;
+	});
+
+	/**
+	 * Confirms delete request
+	 */
+	function delete_confirm() {
+
+	  var answer = confirm("Are you sure you want to DELETE this event?");
+
+	  return (answer);
+	}
+
+  });
 
 </script>
 <div id="StageNarrow">
   <div class="inside">
 
-    <h2>JazzHouston Event Editor</h2>
-    <%= form_for @event, :url =>{:action=>@target}, :html => { :onsubmit => "return validate();" }   do |f| %>
-        <% if @mode=="Edit" %>
-            <div class="hspacer"></div>
-            <div  style="background-color:#F0EC05;">
-              <div class="flash-alert">
-                <%= flash[:notice] %>
-              </div>
-              View this event: <a class="boldLink" href="/events/details/<%=@event.event_id%>"><%= @event.performer %></a>
-            </div>
-            <input type="hidden" id="id" name="id" value="<%=@event.event_id%>" >
-        <% end %>
-        <table width="100%">
-          <tr>
-            <td class="color2">
-              Event Performer(s)
-              <br/>
-              <%= f.text_field :performer, :size=>40, :placeholder=>"Type the name of the performer/band/event" %>
-            </td>
-          </tr>
-          <tr>
-            <td class="color4">
-              Event Venue<br/>
-              <%= f.hidden_field :venue_id %>
+	<h2>JazzHouston Event Editor</h2>
+	<% if @mode=="Edit" %>
+	  <div id="jh_editor_notice">
+		<div class="flash-alert">
+		  <%= flash[:notice] %>
+		</div>
+		View this event, <a class="boldLink" href="/events/details/<%=@event.event_id%>"><%= @event.performer %></a>
+	  </div>
 
-              <input id="event_venue_search" size="30" placeholder="auto-search: type away!"/>
-              <div id="event_venue_result" >
-                <% if @event && @event.venue  %>
-                    Currently set to <b><a href="/venues/about/<%= @event.venue_id %>"><%= @event.venue.title %></a> </b>
-                <% else%>
+	<% end %>
+	<%= form_for @event, :url =>{:action=>@target}, :html => {:id=>"jh_event_form" }   do |f| %>
+	    <input type="hidden" id="id" name="id" value="<%=@event.event_id%>" >
+	  <table width="100%">
+		<tr>
+		  <td class="color2">
+			Event Performer(s)
+			<br/>
+			<%= f.text_field :performer, :size=>40, :placeholder=>"Type the name of the performer/band/event" %>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color4">
+			Event Venue<br/>
+			<%= f.hidden_field :venue_id %>
 
-                    <div class="smallText"><i>Not Found? <a class="blueLink" href="/venues/new" target="_new">Create venue</a> (opens a new window).
-                      After it saves, search again. </i>
-                    </div>
-                <% end %>
-              </div>
+			<input id="event_venue_search" size="30" placeholder="auto-search: type away!"/>
+			<div id="event_venue_result" >
+			  <% if @event && @event.venue  %>
+				Currently set to <b><a href="/venues/about/<%= @event.venue_id %>"><%= @event.venue.title %></a> </b>
+			  <% else%>
 
-            </td>
-          </tr>
-          <tr>
-            <td class="color2">
-              Show Time  <%= f.text_field :show_time, :size=>10, :placeholder=>"7-11pm" %>
-            </td>
-          </tr>
-          <tr>
-            <td class="color4">
-              Event Type:  <%= select("event", "event_type_id", [["One-Nighter",1],["Steady Weekly",2]]) %>
-            </td>
-          </tr>
-          <tr>
-            <td class="color2">
-              Date of Show   <%= f.text_field :show_date, :size=>10, :placeholder=>"date picker" %>
-              <br/><i>(for one-nighters only)</i>
-            </td>
-          </tr>
-          <tr>
-            <td class="color4">
-              Day of Week
-              <%
-                 i=-1
-                 days=Date::DAYNAMES.collect{ |day| [day, i=i+1]  } %>
-              <%= select("event", "day_of_week", days) %>
-              <br><i>(for steady gigs only)</i>
-            </td>
-          </tr>
-          <tr>
-            <td class="color2">
-              Is This a Jam Session?
-              <%= check_box("event","jam_flag") %>
-            </td>
-          </tr>
-          <tr>
-            <td class="color4">
-              Leader's name (optional only to set a JazzHouston Profile Link)
-              <br/>
-              <%= f.hidden_field :artist_id %>
-              <input id="event_artist_search" size="30" placeholder="auto-search: type away!"/>
-              <div id="event_artist_result" style="background-color:#F0EC05;" ></div>
-              <% if @player   %>
+				<div class="smallText"><i>Not Found? <a class="blueLink" href="/venues/new" target="_new">Create venue</a> (opens a new window).
+				  After it saves, search again. </i>
+				</div>
+			  <% end %>
+			</div>
+
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color2">
+			Show Time  <%= f.text_field :show_time, :size=>10, :placeholder=>"7-11pm" %>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color4">
+			Event Type:  <%= select("event", "event_type_id", [["One-Nighter",1],["Steady Weekly",2]]) %>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color2">
+			Date of Show   <%= f.text_field :show_date, :size=>10, :placeholder=>"date picker" %>
+			<br/><i>(for one-nighters only)</i>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color4">
+			Day of Week
+			<%
+			   i=-1
+			   days=Date::DAYNAMES.collect{ |day| [day, i=i+1]  } %>
+			<%= select("event", "day_of_week", days) %>
+			<br><i>(for steady gigs only)</i>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color2">
+			Is This a Jam Session?
+			<%= check_box("event","jam_flag") %>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color4">
+			Leader's name (optional only to set a JazzHouston Profile Link)
+			<br/>
+			<%= f.hidden_field :artist_id %>
+			<input id="event_artist_search" size="30" placeholder="auto-search: type away!"/>
+			<div id="event_artist_result" style="background-color:#F0EC05;" ></div>
+			<% if @player   %>
                   <span id="selected_artist">
                   Musician link set to <a href="/members/profile/<%=@event.artist_id%>"><%=@player.first_name%> <%=@player.last_name%></a>
                   <br/> <span id="selected_artist_remove">click to remove artist</span>
                   </span>
-              <% end %>
-            </td>
-          </tr>
-          <tr>
-            <td class="color2">
-              About the show<br/>
-              <i>Personnel, Cover, etc. But please try to keep it brief and HTML-free.</i>
-              <br/>
-              <%= f.text_area :about, :cols=>50, :rows=>15%>
-            </td>
-          </tr>
-          <tr>
-            <td class="color4">
-              Related Url<br/>
-              <%= f.text_field :related_url, :size=>30, :placeholder=>"http://" %>
-            </td>
-          </tr>
-          <tr>
-            <td class="color2">
-              <%= f.submit @mode %>
-            </td>
-          </tr>
-        </table>
-    <% end %>
-    <% if @mode=="Edit" %>
-        <%= form_for @event, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
-            <input type="hidden" id="id" name="id" value="<%=@event.event_id%>" >
-            <%= f.submit "Delete Event" %>
-        <% end %>
-    <% end %>
+			<% end %>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color2">
+			About the show<br/>
+			<i>Personnel, Cover, etc. But please try to keep it brief and keep the HTML to a minimum. Please.</i>
+			<br/>
+			<%= f.text_area :about,  :class =>"tinymce"%>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color4">
+			Related Url<br/>
+			<%= f.text_field :related_url, :size=>30, :placeholder=>"http://" %>
+		  </td>
+		</tr>
+		<tr>
+		  <td class="color2">
+			All set?<button type="submit" style="text-align:center;" class="btn"><span id="button_text">Save</span></button>
+		  </td>
+		</tr>
+	  </table>
+	<% end %>
+
+<div class="hspacer"></div>
+
+	<% if @mode=="Edit" %>
+	  <%= form_for @event, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
+		<input type="hidden" id="id" name="id" value="<%=@event.event_id%>" >
+		<%= f.submit "Delete Event" %>
+	  <% end %>
+	<% end %>
 
   </div>
 </div>

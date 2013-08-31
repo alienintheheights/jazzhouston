@@ -5,11 +5,8 @@ class Event < ActiveRecord::Base
 
   @@time_zone='Central Time (US & Canada)'
 
-  define_index do
-	indexes performer, :sortable => true
-	indexes show_date
-	indexes about
-  end
+  attr_accessible :venue, :event_type_id, :performer, :about, :day_of_week,
+		  :artist_id, :related_url, :venue_id, :show_date, :show_time, :jam_flag
 
   # Exclude password info from json output.
   def as_json(options={})
