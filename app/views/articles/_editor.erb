@@ -1,6 +1,7 @@
 <%= render :partial => "common/tinymce" %>
 <link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
 <script src="/common/js/libs/jquery-ui.min.js" type="text/javascript"></script>
+<script src="/common/js/libs/moment.min.js" type="text/javascript"></script>
 <script type="text/javascript">
   /**
    * On-Ready jQuery block
@@ -8,9 +9,40 @@
 
   $(function() {
 	// calendar
-	$( "#content_display_date" ).datepicker({
-	  dateFormat: 'yy-mm-dd'
+	var dp = $( "#content_display_date" );
+	dp.datepicker({dateFormat: 'yy-mm-dd'});
+	dp.datepicker('setDate', moment().format("YYYY-MM-DD"));
+
+	// status boxes
+	var status_def = $("#status-defs");
+	var status_trigger = $("#status-trigger");
+	status_trigger.click(function() {
+	  status_def.show();
+	  status_trigger.hide();
 	});
+	status_def.click(function() {
+	  status_def.hide();
+	  status_trigger.show();
+	});
+
+	var getSelectedText = function(divId) {
+	  var str = "";
+	  $( "#" + divId +" option:selected" ).each(function() {
+		str += $( this ).text() + " ";
+	  });
+	  return str;
+	};
+
+	var pub_button = $("#button_text");
+	var status_selection = $("#content_status_id");
+	status_selection.change(function(){
+	  var item=$(this);
+	  var str = "Save as " + getSelectedText("content_status_id");
+	  pub_button.html(str);
+	});
+	// on load
+	pub_button.html("Save as " + getSelectedText("content_status_id"));
+
 
 	// artist search
 	$( "#content_author_search" ).autocomplete({
@@ -38,8 +70,7 @@
 		event.preventDefault();
 		var message = "You selected: <b><a href='/members/profile/"+ui.item.value+"'>"+ui.item.label+"</a></b>";
 		$( "#content_author_search" ).val( ui.item.label );
-		$( "<div/>" ).html( message ).prependTo( "#content_author_result" );
-		$( "#content_author_result" ).scrollTop( 0 );
+		$( "#content_author_result" ).html(message);
 		$( "#content_author_id" ).val( ui.item.value );
 		$( "#content_author" ).val( ui.item.label );
 	  }
@@ -75,159 +106,170 @@
 	  }
 	});
 
+	var form = $("#jh_article_form");
+	form.submit(function(){
+	  if ( !$("#content_author_id").val()) {
+		alert("You must enter an author");
+		return false;
+	  }
+	  if ( !$("#content_title").val()) {
+		alert("You must enter a title");
+		return false;
+	  }
+	  if (!$("#content_display_date").val()) {
+		alert("The story needs a display date");
+		return false;
+	  }
+	  if (!tinymce.get("content_body_text").getContent()) {
+		alert("The story needs a story, eh?");
+		return false;
+	  }
+
+	  if (!$("#content_teaser").val()) {
+		alert("The story needs a teaser");
+		return false;
+	  }
+	  if (!$("#content_image_url").val() && !$("#content_image").val() && !$("#content_external_image_url").val()) {
+		alert("The story needs a featured photo");
+		return false;
+	  }
+	  return true;
+	});
+
 
   });
-
-  /**
-   * Validation
-   */
-  function validate() {
-	if ( !$("#content_author_id").val()) {
-	  alert("You must enter an author");
-	  return false;
-	}
-	if ( !$("#content_title").val()) {
-	  alert("You must enter a title");
-	  return false;
-	}
-	if (!$("#content_display_date").val()) {
-	  alert("The story needs a display date");
-	  return false;
-	}
-	return true;
-  }
-
-
 
 </script>
 
 <div id="StageNarrow">
   <div class="inside">
 
-	<h2>JazzHouston Story Editor</h2>
-	<%= form_for  @content, :url => { :action => @target}, :html => {:multipart => true , :onsubmit => "return validate();" } do |f| %>
-	  <% if @mode=="Edit" %>
-		<div class="hspacer"></div>
-		Preview: <a href="/articles/words/<%=@content.content_id%>"><%=@content.title%></a><br/>
+	<div class="StoryHeader">JazzHouston Article Editor</div>
+
+	<% if @mode=="Edit" %>
+	  <div id="jh_editor_notice">
+		<div class="StoryHeader">Preview: <a class="blueLink" target="_new" href="/articles/words/<%=@content.content_id%>"><%=@content.title%></a></div>
 		<% if @content.status_id != 2 %>
-		  <b> Note: your article is not yet LIVE on the site. </b>
-		  <br/>When you're ready, change the status at the bottom of the page to "Live"
-		  and click "Edit". You may preview it at any time with the above link.
+		  <b> HEADS UP! Your article is not yet LIVE on the site. </b>
+		  <br/><small>When you're ready, change the status at the bottom of the page to "Published" and click "Edit". You may preview it at any time with the above link.   </small>
+		  <div class="hspacer"></div>
 		<% end %>
+	  </div>
+	<% end %>
+
+	<%= form_for  @content, :url => { :action => @target}, :html => {:id=>"jh_article_form", :multipart => true ,:class=>"well"  } do |f| %>
+	  <fieldset>
 		<input type="hidden" id="id" name="id" value="<%=@content.content_id%>" >
-	  <% end %>
-	  <table width="100%">
-		<tr>
-		  <td class="color4">
-			<%= f.text_field :title, :size=>40, :placeholder=>"Required: Story Title" %>
-			<br/>
-			<small>This is what appears on the top of the article. Keep it concise and grammatically correct. </small>
-		  </td>
-		</tr>
 
-		<tr>
-		  <td class="color2">
+		<div class="control-group">
+		  <div class="controls">
+			<%= f.label :title %>
+			<%= f.text_field :title, :style=>"width:500px;", :placeholder=>"Required: A concise, grammatically correct title" %>
+		  </div>
 
+		  <div class="controls">
+			<small>Optional permalink: The unique URL for the story (e.g., www.jazzhouston.com/words/<b>your_title_here</b>) </small><br/>
+			<%= f.text_field :sub_title, :placeholder=>"url_name_no_spaces"%>
+			<span id="sub_title_validate" style="padding: 5px;"></span>
+		  </div>
+
+		  <div class="controls">
+			<div id="content_display_date_wrapper" >
+			  <%= f.label "Display Date" %>
+			  <%= f.text_field :display_date, :style=>"width:100px;", :placeholder=>"Click to set" %>
+			</div>
+			<div id="content_author_wrapper" >
+			  <%= f.label "Author" %>
+			  <% if @mode=="Edit" %>
+				<input type="hidden" id="content_author" name="content[author]" value="<%=@content.author%>"/>
+				<%= f.hidden_field :author_id %>
+			  <% else %>
+				<input type="hidden" id="content_author" name="content[author]" value="<%=current_user.first_name%> <%=current_user.last_name%>"/>
+				<input type="hidden" id="content_author_id" name="content[author_id]" value="<%=current_user.user_id%>"/>
+			  <% end %>
+			  <input id="content_author_search" size="30" placeholder="Author Search"/>
+			  <div id="content_author_result" >
+				<small>
+				  <% if @mode=="Edit"  %>
+					<b><%=@content.author%></b>
+				  <% else %>
+					<b>defaults to you,</b> but you may change it to another author
+				  <% end %>
+				</small>
+			  </div>
+			</div>
+		  </div>
+
+		</div>
+
+		<div class="control-group">
+		  <div class="controls">
+			<small><%= f.label "Your Brilliant Prose" %></small>
+			<%= f.text_area :body_text, :class =>"tinymce" %>
+		  </div>
+		</div>
+		<div class="control-group">
+
+		  <label class="control-label" for="content[teaser]">Teaser</label>
+		  <div class="controls">
+			<%= f.text_area :teaser, :style=>"width:450px;height:200px;", :placeholder=>"Required: Teaser Text"%>
+		  </div>
+		</div>
+
+		<div class="control-group well">
+		  <label class="control-label" for="content[image]"><b>Featured Article Photo</b></label>
+		  <small>This photo will be displayed on the teaser and inside the article.</small>  <br/>
+
+		  <div class="controls">
 			<% if !@content.external_image_url.blank? %>
 			  <img src="<%=@content.external_image_url%>" align="left" hspace="2" width="100">
 			<% elsif !@content.image_url.blank? %>
 			  <%= image_tag @content.image_url(:small).to_s, :align=>"left", :width=>"100" %>
+			  <input type="hidden" id="content_image_url" value="<%=@content.image_url %>">
 			<% end %>
 
-			<h4>Set the article photo</h4>
 			<%= f.file_field :image %>
 			<br/>
 			You may instead provide the URL of a hosted image<br/>
 			<%= f.text_field :external_image_url, :size=>25, :placeholder=>"http://" %>
-			<br/>
-			<small>This photo will be displayed on the teaser and inside the article.</small>
-		  </td>
-		</tr>
+		  </div>
 
-		<tr>
-		  <td class="color4">
+		</div>
+		<div class="control-group">
 
-
-			<% if @mode=="Edit" %>
-			  <input type="hidden" id="content_author" name="content[author]" value="<%=@content.author%>"/>
-			<% else %>
-			  <input type="hidden" id="content_author" name="content[author]"/>
-			<% end %>
-
-			<%= f.hidden_field :author_id %>
-			<div class="ui-widget">
-			  <input id="content_author_search" size="30" placeholder="Author Search"/>
-			  <div id="content_author_result" ><% if @content && @content.author_id  %>
-				  Existing author <b><a href="/members/profile/<%= @content.author_id %>">profile link</a> </b>
-				<% end %></div>
-			</div>
-
-			<small>The author must be a registered JazzHouston user.</small>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color2">
-			<%= f.label :display_date %>
-			<%= f.text_field :display_date, :size=>10, :placeholder=>"Click to set" %>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color4">
-
-			<small>Optional: The unique URL for the story (e.g., www.jazzhouston.com/words/<b>your_title_here</b>) </small><br/>
-			<%= f.text_field :sub_title, :placeholder=>"url_name_no_spaces"%>
-			<div id="sub_title_validate"></div>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color2">
-			<%= f.text_area :teaser, :cols=>50, :rows=>5, :class =>"mceNoEditor", :placeholder=>"Required: Teaser Text"%>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color4">
-			Article Type:
+		  <label class="control-label" for="content[content_type_id]">Article Type</label>
+		  <div class="controls">
 			<%
 			   types=[["News",1],["Opinion",3],["Jazz Columns",4],["Interviews and Concert Reviews",5],["CD Reviews",6]]
 			%>
 			<%= select("content", "content_type_id", types) %><br />
+		  </div>
+		  <label class="control-label" for="content[status_id]"> Article Status 	<span id="status-trigger">(click for terminology)</span></label>
+		  <div class="controls">
 
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color2">
-			<%= f.label :body_text %><br />
-			<%= f.text_area :body_text %> (drag bottom right corner to expand editor)
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color4">
-			Auto-Format Article? <%= check_box("content","html_break_flag") %>Yes
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color2">
-			Article Status
 			<%
-			   status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]
+			   status=[["Expired",0],["Draft",1],["Published",2],["Archived",3]]
 			%>
-			<%= select("content", "status_id", status) %><br />
-			"Working" means it's still in edit mode and not live on the site.
-			<br/>
-			"Live" means it's up and visible anywhere articles are listed on the site.
-			<br/>
-			"Archived" will remove it from the listing of current articles but can still be accessed by it's URL.
-			<br/>
-			"Expired" means it will be removed and marked for deletion.
-			<br/>
-		  </td>
-		</tr>
-		<tr>
-		  <td class="color4">
-			<%= f.submit @mode, :id=>'submit' %>
-		  </td>
-		</tr>
-	  </table>
+			<%= select("content", "status_id", status) %>
+
+			<div id="status-defs" style="display:none">
+			  "Draft" means it's still in edit mode and not live on the site.
+			  <br/>
+			  "Published" means it's up and visible anywhere articles are listed on the site.
+			  <br/>
+			  "Archived" will remove it from the listing of current articles but can still be accessed by it's URL.
+			  <br/>
+			  "Expired" means it will be removed and marked for deletion.
+			</div>
+		  </div>
+		</div>
+		<div class="control-group">
+		  <div class="controls">
+			<div class="hspacer"></div>
+			All set?<button type="submit" style="text-align:center;" class="btn"><span id="button_text">Save draft</span></button>
+		  </div>
+		</div>
+	  </fieldset>
 	<% end %>
 
   </div>

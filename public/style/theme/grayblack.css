@@ -1406,6 +1406,12 @@ a.imageLink:visited {
   line-height: 1.1em;
 }
 
+#jh_editor_notice {
+  background-color: #ffe155;
+  font-size: 1.4em;
+  padding: 5px;
+}
+
 .HeaderShow
 {
   border-width: 1px;

@@ -90,7 +90,7 @@ class ArticlesController < ApplicationController
   end
 
   def search_articles_url_ext
-	search_term = "%#{params[:query].downcase}%"
+	search_term = "#{params[:query].downcase}"
 	results = Content.where("status_id=2 and lower(sub_title) = lower(?)", search_term)
 	render :json => to_ext_json(results)
   end
@@ -145,14 +145,14 @@ class ArticlesController < ApplicationController
   # GET /news/1/edit
   def edit
 	@content = Content.find(params[:id])
-  end
+ end
 
   # PUT /contents/1
   def update
 	@content = Content.find(params[:id])
 	@content.update_attributes(params[:content])
 	respond_to do |format|
-	  format.html { redirect_to :content=>@content, :action=>"edit", :id=>@content.content_id    }
+	  format.html { render :template=>"articles/edit.erb", :content=>@content, :action=>"edit", :id=>@content.content_id    }
 	end
   end
 

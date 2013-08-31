@@ -138,6 +138,7 @@
 		  <div class="span9 player-data">
 			<div class="player-name">
 			  <strong><a class="" href="/members/profile/<%=item.username%>"><%= truncate(fullname.titleize, :length => 30) %></a></strong>
+			  <i class="icon-certificate icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Vouch!" ></i>
 			</div>
 			<div class="player-phone">
 			  <% if !item.cell_phone.nil? && !item.cell_phone.blank? %>
