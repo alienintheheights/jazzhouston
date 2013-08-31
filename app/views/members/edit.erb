@@ -5,10 +5,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
-	function delete_confirm() {
-	  var answer=confirm("Are you sure you want to DELETE this account?");
-	  return !!answer;
-	}
+
 
 	function upgrade_confirm() {
 	  var answer=confirm("Are you sure you want to UPGRADE this account to editor?");
@@ -20,6 +17,7 @@
 	var email_info = $("#email_info");
 
 	var profile_form = $("#jh_profile_edit_form");
+	var delete_form = $("#jh_profile_delete_form");
 
 	//validation functions
 	var validateEmail = function() {
@@ -44,7 +42,12 @@
 
 	profile_form.submit(function(){
 	  // we want them all to execute
-	 return validateEmail();
+	  return validateEmail();
+	});
+
+	// DELETE
+	delete_form.submit(function(){
+	  return confirm("Please confirm: Are you sure you want to DELETE this account?");
 	});
 
   });
@@ -75,9 +78,9 @@
 	  <input name="_method" type="hidden" value="post" />
 	  <h3>Photo</h3>
 	  <%= render :partial => "common/renderpic", :locals => { :user => @user, :size =>"150"} %>
-		  <h4>Select an image to upload</h4>
-	 	  <%= f.file_field :image  %>
-	    <div class="hspacer"></div>
+	  <h4>Select an image to upload</h4>
+	  <%= f.file_field :image  %>
+	  <div class="hspacer"></div>
 	  <h3>Essentials</h3>
 	  <div class="control-group" id="email_group">
 		<label class="control-label" for="user[email]">Email</label>
@@ -101,7 +104,7 @@
 		</div>
 		<label class="control-label" for="user[last_name]">Password</label>
 		<div class="controls">
-		 <a class="blueLink" href="/members/changepassword">Change Password</a>
+		  <a class="blueLink" href="/members/changepassword">Change Password</a>
 		</div>
 	  </div>
 
@@ -166,22 +169,27 @@
   </div>
 
   <div class="hspacer"></div>
-
-  <div class="Header">Delete Account</div>
   <div class="hspacer"></div>
-  <%= form_for @user, :url => { :action => "destroy"}, :html => { :onsubmit => "return delete_confirm();" }     do |f| %>
-	<input type="hidden" id="id" name="id" value="<%=@user.id%>" >
-	If you'd like to delete your account, click this button.
-	<%= f.submit "Delete Account" , :class => "btn" %>
-	<br/>This isn't Facebook, your account will be removed immediately and for good.
+  <div class="Header">Delete Account</div>
 
+  <%= form_for @user, :url => { :action => "destroy"}, :html => { :id=>"jh_profile_delete_form", :class => "form-horizontal well" }     do |f| %>
+	<div class="control-group" id="delete_group">
+	  <div class="controls">
+		<input type="hidden" id="id" name="id" value="<%=@user.id%>" >
+		If you'd like to delete your account, we can assist you in this undertaking. But please note that this isn't Facebook:
+		your account will be immediately and irrevocably deleted. If you're still sure, then click this button.
+		<br/><%= f.submit "Delete Account" , :class => "btn" %>
+	  </div>
+	</div>
 
-	<div class="hspacer"></div>
   <% end %>
+  <div class="hspacer"></div>
   <% if logged_in? && (current_user.id==1) -%>
 	<div class="hspacer"></div>
 	<div class="Header">Super Power!!</div>
-	<%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();" }     do |f| %>
+	<%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();", :class => "form-horizontal well"  }     do |f| %>
+	  <div class="control-group" id="delete_group">
+	  <div class="controls">
 	  <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
 	  <% if @user.editor_flag==1 %>
 		User is currently an editor
@@ -191,6 +199,8 @@
 		User is not currently an editor
 		<input type="hidden" id="editor_flag" name="editor_flag" value=1 >
 		<%= f.submit "Upgrade to Editor" %>
+		  </div>
+	</div>
 	  <% end %>
 	  <div class="hspacer"></div>
 	<% end %>
