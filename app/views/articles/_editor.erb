@@ -11,7 +11,11 @@
 	// calendar
 	var dp = $( "#content_display_date" );
 	dp.datepicker({dateFormat: 'yy-mm-dd'});
+	<% if @content && @content.display_date %>
+	dp.datepicker('setDate', '<%=@content.display_date%>');
+	<% else %>
 	dp.datepicker('setDate', moment().format("YYYY-MM-DD"));
+	<% end %>
 
 	// status boxes
 	var status_def = $("#status-defs");
