@@ -166,45 +166,48 @@
 		<button type="submit" style="text-align:center;" class="btn">Update Profile</button>
 	  </div>
 	<% end %>
-  </div>
 
-  <div class="hspacer"></div>
-  <div class="hspacer"></div>
-  <div class="Header">Delete Account</div>
 
-  <%= form_for @user, :url => { :action => "destroy"}, :html => { :id=>"jh_profile_delete_form", :class => "form-horizontal well" }     do |f| %>
-	<div class="control-group" id="delete_group">
-	  <div class="controls">
-		<input type="hidden" id="id" name="id" value="<%=@user.id%>" >
-		If you'd like to delete your account, we can assist you in this undertaking. But please note that this isn't Facebook:
-		your account will be immediately and irrevocably deleted. If you're still sure, then click this button.
-		<br/><%= f.submit "Delete Account" , :class => "btn" %>
-	  </div>
-	</div>
-
-  <% end %>
-  <div class="hspacer"></div>
-  <% if logged_in? && (current_user.id==1) -%>
 	<div class="hspacer"></div>
-	<div class="Header">Super Power!!</div>
-	<%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();", :class => "form-horizontal well"  }     do |f| %>
+	<div class="hspacer"></div>
+	<div class="Header">Delete Account</div>
+
+	<%= form_for @user, :url => { :action => "destroy"}, :html => { :id=>"jh_profile_delete_form", :class => "form-horizontal well" }     do |f| %>
 	  <div class="control-group" id="delete_group">
-	  <div class="controls">
-	  <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
-	  <% if @user.editor_flag==1 %>
-		User is currently an editor
-		<input type="hidden" id="editor_flag" name="editor_flag" value=0 >
-		<%= f.submit "Remove Editor" %>
-	  <% else %>
-		User is not currently an editor
-		<input type="hidden" id="editor_flag" name="editor_flag" value=1 >
-		<%= f.submit "Upgrade to Editor" %>
-		  </div>
-	</div>
-	  <% end %>
-	  <div class="hspacer"></div>
+		<div class="controls">
+
+		  <input type="hidden" id="id" name="id" value="<%=@user.id%>" >
+		  If you'd like to delete your account, we can assist you in this undertaking. But please note that this isn't Facebook:
+		  your account will be immediately and irrevocably deleted. If you're still sure, then click this button.
+		  <br/><%= f.submit "Delete Account" , :class => "btn" %>
+		</div>
+	  </div>
+
 	<% end %>
-  <% end -%>
+	<div class="hspacer"></div>
+	<% if logged_in? && (current_user.id==1) -%>
+	  <div class="hspacer"></div>
+	  <div class="Header">Super Power!!</div>
+	  <%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();", :class => "form-horizontal well"  }     do |f| %>
+		<div class="control-group" id="delete_group">
+		  <div class="controls">
+			<input type="hidden" id="id" name="id" value="<%=@user.id%>" >
+			<% if @user.editor_flag==1 %>
+			  User is currently an editor
+			  <input type="hidden" id="editor_flag" name="editor_flag" value=0 >
+			  <%= f.submit "Remove Editor" %>
+			<% else %>
+			  User is not currently an editor
+			  <input type="hidden" id="editor_flag" name="editor_flag" value=1 >
+			  <%= f.submit "Upgrade to Editor" %>
+			<% end %>
+		  </div>
+		</div>
+		<div class="hspacer"></div>
+	  <% end %>
+	<% end -%>
+
+  </div>
 
 
 </div>
