@@ -282,7 +282,9 @@ class MembersController < ApplicationController
 		  Notifier.deliver_updated_password(@user, "Password change for jazzhouston")
 		end
 		# send them back to the members home page
-		redirect_to(:controller => '/members', :action => 'index', :msgid=>2)
+		flash[:notice]="Password updated"
+		redirect_to(:controller => '/home', :action => 'index')
+		return
 	  else
 		@username=@user.username
 		flash[:notice]="Password mismatch, please try again"
@@ -293,8 +295,8 @@ class MembersController < ApplicationController
 	end
 
 	respond_to do |format|
-	  format.html  {render :template => "members/resetpassword.erb"}
-	  format.mobile {render :template => "members/resetpassword_mobile.erb"}
+	  format.html  {render :template => "home/index.erb"}
+	  format.mobile {render :template => "home/index.erb"}
 	end
 
   end
@@ -380,7 +382,7 @@ class MembersController < ApplicationController
 	# image challenge check
 	challenge = session["uc"]
 	session["uc"] = nil
-	verify_image = false
+	verify_image = Rails.env.development?
 	if challenge && params[:imageChallenge] && Rails.env.production?
 	  verify_image = challenge.checkResponse(params[:imageChallenge])
 	end
@@ -405,7 +407,7 @@ class MembersController < ApplicationController
 	end
 
 	# handle poorly set URL field
-	if !@user.url &&  !@user.url.blank? && @user.url !~/^http/i
+	if !@user.url.blank? && @user.url !~/^http/i
 	  @user.url = "http://" + @user.url
 	end
 
@@ -414,7 +416,7 @@ class MembersController < ApplicationController
 	# email confirmation
 	sendconfirmation(@user)
 
-	flash[:notice]="Check your email for a confirmation. Click it and off you go!"
+	flash[:notice]="Check your email for a confirmation. Click it and off you go! "
 	respond_to do |format|
 	  format.html  {render :template => "members/create.erb"}
 	  format.mobile {render :template => "members/create_mobile.erb"}

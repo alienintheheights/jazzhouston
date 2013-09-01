@@ -10,8 +10,9 @@ class User < ActiveRecord::Base
   has_many :posts
   has_many :user_bans
 
-  # Virtual attribute for the unencrypted password
-  attr_accessible :username, :email,  :password_confirmation,  :first_name, :last_name, :about_me,
+  # white-listed. Note :password is the user-entered password that is immediately changed on create
+  # the real password is crypted_password, which is most definitely not white-listed
+  attr_accessible :username, :email, :password, :password_confirmation,  :first_name, :last_name, :about_me,
 				  :occupation, :location, :url, :favorite_music, :favorite_films, :home_phone,
 				  :cell_phone, :remember_token, :remember_token_expires_at, :image,
 				  :image_url, :hide_email, :twitter_name
@@ -26,14 +27,6 @@ class User < ActiveRecord::Base
   validates_length_of       :email,    :within => 3..100
   validates_uniqueness_of   :username, :case_sensitive => false
   before_save :encrypt_password
-
-  #define_index do
-  #	indexes first_name
-  #	indexes last_name, :sortable => true
-  #	indexes username
-  #	indexes user_id
-  #	indexes local_player_flag
-  # end
 
   ## CarrierWave gem
   mount_uploader :image, ImageUploader
@@ -63,7 +56,8 @@ class User < ActiveRecord::Base
 
   # checks a reset key hash
   def hash_key
-	Digest::SHA1.hexdigest("--#{self.email}--#{self.username}--")
+	d1 = Digest::SHA1.hexdigest("--#{self.salt}--#{self.user_id}--")
+	Digest::SHA1.hexdigest("--#{self.salt}--#{d1}--")
   end
 
   # simple delete account
@@ -98,10 +92,10 @@ class User < ActiveRecord::Base
 
   def authenticated?(inpwd)
 	false
-	if (!salt && password==inpwd)
+	if (!salt && password == inpwd) #TODO deprecate old passwords
 	  save
 	  true
-	elsif (encrypt(inpwd)==crypted_password)
+	elsif (encrypt(inpwd) == crypted_password)
 	  true
 	end
   end
@@ -137,10 +131,6 @@ class User < ActiveRecord::Base
 	self.class.encrypt(password, salt)
   end
 
-  def reprocess_avatar
-	avatar.reprocess!
-  end
-
 
   # before filter
   def encrypt_password
@@ -158,6 +148,5 @@ class User < ActiveRecord::Base
 	crypted_password.blank? || !password.blank?
 	false
   end
-
 
 end
