@@ -56,6 +56,7 @@ class User < ActiveRecord::Base
 
   # checks a reset key hash
   def hash_key
+	# urge overkill, encrypt and encrypt some more
 	d1 = Digest::SHA1.hexdigest("--#{self.salt}--#{self.user_id}--")
 	Digest::SHA1.hexdigest("--#{self.salt}--#{d1}--")
   end
@@ -135,8 +136,10 @@ class User < ActiveRecord::Base
   # before filter
   def encrypt_password
 	return if password.blank?
+	require 'securerandom'
 
-	self.salt = Digest::SHA1.hexdigest("--#{Time.now.to_s}--#{username}--") if new_record?
+	rand = SecureRandom.base64
+	self.salt = Digest::SHA1.hexdigest("--#{rand}--") if new_record?
 	self.crypted_password = encrypt(password)
 	if (self.password)
 	  self.password=nil
