@@ -23,20 +23,21 @@
 
 		<div class="StoryHeader">
 		  <% if !@article.external_image_url.blank? %>
-			<img src="<%=@article.external_image_url%>" align="left" hspace="2" width="100" hspace="2">
+			<img src="<%=@article.external_image_url%>" align="left" hspace="2" width="150" hspace="2">
 		  <% elsif !@article.image_url.blank? %>
-			<%= image_tag @article.image_url(:small).to_s, :align=>"left", :width=>"100", :hspace=>"2" %>
+			<%= image_tag @article.image_url(:small).to_s, :align=>"left", :width=>"150", :hspace=>"2" %>
 		  <% end %>
-		  <%=@article.title%> <%if logged_in? && current_user.editor_flag==1 -%>
-			<br/><%= @article.display_date.strftime("%B #{@article.display_date.day.ordinalize} %Y") %>
-		  <% end %>
+			<%= @article.display_date.strftime("%B #{@article.display_date.day.ordinalize} %Y") %>
 		  <br/>
 		  <% if @article.author_id %>
 			by <a href="/members/profile/<%= @article.author_id%>"><%=@article.author%></a>
 		  <% else %>
 			by <b><%=@article.author%></b>
 		  <% end %>
+		  <br/>
+		  <%=@article.title%> <%if logged_in? && current_user.editor_flag==1 -%>
 		  <a style="font-size:12px;" href="/articles/edit/<%=@article.content_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit Story</a><br/>
+		  <% end %>
 	  <% end -%>
 	  </div>
 	</div>
