@@ -58,6 +58,7 @@ class MembersController < ApplicationController
 	  # unconfirmed user
 	  u = nil # a logout
 	  redirect_to(:controller => '/members', :action => 'confirmform', :id=>params[:username])
+	  return
 	else
 	  self.current_user=u
 	end
@@ -333,6 +334,7 @@ class MembersController < ApplicationController
 		  reset_session
 		  flash[:notice]="Thanks, your password has been updated! Please login again"
 		  redirect_to(:controller => '/members', :action => 'index')
+		  return
 		end
 	  end
 	end
