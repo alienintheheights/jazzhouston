@@ -103,7 +103,7 @@
 		  <%= @show.about.html_safe %>
 		  <div class="hspacer"></div>
 		  <% if !@show.related_url.blank?
-			   if (!@show.related_url !~/^http/i)
+			   if (@show.related_url !~/^http/i)
 				 @show.related_url = "http://" + @show.related_url
 			   end
 		  %>
