@@ -505,6 +505,7 @@ class MembersController < ApplicationController
 	  @user.instruments = []
 	  @user.local_player_flag = 0
 	end
+	@user.save
 
 	flash[:message]="Account Updated."
 	redirect_to(:controller => '/members', :action => 'profile', :id=>params[:id])
