@@ -296,8 +296,8 @@ class MembersController < ApplicationController
 	end
 
 	respond_to do |format|
-	  format.html  {render :template => "home/index.erb"}
-	  format.mobile {render :template => "home/index.erb"}
+	  format.html  {render :template => "members/resetpassword.erb"}
+	  format.mobile {render :template => "members/resetpassword_mobile.erb"}
 	end
 
   end
