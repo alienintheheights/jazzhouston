@@ -1,33 +1,5 @@
 <script src="/common/js/libs/jsrender.js"></script>
-<script type="text/javascript">
-  /**
-   * On-Ready jQuery block
-   */
-  $(function() {
 
-	// calendar
-	$( "#datepicker" ).datepicker({
-	  dateFormat: 'yy-mm-dd',
-	  onSelect : function(date){
-		var dateArray = date.split("-");
-		var dateString = dateArray[0]+'/'+dateArray[1]+'/'+dateArray[2];
-		var dateStringNice = dateArray[1]+'/'+dateArray[2];
-		var eventURL = '/events/'+dateString+'.json';
-		$("#show_listing_header").html("Appearing " + dateStringNice);
-		$("#show_listing").html("Loading...");
-		$.getJSON( eventURL).done(function( data ) {
-		  $("#show_listing").html("");
-		  $.each( data, function( i, item ) {
-			var show = item.event;
-			var snippet =  $( "#show_listing_tmpl" ).render( show );
-			 $( "#show_listing" ).append(snippet);
-		  });
-		});
-	  }
-	}).show();
-  });
-
-</script>
 
 <div id="StageMedium">
   <ul class="breadcrumbs">
@@ -40,6 +12,8 @@
   </ul>
 
 
+  <%= render :partial => "/events/calendar"%>
+  <br/>
   <div class="cd-inside">
 	<div class="row-fluid">
 	  <!-- Calendar & Jams -->
@@ -48,8 +22,8 @@
 		  <div id="datepicker"></div>
 		</div>
 		<div class="row-fluid">
-
-		  <h2>Jam Sessions</h2>
+		  <br/>
+		  <h3>Jam Sessions</h3>
 		  <% if !jams.nil?  %>
 			<% for item in jams %>
 			  <% if item.event_type_id==1 && item.show_date %>
@@ -57,6 +31,7 @@
 			  <% else %>
 				<b><%= Date::DAYNAMES[item.day_of_week] %></b>
 			  <% end %>
+			  <br/>
 			  <a href="/events/details/<%=item.event_id%>"><%=item.performer%></a>:
 			  <% if item.venue %>
                    <span class="smallText">
@@ -74,13 +49,14 @@
 
 	  <!-- Show Listing -->
 	  <div class="span7">
-		<h2 id="show_listing_header">
-		  Playing Today: <%=  display_date.strftime("%A, %B #{display_date.day.ordinalize}") %>
-		</h2>
+		<h3 id="show_listing_header">
+		  Playing Today, <%=  display_date.strftime("%A, %B #{display_date.day.ordinalize}") %>
+		</h3>
+		<br/>
 		<div id="show_listing">
 		  <div class="hspacer"></div>
 		  <% for item in shows_on_date %>
-			<% if item.event_type_id==1 %>
+			<% if item.event_type_id==1 && item.venue.listeningroom==1 %>
 			  <i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
 			<% else %>
 			  <i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
@@ -94,8 +70,7 @@
 			<%= item.show_time %>
 			<div class="hspacer"></div>
 		  <% end %>
-		  <div class="hspacer"></div>
-		  <a class="blueLink" href="/events/shows">see more upcoming shows</a>
+
 		</div>
 	  </div>
 	</div>
@@ -120,7 +95,7 @@
 </div>
 
 <script id="show_listing_tmpl" type="text/x-jsrender">
-  {{if event_type_id==1 }}
+  {{if ((event_type_id==1) && (venue.listeningroom==1) )  }}
   <i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
   {{else}}
   <i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
@@ -130,4 +105,14 @@
   at <a href="/venues/about/{{:venue.venue_id}}">{{:venue.title}}</a>
   {{:show_time}}
   <div class="hspacer"></div>
+</script>
+
+<script type="text/javascript">
+  /**
+   * On-Ready jQuery block
+   */
+  $(function() {
+	$("#datepicker").show();
+  });
+
 </script>

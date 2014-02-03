@@ -1,3 +1,4 @@
+<script src="/common/js/libs/moment.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     /**
      * On-Ready jQuery block
@@ -5,18 +6,26 @@
     $(function() {
         // calendar
 
-        $( "#datepicker" ).datepicker({
-            dateFormat: 'yy-mm-dd',
-            onSelect : function(date){
-                var dateArray = date.split("-");
-                window.location = '/events/'+dateArray[0]+'/'+dateArray[1]+'/'+dateArray[2];
-
-            }
-        }).hide();
-
-        $("#datelink").click(function() {
-            $("#datepicker").show();
-        });
+	  $( "#datepicker" ).datepicker({
+	  	  dateFormat: 'yy-mm-dd',
+	  	  onSelect : function(date){
+	  		var dateArray = date.split("-");
+	  		var dateString = dateArray[0]+'/'+dateArray[1]+'/'+dateArray[2];
+	  		var dateObj = new Date(dateArray[0], dateArray[1] - 1 , dateArray[2]);
+			var dateFormatString =  moment(dateObj).format("dddd, MMMM D");
+	  		var eventURL = '/events/'+dateString+'.json';
+	  		$("#show_listing_header").html("Playing " + dateFormatString);
+	  		$("#show_listing").html("Loading...");
+	  		$.getJSON( eventURL).done(function( data ) {
+	  		  $("#show_listing").html("");
+	  		  $.each( data, function( i, item ) {
+	  			var show = item.event;
+	  			var snippet =  $( "#show_listing_tmpl" ).render( show );
+	  			 $( "#show_listing" ).append(snippet);
+	  		  });
+	  		});
+	  	  }
+	  	}).hide();
 
         // venue search
         $( "#event_venue_search" ).autocomplete({
@@ -57,10 +66,7 @@
     <ul>
       <li><a href="/events">today</a></li>
       <li><a href="/events/shows">all shows</a></li>
-      <li><span id="datelink">select date</span></li>
     </ul>
   </div>
 </div>
-
-<div id="datepicker"></div>
 

@@ -17,15 +17,23 @@
         <p class="smallText">None scheduled (or at least, we're way behind on keeping the listings current #EditorFail)
     <% end %>
     <div id="showgrid">
-      <% for item in @shows %>
+      <% last_date = ""
+		 for item in @shows
+		 	if item.show_date != last_date
+
+	  %>
+		  <h3><%=  item.show_date.strftime("%A, %B #{item.show_date.day.ordinalize}") %> </h3>
+		   <% end %>
+
           <%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
           <% if item.venue %>
               @<%= link_to item.venue.title, {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
           <% end %>
-          <%=  item.show_date.strftime("%A, %B #{item.show_date.day.ordinalize}") %>
 
           <div class="hspacer"></div>
-      <% end %>
+      <%
+		 last_date = item.show_date
+		 end %>
       <div class="hspacer"></div>
       Check back for more shows. We post 'em as we get 'em!
       <br/>

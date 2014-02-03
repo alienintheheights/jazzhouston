@@ -1,23 +1,23 @@
 <%= render :partial => "common/tinymce" %>
 <script type="text/javascript">
 
-    /**
-     * Validation
-     */
-    function validate() {
+  /**
+   * Validation
+   */
+  function validate() {
 
-        if ( !$("#venue_title").val()) {
-            alert("You must enter a venue name");
-            return false;
-        }
+	if ( !$("#venue_title").val()) {
+	  alert("You must enter a venue name");
+	  return false;
+	}
 
-        if (!$("#venue_address").val()) {
-            alert("You must enter an address");
-            return false;
-        }
+	if (!$("#venue_address").val()) {
+	  alert("You must enter an address");
+	  return false;
+	}
 
-        return true;
-    }
+	return true;
+  }
 
 
 
@@ -26,65 +26,69 @@
 <div id="StageNarrow">
   <div class="inside">
 
-    <h2><%= @mode %> Venue</h2>
-    <%= form_for @venue , :url => { :action => @target}, :html => {:multipart=>true, :onsubmit => "return validate();" } do |f| %>
-        <% if @mode=="Edit" %>
-            <div class="hspacer"></div>
-            Preview: <%= link_to @venue.title, {:action => "about", :id=>@venue.venue_id} %><br/>
-            <input type="hidden" id="id" name="id" value="<%=@venue.venue_id%>" >
-        <% end %>
+	<h2><%= @mode %> Venue</h2>
+	<%= form_for @venue , :url => { :action => @target}, :html => {:multipart=>true, :onsubmit => "return validate();" } do |f| %>
+	  <% if @mode=="Edit" %>
+		<div class="hspacer"></div>
+		Preview: <%= link_to @venue.title, {:action => "about", :id=>@venue.venue_id} %><br/>
+		<input type="hidden" id="id" name="id" value="<%=@venue.venue_id%>" >
+	  <% end %>
 
-        <p class="color2">
-          *Name of Venue<br />
-          <%= f.text_field :title %>
-        </p>
-        <p class="color4">
-          <%= f.label :address %><br />
-          <%= f.text_field :address %>
-          <br/>(please include city and/or zip to help Google Maps)
-        </p>
-        <p class="color2">
-          <%= f.label :phone %><br />
-          <%= f.text_field :phone, :placeholder =>"(713)-555-1212" %>
-        </p>
-        <p class="color4">
-          Optional: Venue Website<br />
-          <%= f.text_field :related_url, :placeholder=>"http://" %>
-        </p>
+	  <p class="color2">
+		*Name of Venue<br />
+		<%= f.text_field :title %>
+	  </p>
+	  <p class="color4">
+		<%= f.label :address %><br />
+		<%= f.text_field :address %>
+		<br/>(please include city and/or zip to help Google Maps)
+	  </p>
+	  <p class="color2">
+		<%= f.label :phone %><br />
+		<%= f.text_field :phone, :placeholder =>"(713)-555-1212" %>
+	  </p>
+	  <p class="color4">
+		Optional: Venue Website<br />
+		<%= f.text_field :related_url, :placeholder=>"http://" %>
+	  </p>
+	  <p class="color4">
+		Optional: Is this a LISTENING ROOM?<br />
+		<%= f.check_box :listeningroom  %>
+	  </p>
 
-        <p class="color2">
+	  <p class="color2">
 
 		<% if !@venue.external_image_url.blank? %>
 		  <img src="<%=@venue.external_image_url%>" align="left" hspace="2" width="150">
 		<% elsif !@venue.photo_url.blank? %>
-			<%= image_tag @venue.photo_url.to_s, :align=>"left", :width=>"100", :hspace=>"3" %>
+		  <%= image_tag @venue.photo_url.to_s, :align=>"left", :width=>"100", :hspace=>"3" %>
 		<% end %>
 
-              <b>Upload photo</b> for venue page
-              <%= f.file_field :photo %>
-              <br/>Or, assign a remote <%= f.label :image_url %>
-              <%= f.text_field :external_image_url, :size=>25, :placeholder=>"http://" %>
-              <br/>This photo will be displayed on the venue's page
-        </p>
-        <p class="color4">
-          <%= f.label :about %><br />
-          <%= f.text_area :about, :class =>"tinymce"%>
-        </p>
-        <p class="color2">
-          <%
-             status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]
-          %>
-          <%= select("venue", "status_id", status) %><br />
-          "Working" means it's still in edit mode and not live on the site.
-          <br/>
-          "Live" means it's up and visible anywhere articles are listed on the site.
-          <br/>
-          "Archived" will remove it from the listing of current articles but can still be accessed by it's URL.
-          <br/>
-          "Expired" means it will be removed and marked for deletion.
-        <p class="color4">
-          <%= f.submit @mode %>
-        </p>
-    <% end %>
+		<b>Upload photo</b> for venue page
+		<%= f.file_field :photo %>
+		<br/>Or, assign a remote <%= f.label :image_url %>
+		<%= f.text_field :external_image_url, :size=>25, :placeholder=>"http://" %>
+		<br/>This photo will be displayed on the venue's page
+	  </p>
+	  <p class="color4">
+		<%= f.label :about %><br />
+		<%= f.text_area :about, :class =>"tinymce"%>
+	  </p>
+	  <p class="color2">
+		<%
+		   status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]
+		%>
+		<%= select("venue", "status_id", status) %><br />
+		"Working" means it's still in edit mode and not live on the site.
+		<br/>
+		"Live" means it's up and visible anywhere articles are listed on the site.
+		<br/>
+		"Archived" will remove it from the listing of current articles but can still be accessed by it's URL.
+		<br/>
+		"Expired" means it will be removed and marked for deletion.
+	  <p class="color4">
+		<%= f.submit @mode %>
+	  </p>
+	<% end %>
   </div>
 </div>

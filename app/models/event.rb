@@ -21,7 +21,7 @@ class Event < ActiveRecord::Base
 	dow = current_time.strftime("%w")
 
 	# one-night shows (event_type_id=1)
-	shows = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date=?",show_date], :order=>"performer, show_time")
+	shows = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date=?",show_date], :order=>"venues.listeningroom desc, performer, show_time")
 	# steady gigs (event_type_id=2)
 	steadies = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=2 and day_of_week=?",dow], :order=>"performer, show_time")
 
@@ -39,7 +39,7 @@ class Event < ActiveRecord::Base
 	t += (24*60*60)*(dow+1)
 	saturday_date = t.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
 
-	Event.find(:all, :conditions=>["event_type_id=1 and show_date between ? and ?",tomorrow_date, saturday_date], :order=>"show_date")
+	Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date between ? and ?",tomorrow_date, saturday_date], :order=>"show_date, venues.listeningroom desc")
 
   end
 
