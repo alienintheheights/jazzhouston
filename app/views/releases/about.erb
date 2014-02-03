@@ -48,7 +48,7 @@
       </tr>
       <tr>
         <td colspan="2">
-          <%=album.about.html_safe%>
+          <%=  raw auto_link(album.about.gsub(/\n/, '<br/>')) %>
           <div class="hspacer"></div>
         </td>
       </tr>

@@ -180,10 +180,10 @@ a.boldLink:hover {
   text-align: left;
 }
 
-#Masthead #MastheadCenter #subLogoText {
+#Masthead #MastheadCenter #subLogoText a, #Masthead #MastheadCenter #subLogoText a:visited {
   padding: 2px 0 5px 15px;
   letter-spacing: 0.4em;
-  color: #1a1a1a;
+  color: #e00;
   font-size: 0.8em;
   float:left;
 }
@@ -1399,7 +1399,16 @@ a.imageLink:visited {
 
 .StoryHeader
 {
-  font-size: 1.7em;
+  font-size: 1.4em;
+  letter-spacing: 0.0em;
+  text-align: left;
+  padding: 15px 0;
+  line-height: 1.1em;
+}
+
+.StoryTitle
+{
+  font-size: 1.5em;
   letter-spacing: 0.0em;
   text-align: left;
   padding: 15px 0;
@@ -2588,7 +2597,7 @@ ul.storytools li.right a.print {
   font-weight: bold;
 }
 
-/** Bootstrap overrides **/
+/** Bootstrap overrides  **/
 .navbar-inverse .brand, .navbar-inverse .nav>li>a {
   color: #EEE;
   text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
@@ -2802,4 +2811,13 @@ ul.storytools li.right a.print {
   float: left;
   text-align: center;
   margin: 0 5px 0 2px;
+}
+
+.feedrow {
+    width: 95%;
+    padding: 5px;
+    margin: 5px;
+    background-color: #eee;
+    min-height:80px;
+    clear: both;
 }
