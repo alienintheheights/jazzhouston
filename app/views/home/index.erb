@@ -42,7 +42,7 @@
 			  <div id="show_listing">
 
 				<% for item in shows_on_date %>
-				  <% if item.event_type_id==1 %>
+				  <% if item.event_type_id==1  && item.venue.listeningroom=="1" %>
 					<i class="icon-star" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
 				  <% else %>
 					<i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>

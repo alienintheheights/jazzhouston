@@ -82,9 +82,8 @@ match 'forums/vote' => 'forums#vote', :format => false  , :via => :get
 match 'members/challenge_image'  => 'members#challenge_image'
 match 'members/logout'  => 'members#logout'
 match 'members/login'  => 'members#login'
-match 'members/confirm'  => 'members#confirm'
 match 'members/vcard/:id'  =>'musicians#vcard'
-match 'members/confirm/:username/:key'  => 'members#confirm'
+match 'members/confirm/:username/:key'  => 'members#confirm', :constraints  => { :username => /[0-z\.]+/ }
 match 'members/resetpassword/:username/:key'  => 'members#resetpassword'
 
 match '/:controller(/:action(/:id))'

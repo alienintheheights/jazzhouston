@@ -210,7 +210,7 @@ class MembersController < ApplicationController
 	  return
 	end
 
-	if (@user.hash_key==params[:key])
+	if @user.hash_key == params[:key]
 	  @user.status_id=0
 	  @user.save
 	  # send the email

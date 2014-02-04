@@ -56,10 +56,8 @@
 		<div id="show_listing">
 		  <div class="hspacer"></div>
 		  <% for item in shows_on_date %>
-			<% if item.event_type_id==1 && item.venue.listeningroom==1 %>
+			<% if item.event_type_id==1 && item.venue.listeningroom=="1" %>
 			  <i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
-			<% else %>
-			  <i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
 			<% end %>
 
 			<%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
@@ -97,8 +95,6 @@
 <script id="show_listing_tmpl" type="text/x-jsrender">
   {{if ((event_type_id==1) && (venue.listeningroom==1) )  }}
   <i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
-  {{else}}
-  <i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
   {{/if}}
 
   <a href="/events/details/{{:event_id}}">{{:performer}}</a>
