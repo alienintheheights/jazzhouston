@@ -4,16 +4,16 @@
     <link href="http://www.jazzhouston.org/events/rss" rel="self" type="application/rss+xml" />
     <title>JazzHouston | Today's Show (RSS Feed)</title>
     <link>http://www.jazzhouston.com/events/</link>
-    <description>Houston Jazz Event Listings for <%=  @curTime.strftime("%A %B %d %Y") %></description>
+    <description>Houston Jazz Event Listings for <%=  @cur_time.strftime("%A %B %d %Y") %></description>
     <language>en-us</language>
     <ttl>90</ttl>
-    <pubDate><%= @curTime.strftime("%a, %d %b %Y %H:%M:%S") %> CST</pubDate>
+    <pubDate><%= @cur_time.strftime("%a, %d %b %Y %H:%M:%S") %> CST</pubDate>
     <copyright>Copyright(c) 1996- JazzHouston.com</copyright>
-    <lastBuildDate><%= @curTime.strftime("%a, %d %b %Y %H:%M:%S %Z") %></lastBuildDate>
+    <lastBuildDate><%= @cur_time.strftime("%a, %d %b %Y %H:%M:%S %Z") %></lastBuildDate>
 
     <%
        count=0
-       adjTime = @curTime-1.hour
+       adjTime = @cur_time-1.hour
        unless @showlist.nil?
            for item in @showlist
                if (count<3*(@segment+1) and count>= 3*(@segment))
