@@ -28,7 +28,8 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   # Create different versions of your uploaded files:
   version :large do
-
+  process :resize_and_pad => [500, 500, "white", Magick::CenterGravity]
+  process :convert => "png"
   end
 
 

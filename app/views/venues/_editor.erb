@@ -51,10 +51,6 @@
 		Optional: Venue Website<br />
 		<%= f.text_field :related_url, :placeholder=>"http://" %>
 	  </p>
-	  <p class="color4">
-		Optional: Is this a LISTENING ROOM?<br />
-		<%= f.check_box :listeningroom  %>
-	  </p>
 
 	  <p class="color2">
 
@@ -74,6 +70,11 @@
 		<%= f.label :about %><br />
 		<%= f.text_area :about, :class =>"tinymce"%>
 	  </p>
+	  <p class="color4">
+	 		Optional: <%= f.check_box :listeningroom  %>Is this a LISTENING ROOM?<br />
+
+	 	  </p>
+
 	  <p class="color2">
 		<%
 		   status=[["Expired",0],["Working",1],["Live",2],["Archived",3]]

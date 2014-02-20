@@ -1,6 +1,7 @@
 <%
    @page = @page || 1
 %>
+
 <div id="StageNarrow">
 
   <ul class="breadcrumbs">
@@ -18,67 +19,65 @@
   <%= render :partial => "header", :locals => {:section_id =>@section_id, :skip_pager=>true}%>
 
   <div class="cd-inside">
-	<div class="articleMasthead">
+	<div class="articleMasthead headerTile">
 	  <% if @article.display_date %>
 
 		<div class="StoryHeader">
 
-		  <div class="StoryTitle"><%=@article.title%> <%if logged_in? && current_user.editor_flag==1 -%></div>
-
-			<%= @article.display_date.strftime("%B #{@article.display_date.day.ordinalize} %Y") %>
-		  <br/>
-		  <% if @article.author_id %>
-			by <a href="/members/profile/<%= @article.author_id%>"><%=@article.author%></a>
-		  <% else %>
-			by <b><%=@article.author%></b>
-		  <% end %>
-		  <br/>
-		  <a style="font-size:12px;" href="/articles/edit/<%=@article.content_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit Story</a><br/>
+		  <div class="StoryTitle"><%=@article.title%> </div>
+		  <%if logged_in? && current_user.editor_flag==1 -%>
+			<a style="font-size:12px;" href="/articles/edit/<%=@article.content_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit Story</a>
 		  <% end %>
 	  <% end -%>
 	  </div>
 	</div>
 
-	<div class="fb-like" data-href="http://jazzhouston.com/articles/words/<%=@article.content_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
 
+	<% if @article.image_url %>
+	  <div class="StoryPic">
+		<%= image_tag @article.image_url(:large).to_s, :class=>"img-polaroid", :width=>'400' %>
+	  </div>
+	<% end %>
 	<div class="wordText">
-
+	  <%= @article.display_date.strftime("%B #{@article.display_date.day.ordinalize} %Y") %>
+	  <% if @article.author_id %>
+		by <a href="/members/profile/<%= @article.author_id%>"><%=@article.author%></a>
+	  <% else %>
+		by <b><%=@article.author%></b>
+	  <% end %>
 	  <%=  raw auto_link(@article.body_text.gsub(/\n\r/, '</p><p>')) %>
 
 	</div>
-	<%= render :partial => "common/socialrow", :locals => {
-			:title=>@article.title,
-			:url=>request.url
-	}
-	%>
+	<div class="fb-like" data-href="http://jazzhouston.com/articles/words/<%=@article.content_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
+
 	<div class="hspacer"></div>
 
 	<div class="hspacer"></div>
 	<div id="disqus_thread"></div>
 	<script type="text/javascript">
-		/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-		var disqus_shortname = 'jazzhouston'; // required: replace example with your forum shortname
+	  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	  var disqus_shortname = 'jazzhouston'; // required: replace example with your forum shortname
 
-		/* * * DON'T EDIT BELOW THIS LINE * * */
-		(function() {
-			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-			dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-		})();
+	  /* * * DON'T EDIT BELOW THIS LINE * * */
+	  (function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	  })();
 	</script>
 	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 	<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 	<script type="text/javascript">
-	/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-	var disqus_shortname = 'jazzhouston'; // required: replace example with your forum shortname
+	  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	  var disqus_shortname = 'jazzhouston'; // required: replace example with your forum shortname
 
-	/* * * DON'T EDIT BELOW THIS LINE * * */
-	(function () {
+	  /* * * DON'T EDIT BELOW THIS LINE * * */
+	  (function () {
 		var s = document.createElement('script'); s.async = true;
 		s.type = 'text/javascript';
 		s.src = '//' + disqus_shortname + '.disqus.com/count.js';
 		(document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-	}());
+	  }());
 	</script>
 
 

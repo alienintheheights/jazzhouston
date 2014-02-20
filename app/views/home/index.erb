@@ -7,27 +7,9 @@
 
 
   <div class="inside span12">
-	<!-- START CD List -->
-	<div class="span2" id="jh_cds">
-	  <h2>New CDs</h2>
-	  <%for item in albums%>
-		<ul class="thumbnails">
-		  <li class="span12">
-			<div class="home-cd-thumb thumbnail">
-			  <% if !item.image_url.nil? && !item.image_url.blank?  %>
-				<a href="/releases/about/<%=item.album_id%>"><img src="<%=item.image_url%>"></a>
-			  <% end %>
-			  <br/><b><%= link_to item.title, {:action => "about", :controller=>"releases",  :id=>item.album_id} %></b>
-			  <p><%=item.artist_name%></p>
-			</div>
-		  </li>
-		</ul>
-	  <% end %>
-	  <br/>
-	</div>
-	<!-- END CD List -->
+	
 
-	<div class="span10">
+	<div class="span12">
 	  <div class="row-fluid">
 
 		<!-- Shows and Forums -->
@@ -40,20 +22,18 @@
 			  <h2 id="show_listing_header">Appearing Today</h2>
 			  <div class="hspacer"></div>
 			  <div id="show_listing">
-
 				<% for item in shows_on_date %>
-				  <% if item.event_type_id==1  && item.venue.listeningroom=="1" %>
-					<i class="icon-star" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
-				  <% else %>
-					<i class="icon-refresh"  rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="Weekly Engagement" style="padding-right: 5px;"></i>
-				  <% end %>
-				  <a id="show-<%=item.event_id%>" href="/events/details/<%=item.event_id%>" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="<%=item.venue.title%>"><%=item.performer%></a>
+					<% if item.event_type_id==1 && item.venue.listeningroom=="1" %>
+				 	 <i class="icon-star icon-yellow" rel="tooltip" data-toggle="tooltip" data-placement="top" data-original-title="One-Night Only" style="padding-right: 5px;"></i>
+					<% end %>
+	
+					<%= link_to item.performer, {:action => "details", :controller=>"events", :id=>item.event_id} %>
+					<% if item.venue %>
+			 		 at <%= link_to item.venue.title,  {:action => "about", :controller=>"venues", :id=>item.venue.venue_id}, :class=>"venueLink" %>
+					<% end %>
+					<div class="hspacer"></div>
+		 		 <% end %>
 
-				  <% if item.venue %>
-				  <% end %>
-				  <div class='hspacer'></div>
-				<% end %>
-				<a class="blueLink" href="/events/">See more upcoming shows...</a>
 			  </div>
 
 			</div>

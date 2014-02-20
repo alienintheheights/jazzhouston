@@ -1,64 +1,3 @@
-<%= render :partial => "common/extjs", :locals=>{:jsonly=>false} %>
-<script src="/common/js/libs/Ext.ux.GMapPanel.js"></script>
-<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=<%=google_map_key%>"
-		type="text/javascript"></script>
-
-<script type="text/javascript">
-
-  Ext.onReady(function(){
-
-	var mapwin;
-	var mapLink = $("#map-link");
-
-	mapLink.click( function(){
-	  // create the window on the first click and reuse on subsequent clicks
-	  if(!mapwin){
-	  <% if @venue %>
-		mapwin = new Ext.Window({
-		  layout: 'fit',
-		  title: "<%=@venue.title%>",
-		  closeAction: 'hide',
-		  width:300,
-		  height:300,
-		  items: {
-			xtype: 'gmappanel',
-			region: 'center',
-			zoomLevel: 14,
-			gmapType: 'map',
-			mapConfOpts: ['enableScrollWheelZoom','enableDoubleClickZoom','enableDragging'],
-			mapControls: ['GSmallMapControl','GMapTypeControl','NonExistantControl'],
-			setCenter: {
-			  geoCodeAddr: '<%=@venue.address%>,  USA',
-			  marker: {title: "<%=@venue.title%>"}
-			},
-			markers: [{
-			  lat: 42.339641,
-			  lng: -71.094224,
-			  marker: {title: 'venue'},
-			  listeners: {
-				click: function(e){
-				  Ext.Msg.alert('JazzHouston.com Google Map window', 'and its art.');
-				}
-			  }
-			},{
-			  lat: 42.339419,
-			  lng: -71.09077,
-			  marker: {title: "<%=@venue.title%>"}
-			}]
-		  }
-		});
-	  <% end %>
-
-	  }
-
-	  mapwin.show();
-
-	});
-
-  });
-
-</script>
-
 
 <div id="StageMedium">
   <ul class="breadcrumbs">
@@ -71,87 +10,63 @@
   </ul>
 
 
-  <div class="HeaderShow"><%=@show.performer%></div>
-
-  <div class="inside">
-	<%= render :partial => "common/socialrow", :locals => {
-			:title=>@show.performer,
-			:url=>request.url}%>
-	<div class="hspacer"></div>
-	<table class="index-two-column-small">
-	  <tr>
-		<td valign="top" colspan="2">
-
-		  <%if logged_in? && current_user.editor_flag==1 -%>
-			<div style="float:right;">
-			  <a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
-			</div>
-		  <% end -%>
-		  <% if @show.show_date %>
-			<b>Date:</b>     <%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %> <br/>
-		  <% end %>
-		  <b>Time:</b>
-		  <% if @show.day_of_week && !@show.show_date %>
-			<b><%= dow[@show.day_of_week] %>s</b>,
-		  <% end %>
-		  <%=@show.show_time%>  <br/>
-		  <% if @show.venue  %>
-			<b>Location:</b>   <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a><br/>
-		  <% end %>
-
-		  <div class="hspacer"></div>
-		  <%= @show.about.html_safe %>
-		  <div class="hspacer"></div>
-		  <% if !@show.related_url.blank?
-			   if (@show.related_url !~/^http/i)
-				 @show.related_url = "http://" + @show.related_url
-			   end
-		  %>
-			More info: <a href="<%=@show.related_url%>"><%=@show.related_url%></a>
-		  <% end %>
-		  <br/>
-		  <% if @player%>
-			<b>Musician Profile:</b> <a href="/members/profile/<%= @player.user_id %>"><%=@player.first_name%> <%=@player.last_name%></a>   <br/>
-		  <% end %>
-		  <br/>
-
-		</td>
-	  </tr></table>
-	<div class="hspacer"></div>
+  <div class="StoryTitle">
+	<%=@show.performer%> <% if @show.venue  %>  at
+	  <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a><br/>
+	<% end %>
   </div>
 
-
-  <div class="HeaderShow">
-	<%= @venue.title %>
-  </div>
   <div class="cd-inside">
 
-	<div class="hspacer"></div>
+
+	<%if logged_in? && current_user.editor_flag==1 -%>
+	  <div style="float:right;">
+		<a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
+	  </div>
+	<% end -%>
+	<h1>
+	  <% if @show.show_date %>
+		<%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %>
+	  <% end %>
+	  <% if @show.day_of_week && !@show.show_date %>
+		<%= dow[@show.day_of_week] %>s
+	  <% end %>
+	  <%=@show.show_time%></h1>
+
+	<p class="wordText">  <%=  raw auto_link(@show.about.gsub(/\n\r/, '</p><p>')) %>  </p>
+	<h2>Share</h2>
+		<div class="fb-like" data-href="http://jazzhouston.com/events/details/<%=@show.event_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
+
+		<div class="hspacer"></div>
+
+
 	<% if @venue %>
+	  <h2>About <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a></h2>
+	  <% if @venue.address %>
+		<a name="maplink" id="map-link" ><%=@venue.address%></a>
+	  <% end %>
+	  <% if @venue.phone %>
+		<br/><%=@venue.phone%>
+	  <% end %>
+	  <% if @venue.related_url %>
+		<br/><a href="<%=@venue.related_url%>"><%=@venue.related_url%></a>
+	  <% end %>
+	  <div class="hspacer"></div>
 
-	  <table class="index-two-column-small">
-		<tr>
-		  <td valign="top" colspan="2">
 
-			<%= @venue.about.html_safe %>
+	  <% if !@venue.external_image_url.blank? %>
+		<img src="<%=@venue.external_image_url%>" align="left" hspace="5" width="150">
+	  <% elsif !@venue.photo_url.blank? %>
+		<img src="<%=@venue.photo.url(:large).to_s%>" align="left" hspace="5" width="150">
 
-			<% if !@venue.external_image_url.blank? %>
-			  <img src="<%=@venue.external_image_url%>" align="left" hspace="2" width="150">
-			<% elsif !@venue.photo_url.blank? %>
-			  <%= image_tag @venue.photo.url(:large).to_s, :align=>"left", :width=>"150", :hspace=>"2" %>
-			<% end %>
-			<b>Address:</b> <a name="maplink" id="map-link" ><%=@venue.address%></a>
-			<br/><b>Phone:</b> <%=@venue.phone%>
-			<% if @venue.related_url %>
-			  <br/><b>Web Site:</b> <a href="<%=@venue.related_url%>"><%=@venue.related_url%></a>
-			<% end %>
-			<br/>
-			<a class="blueLink" href="/venues/about/<%= @show.venue_id %>#shows">Upcoming shows at <%=@venue.title%></a>
+	  <% end %><%= @venue.about.html_safe %>
 
-		  </td></tr></table>
+
+	  <div class="hspacer"></div>
+	  <a class="blueLink" href="/venues/about/<%= @show.venue_id %>#shows">Upcoming shows at <%=@venue.title%></a>
+	  <div class="hspacer"></div>
+
 	<% end %>
-
-
 	<div class="hspacer"></div>
 
 

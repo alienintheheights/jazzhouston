@@ -22,7 +22,7 @@ body
   text-align: left;
   margin:0;
   padding:0;
-  background-color: #4c66a4;
+  /**background-color: #4c66a4;**/
 }
 
 
@@ -103,7 +103,8 @@ h3 {
 
 p {
   color : black;
-  margin: 8px 0;
+  margin: 12px 0;
+  font-size: 1.0em;
 }
 
 hr {
@@ -491,10 +492,13 @@ html>body #nav-links li a {
   font-family: "Lucida Grande", Lucida, Verdana, sans-serif ; /*verdana, tahoma, arial, sans-serif; */
 }
 
-.cd-inside .wordText, wordText p {
-  line-height: 1.467em;
-  font-size: 1.1em;
-  font-family: Georgia, arial, sans-serif;
+.cd-inside .wordText, .wordText p {
+  line-height: 1.6em;
+  font-size: 22px;
+  font-weight:400;
+  letter-spacing: .01rem;
+  font-family: Georgia,Cambria,"Times New Roman",Times,serif-webkit-body;
+  margin-top: 15px;
 
 }
 
@@ -682,7 +686,7 @@ text-decoration: none;
 
 
 #news-carousel {
-  max-width: 300px;
+  /**max-width: 300px; **/
 }
 
 .home_news_pic {
@@ -1132,7 +1136,7 @@ table.phone-list a, table.phone-list a:visited {
 
 #jh_shows h2, #jh_cds h2, #forum_listing h2, #news-carousel h2 {
   font-family: tahoma, sans-serif;
-  padding: 5px 0 5px 3px;
+  padding: 5px 0 5px 0;
   background-color: #fafafa;
   color: #2A2A2A;
   font-size: 1.2em;
@@ -1230,6 +1234,11 @@ dl.jh_profile_summary dd {
 }
 
 
+.home_news_teaser {
+	word-wrap: break-word;
+	text-overflow:ellipsis;
+	min-height: 150px;
+}
 
 .ProfileLinks {
   display:block;
@@ -1396,10 +1405,13 @@ a.imageLink:visited {
   padding: 15px 0 15px 0;
 }
 
+.StoryPic {
+  text-align:center;
+}
 
 .StoryHeader
 {
-  font-size: 1.4em;
+  font-size: 1.1em;
   letter-spacing: 0.0em;
   text-align: left;
   padding: 15px 0;
@@ -1408,11 +1420,13 @@ a.imageLink:visited {
 
 .StoryTitle
 {
-  font-size: 1.5em;
+  font-size: 55px;
+  font-weight: 400;
   letter-spacing: 0.0em;
   text-align: left;
   padding: 15px 0;
-  line-height: 1.1em;
+  line-height: 56px;
+  font-family: "TitlingGothicFBMediumComp","Arial Narrow",Arial,sans-serif;
 }
 
 #jh_editor_notice {
@@ -2625,7 +2639,7 @@ ul.storytools li.right a.print {
 }
 
 .navbar-inner {
-  border-radius: 0;
+  border-radius: 5px;
 }
 
 .carousel-control.right {

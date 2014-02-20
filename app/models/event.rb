@@ -23,7 +23,7 @@ class Event < ActiveRecord::Base
     # one-night shows (event_type_id=1)
     shows = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date=?",show_date], :order=>"venues.listeningroom desc, performer, show_time")
     # steady gigs (event_type_id=2)
-    steadies = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=2 and day_of_week=?",dow], :order=>"performer, show_time")
+    steadies = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=2 and day_of_week=?",dow], :order=>"venues.listeningroom desc, performer, show_time")
 
     return shows + steadies
   end
