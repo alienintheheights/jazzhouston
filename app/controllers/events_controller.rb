@@ -9,9 +9,11 @@
 class EventsController < ApplicationController
 
   include AuthenticatedSystem
+  include TwitterModule
+  include TinyUrlHelper
+  include ActionView::Helpers::TextHelper
 
   before_filter :login_required, :only =>[:update, :create, :new, :edit, :destroy, :update_featured]
-
   respond_to :html, :js, :xml, :json
 
   ################################
@@ -19,17 +21,16 @@ class EventsController < ApplicationController
   ################################
 
   # H-TOWN Timezone
-  @@time_zone='Central Time (US & Canada)'
+  @time_zone='Central Time (US & Canada)'
 
   # index page
   def index
 
-    @page_title = (mobile_request?) ? "Shows" : "Local Music Calendar"
-
+    @page_title = (mobile_request?) ? 'Shows' : 'Local Music Calendar'
 
     respond_to do |format|
-      format.html {render :template => "events/index.erb"}
-      format.mobile {render :template => "events/index_mobile.erb"}
+      format.html {render :template => 'events/index.erb'}
+      format.mobile {render :template => 'events/index_mobile.erb'}
       format.json {render :json => shows_on_date.to_json(:include =>:venue  )  }
     end
   end
@@ -39,10 +40,10 @@ class EventsController < ApplicationController
 
     @cur_time = get_requested_date
     # for use in the View
-    @page_title =  @cur_time.strftime("%A, %B %d %Y")
+    @page_title =  @cur_time.strftime('%A, %B %d %Y')
 
     respond_to do |format|
-      format.html {render :template => "events/day.erb"}
+      format.html {render :template => 'events/day.erb'}
       format.json {render :json =>  shows_on_date.to_json(:include =>:venue  )  }
     end
   end
@@ -50,17 +51,17 @@ class EventsController < ApplicationController
 
   # all shows page
   def shows
-    formatted_date = Time.now.in_time_zone(@@time_zone).strftime("%Y-%m-%d")
-    @shows = Event.find(:all, :include => [:venue], :conditions=>["event_type_id=1 and show_date >= ?",formatted_date], :order=>"show_date, venues.listeningroom desc")
+    formatted_date = Time.now.in_time_zone(@time_zone).strftime('%Y-%m-%d')
+    @shows = Event.find(:all, :include => [:venue],
+                        :conditions=>['event_type_id=1 and show_date >= ?',formatted_date],
+                        :order=>'show_date, venues.listeningroom desc')
 
     # for use in the View
-    @page_title = "All Upcoming Shows"
+    @page_title = 'All Upcoming Shows'
   end
 
   # details pages
   def details
-
-
     @show = Event.find(params[:id])
 
     if @show && @show.artist_id && @show.artist_id>0 && User.exists?(@show.artist_id)
@@ -75,8 +76,8 @@ class EventsController < ApplicationController
     @page_title = @show.performer
 
     respond_to do |format|
-      format.html {render :template => "events/details.erb"}
-      format.mobile {render :template => "events/details_mobile.erb"}
+      format.html {render :template => 'events/details.erb'}
+      format.mobile {render :template => 'events/details_mobile.erb'}
       format.json {render :json => @show.to_json(:include =>:venue  )  }
     end
   end
@@ -84,7 +85,7 @@ class EventsController < ApplicationController
 
   # rss feed
   def rss
-    response.headers["Content-Type"] = "application/rss+xml; charset=utf-8"
+    response.headers['Content-Type'] = 'application/rss+xml; charset=utf-8'
 
     render :layout=>false
   end
@@ -92,16 +93,42 @@ class EventsController < ApplicationController
 
   # rss feed
   def rss_block
-    redirect_to :action=>"rssblock"
+    redirect_to :action=>'rssblock'
+  end
+
+  def display_length
+    ActiveSupport::Multibyte::Chars.new(self).normalize(:c).length
+  end
+
+  def post_to_twitter
+    @messages = Array.new
+
+    ## TODO reverse order!
+    unless shows_on_date.nil?
+      shows_on_date.each do |item|
+        link = tinyurl('http://jazzhouston.com/events/details/' + item.event_id.to_s)
+        str = item.performer.to_s + ': ' + item.show_time + ' at ' + item.venue.title.to_s + ' ' + link  + ' #jazzhouston'
+        str = truncate(str, :length => 140)
+        @messages.push(str)
+      end
+      # now post to twitter in reverse order
+      @messages.reverse!
+      @messages.each { |item|
+        # post to Twitter
+        tweet_message(tweet)
+      }
+
+    end
+
   end
 
 
   # rss feed
   def rssblock
-    response.headers["Content-Type"] = "application/rss+xml; charset=utf-8"
+    response.headers['Content-Type'] = 'application/rss+xml; charset=utf-8'
     @cur_time = Time.now
     # hack to fetch shows in blocks of 3 at a time
-    t2 = Time.parse(@cur_time.strftime("%a, %d %b %Y 09:30:00 CST")).in_time_zone(@@time_zone)
+    t2 = Time.parse(@cur_time.strftime('%a, %d %b %Y 09:30:00 CST')).in_time_zone(@time_zone)
     @segment = (2*(@cur_time-t2)/3660).to_int
 
     render :layout=>false
@@ -110,7 +137,7 @@ class EventsController < ApplicationController
 
   # calendar page
   def calendar
-    @page_title = "Calendar"
+    @page_title = 'Calendar'
   end
 
 
@@ -131,8 +158,8 @@ class EventsController < ApplicationController
     end
 
     respond_to do |format|
-      format.mobile { render :template => "events/edit_mobile.erb"   }
-      format.html { render :template => "events/edit.erb"   }
+      format.mobile { render :template => 'events/edit_mobile.erb'   }
+      format.html { render :template => 'events/edit.erb'   }
     end
   end
 
@@ -142,8 +169,8 @@ class EventsController < ApplicationController
     @event.update_attributes(params[:event])
 
     respond_to do |format|
-      format.mobile { redirect_to :event=>@event, :action=>"edit_mobile", :id=>@event.event_id   }
-      format.html { redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id   }
+      format.mobile { redirect_to :event=>@event, :action=>'edit_mobile', :id=>@event.event_id   }
+      format.html { redirect_to :event=>@event, :action=>'edit', :id=>@event.event_id   }
     end
   end
 
@@ -161,8 +188,8 @@ class EventsController < ApplicationController
     @event.save
     flash[:notice] = 'Your event has been created!'
     respond_to do |format|
-      format.mobile {redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id  }
-      format.html {redirect_to :event=>@event, :action=>"edit", :id=>@event.event_id  }
+      format.mobile {redirect_to :event=>@event, :action=>'edit', :id=>@event.event_id  }
+      format.html {redirect_to :event=>@event, :action=>'edit', :id=>@event.event_id  }
     end
   end
 
@@ -172,9 +199,9 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      flash[:notice]="Event Deleted"
-      format.mobile { redirect_to :event=>@event, :action=>"index"   }
-      format.html { redirect_to :event=>@event, :action=>"index"   }
+      flash[:notice]='Event Deleted'
+      format.mobile { redirect_to :event=>@event, :action=>'index'   }
+      format.html { redirect_to :event=>@event, :action=>'index'   }
     end
   end
 
@@ -183,12 +210,12 @@ class EventsController < ApplicationController
   helper_method  :shows_on_date, :remaining_shows_this_week, :jams, :display_date, :dow, :google_map_key
 
   def display_date
-    @cur_time = Time.now.in_time_zone(@@time_zone)
+    @cur_time = Time.now.in_time_zone(@time_zone)
   end
 
 
   def remaining_shows_this_week
-    @remaining_shows_this_week ||= Event.remaining_shows_this_week()
+    @remaining_shows_this_week ||= Event.remaining_shows_this_week
   end
 
   # gets ALL shows (steadies + one-nighters) for the request day
@@ -199,7 +226,7 @@ class EventsController < ApplicationController
   # jam sessions
   def jams
     # Jam Sessions
-    @jams ||= Event.find(:all, :include => [:venue], :conditions=>"jam_flag=1", :order=>"day_of_week, show_time")
+    @jams ||= Event.find(:all, :include => [:venue], :conditions=>'jam_flag=1', :order=>'day_of_week, show_time')
   end
 
   # list of Days of the Week
@@ -216,14 +243,16 @@ class EventsController < ApplicationController
     if !params[:year].nil?  && !params[:month].nil? && !params[:day].nil?
       @cur_time = Time.local(params[:year],params[:month],params[:day])
     else
-      @cur_time = Time.now.in_time_zone(@@time_zone)
+      @cur_time = Time.now.in_time_zone(@time_zone)
     end
   end
 
   # This is the API key for jazzhouston.com and m.jazzhouston.com
   def google_map_key
     # Google API Key
-    @google_map_key = (mobile_request?)? "ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxRu0WNbvnfuRTApAt3p9akP7mvt_BSueC6b0kgIIhtGFn0Ree50gx-z7g" : "ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxQhxxKw40N0I53x6-l4Z3M-dBKQbxTvKrXL8khco-2AjQvIHGVcigFIsQ"
+    @google_map_key = (mobile_request?)?
+        'ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxRu0WNbvnfuRTApAt3p9akP7mvt_BSueC6b0kgIIhtGFn0Ree50gx-z7g' :
+        'ABQIAAAAzdwfpQzkLHpT1vm4p-HpZxQhxxKw40N0I53x6-l4Z3M-dBKQbxTvKrXL8khco-2AjQvIHGVcigFIsQ'
   end
 
 

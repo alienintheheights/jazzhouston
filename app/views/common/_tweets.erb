@@ -1,0 +1,9 @@
+<div class="hspacer"></div>
+<h3>#JazzHouston on Twitter</h3>
+<div id="tweets" class="container homeListing">
+	<% @tweets.each do |tweet| %>
+	<img src="<%=tweet.user.profile_image_url%>" align="left" class="img-polaroid"/>
+	<%= link_to tweet.text, "https://www.twitter.com/#{tweet.user.screen_name}" %>
+	  <div class="hspacer"></div>
+	<% end %>
+</div>
