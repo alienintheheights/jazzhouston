@@ -12,10 +12,8 @@
   </ul>
 
   <div class="cd-inside">
-	<div class="socialrow">
-	  <div class="fb-like" data-href="http://jazzhouston.com/forums/messages/<%=topic.thread_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
-	</div>
-	<div class="StoryHeader">
+
+	<div class="ForumTitle">
 	  <%=topic.title%>
 	  <%= render :partial => "messages_pager", :locals => {:wrap=>true} %>
 	</div>
@@ -88,6 +86,9 @@
 	  <%= render :partial => "messages_pager", :locals => {:wrap=>true} %>
 	</div>
 	<div class="hspacer"></div>
+	<div class="socialrow">
+		  <div class="fb-like" data-href="http://jazzhouston.com/forums/messages/<%=topic.thread_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
+		</div>
 	<%= render :partial => "reply" %>
   </div>
 </div>

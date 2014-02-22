@@ -35,8 +35,9 @@
 
 	<% if @article.image_url %>
 	  <div class="StoryPic">
-		<%= image_tag @article.image_url(:large).to_s, :class=>"img-polaroid", :width=>'400' %>
+	<!--	<%= image_tag @article.image_url(:large).to_s, :class=>"img-polaroid", :width=>'400' %>    -->
 	  </div>
+
 	<% end %>
 	<div class="wordText">
 	  <%= @article.display_date.strftime("%B #{@article.display_date.day.ordinalize} %Y") %>

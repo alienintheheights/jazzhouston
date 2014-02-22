@@ -24,47 +24,43 @@
 		<a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
 	  </div>
 	<% end -%>
-	<h1>
-	  <% if @show.show_date %>
-		<%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %>
-	  <% end %>
-	  <% if @show.day_of_week && !@show.show_date %>
-		<%= dow[@show.day_of_week] %>s
-	  <% end %>
-	  <%=@show.show_time%></h1>
-
+	<h1><% if @show.show_date %><%=  @show.show_date.strftime("%A, %B #{@show.show_date.day.ordinalize}") %><% end %><% if @show.day_of_week && !@show.show_date %><%= dow[@show.day_of_week] %>s
+	  <% end %> <%=@show.show_time%></h1>
+	 <br/>
+	<h2>Event Details</h2>
 	<p class="wordText">  <%=  raw auto_link(@show.about.gsub(/\n\r/, '</p><p>')) %>  </p>
-	<h2>Share</h2>
-		<div class="fb-like" data-href="http://jazzhouston.com/events/details/<%=@show.event_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
-
-		<div class="hspacer"></div>
 
 
 	<% if @venue %>
 	  <h2>About <a href="/venues/about/<%= @show.venue_id %>"><%= @show.venue.title %></a></h2>
-	  <% if @venue.address %>
-		<a name="maplink" id="map-link" ><%=@venue.address%></a>
+	  <% if !@venue.external_image_url.blank? %>
+	  		<img src="<%=@venue.external_image_url%>" align="left" hspace="5" width="150">
+	  	  <% elsif !@venue.photo_url.blank? %>
+	  		<img src="<%=@venue.photo.url(:large).to_s%>" align="left" hspace="5" width="150">
 	  <% end %>
+	  <% if @venue.address %>
+		<a name="maplink" id="map-link" ><a href="http://maps.google.com/maps?q=<%=@venue.address%>"><%=@venue.address%></a>
+	  <% end %>
+
 	  <% if @venue.phone %>
 		<br/><%=@venue.phone%>
 	  <% end %>
 	  <% if @venue.related_url %>
 		<br/><a href="<%=@venue.related_url%>"><%=@venue.related_url%></a>
 	  <% end %>
-	  <div class="hspacer"></div>
+	  <br style="clear:both;"/>
 
 
-	  <% if !@venue.external_image_url.blank? %>
-		<img src="<%=@venue.external_image_url%>" align="left" hspace="5" width="150">
-	  <% elsif !@venue.photo_url.blank? %>
-		<img src="<%=@venue.photo.url(:large).to_s%>" align="left" hspace="5" width="150">
-
-	  <% end %><%= @venue.about.html_safe %>
+	  <%= @venue.about.html_safe %>
 
 
 	  <div class="hspacer"></div>
-	  <a class="blueLink" href="/venues/about/<%= @show.venue_id %>#shows">Upcoming shows at <%=@venue.title%></a>
+	  <a class="blueLink" href="/venues/about/<%= @show.venue_id %>#shows">More events at <%=@venue.title%></a>
 	  <div class="hspacer"></div>
+	  <h2>Share</h2>
+	  <div class="fb-like" data-href="http://jazzhouston.com/events/details/<%=@show.event_id%>/" data-width="250" data-action="recommend" data-show-faces="true" data-send="true"></div>
+	<div class="hspacer"></div>
+
 
 	<% end %>
 	<div class="hspacer"></div>

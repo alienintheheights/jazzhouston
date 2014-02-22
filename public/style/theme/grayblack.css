@@ -143,8 +143,8 @@ a.boldLink:hover {
   background-color: #fff;
   text-align: center;
   font-size: 1.0em;
-  min-height:102px;
-  height:116px;
+  min-height:122px;
+  height:122px;
   padding: 0 0 0 0;
   -moz-border-radius: 15px;
   border-radius: 15px;
@@ -153,7 +153,7 @@ a.boldLink:hover {
 
 #Masthead #logoText {
   float: left;
-  padding: 12px 0 2px 8px;
+  padding: 17px 0 2px 8px;
   letter-spacing: 0.5em;
 
 }
@@ -162,7 +162,7 @@ a.boldLink:hover {
 {
   text-decoration: none;
   border:none;
-  font-size: 32px;
+  font-size: 52px;
   color: #1a1a1a;
 }
 
@@ -170,7 +170,7 @@ a.boldLink:hover {
 {
   text-decoration: none;
   border:none;
-  font-size: 32px;
+  font-size: 52px;
   color: #1a1a1a;
 }
 
@@ -1134,7 +1134,7 @@ table.phone-list a, table.phone-list a:visited {
   padding: 0 10px 0 0;
 }
 
-#jh_shows h2, #jh_cds h2, #forum_listing h2, #news-carousel h2 {
+.homeListing h2 {
   font-family: tahoma, sans-serif;
   padding: 5px 0 5px 0;
   background-color: #fafafa;
@@ -2150,6 +2150,17 @@ div.messageDate {
   font-family:"Lucida Grande","Lucida Sans Unicode","Lucida Sans",Helvetica,Arial,sans-serif;
 }
 
+
+.ForumTitle
+{
+  font-size: 40px;
+  font-weight: 400;
+  letter-spacing: 0.0em;
+  text-align: left;
+  padding: 15px 0;
+  line-height: 56px;
+  font-family: "TitlingGothicFBMediumComp","Arial Narrow",Arial,sans-serif;
+}
 
 .forumThreadBox {
   clear: both;
