@@ -101,12 +101,16 @@ class EventsController < ApplicationController
   end
 
   def post_to_twitter
-    @messages = Array.new
+    @messages = []
 
-    ## TODO reverse order!
     unless shows_on_date.nil?
       shows_on_date.each do |item|
-        link = tinyurl('http://jazzhouston.com/events/details/' + item.event_id.to_s)
+        url = 'http://jazzhouston.com/events/details/' + item.event_id.to_s
+        link = tinyurl(url)
+        # catch Error
+        if link == "Error"
+          link = url
+        end
         str = item.performer.to_s + ': ' + item.show_time + ' at ' + item.venue.title.to_s + ' ' + link  + ' #jazzhouston'
         str = truncate(str, :length => 140)
         @messages.push(str)
@@ -115,7 +119,8 @@ class EventsController < ApplicationController
       @messages.reverse!
       @messages.each { |item|
         # post to Twitter
-        tweet_message(tweet)
+        #tweet_message(item)
+        # moved this code to rake. this is now just to check the output
       }
 
     end
@@ -182,7 +187,7 @@ class EventsController < ApplicationController
   # NEW WRITE
   def create
     @event = Event.new(params[:event])
-    if (@event.artist_id && @event.artist_id>0)
+    if @event.artist_id && @event.artist_id>0
       @player = User.find(@event.artist_id)
     end
     @event.save
