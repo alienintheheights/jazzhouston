@@ -215,7 +215,7 @@ class MembersController < ApplicationController
 	  @user.save
 	  # send the email
 	  if Rails.env.production?
-		Notifier.deliver_signup_notification(@user, "Welcome to Jazzhouston!")
+		Notifier.signup_notification(@user, "Welcome to Jazzhouston!").deliver
 	  end
 
 	  self.current_user=@user
@@ -235,14 +235,15 @@ class MembersController < ApplicationController
   def sendlostpasswordemail
 	if request.post?
 	  @user = User.find_by_username(params[:login].downcase)
-	  if (!@user)
-		flash[:notice]="Member not found."
-	  else
-		key = @user.hash_key
-		if Rails.env.production?
-		  Notifier.deliver_lost_password(@user, "Password reset for jazzhouston?", key)
-		end
-		flash[:notice]="Your password has been sent."
+	  if @user
+
+		  key = @user.hash_key
+		  if Rails.env.production?
+		    Notifier.lost_password(@user, "Password reset for jazzhouston?", key).deliver
+		  end
+		  flash[:notice]="Your password has been sent."
+    else
+      flash[:notice]="User not found?"
 	  end
 	else
 	  flash[:notice]="Please enter your username."
@@ -280,7 +281,7 @@ class MembersController < ApplicationController
 		@user.save(false)
 		# start the session
 		if Rails.env.production?
-		  Notifier.deliver_updated_password(@user, "Password change for jazzhouston")
+		  Notifier.updated_password(@user, "Password change for jazzhouston").deliver
 		end
 		# send them back to the members home page
 		flash[:notice]="Password updated"
@@ -328,7 +329,7 @@ class MembersController < ApplicationController
 		else
 
 		  if Rails.env.production?
-			Notifier.deliver_updated_password(self.current_user, "Password Reset for Jazzhouston")
+			Notifier.updated_password(self.current_user, "Password Reset for Jazzhouston").deliver
 		  end
 		  cookies.delete :auth_token
 		  reset_session
@@ -422,8 +423,10 @@ class MembersController < ApplicationController
 	respond_to do |format|
 	  format.html  {render :template => "members/create.erb"}
 	  format.mobile {render :template => "members/create_mobile.erb"}
-	end
+  end
 
+  rescue ActiveRecord::RecordInvalid => invalid
+    flash[:error]="Sorry that username has been taken already. Please pick another "
   end
 
 
@@ -589,7 +592,7 @@ class MembersController < ApplicationController
 	end
 	subject="Please confirm your registration at Jazzhouston"
 	# send the email
-	Notifier.deliver_confirmation_email(user, subject, user.hash_key)
+	Notifier.confirmation_email(user, subject, user.hash_key).deliver
   end
 
 

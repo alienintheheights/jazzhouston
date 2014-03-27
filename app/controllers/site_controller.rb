@@ -34,7 +34,7 @@ class SiteController < ApplicationController
 
       if email
         # def feedback(to, name, email, subject, message, sent_at = Time.now)
-        Notifier.deliver_feedback(@feedback_email, name, email, 'Feedback from Jazzhouston', params[:message])
+        Notifier.feedback('notification@jazzhouston.com', name, email, 'Feedback from Jazzhouston', params[:message]).deliver
         flash[:notice] = 'Your feedback was sent. Thank you.'
       else
         flash[:notice] = 'Please include an email address'
