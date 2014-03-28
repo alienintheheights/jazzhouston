@@ -15,7 +15,6 @@ Febrary 2014: upgraded to rails 3.2.0, the apparent limit for the hosting servic
 
 UPDATE::
 
-March 2014: migrating all registration code to Devise 2.0; refactoring fat controllers to use service objects. Work underway.
-
+March 2014: migrating all registration code to Devise 2.0; refactoring fat controllers to use service objects. Fixing RESTless routing issues too. Much of this is related to original 2008-era Rails 2.x code. Work underway. 
 
 
