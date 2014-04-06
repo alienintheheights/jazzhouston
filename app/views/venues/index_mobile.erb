@@ -3,7 +3,7 @@
 <% end %>
 <div data-role="content">
   ><a href="/">Home</a>>Venues
-  <%if logged_in? && current_user.editor_flag==1 -%>
+  <%if user_signed_in? && current_user.editor_flag==1 -%>
 	<div style="float:right;">
 	  <a href="/venues/new"><img src="/images/icons/reply.png" border="0" alt="edit"></a> <br/>
 	</div>

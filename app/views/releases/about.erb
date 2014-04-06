@@ -17,7 +17,7 @@
     %>
     <div class="StoryHeader">
       <%=album.artist_name%>: <%=album.title%>
-      <% if (logged_in? && (current_user.editor_flag==1)) %>
+      <% if (user_signed_in? && (current_user.editor_flag==1)) %>
           <a href="/releases/edit/<%=album.album_id%>"><img src="/images/icons/reply.png" border="0" alt="edit"></a>
       <% end %>
     </div>

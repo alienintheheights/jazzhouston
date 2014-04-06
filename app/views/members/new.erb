@@ -9,12 +9,12 @@
 	var email_info = $("#email_info");
 
 	var username_group = $("#username_group");
-	var username = $("#user_username");
+	var username = $("#registration_username");
 	var username_info = $("#username_info");
 
 
 	var pass_group = $("#password_group");
-	var pass = $("#user_password");
+	var pass = $("#registration_password");
 	var pass_info = $("#pass_info");
 
 
@@ -51,26 +51,24 @@
 
 	var validateUsername = function(){
 	  var name = username.val();
-	  if (name && name!="") {
-		checkUsername(name);
-	  }
+
 	  //if it's NOT valid
 	  if(!name){
 		username_group.addClass("error");
 		username_info.text("A username is required");
 		return false;
-	  }
-	  else if(/^[ ]+$/.test(username)){
+	  } else if(/\s/g.test(name)){
 		username_group.addClass("error");
 		username_info.text("No spaces in a username");
 		return false;
 	  }
-	  //if it's valid
-	  else{
-		username_group.removeClass("error");
-		username_info.text("");
-		return true;
+	  if (name && name!="") {
+	 	checkUsername(name);
 	  }
+	  //if it's valid
+	  username_group.removeClass("error");
+	  username_info.text("");
+	  return true;
 	};
 
 	var validatePass = function(){
@@ -134,7 +132,8 @@
 	  var v1 = validateLastName();
 	  var v2 = validateEmail();
 	  var v3 = validatePass();
-	  return (v1 && v2 && v3 );
+	  var v4 = validateUsername();
+	  return (v1 && v2 && v3 && v4);
 	});
 
 
@@ -175,17 +174,18 @@
 	  <div id="username_group" class="control-group">
 		<label class="control-label" for="user[username]">Username</label>
 		<div class="controls">
-		  <%= f.text_field :username, :size=>30, :placeholder=>"Username" ,:value =>escape_javascript(@user.username) %>
+		  <%= f.text_field :username, :id=>"registration_username", :size=>30, :placeholder=>"Username" ,:value =>escape_javascript(@user.username) %>
 		  <span id="username_info" class="help-inline"></span>
 		</div>
 	  </div>
 	  <div id="password_group" class="control-group">
 		<label class="control-label" for="user[password]">Password</label>
 		<div class="controls">
-		  <%= f.password_field :password, :size=>30  %>
+		  <%= f.password_field :password, :id=>"registration_password",:size=>30  %>
 		  <span id="pass_info" class="help-inline"></span>
 		</div>
 	  </div>
+
 	  <div id="first_name_group" class="control-group">
 		<label class="control-label" for="user[first_name]">First Name</label>
 		<div class="controls">
@@ -203,7 +203,7 @@
 	  <div class="control-group">
 		<label class="control-label" for="imageChallenge">Do some Math</label>
 		<div class="controls">
-		  <input type="text" name="imageChallenge" style="width:20px;"><img src="/members/challenge_image">
+		  <input type="text" name="imageChallenge" style="width:20px;"><img src="/site/challenge_image">
 		  <br/>
 		</div>
 		<label class="control-label" for="imageChallenge"></label>

@@ -1,11 +1,11 @@
 <%
-   if logged_in? && (!flash[:notice] || flash[:notice]=="")
+   if user_signed_in? && (!flash[:notice] || flash[:notice]=="")
        flash[:notice]="Welcome #{current_user.first_name}"
    end
 %>
 <div data-role="content">
    <%= render :partial => "common/notice" %>
-    <%if logged_in? -%>
+    user_signed_in?d_in? -%>
         <div id="StageColumnLeft">
           <b>Account Options</b>
           <div class="hspacer"></div>

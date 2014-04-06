@@ -176,9 +176,9 @@
 			<div class="triangle-isosceles top messageBody" style="<% if (item.rating>rating_threshold) %>display:block;<% else %>display:none;<% end%>"  id="message_<%=item.message_id%>">
 			  <div class="voting-block">
 				<div id="score_<%=item.message_id%>">
-				  <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post('<%=item.message_id%>', 'UP', '<%=logged_in?%>')"><img title="vote UP" src="/images/icons/vote_yes3.png" style="vertical-align:middle;cursor:pointer;" alt="thumbs up" vspace="0" /></a>
+				  <a class="messageImg" href="javascript:void(0)" onclick="jh.forums.rate_post('<%=item.message_id%>', 'UP', '<%=user_signed_in?%>')"><img title="vote UP" src="/images/icons/vote_yes3.png" style="vertical-align:middle;cursor:pointer;" alt="thumbs up" vspace="0" /></a>
 				  <% if item.rating != 0 %><div class="ratingValue"><%= item.rating %></div> <% end %>
-				  <a class="messageImg"  href="javascript:void(0)"onclick="jh.forums.rate_post('<%=item.message_id%>', 'NO', '<%=logged_in?%>')"><img title="vote DOWN" src="/images/icons/vote_no3.png" border="0" style="vertical-align:middle;cursor:pointer;" alt="thumbs down" vspace="0" hspace="3"/></a>
+				  <a class="messageImg"  href="javascript:void(0)"onclick="jh.forums.rate_post('<%=item.message_id%>', 'NO', '<%=user_signed_in?%>')"><img title="vote DOWN" src="/images/icons/vote_no3.png" border="0" style="vertical-align:middle;cursor:pointer;" alt="thumbs down" vspace="0" hspace="3"/></a>
 				</div>
 				<div class="message-timestamp">
 				  <%=distance_of_time_in_words(Time.now, item.pdate)%> ago
@@ -199,7 +199,7 @@
   <% end %>
 
 
-  <% if logged_in? -%>
+  <% if user_signed_in? -%>
 	<%  topic.posts.build %>
 	<div class="row-fluid">
 	  <div class="span10 well">

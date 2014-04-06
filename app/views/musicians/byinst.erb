@@ -100,7 +100,7 @@
 	  <a href="/musicians">Musician Roll-A-Dex</a>
 	</li>
 	<li>
-	  <%= render :partial => "instruments", :locals => { :instruments => instruments} %>
+	Browse by Instrument:  <%= render :partial => "instruments", :locals => { :instruments => instruments} %>
 	</li>
   </ul>
   <%= render :partial => "pager", :locals => { :page => @page,  :total =>@total_players, :page_size=>@page_size}%>

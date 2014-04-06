@@ -25,7 +25,7 @@
 		<div class="StoryHeader">
 
 		  <div class="StoryTitle"><%=@article.title%> </div>
-		  <%if logged_in? && current_user.editor_flag==1 -%>
+		  <%if user_signed_in? && current_user.editor_flag==1 -%>
 			<a style="font-size:12px;" href="/articles/edit/<%=@article.content_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit Story</a>
 		  <% end %>
 	  <% end -%>

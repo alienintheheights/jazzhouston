@@ -8,7 +8,9 @@
 
 class ReleasesController < ApplicationController
 
-  before_filter :login_required, :only =>[:new, :edit, :update, :create]
+  include JazzhoustonAuth
+
+  before_filter :is_editor?, :only =>[:new, :edit, :update, :create]
 
   ################################
   # ACTIONS

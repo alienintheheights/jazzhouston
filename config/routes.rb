@@ -1,4 +1,6 @@
 Jazzhouston::Application.routes.draw do
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -50,12 +52,47 @@ Jazzhouston::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => "welcome#index"
 
+#TODO clean this up, best RESTful etc
 root :to => 'home#index'
+
+devise_for :users,
+             :controllers => { :registrations => "devise/registrations",
+                               :confirmations => "devise/confirmations",
+                               :sessions => 'devise/sessions',
+                               :passwords => 'passwords'},
+             :skip => [:sessions] do
+    get '/login'   => "devise/sessions#new",       :as => :new_user_session
+    post '/login'  => 'devise/sessions#create',    :as => :user_session
+    get '/logout'  => 'devise/sessions#destroy',   :as => :destroy_user_session
+    get "/register"   => "devise/registrations#new",   :as => :new_user_registration
+end
+
+#devise_for :users do get '/users/sign_out' => 'devise/sessions#destroy' end
+ # resources :users
+
+=begin
+
+devise_for :users, path: "auth", path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    password: 'secret',
+    confirmation: 'verification',
+    unlock: 'unblock',
+    registration: 'register',
+    sign_up: 'cmon_let_me_in' }
+
+devise_scope :user do
+  get "sign_in", to: "devise/sessions#new"
+  get '/users/sign_out' => 'devise/sessions#destroy'
+end
+=end
 
 match 'home/mobile' => 'home#mobile'
 #resources :releases
 match 'venues/search_ext' => 'venues#search_ext'
 resources :venues
+
+
 match 'articles/words/:id' => 'articles#words'
 match 'articles/reviews' => 'articles#reviews'
 match 'articles/artists' => 'articles#artists'
@@ -67,6 +104,8 @@ match 'articles/search_articles_url_ext' => 'articles#search_articles_url_ext'
 match 'news' => 'articles#index'
 match 'news/reviews' => 'articles#reviews'
 resources :articles
+
+
 match 'events/:year/:month/:day' => 'events#day'
 #resources :events
 
@@ -77,14 +116,9 @@ match 'forums/new' => 'forums#new'
 match 'forums' => 'forums#create', :via => :post
 match 'forums/vote' => 'forums#vote', :format => false  , :via => :get
 
-#match 'forums/messages' => 'forums#update', :via => :post
+#match 'users/:id' => 'members#profile', via: :get
 
 match 'members/challenge_image'  => 'members#challenge_image'
-match 'members/logout'  => 'members#logout'
-match 'members/login'  => 'members#login'
-match 'members/vcard/:id'  =>'musicians#vcard'
-match 'members/confirm/:username/:key'  => 'members#confirm', :constraints  => { :username => /[0-z\.]+/ }
-match 'members/resetpassword/:username/:key'  => 'members#resetpassword'
 
 match '/:controller(/:action(/:id))'
 

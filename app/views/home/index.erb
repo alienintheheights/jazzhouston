@@ -1,5 +1,26 @@
-<!-- Stage for home page -->
+<script language="JavaScript">
+  $('#myModal').on('hidden.bs.modal', function () {
+    $(this).removeData('bs.modal');
+  });
+</script>
 
+<!-- Profile Modal -->
+<div class="modal fade hide" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
+  <div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	<h3 id="myModalLabel">Modal header</h3>
+  </div>
+  <div class="modal-body">
+	<p>Loading…</p>
+  </div>
+  <div class="modal-footer">
+	<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+	<button class="btn btn-primary">Save changes</button>
+  </div>
+</div>
+
+
+<!-- Stage for home page -->
 <div id="StageHome" >
 
 
@@ -17,7 +38,7 @@
 
 		  <!-- START Shows -->
 		  <div class="row-fluid">
-			<div class="span12" id="jh_shows">
+			<div class="span12 homeListing" id="jh_shows">
 
 			  <h2 id="show_listing_header">Appearing Today</h2>
 			  <div class="hspacer"></div>
@@ -42,13 +63,12 @@
 
 		  <!-- START Forums -->
 		  <div class="row-fluid">
-			<div class="span12" id="forum_listing">
+			<div class="span12 homeListing" id="forum_listing">
 			  <div class="hspacer"></div>
 			  <h2>Forum Chatter</h2>
 			  <% for post in topic_list %>
 
 				  <%= render :partial => "common/renderpic", :locals => { :user => post.user, :size =>"60"} %>
-
 
 				  <a class="forum-row-home" href="/forums/messages/<%=post.thread_id%>"><%= truncate(post.title, :length => 40) %></a>
 				  <% if !post.user.nil? %>
@@ -68,7 +88,7 @@
 		<!-- START News Rotator  -->
 		<div class="span6">
 
-		  <div id="news-carousel" class="span12" >
+		  <div id="news-carousel" class="span12 homeListing" >
 			<h2>What's Up?</h2>
 			<div  id="news-carousel-div">
 			  <%
@@ -110,6 +130,7 @@
 	  </div>
 	  <!-- END About JH -->
 	</div>
+
   </div>
 
 

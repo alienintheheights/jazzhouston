@@ -1,7 +1,7 @@
 <div id="StageNarrow">
     <div class="inside">
         <div class="HeaderTitle">Upload your photo</div>
-        <% if logged_in? %>
+        <% if user_signed_in? %>
             <div class="flash-alert">
                 <%= flash[:notice] %>
                  <%= flash[:error] %>

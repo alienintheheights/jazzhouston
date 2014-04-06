@@ -2,7 +2,7 @@
   <div class="inside">
     <div id="MemberBox">
 
-      <% if logged_in? -%>
+      <% if user_signed_in? -%>
 	      <span id="MemberBoxView">
               <a href="/members/profile/<%= current_user.username %>"><%= "#{(current_user.username)}" %></a>::<a href="/members/logout/">logoff</a>
               </span>

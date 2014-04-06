@@ -1,5 +1,5 @@
 class Event < ActiveRecord::Base
-  set_primary_key "event_id"
+  self.primary_key="event_id"
   belongs_to :venue
   has_one :user, :foreign_key => "user_id"
 

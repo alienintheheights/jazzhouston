@@ -185,7 +185,7 @@
 
 	<% end %>
 	<div class="hspacer"></div>
-	<% if logged_in? && (current_user.id==1) -%>
+	<% if user_signed_in? && (current_user.id==1) -%>
 	  <div class="hspacer"></div>
 	  <div class="Header">Super Power!!</div>
 	  <%= form_for @user, :url => { :action => "upgrade"}, :html => { :onsubmit => "return upgrade_confirm();", :class => "form-horizontal well"  }     do |f| %>

@@ -7,7 +7,7 @@
 	  <%= render :partial => "pager", :locals => { :forum_board => @forum_board }%>
 	</div>
 	<div class="forumNewTopicLink">
-	  <% if logged_in? %>
+	  <% if user_signed_in? %>
 		<%= link_to "+new topic", {:action => "new", :controller=>"forums", :board_id=>@forum_board.board_id}, :class=>"newTopic" %>
 	  <% end %>
 	</div>

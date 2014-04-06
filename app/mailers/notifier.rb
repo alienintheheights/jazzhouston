@@ -30,9 +30,9 @@ class Notifier < ActionMailer::Base
 
   def feedback(to, name, email, subject, message)
     @message = message
-    @name = name
-    @email = email
-    mail(:to => to, :from => email, :subject => subject)
+    @sender_name = name
+    @sender_email = email
+    mail(:to => to, :reply_to => email || to, :subject => subject)
   end
 
 

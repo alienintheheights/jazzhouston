@@ -6,8 +6,10 @@
   <% end %>
 
 
-  <% if flash[:notice] %>
+  <% if flash[:notice] || flash[:error] || flash[:alert] %>
 	<div class="row-fluid">
-	  <div class="alert alert-error span12"><%=flash[:notice]%></div>
+	  <div class="alert alert-error span12">
+		<%=flash[:notice] ||flash[:error] || flash[:alert] %></div>
 	</div>
   <% end %>
+

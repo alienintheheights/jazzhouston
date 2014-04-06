@@ -3,7 +3,7 @@
 <div data-role="content">
   <ul data-role="listview">
 	<li>
-	  <% if logged_in? %>
+	  <% if user_signed_in? %>
 		<% if @board.nil? %>
 		  <%= link_to "+new topic", {:action => "new", :controller=>"forums"} %>
 		<% else %>

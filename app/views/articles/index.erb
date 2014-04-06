@@ -53,7 +53,7 @@
   </ul>
 
   <div class="home-inside">
-	<%= render :partial => "header", :locals => {:section_id =>@section_id, :skip_pager=>false}%>
+	<%= render :partial => "header", :locals => {:skip_pager=>false}%>
 
 
 	<table class="index-two-column">
@@ -68,7 +68,7 @@
 		  <% elsif item.image_url %>
 			<%= image_tag item.image_url(:small).to_s, :class=>"img-polaroid", :align=>"left",:width=>'120', :height=>'120',:hspace=>'2', :style=>"height:120px;width:120px;" %>
 		  <% end %>
-		  <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@section_id, :page=>@page}, :class=>"blueLink"%>
+		  <%= link_to item.title, {:action => "words",  :id=>current_id, :type=>@section_id}, :class=>"blueLink"%>
 		  <% if item.display_date && item.author && item.author.downcase!="press release" %>
 
 			<% end %><%=item.teaser %>

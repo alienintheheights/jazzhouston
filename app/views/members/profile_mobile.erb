@@ -17,7 +17,7 @@
 %>
 <div data-role="content">
 
-  <% if (logged_in? && current_user.user_id==@member.user_id && (!@member.image || @member.image=="")) %>
+  <% if (user_signed_in? && current_user.user_id==@member.user_id && (!@member.image || @member.image=="")) %>
 	<div id="fastLinks">
 	  Enhance your profile by uploading a photo. Click <a class="blueLink" href="/members/edit/<%=@member.user_id%>">here</a>
 	</div>
@@ -96,7 +96,7 @@
 		  <%=@member.location%>
 		<% else %>
 		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
+		  <%user_signed_in?d_in? && current_user.user_id==@member.user_id) %>
 			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
 		  <% end %>
 		<% end %>
@@ -106,7 +106,7 @@
 		  <%=@member.occupation%>
 		<% else %>
 		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
+	user_signed_in?logged_in? && current_user.user_id==@member.user_id) %>
 			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
 		  <% end %>
 		<% end %>
@@ -116,8 +116,7 @@
 		<% if !@member.favorite_music.blank? %>
 		  <%=@member.favorite_music%>
 		<% else %>
-		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
+		  <span class="none_entered">none entered</spuser_signed_in? if (logged_in? && current_user.user_id==@member.user_id) %>
 			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
 		  <% end %>
 		<% end %>
@@ -126,8 +125,7 @@
 		<% if !@member.favorite_films.blank? %>
 		  <%=@member.favorite_films%>
 		<% else %>
-		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
+		  <span class="none_entered">none entereuser_signed_in?	  <% if (logged_in? && current_user.user_id==@member.user_id) %>
 			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
 		  <% end %>
 		<% end %>

@@ -8,12 +8,13 @@
 
 class EventsController < ApplicationController
 
-  include AuthenticatedSystem
   include TwitterModule
   include TinyUrlHelper
   include ActionView::Helpers::TextHelper
+  include JazzhoustonAuth
 
-  before_filter :login_required, :only =>[:update, :create, :new, :edit, :destroy, :update_featured]
+  before_filter :is_editor?, :only =>[:update, :create, :new, :edit, :destroy, :update_featured]
+
   respond_to :html, :js, :xml, :json
 
   ################################

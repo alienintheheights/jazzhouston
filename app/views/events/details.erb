@@ -19,7 +19,7 @@
   <div class="cd-inside">
 
 
-	<%if logged_in? && current_user.editor_flag==1 -%>
+	<%if user_signed_in? && current_user.editor_flag==1 -%>
 	  <div style="float:right;">
 		<a href="/events/edit/<%=@show.event_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a><br/>
 	  </div>

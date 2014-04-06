@@ -4,7 +4,7 @@ class Content < ActiveRecord::Base
   attr_accessible :title, :content_type_id, :content_sub_type, :author, :body_text,
 				  :local_flag, :external_image_url, :photo_file_name, :author_id,
 				  :status_id, :teaser, :related_url, :html_break_flag,
-				  :display_date, :image
+				  :display_date, :image, :sub_title
 
   ## CarrierWave gem
   mount_uploader :image, AvatarUploader, :mount_on => :photo_file_name

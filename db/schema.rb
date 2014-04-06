@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130830231425) do
+ActiveRecord::Schema.define(:version => 20140405232300) do
 
   create_table "albums", :primary_key => "album_id", :force => true do |t|
     t.string  "title",           :limit => 75, :default => "", :null => false
@@ -278,7 +278,7 @@ ActiveRecord::Schema.define(:version => 20130830231425) do
 
   create_table "users", :primary_key => "user_id", :force => true do |t|
     t.string    "username",                                        :default => "", :null => false
-    t.string    "password",                  :limit => 25
+    t.string    "legacy_password_field",     :limit => 25
     t.string    "fullname"
     t.string    "email"
     t.string    "url"
@@ -311,6 +311,19 @@ ActiveRecord::Schema.define(:version => 20130830231425) do
     t.integer   "is_band",                                         :default => 0
     t.string    "twitter_name"
     t.string    "hide_email"
+    t.string    "encrypted_password",                              :default => "", :null => false
+    t.string    "reset_password_token"
+    t.datetime  "reset_password_sent_at"
+    t.datetime  "remember_created_at"
+    t.integer   "sign_in_count",                                   :default => 0
+    t.datetime  "current_sign_in_at"
+    t.datetime  "last_sign_in_at"
+    t.string    "current_sign_in_ip"
+    t.string    "last_sign_in_ip"
+    t.string    "confirmation_token"
+    t.datetime  "confirmed_at"
+    t.datetime  "confirmation_sent_at"
+    t.string    "unconfirmed_email"
   end
 
   add_index "users", ["local_player_flag"], :name => "local_player_flag"
@@ -341,6 +354,7 @@ ActiveRecord::Schema.define(:version => 20130830231425) do
     t.string  "photo_content_type"
     t.integer "photo_file_size"
     t.string  "photo"
+    t.string  "listeningroom",      :limit => 45
   end
 
   add_index "venues", ["featured_flag"], :name => "featured_flag"

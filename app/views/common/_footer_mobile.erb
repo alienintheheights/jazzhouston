@@ -4,14 +4,14 @@
   <ul data-role="listview" data-theme="d" data-icon="false">
 	<li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
 
-	<% if logged_in? %>
+	<% if user_signed_in? %>
 	  <li data-role="list-divider">Welcome <%=current_user.first_name%></li>
 	  <li><%= render :partial => "common/renderpic", :locals => { :user => current_user, :size =>"40"} %><a href="/members/profile/<%=current_user.username%>">Profile</a></li>
 	  <li><a href="/members/edit/<%=current_user.user_id%>">Settings</a></li>
 	  <li><a data-ajax="false" href="/members/logout/<%=current_user.username%>">Sign Out</a></li>
 	  <% if current_user.admin_flag==1 %>
 		<li data-role="list-divider">Site Editors</li>
-		<li><a rel="external" href="/site/toggledesktop">click to use non-mobile version.</a> </li>
+		<li><a rel="external" href="/site/toggle?t=desktop">click to use non-mobile version.</a> </li>
 	  <% end %>
 	  </ul>
 	<% else %>
@@ -42,7 +42,7 @@
 	<ul data-role="listview" data-theme="d" data-icon="false">
 	    <li data-role="list-divider">Site View</li>
 	  <% if cookies[:prefer_full_site].blank? %>
-		<li><a rel="external" href="/site/toggledesktop">Switch to the non-mobile version</a> </li>
+		<li><a rel="external" href="/site/toggle?t=desktop">Switch to the non-mobile version</a> </li>
 	  <% end %>
 	</ul>
 

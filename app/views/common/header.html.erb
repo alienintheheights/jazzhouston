@@ -23,29 +23,31 @@
   </div>
   <div class="modal-body">
 	<div class="row-fluid">
-	  <%= form_tag "/members/login", :method=>"post" do -%>
+	  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+
 		<div class="control-group">
 		  <label class="control-label" for="inputEmail">Username</label>
 		  <div class="controls">
-			<input type="text" id="login" name="login" placeholder="username">
+			<%= f.text_field :username, :autofocus => true %>
 		  </div>
 		</div>
 		<div class="control-group">
 		  <label class="control-label" for="inputPassword">Password</label>
 		  <div class="controls">
-			<input type="password" id="password" name="password" placeholder="Password">
+			<%= f.password_field :password %>
 		  </div>
 		</div>
 		<div class="control-group">
 		  <div class="controls">
 			<label class="checkbox">
-			  <input type="checkbox" name="remember_me" checked> Remember me (for auto-login on new visits)
+			  <% if devise_mapping.rememberable? -%>
+			     <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+			   <% end -%>
 			</label>
-			<%= submit_tag 'Sign In', :class=>"btn" %>
+			<%= f.submit "Sign in" , :class=>"btn" %>
 		  </div>
 		  <br/><br/>
-		  <a href="/members/sendlostpasswordemail">Forgot your password?</a>  |
-		  <a href="/members/new">Register</a>
+		  <%= render "devise/shared/links" %>
 
 		</div>
 
@@ -55,7 +57,7 @@
 </div>
 <!-- END Modal-->
 
-<%if logged_in? && current_user.editor_flag==1 -%>
+<%if is_editor? -%>
   <!-- Modal Admin-->
   <div id="modal-admin" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-admin-Label" aria-hidden="true">
 	<div class="modal-header">
@@ -96,17 +98,17 @@
 			<a href="http://jazzhouston.com/events/rss"><img width="40" align="top" src="/images/icon_hopout_rss.png" border="0"></a>
 		  </div>
 		  <div id="MemberBox">
-			<% if logged_in? -%>
+			<% if is_logged_in? -%>
 			  <a  href="/members/profile/<%= current_user.username %>">profile</a> |
 			  <a href="/members/edit/<%= current_user.user_id %>">settings</a>  |
-			  <%if logged_in? && current_user.editor_flag==1 -%>
+			  <%if is_editor? -%>
 				<a href="#modal-admin" role="button" data-toggle="modal">editor</a>  |
 			  <% end %>
-			  <a href="/members/logout/">logout</a>
+			  <%= link_to 'logout', destroy_user_session_path, :method=>'delete' %>
 			<% else -%>
-			  <a href="#modal-login" role="button" data-toggle="modal">login</a>  |
-			  <a href="/members/new">register</a> |
-			  <a href="/members/sendlostpasswordemail">lost password</a>
+			  <a href="#modal-login" role="button" data-toggle="modal">login</a>
+			  <%= link_to '| register', new_user_registration_path %> |
+			  <%= link_to 'lost password', new_user_password_path %></a>
 			<% end -%>
 		  </div>
 		</div>
@@ -118,7 +120,7 @@
 			<div class="navbar-inner">
 			  <ul class="nav">
 				<% if !cookies[:prefer_full_site].blank? && mobile_request? %>
-				  <li><a href="/site/togglemobile">Mobile Site</a> </li>
+				  <li><a href="/site/toggle?t=mobile">Mobile Site</a> </li>
 				<% end %>
 				<li> <a <% if current_page?(:controller => 'home') %>class='selected'<% end %> href="/home">Home</a></li>
 				<li><a <% if current_page?(:controller => 'events') %>class='selected'<% end %> href="/events">Shows</a></li>

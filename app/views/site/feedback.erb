@@ -5,9 +5,7 @@
 
   <div class="inside">
 
-    <div class="flash-alert">
-      <%= flash[:notice] %>
-    </div>
+	<%= render :partial => "common/notice" %>
 
     Please use this form to submit your feedback and requests for gigs, CD's, news, etc. It will be sent to our editor content team for review.
     <br/><br/>
@@ -40,7 +38,7 @@
       <input type="text" name="email"/>
       <br/><br/>
       <b>Your Message</b><br/>
-      <textarea name="message" cols="50" rows="25"></textarea>
+      <textarea name="message" cols="80" rows="25"></textarea>
       <input type="hidden" name='authenticity_token' value= '<%= form_authenticity_token() %>'/>
       <br/><br/>
       <b>Now add these numbers:</b>

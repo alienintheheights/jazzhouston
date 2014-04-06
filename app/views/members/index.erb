@@ -1,150 +1,157 @@
 <link rel="stylesheet" href="/common/js/jquery/css/jquery-ui.css" type="text/css" media="all" />
 <script src="/common/js/libs/jquery-ui.min.js" type="text/javascript"></script>
 <script type="text/javascript">
-    /**
-     * On-Ready jQuery block
-     */
-    $(function() {
+  /**
+   * On-Ready jQuery block
+   */
+  $(function() {
 
-        // artist search
-        $( "#jh_musician_search" ).autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url:"/members/search",
-                    dataType: "json",
-                    data: {
-                        query: request.term,
-                        maxRows: 15
-                    },
-                    success: function(data) {
-                        response($.map(data.results, function(item) {
-                            return {
-                                label: item.first_name +' '+ item.last_name,
-                                value: item.user_id
-                            }
-                        }))
-                    }
-                })
-            },
-            dataType: 'json',
-            minLength: 4,
-            select: function( event, ui ) {
-                event.preventDefault();
-                window.location = '/members/profile/' + ui.item.value;
-            }
-        });
+	// artist search
+	$( "#jh_musician_search" ).autocomplete({
+	  source: function(request, response) {
+		$.ajax({
+		  url:"/members/search",
+		  dataType: "json",
+		  data: {
+			query: request.term,
+			maxRows: 15
+		  },
+		  success: function(data) {
+			response($.map(data.results, function(item) {
+			  return {
+				label: item.first_name +' '+ item.last_name,
+				value: item.user_id
+			  }
+			}))
+		  }
+		})
+	  },
+	  dataType: 'json',
+	  minLength: 4,
+	  select: function( event, ui ) {
+		event.preventDefault();
+		window.location = '/members/profile/' + ui.item.value;
+	  }
+	});
 
 
-    });
+  });
 
 </script>
 
 
 <div id="StageNarrow">
   <ul class="breadcrumbs">
-    <li>
-      <a href="/members">Member Center</a>
-    </li>
+	<li>
+	  <a href="/members">Member Center</a>
+	</li>
   </ul>
 
   <div class="inside">
 
 	<%= render :partial => "common/notice" %>
 
-    <%if logged_in? -%>
-        <div id="StageColumnLeft">
-          <b>Account Options</b>
-          <div class="hspacer"></div>
-          Profile: <a  class="blueLink" href="/members/edit/<%=current_user.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a> |
-          <a href="/members/profile/<%=current_user.username%>">View</a>
-          <div class="hspacer"></div>
-          <a href="/members/changepassword/<%=current_user.user_id%>" class="blueLink">Change your password</a>
-          <div class="hspacer"></div>
-          <a href="/members/logout">Sign Out</a>
+	<%if user_signed_in? -%>
+	  <div id="StageColumnLeft">
+		<b>Account Options</b>
+		<div class="hspacer"></div>
+		Profile: <a  class="blueLink" href="/members/edit/<%=current_user.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a> |
+		<a href="/members/profile/<%=current_user.username%>">View</a>
+		<div class="hspacer"></div>
+		<a href="/members/changepassword/<%=current_user.user_id%>" class="blueLink">Change your password</a>
+		<div class="hspacer"></div>
+		<a href="/members/logout">Sign Out</a>
 
-        </div>
-        <div id="StageColumnRight">
-          <% if current_user.editor_flag==1 %>
-              <b>Site Editor Options</b>
-              <div class="hspacer"></div>
-              Content Editing has changed with this new release of Jazzhouston.
-              See <a class="blueLink" href="/site/editor">Editor Home</a> for details.
-              <div class="hspacer"></div>
-          <% else %>
-              <b>Did you know?</b>
-              <div class="hspacer"></div>
-              If you are a musician and would like to be listed in the musician's directory,
-              simply click the <a href="/members/edit/<%=current_user.user_id%>">edit user</a>
-              link. Once there, select the Musician's tab and check the box to open a list of
-              instruments. Once you've added your instruments, you'll be in the <a href="/musicians">Musician's Listing</a>.
-              <div class="hspacer"></div>
-              *NEW* -- If you would like to ignore certain users in the forum, check out the new <a href="/forums/ban_list">Ignore User</a>
-              feature.
-          <% end %>
-        </div>
-    <% else -%>
-        <div id="StageColumnLeft">
-          <div class="StoryHeader">Join</div>
-          If you haven't already joined, click to <a class="blueLink" href="/members/new">JOIN NOW!</a>
-          <br/><br/>
-          <b>Membership Benefits:</b>
-          <div class="hspacer"></div>
-          <ul>
-            <li>Listings in the Musician's <a class="blueLink" href="/musicians">Roll-a-Dex</a></li>
-            <li>Access to the JazzHouston <a class="blueLink" href="/forums">Forums</a></li>
-            <li>Optional access to JazzHouston newsletters</li>
-          </ul>
-          <br/>
-          Did we mention that it's free? And we will never send you spam or sell your info. Just saying...
-        </div>
-        <div id="StageColumnRight">
-          <b>Member Help</b>
-          <div class="hspacer"></div>
-          <a class="blueLink" href="/members/sendlostpasswordemail">Forgot your password?</a>
-          <div class="hspacer"></div>
-          <a class="blueLink" href="/members/confirmform">Resend your confirmation E-Mail?</a>
-        </div>
+	  </div>
+	  <div id="StageColumnRight">
+		<% if current_user.editor_flag==1 %>
+		  <b>Site Editor Options</b>
+		  <div class="hspacer"></div>
+		  Content Editing has changed with this new release of Jazzhouston.
+		  See <a class="blueLink" href="/site/editor">Editor Home</a> for details.
+		  <div class="hspacer"></div>
+		<% else %>
+		  <b>Did you know?</b>
+		  <div class="hspacer"></div>
+		  If you are a musician and would like to be listed in the musician's directory,
+		  simply click the <a href="/members/edit/<%=current_user.user_id%>">edit user</a>
+		  link. Once there, select the Musician's tab and check the box to open a list of
+		  instruments. Once you've added your instruments, you'll be in the <a href="/musicians">Musician's Listing</a>.
+		  <div class="hspacer"></div>
+		  *NEW* -- If you would like to ignore certain users in the forum, check out the new <a href="/forums/ban_list">Ignore User</a>
+		  feature.
+		<% end %>
+	  </div>
+	<% else -%>
+	  <div id="StageColumnLeft">
+		<div class="StoryHeader">Join</div>
+		If you haven't already joined, click to <a class="blueLink" href="/members/new">JOIN NOW!</a>
+		<br/><br/>
+		<b>Membership Benefits:</b>
+		<div class="hspacer"></div>
+		<ul>
+		  <li>Listings in the Musician's <a class="blueLink" href="/musicians">Roll-a-Dex</a></li>
+		  <li>Access to the JazzHouston <a class="blueLink" href="/forums">Forums</a></li>
+		  <li>Optional access to JazzHouston newsletters</li>
+		</ul>
+		<br/>
+		Did we mention that it's free? And we will never send you spam or sell your info. Just saying...
+	  </div>
+	  <div id="StageColumnRight">
+		<b>Member Help</b>
+		<div class="hspacer"></div>
+		<a class="blueLink" href="/members/sendlostpasswordemail">Forgot your password?</a>
+		<div class="hspacer"></div>
+		<a class="blueLink" href="/members/confirmform">Resend your confirmation E-Mail?</a>
+	  </div>
 
-    <% end -%>
+	<% end -%>
 
 
-    <div class="hspacer"></div>
+	<div class="hspacer"></div>
   </div>
   <div class="inside">
 
-    <div class="Header">Newest Members</div>
-    <input type="text" size="25" placeholder="Search Members" name="jh_musician_search" id="jh_musician_search" />
+	<div class="Header">Newest Members</div>
+	<input type="text" size="25" placeholder="Search Members" name="jh_musician_search" id="jh_musician_search" />
 
-    <div class="hspacer"></div>
-    <table align="left">
-      <tr>
-        <%
-           count = 0
-           for item in @users
-               new_user=(item.modified_date==item.created_date || item.modified_date=nil)
-               mod_date=item.modified_date||item.created_date
-               full_name =   item.first_name.titleize + ' ' + item.last_name.titleize
-               if (mod_date)
-                   mod_date=mod_date.strftime("%Y/%m/%d")
-               end
-               count=count+1
-        %>
+	<div class="hspacer"></div>
+	<table align="left">
+	  <tr>
+		<%
+		   count = 0
+		   for item in @users
+			 if (item.first_name.nil?)
+			   item.first_name = ''
+			 end
+			 if (item.last_name.nil?)
+			   item.last_name = ''
+			 end
+
+			 new_user=(item.modified_date==item.created_date || item.modified_date=nil)
+			 mod_date=item.modified_date||item.created_date
+			 full_name =   item.first_name.titleize + ' ' + item.last_name.titleize
+			 if (mod_date)
+			   mod_date=mod_date.strftime("%Y/%m/%d")
+			 end
+			 count=count+1
+		%>
 
 
-            <td>
-              <%= render :partial => "common/renderpic", :locals => { :user => item, :size =>"60"} %>
-              <div class="softPad">
-                <%= link_to full_name, {:action => "profile",  :id=>item.username} %>
-                <br/>
-                <span class="smallTextItalics">joined <%=distance_of_time_in_words(Time.now, mod_date)%> ago</span>
-              </div>
-            </td>
-            <% if  (count % 5) == 0 %>
-                </tr> <tr>
+		  <td>
+			<%= render :partial => "common/renderpic", :locals => { :user => item, :size =>"60"} %>
+			<div class="softPad">
+			  <%= link_to full_name, {:action => "profile",  :id=>item.username} %>
+			  <br/>
+			  <span class="smallTextItalics">joined <%=distance_of_time_in_words(Time.now, mod_date)%> ago</span>
+			</div>
+		  </td>
+		  <% if  (count % 5) == 0 %>
+			</tr> <tr>
 
-            <% end %>
-        <% end %>
-        </table>
+		  <% end %>
+		<% end %>
+		</table>
   </div>
 </div>
 

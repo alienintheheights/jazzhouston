@@ -1,28 +1,31 @@
 <%
-   if (!@member.url.blank? && @member.url !~/^http/i)
-	 @member.url = "http://" + @member.url
-   end
-   if (!@member.cell_phone.blank?)
+   unless @member.url.nil? || @member.url[/\Ahttp:\/\//] || @member.url[/\Ahttps:\/\//]
+	 @member.url = "http://#{@member.url}"
+     end
+
+   unless @member.cell_phone.blank?
 	 @member.cell_phone.gsub!(/[^\d]/,'')
 	 @member.cell_phone = number_to_phone(@member.cell_phone)
    end
-   if (!@member.home_phone.blank?)
+
+   unless @member.home_phone.blank?
 	 @member.home_phone.gsub!(/[^\d]/,'')
 	 @member.home_phone = number_to_phone(@member.home_phone)
    end
-   if (!@member.twitter_name.blank? && @member.twitter_name !~/^\@/)
-	 @member.twitter_name = "@" +@member.twitter_name
+
+   unless @member.twitter_name.blank? && @member.twitter_name !~/^\@/
+	 @member.twitter_name = '@' + @member.twitter_name
    end
 %>
 <div id="StageNarrow">
 
   <div class="ProfileHeader">
 	<%=@member.first_name%> <%=@member.last_name%>
-	<% if logged_in? && (current_user.user_id==params[:id].to_i || current_user.admin_flag==1) -%>
+	<% if user_signed_in? && (current_user.user_id==params[:id].to_i || current_user.username==params[:id].to_s) -%>
 	  <a href="/members/edit/<%=@member.user_id%>"><img src="/images/icons/reply.png" border="0" alt="edit">Edit</a>
 	<% end -%>
   </div>
-  <% if logged_in? && current_user.user_id==@member.user_id && (@member.image.nil? && @member.image_url.nil?) %>
+  <% if user_signed_in? && current_user.user_id==@member.user_id && (@member.image.nil? && @member.image_url.nil?) %>
 	<div id="fastLinks">
 	  Enhance your profile by uploading a photo. Click <a class="blueLink" href="/members/edit/<%=@member.user_id%>">here</a>
 	</div>
@@ -45,12 +48,12 @@
 
 
 	  <table width="90%" class="table table-hover">
-		<% if !@isaplaya.blank? %>
+		<% if @member.instruments && @member.instruments.length > 0 %>
 		  <tr>
 			<td align="left">Instrument(s)</td>
 			<td>
 			  <% counter=0
-				 for item in @instruments %>
+				 for item in @member.instruments %>
 				<% if counter>0  %> | <% end %><a href="/musicians/byinst/<%=item.instrument_name%>"><%= item.instrument_name.titleize %></a>
 			  <% counter=counter+1
 				 end %>
@@ -112,7 +115,7 @@
 		  <%=@member.location%>
 		<% else %>
 		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
+		  <% if (user_signed_in? && current_user.user_id==@member.user_id) %>
 			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
 		  <% end %>
 		<% end %>
@@ -122,7 +125,7 @@
 		  <%=@member.occupation%>
 		<% else %>
 		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
+		  <% if (user_signed_in? && current_user.user_id==@member.user_id) %>
 			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
 		  <% end %>
 		<% end %>
@@ -133,29 +136,29 @@
 		  <%=@member.favorite_music%>
 		<% else %>
 		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
+		  <% if (user_signed_in? && current_user.user_id==@member.user_id) %>
 			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
 		  <% end %>
 		<% end %>
 		<div class="hspacer"></div>
 		<h2>Films I'll Watch More Than Once</h2>
-		<% if !@member.favorite_films.blank? %>
-		  <%=@member.favorite_films%>
-		<% else %>
-		  <span class="none_entered">none entered</span>
-		  <% if (logged_in? && current_user.user_id==@member.user_id) %>
-			(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
-		  <% end %>
-		<% end %>
-	  </div>
-	  <div class="hspacer"></div>
-
-	</div>
-	<div class="clear"></div>
-
-
-
-
+	<% if !@member.favorite_films.blank? %>
+	  <%=@member.favorite_films%>
+	<% else %>
+	  <span class="none_entered">none entered</span>
+	  <% if (user_signed_in? && current_user.user_id==@member.user_id) %>
+		(<a href="/members/edit/<%=@member.user_id%>">click here to add!</a>)
+	  <% end %>
+	<% end %>
   </div>
+  <div class="hspacer"></div>
+
+</div>
+<div class="clear"></div>
+
+
+
+
+</div>
 </div>
 

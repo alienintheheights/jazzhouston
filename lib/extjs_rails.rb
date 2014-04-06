@@ -9,7 +9,7 @@ module ExtjsRails
         response = {}  # hash
         response["results"] = tmpArray
         response["items"]=obj.length
-        return response.to_json
+        response.to_json
     end
 
 

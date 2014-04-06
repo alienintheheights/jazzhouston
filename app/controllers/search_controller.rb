@@ -6,8 +6,7 @@
 
 class SearchController < ApplicationController
 
-    include AuthenticatedSystem
-    include ExtjsRails
+   include ExtjsRails
 
 
     @@per_page=20

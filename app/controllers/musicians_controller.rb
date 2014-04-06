@@ -11,7 +11,7 @@ class MusiciansController < ApplicationController
 
   # Lists musicians by selected instrument
   def byinst
-	if !params[:id]
+	unless params[:id]
 	  redirect_to "/musicians/index"
 	  return
 	end
@@ -24,7 +24,7 @@ class MusiciansController < ApplicationController
 	  end
 	end
 
-	@total_players = total_players_by_instrument()
+	@total_players = total_players_by_instrument
 	@page = (params[:page])? params[:page].to_i : 1
 	@page_title=(mobile_request?) ? instrument.instrument_name : "Players by Instrument | #{instrument.instrument_name}"
 	@page_size = @@per_page
@@ -60,7 +60,7 @@ class MusiciansController < ApplicationController
   # Legacy vcard
   def vcard
 	@musician = User.find(params[:id])
-	if (@musician)
+	if @musician
 	  if @musician.last_name.nil?
 		@musician.last_name = ""
 	  end

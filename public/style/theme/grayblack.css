@@ -2066,9 +2066,6 @@ a.messageImg, a.messageImg:hover, a.messageImg:visited {
 .modal-body {
   max-height: 800px;
 }
-.pagination {
-  margin: 5px 0 ;
-}
 
 div.messageDate {
   font-size: 0.9em;
