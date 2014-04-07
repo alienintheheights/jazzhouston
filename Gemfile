@@ -5,6 +5,8 @@ ruby '1.9.3'
 # pagination
 gem 'will_paginate'
 
+# Amazon S3, Fog, et al
+gem 'fog', '1.19.0'
 
 gem 'mysql2', '>= 0.3'
 gem 'rmagick', '2.13.2'
